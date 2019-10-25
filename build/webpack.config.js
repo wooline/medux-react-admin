@@ -8,6 +8,8 @@ const HtmlReplaceWebpackPlugin = require('html-replace-webpack-plugin');
 const pathsConfig = require('./path.conifg');
 const prodModel = process.env.NODE_ENV == 'production';
 const {clientGlobal} = require(path.join(pathsConfig.envPath, './env'));
+const lessVars = require(path.join(pathsConfig.srcPath, 'assets/css/antd-vars.js'));
+
 const clientPublicPath = clientGlobal.clientPublicPath;
 const fileName = '[name].[hash:8]';
 const htmlReplace = [
@@ -27,7 +29,7 @@ const generateScopedName = (localName, fileName) => {
   fileName = fileName
     .replace(pathsConfig.srcPath, '')
     .replace(/\W/g, '-')
-    .replace(/^-|-index-\w+$|-\w+$/g, '')
+    .replace(/^-|-index-m-\w+$|-m-\w+$/g, '')
     .replace(/^components-/, 'comp-')
     .replace(/^modules-.*?(\w+)-views(-?)(.*)/, '$1$2$3');
   return localName === 'root' ? fileName : fileName + '_' + localName;
@@ -61,6 +63,7 @@ const cssLoader = enableCssModule => {
       loader: 'less-loader',
       options: {
         javascriptEnabled: true,
+        modifyVars: lessVars,
       },
     },
     {

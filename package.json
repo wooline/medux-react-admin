@@ -3,11 +3,11 @@
   "version": "1.1.1",
   "description": "",
   "scripts": {
-    "stylelint": "stylelint \"./src/**/*.scss\"",
+    "stylelint": "stylelint \"./src/**/*.less\"",
     "eslint": "eslint \"./src/**/*.ts\"",
     "types-check": "tsc",
     "lint": "npm run eslint && npm run stylelint && npm run types-check",
-    "start": "cross-env NODE_ENV=development SITE=local node build/start.js",
+    "start": "npm run lint && cross-env NODE_ENV=development SITE=local node build/start.js",
     "build": "npm run lint && cross-env NODE_ENV=production SITE=local node build/build.js",
     "prod": "npm run lint && cross-env NODE_ENV=production node build/build.js",
     "api": "spk api -o src/api/_api.ts && node build/fixedApi.js && tsc --build src/api/config.json"
@@ -42,6 +42,7 @@
     }
   },
   "dependencies": {
+    "@ant-design/dark-theme": "^1.0.3",
     "@babel/runtime": "~7.4.5",
     "@medux/react-web-router": "~0.2.12",
     "antd": "~3.23.1",
@@ -60,6 +61,7 @@
     "less-loader": "~5.0.0",
     "postcss-less": "~3.1.4",
     "sass-resources-loader": "~2.0.1",
+    "stylelint-declaration-block-no-ignored-properties": "^2.1.0",
     "typescript": "~3.5.3"
   }
 }

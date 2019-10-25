@@ -12,7 +12,7 @@ const admin: CurUser = {
 };
 export class API {
   public getCurUser(): Promise<CurUser> {
-    return Promise.resolve(admin);
+    return Promise.resolve(guest);
   }
   public login(req: LoginRequest): Promise<CurUser> {
     return Promise.resolve(admin).then(curUser => {

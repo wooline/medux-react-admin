@@ -1,20 +1,86 @@
 :global {
   :local(.root) {
-    > .panel {
+    width: 100%;
+    height: 100%;
+    background: @light-bg-color;
+    .warp {
+      width: 1000px;
+      height: 600px;
       position: absolute;
-      width: 800px;
-      height: 400px;
       left: 50%;
       top: 50%;
-      background: blue;
       transform: translate(-50%, -50%);
-    }
+      background: url('../imgs/bg.png') no-repeat top right;
+      &::before {
+        content: '';
+        position: absolute;
+        display: block;
+        width: 300px;
+        height: 300px;
+        background: url('../imgs/bg.png') no-repeat;
+        background-size: 100% 100%;
+        bottom: 0;
+        left: 0;
+        z-index: -1;
+      }
+      > .panel {
+        margin-top: 100px;
+        margin-left: 100px;
+        width: 800px;
+        height: 400px;
+        background: @primary-color;
+        box-shadow: 0 12px 20px #d8e0e6;
+        display: flex;
 
-    .login-form-forgot {
-      float: right;
-    }
-    .login-form-button {
-      width: 100%;
+        > .welcome {
+          position: relative;
+          color: #fff;
+          flex: 1 1 50%;
+          padding: 30px;
+          line-height: 2;
+          h2 {
+            font-size: 30px;
+            color: #fff;
+            padding-top: 40px;
+          }
+          .logo {
+            position: absolute;
+            font-size: 40px;
+            left: 10px;
+            top: 10px;
+          }
+        }
+        > .form {
+          position: relative;
+          flex: 1 1 50%;
+          padding: 30px;
+          background: url('../imgs/bg-icon2.png') no-repeat -30% 0 #fff;
+          h2 {
+            font-weight: bold;
+            text-align: center;
+            font-size: 30px;
+            padding-top: 20px;
+          }
+          &::before {
+            content: '';
+            position: absolute;
+            display: block;
+            width: 114px;
+            height: 56px;
+            background: url('../imgs/bg-icon1.png') no-repeat;
+            background-size: 100% 100%;
+            bottom: 0;
+            right: 0;
+          }
+        }
+      }
+
+      .register {
+        float: right;
+      }
+      .submit {
+        width: 100%;
+      }
     }
   }
 }

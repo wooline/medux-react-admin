@@ -20,7 +20,7 @@
     "jsx": "react",
     "resolveJsonModule": true,
     "noImplicitReturns": true,
-    "noUnusedLocals": true,
+    "noUnusedLocals": false,
     "importHelpers": true,
     "forceConsistentCasingInFileNames": true,
     "suppressImplicitAnyIndexErrors": true,
