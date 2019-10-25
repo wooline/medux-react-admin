@@ -1,0 +1,50 @@
+{
+  "statusCode": 200,
+  "statusMessage": "OK",
+  "headers": {
+    "x-delay": 0,
+    "x-powered-by": "Express",
+    "content-type": "application/json; charset=utf-8",
+    "connection": "close"
+  },
+  "response": {
+    "listSummary": {
+      "page": 1,
+      "pageSize": 5,
+      "totalItems": 5,
+      "totalPages": 1
+    },
+    "listItems": [
+      {
+        "id": "1",
+        "author": "管理员",
+        "content": "欢迎加入本站，如果旅行途中遇到问题，请及时联络管理员，有趣的事情别忘了和大家一起分享哦！",
+        "date": "2018-12-01T10:08:48.834Z"
+      },
+      {
+        "id": "2",
+        "author": "新一佳旅行社",
+        "content": "您关注的：新加坡+吉隆坡+马六甲6或7日跟团游，马上就要开团了，赶紧报名哦！现在报名可享受88折！",
+        "date": "2018-12-05T09:08:18.834Z"
+      },
+      {
+        "id": "3",
+        "author": "客服天涯趣事",
+        "content": "请报名参加“住无锡318文化大院”的朋友，加入微信群657567，有不清楚的事宜在群里解答！",
+        "date": "2018-12-14T11:02:21.834Z"
+      },
+      {
+        "id": "4",
+        "author": "GGMM一起来",
+        "content": "日本是亚洲地区唯一的一个发达国家，我不管别人怎么评判，我是在游历世界，好的坏的我都要去经历，带着批判、审视的眼光去了解。",
+        "date": "2018-12-28T08:20:29.649Z"
+      },
+      {
+        "id": "5",
+        "author": "186todza801",
+        "content": "你明天什么时候出发呀？等我一起呗！",
+        "date": "2019-01-04T06:39:29.649Z"
+      }
+    ]
+  }
+}

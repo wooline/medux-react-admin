@@ -1,0 +1,18 @@
+{
+  "statusCode": 200,
+  "statusMessage": "OK",
+  "headers": {
+    "x-powered-by": "Express",
+    "content-type": "application/json; charset=utf-8",
+    "connection": "close"
+  },
+  "response": {
+    "logoUrl": "imgs/logo.png",
+    "newMessage": 0,
+    "startupPage": {
+      "linkUrl": "http://www.baidu.com/",
+      "imageUrl": "imgs/startup.jpg",
+      "times": 5
+    }
+  }
+}

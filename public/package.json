@@ -1,0 +1,19 @@
+{
+  "name": "medux-ssr-demo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@medux/dev-utils": "0.2.11",
+    "express": "4.17.1",
+    "chalk": "2.4.2",
+    "axios": "0.19.0",
+    "json-format": "1.0.1",
+    "http-proxy-middleware": "0.20.0"
+  }
+}

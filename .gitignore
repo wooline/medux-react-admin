@@ -1,0 +1,7 @@
+node_modules/
+dist/
+conf/local/
+conf/locConf.js
+*.log
+.DS_Store
+.history

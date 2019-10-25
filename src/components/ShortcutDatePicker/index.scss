@@ -1,0 +1,43 @@
+:global {
+  :local(.root) {
+    display: inline-block;
+    .ant-radio-button-wrapper {
+      margin-left: 10px;
+      width: 64px;
+      border: 1px solid #234a9e;
+      color: #234a9e;
+      font-size: 12px;
+      padding: 0 10px;
+      height: 20px;
+      line-height: 18px;
+      border-radius: 10px;
+      text-align: center;
+      outline: none;
+
+      &:hover {
+        background: #c7d8ff;
+        border-color: #c7d8ff;
+      }
+      &:first-child {
+        margin-left: 0;
+      }
+      &:not(:first-child)::before {
+        display: none;
+      }
+    }
+
+    .ant-radio-button-wrapper-checked {
+      &:not(.ant-radio-button-wrapper-disabled) {
+        background: #c7d8ff;
+        border-color: #c7d8ff;
+        box-shadow: none;
+        &:hover {
+          color: #234a9e;
+        }
+        &:focus-within {
+          outline: none;
+        }
+      }
+    }
+  }
+}

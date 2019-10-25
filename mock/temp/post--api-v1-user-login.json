@@ -1,0 +1,20 @@
+{
+    "url": "/v1/user/login",
+    "statusCode": 200,
+    "statusMessage": "OK",
+    "headers": {
+        "x-powered-by": "Express",
+        "access-control-allow-headers": "Access-Control-Allow-Origin,Access-Control-Allow-Method,Content-Type, Content-Type",
+        "access-control-allow-methods": "POST, GET, OPTIONS",
+        "access-control-allow-origin": "*",
+        "content-type": "application/json",
+        "connection": "close",
+        "vary": "Accept-Encoding"
+    },
+    "response": {
+        "hasError": true,
+        "errorId": "INTERNAL_ERROR",
+        "errorDesc": "用户名不存在",
+        "data": null
+    }
+}

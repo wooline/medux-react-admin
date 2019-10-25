@@ -1,0 +1,33 @@
+{
+  "compilerOptions": {
+    "baseUrl": "src",
+    "rootDir": "src",
+    "outDir": "dist",
+    "target": "esnext",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "declaration": false,
+    "isolatedModules": true,
+    "noEmit": true,
+    "sourceMap": false,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "strict": true,
+    "newLine": "LF",
+    "lib": ["es2017", "dom"],
+    "types": ["./typings/assets"],
+    "removeComments": true,
+    "jsx": "react",
+    "resolveJsonModule": true,
+    "noImplicitReturns": true,
+    "noUnusedLocals": true,
+    "importHelpers": true,
+    "forceConsistentCasingInFileNames": true,
+    "suppressImplicitAnyIndexErrors": true,
+    "preserveConstEnums": false,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true
+  },
+  "include": ["src"],
+  "exclude": ["node_modules", "src/com"]
+}

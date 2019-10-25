@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta name="renderer" content="webkit" />
+    <meta name="force-rendering" content="webkit" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <link rel="shortcut icon" href="$$ClientPublicPath$$client/logo.png" />
+    <title><%= htmlWebpackPlugin.options.title %></title>
+    <style>
+      html,
+      body,
+      #root {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        overflow-y: hidden;
+      }
+      body {
+        position: relative;
+        min-width: 1400px;
+      }
+      @keyframes g-init-loading-ball {
+        0% {
+          transform: translate(-50%, -50%) scale(0.5);
+        }
+
+        100% {
+          opacity: 0;
+          transform: translate(-50%, -50%) scale(1);
+        }
+      }
+
+      @keyframes g-init-loading-text {
+        0% {
+          opacity: 0.5;
+        }
+
+        50% {
+          opacity: 1;
+        }
+
+        100% {
+          opacity: 0.5;
+        }
+      }
+
+      .g-init-loading {
+        display: block;
+        position: fixed;
+        z-index: 2000;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        background: #eee;
+      }
+
+      .g-init-loading::before {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        content: '.';
+        font-size: 0;
+        width: 60px;
+        height: 60px;
+        background: #ddd;
+        border-radius: 60px;
+        transform: translate(-50%, -50%) scale(0.5);
+        -ms-transform: translate(-50%, -50%) scale(0.5);
+        animation: g-init-loading-ball 1s infinite;
+      }
+
+      .g-init-loading::after {
+        font-size: 12px;
+        font-family: sans-serif;
+        color: #666;
+        position: absolute;
+        content: 'Loading..';
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        -ms-transform: translate(-50%, -50%);
+        animation: g-init-loading-text 1s infinite;
+      }
+    </style>
+    <script type="text/javascript">
+      (function() {
+        window.initEnv = $$ClientGlobal$$;
+      })();
+    </script>
+  </head>
+
+  <body id="doc">
+    <div id="g-init-loading" class="g-init-loading"></div>
+    <div id="root"></div>
+  </body>
+</html>
