@@ -23,7 +23,7 @@ const htmlReplace = [
   },
 ];
 const generateScopedName = (localName, fileName) => {
-  if (fileName.match(/[/\\]global.\w+?$/)) {
+  if (fileName.match(/[/\\]assets[/\\]css[/\\]global.m.\w+?$/)) {
     return 'g-' + localName;
   }
   fileName = fileName
@@ -31,7 +31,8 @@ const generateScopedName = (localName, fileName) => {
     .replace(/\W/g, '-')
     .replace(/^-|-index-m-\w+$|-m-\w+$/g, '')
     .replace(/^components-/, 'comp-')
-    .replace(/^modules-.*?(\w+)-views(-?)(.*)/, '$1$2$3');
+    .replace(/^modules-.*?(\w+)-views(-?)(.*)/, '$1$2$3')
+    .replace(/^modules-.*?(\w+)-components(-?)(.*)/, '$1-comp$2$3');
   return localName === 'root' ? fileName : fileName + '_' + localName;
 };
 const getLocalIdent = (context, localIdentName, localName) => {

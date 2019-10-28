@@ -1,4 +1,4 @@
-import {Button, Checkbox, Form, Icon, Input} from 'antd';
+import {Button, Form, Icon, Input} from 'antd';
 import {CurUser, LoginRequest} from 'entity/session';
 
 import {FormComponentProps} from 'antd/lib/form';
@@ -11,8 +11,13 @@ import styles from './index.m.less';
 interface StoreProps {
   curUser?: CurUser;
 }
-
-class Component extends React.PureComponent<StoreProps & FormComponentProps & DispatchProp> {
+interface ComponentState {
+  confirmDirty: boolean;
+}
+class Component extends React.PureComponent<StoreProps & FormComponentProps & DispatchProp, ComponentState> {
+  state = {
+    confirmDirty: false,
+  };
   handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     this.props.form.validateFields((err, values: LoginRequest) => {
@@ -24,6 +29,25 @@ class Component extends React.PureComponent<StoreProps & FormComponentProps & Di
   handleLogout = () => {
     this.props.dispatch(actions.session.logout());
   };
+  handleConfirmBlur = (event: React.FocusEvent<HTMLInputElement>) => {
+    const {value} = event.target;
+    this.setState({confirmDirty: this.state.confirmDirty || !!value});
+  };
+  compareToFirstPassword = (rule: any, value: string, callback: (err?: string) => void) => {
+    const {form} = this.props;
+    if (value && value !== form.getFieldValue('password')) {
+      callback('两次密码输入不一致');
+    } else {
+      callback();
+    }
+  };
+  validateToNextPassword = (rule: any, value: string, callback: (err?: string) => void) => {
+    const {form} = this.props;
+    if (value && this.state.confirmDirty) {
+      form.validateFields(['confirm'], {force: true});
+    }
+    callback();
+  };
   public render() {
     const {
       curUser,
@@ -32,12 +56,12 @@ class Component extends React.PureComponent<StoreProps & FormComponentProps & Di
 
     return (
       <FormLayout className={styles.root}>
-        <h2 className="title">用户登录</h2>
+        <h2 className="title">注册新用户</h2>
 
         {curUser && curUser.hasLogin ? (
           <div className="hasLogin">
             <p>
-              亲爱的 <Link to={metaKeys.UserHomePathname}>{curUser.username}</Link>，您已登录，是否要退出当前登录？
+              亲爱的 <Link to={metaKeys.UserHomePathname}>{curUser.username}</Link>，您已登录，请先退出当前登录
             </p>
             <Button size="large" type="primary" onClick={this.handleLogout} className="submit">
               退出当前登录
@@ -52,19 +76,31 @@ class Component extends React.PureComponent<StoreProps & FormComponentProps & Di
             </Form.Item>
             <Form.Item>
               {getFieldDecorator('password', {
-                rules: [{required: true, message: '请输入密码!'}],
+                rules: [
+                  {required: true, message: '请输入密码!'},
+                  {
+                    validator: this.validateToNextPassword,
+                  },
+                ],
               })(<Input prefix={<Icon type="lock" />} type="password" placeholder="密码" />)}
             </Form.Item>
             <Form.Item>
-              {getFieldDecorator('remember', {
-                valuePropName: 'checked',
-                initialValue: true,
-              })(<Checkbox>记住密码</Checkbox>)}
-              <Link className="register" to={metaKeys.RegisterPathname}>
-                注册新用户
+              {getFieldDecorator('confirm', {
+                rules: [
+                  {required: true, message: '请再次输入密码!'},
+                  {
+                    validator: this.compareToFirstPassword,
+                  },
+                ],
+              })(<Input prefix={<Icon type="lock" />} type="password" placeholder="确认密码" onBlur={this.handleConfirmBlur} />)}
+            </Form.Item>
+            <Form.Item>
+              已有帐户？
+              <Link className="login" to={metaKeys.LoginPathname}>
+                登录
               </Link>
               <Button size="large" type="primary" htmlType="submit" className="submit">
-                立即登录
+                提交注册
               </Button>
             </Form.Item>
           </Form>

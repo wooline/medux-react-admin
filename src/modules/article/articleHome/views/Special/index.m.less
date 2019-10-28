@@ -1,0 +1,69 @@
+:global {
+  :local(.root) {
+    padding-top: 80px;
+    text-align: center;
+    h2 {
+      font-weight: 700;
+      font-size: 30px;
+      margin: 0 0 50px;
+    }
+    .superiority {
+      margin-top: 50px;
+      margin-bottom: 100px;
+      > figure {
+        float: left;
+        width: 253.5px;
+        margin: 0 62px 0 0;
+        &:last-child {
+          margin-right: 0;
+        }
+        > img {
+          display: inline-block;
+          width: 48px;
+          height: 48px;
+        }
+        > h4 {
+          font-size: 20px;
+          line-height: 25px;
+          margin: 0 0 14px;
+          &::before {
+            content: ' ';
+            display: block;
+            margin: auto;
+            width: 50px;
+            height: 50px;
+            background: url(./imgs/icon1.png) no-repeat center center;
+            margin-bottom: 14px;
+          }
+          &.item1 {
+            &::before {
+              background-image: url(./imgs/icon1.png);
+            }
+          }
+          &.item2 {
+            &::before {
+              background-image: url(./imgs/icon2.png);
+            }
+          }
+          &.item3 {
+            &::before {
+              background-image: url(./imgs/icon3.png);
+            }
+          }
+          &.item4 {
+            &::before {
+              background-image: url(./imgs/icon4.png);
+            }
+          }
+        }
+        > p {
+          font-size: 14px;
+          color: #666;
+          letter-spacing: 0;
+          line-height: 26px;
+          margin: 0;
+        }
+      }
+    }
+  }
+}

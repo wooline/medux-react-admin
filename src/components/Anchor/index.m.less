@@ -1,0 +1,35 @@
+:global {
+  :local(.root) {
+    border-bottom: #ddd 1px solid;
+    .ant-anchor {
+      width: 1200px;
+      margin: auto;
+      padding: 0;
+      &::after {
+        content: ' ';
+        display: table;
+        clear: both;
+      }
+      .ant-anchor-ink {
+        display: none;
+      }
+      .ant-anchor-link-active {
+        font-weight: bold;
+      }
+      .ant-anchor-link {
+        float: left;
+        padding: 18px 25px;
+
+        &:nth-child(2) {
+          padding-left: 0;
+        }
+      }
+    }
+  }
+  .ant-affix {
+    :local(.root) {
+      background: #f7f7f7;
+      box-shadow: rgba(0, 0, 0, 0.1) 0 2px 5px;
+    }
+  }
+}

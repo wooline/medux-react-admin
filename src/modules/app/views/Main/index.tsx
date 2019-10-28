@@ -15,6 +15,7 @@ moment.locale('zh-cn');
 
 const LoginPop = loadView('session', 'LoginPop');
 const LoginPage = loadView('session', 'LoginPage');
+const RegisterPage = loadView('session', 'RegisterPage');
 const AdminLayout = loadView('adminLayout', 'Main');
 const ArticleLayout = loadView('articleLayout', 'Main');
 
@@ -33,6 +34,7 @@ class Component extends React.PureComponent<StoreProps & DispatchProp> {
             <Switch>
               <Redirect exact path="/" to="/admin/" />
               <Route exact path="/login" component={LoginPage} />
+              <Route exact path="/register" component={RegisterPage} />
               <Route path="/admin" component={AdminLayout} />
               <Route path="/article" component={ArticleLayout} />
               <Route component={NotFound} />

@@ -1,0 +1,105 @@
+:global {
+  :local(.root) {
+    width: 100%;
+    height: 100%;
+    background: @light-bg-color;
+    .warp {
+      width: 1000px;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      background: url('./imgs/bg.png') no-repeat top right;
+      &::before {
+        content: '';
+        position: absolute;
+        display: block;
+        width: 300px;
+        height: 300px;
+        background: url('./imgs/bg.png') no-repeat;
+        background-size: 100% 100%;
+        bottom: 0;
+        left: 0;
+        z-index: -1;
+      }
+      > .pattern {
+        color: #dfdfdf;
+        position: absolute;
+        font-size: 300px;
+        top: 0;
+        right: 0;
+        z-index: -1;
+        opacity: 0.5;
+        &:last-child {
+          font-size: 250px;
+          bottom: 0;
+          left: 0;
+          top: auto;
+          right: auto;
+        }
+      }
+      > .panel {
+        margin-top: 100px;
+        margin-left: 100px;
+        width: 800px;
+        box-shadow: 0 12px 20px #d8e0e6;
+        display: flex;
+      }
+    }
+
+    .welcome {
+      position: relative;
+      background: @primary-color;
+      color: #fff;
+      flex: 1 1 50%;
+      padding: 30px;
+      line-height: 2;
+      min-height: 450px;
+      a {
+        color: #fff;
+        &:hover {
+          opacity: 0.7;
+        }
+      }
+      h2 {
+        font-size: 30px;
+        color: #fff;
+        padding-top: 40px;
+      }
+      .hd {
+        position: absolute;
+        left: 10px;
+        top: 10px;
+      }
+      .logo {
+        font-size: 40px;
+        vertical-align: middle;
+      }
+    }
+    .form {
+      position: relative;
+      flex: 1 1 50%;
+      padding: 30px;
+      background: url('./imgs/bg-icon2.png') no-repeat -30% 0 #fff;
+
+      .title {
+        font-weight: bold;
+        text-align: center;
+        font-size: 30px;
+        padding-top: 20px;
+        padding-bottom: 10px;
+      }
+      &::before {
+        content: '';
+        position: absolute;
+        display: block;
+        width: 114px;
+        height: 56px;
+        background: url('./imgs/bg-icon1.png') no-repeat;
+        background-size: 100% 100%;
+        bottom: 0;
+        right: 0;
+      }
+    }
+  }
+}

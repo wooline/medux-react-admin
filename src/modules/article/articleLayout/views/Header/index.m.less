@@ -1,0 +1,44 @@
+:global {
+  :local(.root) {
+    position: absolute;
+    width: 100%;
+    background: rgba(23, 32, 45, 0.6);
+    color: #fff;
+    a {
+      color: #fff;
+      &:hover {
+        color: #aaa;
+      }
+    }
+    h1 {
+      letter-spacing: 2px;
+      margin: 0;
+      color: #fff;
+      font-size: 25px;
+      font-weight: bold;
+      margin-right: 30px !important;
+    }
+    .logo {
+      margin-right: 10px !important;
+    }
+    .g-doc {
+      display: flex;
+      justify-content: space-between;
+      line-height: 50px;
+      > .main {
+        display: flex;
+        align-items: center;
+        > * {
+          margin-right: 20px;
+        }
+      }
+      > .sider {
+        display: flex;
+        align-items: center;
+        > * {
+          margin-left: 20px;
+        }
+      }
+    }
+  }
+}
