@@ -1,7 +1,7 @@
+import {Link, NavLink} from 'react-router-dom';
 import {RouteComponentProps, withRouter} from 'react-router-dom';
 
 import {Icon} from 'antd';
-import {Link} from 'react-router-dom';
 import Logo from 'assets/imgs/logo.svg';
 import React from 'react';
 import style from './index.m.less';
@@ -15,12 +15,10 @@ class Component extends React.PureComponent<StoreProps> {
         <div className="g-doc">
           <div className="main">
             <img className="logo" height="35" src={Logo} alt={initEnv.siteName} />
-            <Link to={metaKeys.HomePathname} className="logo g-clearfix">
-              <h1>帮助中心</h1>
-            </Link>
-            <Link to={metaKeys.UserHomePathname}>用户指南</Link>
-            <Link to={metaKeys.UserHomePathname}>售后服务</Link>
-            <Link to={metaKeys.UserHomePathname}>关于我们</Link>
+            <h1>帮助中心</h1>
+            <NavLink to="/article/home">用户指南</NavLink>
+            <NavLink to="/article/service">售后服务</NavLink>
+            <NavLink to="/article/about">关于我们</NavLink>
           </div>
           <div className="sider">
             <Link to={metaKeys.LoginPathname}>

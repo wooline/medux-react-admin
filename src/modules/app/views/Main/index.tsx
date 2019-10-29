@@ -48,6 +48,12 @@ class Component extends React.PureComponent<StoreProps & DispatchProp> {
       </ConfigProvider>
     );
   }
+  public componentDidMount() {
+    document.title = `${initEnv.pageNames[location.pathname] || ''}-${initEnv.siteName}`;
+  }
+  public componentDidUpdate() {
+    document.title = `${initEnv.pageNames[location.pathname] || ''}-${initEnv.siteName}`;
+  }
 }
 
 const mapStateToProps: (state: RootState) => StoreProps = state => {

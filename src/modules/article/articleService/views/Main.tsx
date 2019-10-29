@@ -1,10 +1,7 @@
 import Activities from './Activities';
-import Anchor from 'components/Anchor';
 import ArticleBanner from 'components/ArticleBanner';
 import Page from 'components/Page';
 import React from 'react';
-import Recommend from './Recommend';
-import Special from './Special';
 import banner from './imgs/banner.jpg';
 import {connect} from 'react-redux';
 
@@ -14,19 +11,17 @@ class Component extends Page<StoreProps & DispatchProp> {
   onConsult = () => {
     this.props.dispatch(actions.articleLayout.showConsult());
   };
+
   public render() {
     return (
       <>
         <ArticleBanner
-          title="Demo 用户指南"
-          content="主要用于研发企业级中后台产品。服务于企业级产品的设计体系，基于确定和自然的设计价值观上的模块化解决方案，让设计者和开发者专注于更好的用户体验。"
+          title="Ant Design 售后服务"
+          content="从 2015 年 4 月起，Ant Design 在蚂蚁金服中后台产品线迅速推广，对接多条业务线，覆盖系统 800 个以上。定位于中台业务的 Ant Design 兼顾专业和非专业的设计人员。"
           bg={banner}
           onConsult={this.onConsult}
         />
-        <Anchor navs={[['摘要简介', 'articleHome_Activities'], ['特色推荐', 'articleHome_Recommend'], ['技术优势', 'articleHome_Special']]} />
         <Activities />
-        <Recommend />
-        <Special />
       </>
     );
   }

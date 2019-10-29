@@ -67,7 +67,6 @@ export const metaKeys = {
   UserHomePathname: '/admin/home',
   ClientInitedAction: 'app/ClientInited',
   LoginRedirectSessionStorageKey: 'LoginRedirectTo',
-  AnchorParamKey: 'anchor',
   SessionIDSessionStorageKey: 'SessionID',
 };
 

@@ -133,7 +133,7 @@ const clientConfig = {
         include: pathsConfig.moduleSearch,
         loader: 'babel-loader',
         options: {
-          cacheDirectory: true,
+          cacheDirectory: false,
         },
       },
       {
