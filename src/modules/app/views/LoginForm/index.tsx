@@ -2,13 +2,13 @@ import {Button, Checkbox, Form, Icon, Input} from 'antd';
 import {CurUser, LoginRequest} from 'entity/session';
 
 import {FormComponentProps} from 'antd/lib/form';
-import {Link} from 'react-router-dom';
 import React from 'react';
 import {connect} from 'react-redux';
 import styles from './index.m.less';
 
 interface StoreProps {
-  curUser?: CurUser;
+  curUser: CurUser;
+  isPop: boolean;
 }
 
 class Component extends React.PureComponent<StoreProps & FormComponentProps & DispatchProp> {
@@ -16,12 +16,23 @@ class Component extends React.PureComponent<StoreProps & FormComponentProps & Di
     event.preventDefault();
     this.props.form.validateFields((err, values: LoginRequest) => {
       if (!err) {
-        this.props.dispatch(actions.session.login(values));
+        this.props.dispatch(actions.app.login(values));
       }
     });
   };
+  handleUserHome = () => {
+    this.props.isPop && this.props.dispatch(actions.app.closesLoginOrRegisterPop());
+    historyActions.push(metaKeys.UserHomePathname);
+  };
   handleLogout = () => {
-    this.props.dispatch(actions.session.logout());
+    this.props.dispatch(actions.app.logout());
+  };
+  handleRegister = () => {
+    if (this.props.isPop) {
+      this.props.dispatch(actions.app.openLoginOrRegisterPop('register'));
+    } else {
+      historyActions.push(metaKeys.RegisterPathname);
+    }
   };
   public render() {
     const {
@@ -33,10 +44,14 @@ class Component extends React.PureComponent<StoreProps & FormComponentProps & Di
       <div className={styles.root}>
         <h2 className="title">用户登录</h2>
 
-        {curUser && curUser.hasLogin ? (
+        {curUser.hasLogin ? (
           <div className="hasLogin">
             <p>
-              亲爱的 <Link to={metaKeys.UserHomePathname}>{curUser.username}</Link>，您已登录，是否要退出当前登录？
+              亲爱的{' '}
+              <span className="link" onClick={this.handleUserHome}>
+                {curUser.username}
+              </span>
+              ，您已登录，是否要退出当前登录？
             </p>
             <Button size="large" type="primary" onClick={this.handleLogout} className="submit">
               退出当前登录
@@ -54,14 +69,14 @@ class Component extends React.PureComponent<StoreProps & FormComponentProps & Di
                 rules: [{required: true, message: '请输入密码!'}],
               })(<Input prefix={<Icon type="lock" />} type="password" placeholder="密码" />)}
             </Form.Item>
-            <Form.Item>
+            <Form.Item style={{marginBottom: 0}}>
               {getFieldDecorator('remember', {
                 valuePropName: 'checked',
                 initialValue: true,
               })(<Checkbox>记住密码</Checkbox>)}
-              <Link className="register" to={metaKeys.RegisterPathname}>
+              <span className="register link" onClick={this.handleRegister}>
                 注册新用户
-              </Link>
+              </span>
               <Button size="large" type="primary" htmlType="submit" className="submit">
                 立即登录
               </Button>
@@ -75,7 +90,8 @@ class Component extends React.PureComponent<StoreProps & FormComponentProps & Di
 
 const mapStateToProps: (state: RootState) => StoreProps = state => {
   return {
-    curUser: state.session && state.session.curUser,
+    curUser: state.app!.curUser!,
+    isPop: state.app!.showLoginOrRegisterPop === 'login',
   };
 };
 

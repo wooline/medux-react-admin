@@ -1,8 +1,9 @@
-import {Button, Checkbox, Col, Icon, Input, Modal, Popconfirm, Row, message} from 'antd';
 import {Redirect, Route, Switch} from 'react-router-dom';
 
+import ConsultPop from './ConsultPop';
 import Footer from './Footer';
 import Header from './Header';
+import {Modal} from 'antd';
 import NotFound from 'components/NotFound';
 import React from 'react';
 import {connect} from 'react-redux';
@@ -10,7 +11,6 @@ import {connect} from 'react-redux';
 const ArticleHome = loadView('articleHome', 'Main');
 const ArticleAbout = loadView('articleAbout', 'Main');
 const ArticleService = loadView('articleService', 'Main');
-const Judge = loadView('session', 'Judge');
 
 interface StoreProps {
   showConsult?: boolean;
@@ -32,11 +32,7 @@ class Component extends React.PureComponent<StoreProps> {
           </Switch>
         </div>
         <Footer />
-        {showConsult && (
-          <Modal visible={true} footer={null}>
-            <Judge>sdfdsfsd</Judge>
-          </Modal>
-        )}
+        <ConsultPop />
       </div>
     );
   }

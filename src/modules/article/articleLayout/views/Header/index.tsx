@@ -21,10 +21,10 @@ class Component extends React.PureComponent<StoreProps> {
             <NavLink to="/article/about">关于我们</NavLink>
           </div>
           <div className="sider">
-            <Link to={metaKeys.LoginPathname}>
+            <Link to={metaKeys.MallPathname}>
               <Icon type="shopping" /> 回商城
             </Link>
-            <Link to={metaKeys.LoginPathname}>
+            <Link to={metaKeys.UserHomePathname}>
               <Icon type="user" /> 个人中心
             </Link>
           </div>

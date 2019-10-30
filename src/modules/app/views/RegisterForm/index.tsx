@@ -8,7 +8,8 @@ import {connect} from 'react-redux';
 import styles from './index.m.less';
 
 interface StoreProps {
-  curUser?: CurUser;
+  curUser: CurUser;
+  isPop: boolean;
 }
 interface ComponentState {
   confirmDirty: boolean;
@@ -17,16 +18,27 @@ class Component extends React.PureComponent<StoreProps & FormComponentProps & Di
   state = {
     confirmDirty: false,
   };
+  handleUserHome = () => {
+    this.props.isPop && this.props.dispatch(actions.app.closesLoginOrRegisterPop());
+    historyActions.push(metaKeys.UserHomePathname);
+  };
+  handleLogin = () => {
+    if (this.props.isPop) {
+      this.props.dispatch(actions.app.openLoginOrRegisterPop('login'));
+    } else {
+      historyActions.push(metaKeys.LoginPathname);
+    }
+  };
   handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     this.props.form.validateFields((err, values: LoginRequest) => {
       if (!err) {
-        this.props.dispatch(actions.session.login(values));
+        this.props.dispatch(actions.app.login(values));
       }
     });
   };
   handleLogout = () => {
-    this.props.dispatch(actions.session.logout());
+    this.props.dispatch(actions.app.logout());
   };
   handleConfirmBlur = (event: React.FocusEvent<HTMLInputElement>) => {
     const {value} = event.target;
@@ -57,10 +69,14 @@ class Component extends React.PureComponent<StoreProps & FormComponentProps & Di
       <div className={styles.root}>
         <h2 className="title">注册新用户</h2>
 
-        {curUser && curUser.hasLogin ? (
+        {curUser.hasLogin ? (
           <div className="hasLogin">
             <p>
-              亲爱的 <Link to={metaKeys.UserHomePathname}>{curUser.username}</Link>，您已登录，请先退出当前登录
+              亲爱的{' '}
+              <span className="link" onClick={this.handleUserHome}>
+                {curUser.username}
+              </span>
+              ，您已登录，请先退出当前登录
             </p>
             <Button size="large" type="primary" onClick={this.handleLogout} className="submit">
               退出当前登录
@@ -93,11 +109,11 @@ class Component extends React.PureComponent<StoreProps & FormComponentProps & Di
                 ],
               })(<Input prefix={<Icon type="lock" />} type="password" placeholder="确认密码" onBlur={this.handleConfirmBlur} />)}
             </Form.Item>
-            <Form.Item>
+            <Form.Item style={{marginBottom: 0}}>
               已有帐户？
-              <Link className="login" to={metaKeys.LoginPathname}>
+              <span className="link" onClick={this.handleLogin}>
                 登录
-              </Link>
+              </span>
               <Button size="large" type="primary" htmlType="submit" className="submit">
                 提交注册
               </Button>
@@ -111,7 +127,8 @@ class Component extends React.PureComponent<StoreProps & FormComponentProps & Di
 
 const mapStateToProps: (state: RootState) => StoreProps = state => {
   return {
-    curUser: state.session && state.session.curUser,
+    curUser: state.app!.curUser!,
+    isPop: state.app!.showLoginOrRegisterPop === 'register',
   };
 };
 

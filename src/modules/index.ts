@@ -2,7 +2,6 @@ import {LoadView as BaseLoadView, RootState as BaseState, RouteConfig, exportAct
 
 const defaultRouteParams: {[K in moduleNames]: any} = {
   app: null,
-  session: null,
   adminLayout: null,
   articleLayout: null,
   adminHome: null,
@@ -14,7 +13,6 @@ setRouteConfig({defaultRouteParams});
 
 export enum moduleNames {
   app = 'app',
-  session = 'session',
   adminLayout = 'adminLayout',
   articleLayout = 'articleLayout',
   adminHome = 'adminHome',
@@ -27,9 +25,6 @@ export enum moduleNames {
 export const moduleGetter = {
   app: () => {
     return import(/* webpackChunkName: "app" */ 'modules/app');
-  },
-  session: () => {
-    return import(/* webpackChunkName: "session" */ 'modules/session');
   },
   adminLayout: () => {
     return import(/* webpackChunkName: "adminLayout" */ 'modules/admin/adminLayout');
@@ -62,7 +57,8 @@ export const routeConfig: RouteConfig = {
   '/': [
     'app.Main',
     {
-      '/login': 'session.LoginPage',
+      '/login': 'app.LoginPage',
+      '/register': 'app.Register',
       '/admin': [
         'adminLayout.Main',
         {

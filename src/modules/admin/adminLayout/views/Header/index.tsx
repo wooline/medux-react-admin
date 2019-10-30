@@ -3,23 +3,18 @@ import React from 'react';
 import {connect} from 'react-redux';
 
 interface StoreProps {
-  curUser?: CurUser;
+  curUser: CurUser;
 }
 
 class Component extends React.PureComponent<StoreProps> {
   public render() {
-    const {curUser} = this.props;
-    if (curUser && curUser.hasLogin) {
-      return <div>header</div>;
-    } else {
-      return null;
-    }
+    return <div>header</div>;
   }
 }
 
 const mapStateToProps: (state: RootState) => StoreProps = state => {
   return {
-    curUser: state.session && state.session.curUser,
+    curUser: state.app!.curUser!,
   };
 };
 

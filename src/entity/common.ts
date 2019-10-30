@@ -1,9 +1,9 @@
 export enum CommonErrorCode {
   unknown = 'unknown',
   notFound = 'notFound',
-  unauthorized = '401',
-  redirect = '301',
-  fallthrough = 'fallthrough',
+  unauthorized = 'unauthorized',
+  redirect = 'redirect',
+  handled = 'handled',
   noToast = 'noToast',
 }
 export interface ProjectConfig {

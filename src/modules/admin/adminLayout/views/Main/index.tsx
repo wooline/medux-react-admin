@@ -8,14 +8,13 @@ import {connect} from 'react-redux';
 const AdminHome = loadView('adminHome', 'Main');
 
 interface StoreProps {
-  curUser?: CurUser;
+  curUser: CurUser;
 }
 
 class Component extends React.PureComponent<StoreProps> {
   public render() {
-    const {curUser} = this.props;
-    if (curUser && curUser.hasLogin) {
-      return (
+    return (
+      this.props.curUser.hasLogin && (
         <div>
           <Switch>
             <Redirect exact path="/admin" to="/admin/home" />
@@ -23,16 +22,14 @@ class Component extends React.PureComponent<StoreProps> {
             <Route component={NotFound} />
           </Switch>
         </div>
-      );
-    } else {
-      return null;
-    }
+      )
+    );
   }
 }
 
 const mapStateToProps: (state: RootState) => StoreProps = state => {
   return {
-    curUser: state.session && state.session.curUser,
+    curUser: state.app!.curUser!,
   };
 };
 
