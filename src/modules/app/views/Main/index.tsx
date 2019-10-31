@@ -12,6 +12,7 @@ import {ProjectConfig} from 'entity/common';
 import React from 'react';
 import RegisterPage from '../RegisterPage';
 import RegisterPop from '../RegisterPop';
+import RegistrationAgreement from '../RegistrationAgreement';
 import {connect} from 'react-redux';
 import moment from 'moment';
 import zhCN from 'antd/es/locale/zh_CN';
@@ -40,9 +41,10 @@ class Component extends React.PureComponent<StoreProps & DispatchProp> {
             <Route path="/article" component={ArticleLayout} />
             <Route component={NotFound} />
           </Switch>
-          <LoginPop />
-          <RegisterPop />
           <GlobalLoading />
+          <RegisterPop />
+          <RegistrationAgreement />
+          <LoginPop />
         </ConfigProvider>
       );
     } else {
@@ -50,10 +52,10 @@ class Component extends React.PureComponent<StoreProps & DispatchProp> {
     }
   }
   public componentDidMount() {
-    document.title = `${initEnv.pageNames[location.pathname] || ''}-${initEnv.siteName}`;
+    document.title = `${pageNames[location.pathname] || pageNames['/']}`;
   }
   public componentDidUpdate() {
-    document.title = `${initEnv.pageNames[location.pathname] || ''}-${initEnv.siteName}`;
+    document.title = `${pageNames[location.pathname] || pageNames['/']}`;
   }
 }
 

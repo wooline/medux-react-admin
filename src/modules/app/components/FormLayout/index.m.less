@@ -53,7 +53,6 @@
       flex: 1 1 50%;
       padding: 30px;
       line-height: 2;
-      min-height: 450px;
       a {
         color: #fff;
         &:hover {
@@ -69,17 +68,18 @@
         position: absolute;
         left: 10px;
         top: 10px;
+        > * {
+          vertical-align: middle;
+        }
       }
       .logo {
         font-size: 40px;
-        vertical-align: middle;
       }
     }
     .form {
       position: relative;
       flex: 1 1 50%;
-      padding: 30px;
-      padding-top: 50px;
+      padding: 50px 30px 30px;
       background: url('./imgs/bg-icon2.png') no-repeat -30% 0 #fff;
 
       &::before {

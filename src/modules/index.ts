@@ -76,3 +76,12 @@ export const routeConfig: RouteConfig = {
     },
   ],
 };
+export const pageNames = {
+  '/': 'Demo',
+  '/login': '登录',
+  '/register': '注册',
+  '/article/home': '帮助中心',
+  '/article/service': '用户服务',
+  '/article/about': '关于我们',
+  '/admin/home': '管理中心',
+};

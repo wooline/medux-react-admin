@@ -63,9 +63,8 @@ export const message = {
 export const metaKeys = {
   LoginPathname: '/login',
   RegisterPathname: '/register',
-  MallPathname: '/mall/home',
-  HomePathname: '/article/home',
   UserHomePathname: '/admin/home',
+  ArticleHomePathname: '/article/home',
   ClientInitedAction: 'app/ClientInited',
   LoginRedirectSessionStorageKey: 'LoginRedirectTo',
   SessionIDSessionStorageKey: 'SessionID',

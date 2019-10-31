@@ -3,7 +3,6 @@ import {Redirect, Route, Switch} from 'react-router-dom';
 import ConsultPop from './ConsultPop';
 import Footer from './Footer';
 import Header from './Header';
-import {Modal} from 'antd';
 import NotFound from 'components/NotFound';
 import React from 'react';
 import {connect} from 'react-redux';

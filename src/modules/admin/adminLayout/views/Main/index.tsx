@@ -1,6 +1,7 @@
 import {Redirect, Route, Switch} from 'react-router-dom';
 
 import {CurUser} from 'entity/session';
+import Header from '../Header';
 import NotFound from 'components/NotFound';
 import React from 'react';
 import {connect} from 'react-redux';
@@ -16,6 +17,7 @@ class Component extends React.PureComponent<StoreProps> {
     return (
       this.props.curUser.hasLogin && (
         <div>
+          <Header />
           <Switch>
             <Redirect exact path="/admin" to="/admin/home" />
             <Route exact path="/admin/home" component={AdminHome} />

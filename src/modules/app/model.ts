@@ -11,6 +11,7 @@ export interface State extends BaseModelState {
   curUser?: CurUser;
   notices: Notices;
   showLoginOrRegisterPop?: 'login' | 'register';
+  showRegistrationAgreement?: boolean;
   loading: {
     global: LoadingState;
   };
@@ -65,7 +66,8 @@ export class ModelHandlers extends BaseModelHandlers<State, RootState> {
       clearInterval(this.noticesTimer);
       this.noticesTimer = 0;
     }
-    historyActions.push(metaKeys.HomePathname);
+    sessionStorage.setItem(metaKeys.LoginRedirectSessionStorageKey, location.pathname + location.search + location.hash);
+    historyActions.push(metaKeys.LoginPathname);
   }
   @reducer
   public closesLoginOrRegisterPop(): State {
@@ -74,6 +76,10 @@ export class ModelHandlers extends BaseModelHandlers<State, RootState> {
   @reducer
   public openLoginOrRegisterPop(showLoginOrRegisterPop: 'login' | 'register'): State {
     return {...this.state, showLoginOrRegisterPop};
+  }
+  @reducer
+  public showRegistrationAgreement(showRegistrationAgreement: boolean): State {
+    return {...this.state, showRegistrationAgreement};
   }
   @effect(null) // 不需要loading，设置为null
   protected async [ActionTypes.Error](error: CustomError) {

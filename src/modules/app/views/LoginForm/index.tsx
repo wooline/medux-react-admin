@@ -73,7 +73,7 @@ class Component extends React.PureComponent<StoreProps & FormComponentProps & Di
               {getFieldDecorator('remember', {
                 valuePropName: 'checked',
                 initialValue: true,
-              })(<Checkbox>记住密码</Checkbox>)}
+              })(<Checkbox>自动登录</Checkbox>)}
               <span className="register link" onClick={this.handleRegister}>
                 注册新用户
               </span>

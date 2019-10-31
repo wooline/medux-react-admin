@@ -1,4 +1,4 @@
-import {Button, Form, Icon, Input} from 'antd';
+import {Button, Checkbox, Form, Icon, Input} from 'antd';
 import {CurUser, LoginRequest} from 'entity/session';
 
 import {FormComponentProps} from 'antd/lib/form';
@@ -44,6 +44,9 @@ class Component extends React.PureComponent<StoreProps & FormComponentProps & Di
     const {value} = event.target;
     this.setState({confirmDirty: this.state.confirmDirty || !!value});
   };
+  handleAgreement = () => {
+    this.props.dispatch(actions.app.showRegistrationAgreement(true));
+  };
   compareToFirstPassword = (rule: any, value: string, callback: (err?: string) => void) => {
     const {form} = this.props;
     if (value && value !== form.getFieldValue('password')) {
@@ -58,6 +61,13 @@ class Component extends React.PureComponent<StoreProps & FormComponentProps & Di
       form.validateFields(['confirm'], {force: true});
     }
     callback();
+  };
+  agreementChecked = (rule: any, value: string, callback: (err?: string) => void) => {
+    if (!value) {
+      callback('您必须同意注册协议!');
+    } else {
+      callback();
+    }
   };
   public render() {
     const {
@@ -109,11 +119,24 @@ class Component extends React.PureComponent<StoreProps & FormComponentProps & Di
                 ],
               })(<Input prefix={<Icon type="lock" />} type="password" placeholder="确认密码" onBlur={this.handleConfirmBlur} />)}
             </Form.Item>
-            <Form.Item style={{marginBottom: 0}}>
-              已有帐户？
-              <span className="link" onClick={this.handleLogin}>
-                登录
+            <Form.Item>
+              {getFieldDecorator('agreement', {
+                valuePropName: 'checked',
+                rules: [
+                  {
+                    validator: this.agreementChecked,
+                  },
+                ],
+              })(<Checkbox>我已阅读并同意</Checkbox>)}
+              <span className="link" onClick={this.handleAgreement}>
+                注册协议
               </span>
+              <div className="login">
+                已有帐户？
+                <span className="link" onClick={this.handleLogin}>
+                  登录
+                </span>
+              </div>
               <Button size="large" type="primary" htmlType="submit" className="submit">
                 提交注册
               </Button>

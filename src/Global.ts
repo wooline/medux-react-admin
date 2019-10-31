@@ -1,7 +1,7 @@
 // 将某些常用变量提升至global，对全局变量有洁癖者可忽略此文件
 import './Prepose';
 
-import {actions, historyActions, moduleNames, toUrl} from './modules';
+import {actions, historyActions, moduleNames, pageNames, toUrl} from './modules';
 import {message, metaKeys} from './common/utils';
 
 type HistoryActions = typeof historyActions;
@@ -19,11 +19,10 @@ declare global {
   type BaseRouteData = import('@medux/react-web-router').RouteData;
   type CommonErrorCode = import('./entity/common').CommonErrorCode;
   type DispatchProp = import('react-redux').DispatchProp;
+  const pageNames: {[key: string]: string};
   const message: Message;
   //初始环境变量放在index.html中, 以防止被 webpack 打包
   const initEnv: {
-    siteName: string;
-    pageNames: {[pathname: string]: string};
     version: string;
     staticPath: string;
     apiServerPath: {[key: string]: string};
@@ -41,4 +40,4 @@ declare global {
   Object.keys(data).forEach(key => {
     window[key] = data[key];
   });
-})({actions, moduleNames, toUrl, historyActions, message});
+})({actions, moduleNames, toUrl, historyActions, message, pageNames});

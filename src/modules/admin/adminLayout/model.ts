@@ -2,7 +2,9 @@ import {ActionTypes, BaseModelHandlers, BaseModelState, effect} from '@medux/rea
 
 import {UnauthorizedError} from 'common';
 
-export interface State extends BaseModelState {}
+export interface State extends BaseModelState {
+  siderCollapsed?: boolean;
+}
 
 export const initModelState: State = {};
 
