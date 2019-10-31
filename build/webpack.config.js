@@ -7,10 +7,9 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const HtmlReplaceWebpackPlugin = require('html-replace-webpack-plugin');
 const pathsConfig = require('./path.conifg');
 const prodModel = process.env.NODE_ENV == 'production';
-const {clientGlobal} = require(path.join(pathsConfig.envPath, './env'));
+const {clientGlobal, clientPublicPath} = require(path.join(pathsConfig.envPath, './env'));
 const lessVars = require(path.join(pathsConfig.srcPath, 'assets/css/antd-vars.js'));
 
-const clientPublicPath = clientGlobal.clientPublicPath;
 const fileName = '[name].[hash:8]';
 const htmlReplace = [
   {

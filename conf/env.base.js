@@ -4,7 +4,7 @@ const {siteName, clientPublicPath, version, mock, server, proxy} = baseConf;
 const clientGlobal = {
   version,
   siteName,
-  clientPublicPath,
+  staticPath: clientPublicPath + 'client/',
   apiServerPath: {'/ajax/': '/ajax/'},
 };
 module.exports = {
@@ -12,4 +12,5 @@ module.exports = {
   server,
   mock,
   clientGlobal,
+  clientPublicPath,
 };

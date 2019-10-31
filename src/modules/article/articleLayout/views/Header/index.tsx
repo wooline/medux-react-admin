@@ -6,7 +6,7 @@ import LoginLink from 'components/LoginLink';
 import Logo from 'assets/imgs/logo.svg';
 import React from 'react';
 import {connect} from 'react-redux';
-import style from './index.m.less';
+import styles from './index.m.less';
 
 interface StoreProps {
   curUser: CurUser;
@@ -19,7 +19,7 @@ class Component extends React.PureComponent<StoreProps & DispatchProp> {
   public render() {
     const {curUser} = this.props;
     return (
-      <header className={style.root}>
+      <header className={styles.root}>
         <div className="g-doc">
           <div className="main">
             <img className="logo" height="35" src={Logo} />

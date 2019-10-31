@@ -6,11 +6,13 @@ const guest: CurUser = {
   username: 'guest',
   hasLogin: false,
   sessionId: '',
+  avatar: initEnv.staticPath + 'imgs/u1.jpg',
 };
 const admin: CurUser = {
   username: 'admin',
   hasLogin: true,
   sessionId: 'afdsfasdfasf',
+  avatar: initEnv.staticPath + 'imgs/u1.jpg',
 };
 export class API {
   public getCurUser(): Promise<CurUser> {
