@@ -42,7 +42,6 @@
     }
   },
   "dependencies": {
-    "@ant-design/dark-theme": "^1.0.3",
     "@babel/runtime": "~7.4.5",
     "@medux/react-web-router": "~0.2.12",
     "antd": "~3.23.1",

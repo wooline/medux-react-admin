@@ -39,3 +39,9 @@ export interface CommonResource {
   EditItem: any;
   CreateItem: any;
 }
+
+export interface TabNav {
+  id: string;
+  title: string;
+  url: string;
+}

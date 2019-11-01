@@ -48,9 +48,9 @@ class Component extends React.PureComponent<StoreProps & DispatchProp> {
       <div className={styles.root}>
         <div className="main">
           <Icon className="toggleSider" type={siderCollapsed ? 'menu-unfold' : 'menu-fold'} onClick={this.toggleSider} />
-          <Button size="small" icon="search">
-            帮助指南
-          </Button>
+          <Link to={metaKeys.ArticleHomePathname}>
+            <Icon type="question-circle-o" /> 帮助指南
+          </Link>
         </div>
         <div className="side">
           <Tooltip title="使用文档">

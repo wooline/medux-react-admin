@@ -5,6 +5,7 @@ import {CurUser} from 'entity/session';
 import Header from '../Header';
 import NotFound from 'components/NotFound';
 import React from 'react';
+import TabNavs from '../TabNavs';
 import {connect} from 'react-redux';
 import styles from './index.m.less';
 
@@ -26,8 +27,9 @@ class Component extends React.PureComponent<StoreProps> {
             sider
           </Sider>
           <Layout>
-            <Layout.Header style={{background: '#fff', padding: 0}}>
+            <Layout.Header>
               <Header />
+              <TabNavs />
             </Layout.Header>
             <Content>
               <Switch>

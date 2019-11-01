@@ -68,6 +68,7 @@ export const metaKeys = {
   ClientInitedAction: 'app/ClientInited',
   LoginRedirectSessionStorageKey: 'LoginRedirectTo',
   SessionIDSessionStorageKey: 'SessionID',
+  FavoritesUrlStorageKey: 'FavoritesUrl',
 };
 
 export function getFormDecorators<D>(form: WrappedFormUtils, fields: {[key in keyof D]?: GetFieldDecoratorOptions}, initValues: {[key in keyof D]?: any} = {}) {
@@ -93,4 +94,11 @@ export function createForm<P, C extends ComponentType<any>>(searchForm: C, field
       }, {});
     },
   })(searchForm) as any;
+}
+
+export function arrayToMap<T>(arr: T[], key: string = 'id'): {[key: string]: T} {
+  return arr.reduce((pre, cur) => {
+    pre[cur[key]] = cur;
+    return pre;
+  }, {});
 }
