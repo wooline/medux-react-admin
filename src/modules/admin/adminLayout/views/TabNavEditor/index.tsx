@@ -6,6 +6,7 @@ import React from 'react';
 import {TabNav} from 'entity/common';
 import styles from './index.m.less';
 
+let prevCurItem: TabNav = {id: '', title: '', url: ''};
 interface StoreProps {
   curItem?: TabNav;
 }
@@ -25,9 +26,11 @@ class Component extends React.Component<StoreProps & FormComponentProps & Dispat
     this.props.dispatch(actions.adminLayout.closeTabNavEditor());
   };
   render() {
-    const {curItem = {id: ''}, form} = this.props;
+    const {curItem = prevCurItem, form} = this.props;
+    prevCurItem = curItem;
     const titleDecorator = form.getFieldDecorator('title', {
       rules: [{required: true, message: '请输入书签名'}],
+      initialValue: curItem.title,
     });
     return (
       <div className={styles.root}>
@@ -52,14 +55,4 @@ const mapStateToProps: (state: RootState) => StoreProps = state => {
   };
 };
 
-export default connect(mapStateToProps)(
-  Form.create({
-    mapPropsToFields(props: StoreProps & FormComponentProps) {
-      return {
-        title: Form.createFormField({
-          value: props.curItem ? props.curItem.title : '',
-        }),
-      };
-    },
-  })(Component)
-);
+export default connect(mapStateToProps)(Form.create()(Component));

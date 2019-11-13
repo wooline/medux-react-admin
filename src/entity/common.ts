@@ -1,3 +1,4 @@
+import {MenuItem} from 'entity/adminLayout';
 export enum CommonErrorCode {
   unknown = 'unknown',
   notFound = 'notFound',
@@ -8,6 +9,7 @@ export enum CommonErrorCode {
 }
 export interface ProjectConfig {
   title: string;
+  menuData: MenuItem[];
 }
 export interface ErrorEntity<Detail = any> {
   code: string;

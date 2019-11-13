@@ -1,15 +1,17 @@
-import {Icon, Layout, Menu} from 'antd';
 import {Redirect, Route, Switch} from 'react-router-dom';
 
 import {CurUser} from 'entity/session';
+import Flag from '../Flag';
 import Header from '../Header';
+import {Layout} from 'antd';
+import Navs from '../Navs';
 import NotFound from 'components/NotFound';
 import React from 'react';
 import TabNavs from '../TabNavs';
 import {connect} from 'react-redux';
 import styles from './index.m.less';
 
-const {Sider, Content, Footer} = Layout;
+const {Content, Footer} = Layout;
 const AdminHome = loadView('adminHome', 'Main');
 
 interface StoreProps {
@@ -23,9 +25,10 @@ class Component extends React.PureComponent<StoreProps> {
     return (
       this.props.curUser.hasLogin && (
         <Layout className={styles.root}>
-          <Sider trigger={null} collapsible collapsed={siderCollapsed}>
-            sider
-          </Sider>
+          <Layout.Sider className="g-scrollBar" trigger={null} collapsible collapsed={siderCollapsed}>
+            <Flag />
+            <Navs singleOpen={true} />
+          </Layout.Sider>
           <Layout>
             <Layout.Header>
               <Header />
@@ -54,10 +57,3 @@ const mapStateToProps: (state: RootState) => StoreProps = state => {
 };
 
 export default connect(mapStateToProps)(Component);
-
-/**
- * <div>
-          <Header />
-
-        </div>
- */

@@ -11,6 +11,17 @@
       clear: both;
     }
   }
+  :local(.viewLoader) {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    padding: 10px;
+    color: #999;
+  }
+  :local(.btns) {
+    display: flex;
+    justify-content: space-between;
+  }
   :local(.activities) {
     position: relative;
     padding-left: 600px;
@@ -53,6 +64,18 @@
         left: auto;
         right: 0;
       }
+    }
+  }
+  :local(.scrollBar) {
+    &::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    &::-webkit-scrollbar-thumb {
+      border-radius: 10px;
+      box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.2);
+      -webkit-box-shadow: inset 0 0 6px rgba(241, 241, 241, 0.2);
+      background-color: rgba(151, 168, 190, 0.2);
     }
   }
 }

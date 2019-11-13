@@ -3,8 +3,10 @@ import {FormComponentProps, GetFieldDecoratorOptions, WrappedFormInternalProps, 
 
 import {ComponentType} from 'react';
 
+export type ExcludeNull<T> = {[K in keyof T]-?: T[K] extends null ? never : K}[keyof T];
 export type ExtractArray<T extends any[]> = T[Extract<keyof T, number>];
 export type OmitSelf<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
+export type PickOptional<T> = Pick<T, {[K in keyof T]-?: {} extends {[P in K]: T[K]} ? K : never}[keyof T]>;
 
 export function extract<T, K extends keyof T, U extends K[], P extends ExtractArray<U>>(target: T, ...args: U): Pick<T, P> & {$: OmitSelf<T, P>} {
   const clone = {...target};

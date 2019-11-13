@@ -8232,6 +8232,11 @@ path-to-regexp@^3.0.0:
   resolved "https://registry.yarnpkg.com/path-to-regexp/-/path-to-regexp-3.1.0.tgz#f45a9cc4dc6331ae8f131e0ce4fde8607f802367"
   integrity sha512-PtHLisEvUOepjc+sStXxJ/pDV/s5UBTOKWJY2SOz3e6E/iN/jLknY9WL72kTwRrwXDUbZTEAtSnJbz2fF127DA==
 
+path-to-regexp@^4.0.5:
+  version "4.0.5"
+  resolved "https://registry.yarnpkg.com/path-to-regexp/-/path-to-regexp-4.0.5.tgz#2d4fd140af9a369bf7b68f77a7fdc340490f4239"
+  integrity sha512-l+fTaGG2N9ZRpCEUj5fG1VKdDLaiqwCIvPngpnxzREhcdobhZC4ou4w984HBu72DqAJ5CfcdV6tjqNOunfpdsQ==
+
 path-type@^1.0.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/path-type/-/path-type-1.1.0.tgz#59c44f7ee491da704da415da5a4070ba4f8fe441"

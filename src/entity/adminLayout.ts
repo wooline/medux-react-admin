@@ -1,11 +1,13 @@
 export interface MenuItem {
   name: string;
   icon?: string;
-  path: string;
+  keys: string | string[];
+  link?: string;
   children?: MenuItem[];
   target?: string;
+  disable?: boolean;
 }
-export interface Item {
+export interface LayoutData {
   menu: MenuItem[];
   footer: FooterData;
   globalSearch: GlobalSearchData;

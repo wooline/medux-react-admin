@@ -50,7 +50,7 @@ class Component extends React.PureComponent<StoreProps & DispatchProp> {
               <span className="trigger">trigger</span>
             </Popover>
             <span>{item.title}</span>
-            <Icon className="action" type="close" onClick={() => this.onDelItem(item)} />
+            <Icon className="action" type="close-circle" onClick={() => this.onDelItem(item)} />
           </div>
         ))}
         <Popover onVisibleChange={this.onSwitchCreator} visible={Boolean(tabNavEditor && !tabNavEditor.id)} content={<TabNavEditor />} trigger="click">
