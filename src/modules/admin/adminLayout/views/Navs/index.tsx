@@ -1,7 +1,7 @@
 import {Icon, Menu} from 'antd';
 
 import {Link} from 'react-router-dom';
-import {MenuItem} from 'entity/adminLayout';
+import {MenuItem} from 'entity/session';
 import {PickOptional} from 'common/utils';
 import React from 'react';
 import {connect} from 'react-redux';
@@ -11,29 +11,14 @@ import styles from './index.m.less';
 const {SubMenu} = Menu;
 const matchCache: {[path: string]: RegExp} = {};
 
-interface StoreProps {
-  siderCollapsed: boolean;
-  dataSource: MenuItem[];
-  pathname: string;
-  singleOpen?: boolean;
-  match?: (pathname: string, key: string) => boolean;
-}
-interface State {
-  selectedKey: string;
-  openKeys: string[];
-  pathname: string;
-  alias: {[key: string]: string};
-  linksKeys: {[key: string]: string[]}; //{path:[parent1,parent2]}
-  foldersKeys: {[key: string]: string[]}; //{path:[parent1,parent2]}
-}
-
-function getSelectedMenuKeys(linksKeys: {[key: string]: string[]}, pathname: string, match: (pathname: string, key: string) => boolean, alias: {[key: string]: string}) {
+function getSelectedMenuKeys(linksKeys: {[key: string]: string[]}, pathname: string, match: (pathname: string, key: string) => boolean, alias: {[key: string]: string}, lastedOpenKeys: string[]) {
   const selectedKeys = Object.keys(linksKeys).filter(key => match(pathname, key));
   if (selectedKeys.length) {
     const selected = alias[selectedKeys[0]] || selectedKeys[0];
-    return {selectedKey: selected, openKeys: linksKeys[selected]};
+    const openKeys = lastedOpenKeys.length ? Array.from(new Set([...lastedOpenKeys, ...linksKeys[selected]])) : linksKeys[selected];
+    return {selectedKey: selected, openKeys};
   } else {
-    return {selectedKey: '', openKeys: []};
+    return {selectedKey: '', openKeys: lastedOpenKeys};
   }
 }
 
@@ -146,20 +131,35 @@ function generateMenu(menusData: MenuItem[], folderHandler: (item: {key: string}
     }
   });
 }
+interface StoreProps {
+  siderCollapsed: boolean;
+  dataSource: MenuItem[];
+  pathname: string;
+  singleOpen?: boolean;
+  match?: (pathname: string, key: string) => boolean;
+}
+interface State {
+  menus: MenuItem[];
+  dataSource: MenuItem[];
+  selectedKey: string;
+  openKeys: string[];
+  pathname: string;
+  alias: {[key: string]: string};
+  linksKeys: {[key: string]: string[]}; //{path:[parent1,parent2]}
+  foldersKeys: {[key: string]: string[]}; //{path:[parent1,parent2]}
+}
 class Component extends React.Component<StoreProps & DispatchProp, State> {
   constructor(props: StoreProps & DispatchProp, context?: any) {
     super(props, context);
-    this.menus = filterDisable(props.dataSource);
-    const {links, folders, alias} = mapMenuData(this.menus);
-    const {selectedKey, openKeys} = getSelectedMenuKeys(links, this.props.pathname, this.props.match!, alias);
-
     this.state = {
+      menus: [],
+      dataSource: [],
       pathname: '',
-      alias,
-      linksKeys: links,
-      foldersKeys: folders,
-      selectedKey,
-      openKeys,
+      alias: {},
+      linksKeys: {},
+      foldersKeys: {},
+      selectedKey: '',
+      openKeys: [],
     };
   }
   public static defaultProps: PickOptional<StoreProps> = {
@@ -174,22 +174,46 @@ class Component extends React.Component<StoreProps & DispatchProp, State> {
     },
   };
   static getDerivedStateFromProps(nextProps: StoreProps, prevState: State): State | null {
-    if (nextProps.pathname !== prevState.pathname) {
-      const {selectedKey, openKeys} = getSelectedMenuKeys(prevState.linksKeys, nextProps.pathname, nextProps.match!, prevState.alias);
+    if (nextProps.dataSource.length && nextProps.dataSource !== prevState.dataSource) {
+      const menus = filterDisable(nextProps.dataSource);
+      const {links, folders, alias} = mapMenuData(menus);
+      const {dataSource, pathname, match} = nextProps;
+      const {selectedKey, openKeys} = getSelectedMenuKeys(links, pathname, match!, alias, []);
       return {
-        alias: prevState.alias,
-        linksKeys: prevState.linksKeys,
-        foldersKeys: prevState.foldersKeys,
+        dataSource,
+        menus,
+        pathname,
+        alias,
+        linksKeys: links,
+        foldersKeys: folders,
         selectedKey,
         openKeys,
-        pathname: nextProps.pathname,
+      };
+    }
+    if (nextProps.pathname !== prevState.pathname) {
+      const {pathname, match} = nextProps;
+      const {linksKeys, alias, openKeys: lastedOpenKeys, dataSource, menus, foldersKeys} = prevState;
+      const {selectedKey, openKeys} = getSelectedMenuKeys(linksKeys, pathname, match!, alias, lastedOpenKeys);
+      return {
+        dataSource,
+        menus,
+        alias,
+        linksKeys,
+        foldersKeys,
+        selectedKey,
+        openKeys,
+        pathname,
       };
     }
     return null;
   }
-  menus: MenuItem[] = [];
   shouldComponentUpdate(nextProps: StoreProps, nextState: State) {
-    return nextProps.siderCollapsed !== this.props.siderCollapsed || nextState.openKeys.join(' ') !== this.state.openKeys.join(' ') || nextState.selectedKey !== this.state.selectedKey;
+    return (
+      nextProps.siderCollapsed !== this.props.siderCollapsed ||
+      nextState.dataSource !== this.state.dataSource ||
+      nextState.openKeys.join(' ') !== this.state.openKeys.join(' ') ||
+      nextState.selectedKey !== this.state.selectedKey
+    );
   }
   onOpenChange = (openKeys: string[]) => {
     if (!this.props.singleOpen) {
@@ -221,7 +245,7 @@ class Component extends React.Component<StoreProps & DispatchProp, State> {
     const menuProps = siderCollapsed ? {} : {openKeys};
     return (
       <Menu className={styles.root} key="SiderMenu" theme="dark" mode="inline" onOpenChange={this.onOpenChange} {...menuProps} selectedKeys={[selectedKey]}>
-        {generateMenu(this.menus, this.folderHandler)}
+        {generateMenu(this.state.menus, this.folderHandler)}
       </Menu>
     );
   }
@@ -229,7 +253,7 @@ class Component extends React.Component<StoreProps & DispatchProp, State> {
 
 const mapStateToProps: (state: RootState) => StoreProps = state => {
   return {
-    dataSource: state.app!.projectConfig!.menuData,
+    dataSource: state.adminLayout!.menuData || [],
     siderCollapsed: !!state.adminLayout!.siderCollapsed,
     pathname: state.route.location.pathname,
   };

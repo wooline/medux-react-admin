@@ -16,3 +16,12 @@ export interface RegisterRequest {
 export interface Notices {
   messages?: string[];
 }
+export interface MenuItem {
+  name: string;
+  icon?: string;
+  keys: string | string[];
+  link?: string;
+  children?: MenuItem[];
+  target?: string;
+  disable?: boolean;
+}

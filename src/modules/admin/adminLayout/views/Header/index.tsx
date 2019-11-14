@@ -21,7 +21,7 @@ class Component extends React.PureComponent<StoreProps & DispatchProp> {
       this.props.dispatch(actions.app.logout());
     } else if (key === 'triggerError') {
       setTimeout(() => {
-        throw '自定义出错！';
+        throw new Error('自定义出错！');
       }, 0);
     }
   };

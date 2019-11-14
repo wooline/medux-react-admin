@@ -46,28 +46,26 @@ export class ModelHandlers extends BaseModelHandlers<State, RootState> {
   @effect()
   public async login(params: LoginRequest) {
     const curUser = await api.login(params);
-    const isPop = !!this.state.showLoginOrRegisterPop;
-    this.updateState({curUser, showLoginOrRegisterPop: undefined});
-    this.getNoticeTimer();
     const redirect = sessionStorage.getItem(metaKeys.LoginRedirectSessionStorageKey) || metaKeys.UserHomePathname;
     sessionStorage.removeItem(metaKeys.LoginRedirectSessionStorageKey);
-    if (!isPop) {
-      historyActions.push(redirect);
+    const oCurUser = this.state.curUser!;
+    if (oCurUser.hasLogin && oCurUser.sessionId !== curUser.sessionId) {
+      //如果客户端没有主动退出，而服务器返回了不一样的sessionId，则刷新
+      location.href = redirect;
+    } else {
+      const isPop = !!this.state.showLoginOrRegisterPop;
+      this.updateState({curUser, showLoginOrRegisterPop: undefined});
+      this.getNoticeTimer();
+      if (!isPop) {
+        historyActions.push(redirect);
+      }
     }
   }
   @effect()
   public async logout() {
-    const curUser = await api.logout();
-    this.updateState({
-      curUser,
-      notices: {},
-    });
-    if (this.noticesTimer) {
-      clearInterval(this.noticesTimer);
-      this.noticesTimer = 0;
-    }
+    await api.logout();
     sessionStorage.setItem(metaKeys.LoginRedirectSessionStorageKey, location.pathname + location.search + location.hash);
-    historyActions.push(metaKeys.LoginPathname);
+    location.reload();
   }
   @reducer
   public closesLoginOrRegisterPop(): State {
