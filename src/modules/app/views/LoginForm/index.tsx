@@ -10,13 +10,19 @@ interface StoreProps {
   curUser: CurUser;
   isPop: boolean;
 }
-
-class Component extends React.PureComponent<StoreProps & FormComponentProps & DispatchProp> {
+interface State {
+  errorMessage?: string;
+}
+class Component extends React.PureComponent<StoreProps & FormComponentProps & DispatchProp, State> {
+  state: State = {};
   handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     this.props.form.validateFields((err, values: LoginRequest) => {
       if (!err) {
-        this.props.dispatch(actions.app.login(values));
+        const result: Promise<void> = this.props.dispatch(actions.app.login(values)) as any;
+        result.catch(err => {
+          this.setState({errorMessage: err.message});
+        });
       }
     });
   };
@@ -34,12 +40,15 @@ class Component extends React.PureComponent<StoreProps & FormComponentProps & Di
       historyActions.push(metaKeys.RegisterPathname);
     }
   };
+  clearError = () => {
+    this.setState({errorMessage: undefined});
+  };
   public render() {
     const {
       curUser,
       form: {getFieldDecorator},
     } = this.props;
-
+    const {errorMessage} = this.state;
     return (
       <div className={styles.root}>
         <h2 className="title">用户登录</h2>
@@ -62,12 +71,12 @@ class Component extends React.PureComponent<StoreProps & FormComponentProps & Di
             <Form.Item>
               {getFieldDecorator('username', {
                 rules: [{required: true, message: '请输入用户名!'}],
-              })(<Input prefix={<Icon type="user" />} placeholder="用户名" />)}
+              })(<Input onChange={this.clearError} prefix={<Icon type="user" />} placeholder="用户名" />)}
             </Form.Item>
-            <Form.Item>
+            <Form.Item help={errorMessage} validateStatus={errorMessage ? 'error' : undefined}>
               {getFieldDecorator('password', {
                 rules: [{required: true, message: '请输入密码!'}],
-              })(<Input prefix={<Icon type="lock" />} type="password" placeholder="密码" />)}
+              })(<Input onChange={this.clearError} prefix={<Icon type="lock" />} type="password" placeholder="密码" />)}
             </Form.Item>
             <Form.Item style={{marginBottom: 0}}>
               {getFieldDecorator('remember', {

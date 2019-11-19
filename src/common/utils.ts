@@ -69,7 +69,6 @@ export const metaKeys = {
   ArticleHomePathname: '/article/home',
   ClientInitedAction: 'app/ClientInited',
   LoginRedirectSessionStorageKey: 'LoginRedirectTo',
-  SessionIDSessionStorageKey: 'SessionID',
   FavoritesUrlStorageKey: 'FavoritesUrl',
 };
 

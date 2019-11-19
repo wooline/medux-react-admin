@@ -1,36 +1,20 @@
 import {CurUser, MenuItem} from 'entity/session';
 
-import {delayPromise} from '@medux/core';
-
 export class API {
-  @delayPromise(5)
   public getMenuData(curUser: CurUser): Promise<MenuItem[]> {
     return Promise.resolve([
       {
-        name: '用户管理',
-        icon: 'team',
-        keys: '/admin/user',
-        children: [
-          {name: '用户一览表', keys: ['/admin/user/userOverview', 'aaa', 'bbbb']},
-          {name: '用户账户明细', keys: '/admin/user/transaction', disable: true},
-          {name: '用户账户充值', keys: '/admin/user/topup'},
-          {name: '黑名单管理', keys: '/admin/user/blacklist'},
-        ],
+        name: '概要总览',
+        icon: 'dashboard',
+        keys: '/admin/home',
       },
       {
-        name: '代理管理',
+        name: '用户管理',
         icon: 'user-add',
-        keys: '/admin/agent',
+        keys: 'user',
         children: [
-          {name: '总代开户管理', keys: '/admin/agent/primaryAgent'},
-          {name: '团队列表', keys: '/admin/agent/agentOverview'},
-          {name: '团队盈亏报表', keys: '/admin/agent/teamProfit'},
-          {name: '团队充提报表', keys: '/admin/agent/depositWithdrawal'},
-          {name: '代理团队人数分析', keys: '/admin/agent/statistics'},
-          {name: '代理销量查询', keys: '/admin/agent/agentSale'},
-          {name: '分红列表', keys: '/admin/agent/bonus'},
-          {name: '工资列表', keys: '/admin/agent/salary'},
-          {name: '佣金查询', keys: '/admin/agent/commission'},
+          {name: '新增用户', keys: '/admin/user/create'},
+          {name: '用户列表', keys: '/admin/user'},
         ],
       },
       {
@@ -63,7 +47,11 @@ export class API {
         name: '游戏管理',
         icon: 'rocket',
         keys: '/admin/game',
-        children: [{name: '方案查询', keys: '/admin/game/order'}, {name: '追号查询', keys: '/admin/game/autoBet'}, {name: '游戏盈亏监控', keys: '/admin/game/3'}],
+        children: [
+          {name: '方案查询', keys: '/admin/game/order'},
+          {name: '追号查询', keys: '/admin/game/autoBet'},
+          {name: '游戏盈亏监控', keys: '/admin/game/3'},
+        ],
       },
       {
         name: '报表管理',

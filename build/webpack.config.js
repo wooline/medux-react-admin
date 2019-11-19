@@ -78,7 +78,7 @@ const cssLoader = enableCssModule => {
 const clientConfig = {
   mode: prodModel ? 'production' : 'development',
   devtool: prodModel ? 'cheap-module-source-map' : 'cheap-module-eval-source-map',
-  entry: ['babel-polyfill', path.join(pathsConfig.srcPath, './index')],
+  entry: [path.join(pathsConfig.srcPath, './index')],
   output: {
     path: pathsConfig.distPath,
     filename: `client/js/${fileName}.js`,
@@ -132,7 +132,7 @@ const clientConfig = {
         include: pathsConfig.moduleSearch,
         loader: 'babel-loader',
         options: {
-          cacheDirectory: false,
+          cacheDirectory: true,
         },
       },
       {

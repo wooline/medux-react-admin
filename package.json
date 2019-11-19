@@ -31,13 +31,13 @@
     "node": ">=9.0.0"
   },
   "browserslist": [
-    "chrome > 56"
+    "chrome >= 49"
   ],
   "baseConf": {
     "siteName": "SPA Demo",
     "clientPublicPath": "/",
     "server": "http://localhost:7445",
-    "mock": false,
+    "mock": true,
     "proxy": {
       "/api/**": {
         "target": "http://192.168.0.232:8000",
@@ -51,28 +51,23 @@
     }
   },
   "dependencies": {
-    "@babel/runtime": "~7.4.5",
-    "@medux/react-web-router": "~0.2.12",
+    "@medux/react-web-router": "~0.2.16",
     "antd": "~3.23.1",
-    "babel-polyfill": "~6.26.0",
-    "core-js": "~3.1.3",
-    "path-to-regexp": "^4.0.5",
+    "cookie-parser": "^1.4.4",
+    "path-to-regexp": "^5.0.0",
     "react": "~16.8.6",
     "react-dom": "~16.8.6"
   },
   "devDependencies": {
-    "@medux/dev-pkg": "~0.2.11",
-    "@medux/dev-utils": "~0.2.11",
+    "@medux/dev-pkg": "~0.2.16",
+    "@medux/dev-utils": "~0.2.16",
     "@types/react": "^16.9.0",
     "@types/react-dom": "^16.9.0",
     "babel-plugin-import": "~1.12.0",
-    "husky": "^3.0.9",
-    "lint-staged": "^9.4.2",
     "less": "~3.10.1",
     "less-loader": "~5.0.0",
     "postcss-less": "~3.1.4",
     "sass-resources-loader": "~2.0.1",
-    "stylelint-declaration-block-no-ignored-properties": "^2.1.0",
-    "typescript": "~3.5.3"
+    "typescript": "~3.7.2"
   }
 }

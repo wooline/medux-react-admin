@@ -26,8 +26,10 @@ export interface BaseListSummary {
   totalPages: number;
 }
 export interface BaseListSearch {
-  page: number;
-  pageSize: number;
+  pagination: {
+    current: number;
+    pageSize: number;
+  };
 }
 
 export interface CommonResource {

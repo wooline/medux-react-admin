@@ -1,6 +1,6 @@
 import {ActionTypes, BaseModelHandlers, BaseModelState, LoadingState, effect, errorAction, reducer} from '@medux/react-web-router';
 import {CommonErrorCode, CustomError, ProjectConfig} from 'entity/common';
-import {CurUser, LoginRequest, Notices} from 'entity/session';
+import {CurUser, LoginRequest, Notices, RegisterRequest} from 'entity/session';
 
 import {HandledError} from 'common';
 import api from './api';
@@ -44,9 +44,17 @@ export class ModelHandlers extends BaseModelHandlers<State, RootState> {
     }
   }
   @effect()
+  public async register(params: RegisterRequest) {
+    await api.register(params);
+    this.dispatch(this.actions.login(params));
+  }
+  @effect()
   public async login(params: LoginRequest) {
     const curUser = await api.login(params);
-    const redirect = sessionStorage.getItem(metaKeys.LoginRedirectSessionStorageKey) || metaKeys.UserHomePathname;
+    let redirect = sessionStorage.getItem(metaKeys.LoginRedirectSessionStorageKey);
+    if (!redirect || redirect === metaKeys.LoginPathname) {
+      redirect = metaKeys.UserHomePathname;
+    }
     sessionStorage.removeItem(metaKeys.LoginRedirectSessionStorageKey);
     const oCurUser = this.state.curUser!;
     if (oCurUser.hasLogin && oCurUser.sessionId !== curUser.sessionId) {

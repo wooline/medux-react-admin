@@ -1,5 +1,5 @@
 import {Button, Checkbox, Form, Icon, Input} from 'antd';
-import {CurUser, LoginRequest} from 'entity/session';
+import {CurUser, RegisterRequest} from 'entity/session';
 
 import {FormComponentProps} from 'antd/lib/form';
 import {Link} from 'react-router-dom';
@@ -31,9 +31,9 @@ class Component extends React.PureComponent<StoreProps & FormComponentProps & Di
   };
   handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    this.props.form.validateFields((err, values: LoginRequest) => {
+    this.props.form.validateFields((err, values: RegisterRequest) => {
       if (!err) {
-        this.props.dispatch(actions.app.login(values));
+        this.props.dispatch(actions.app.register(values));
       }
     });
   };

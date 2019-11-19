@@ -1,4 +1,4 @@
-import {Avatar, Badge, Button, Dropdown, Icon, Menu, Popover, Tooltip} from 'antd';
+import {Avatar, Badge, Dropdown, Icon, Menu} from 'antd';
 import {Link, NavLink} from 'react-router-dom';
 
 import {CurUser} from 'entity/session';
@@ -53,15 +53,13 @@ class Component extends React.PureComponent<StoreProps & DispatchProp> {
           </Link>
         </div>
         <div className="side">
-          <Tooltip title="使用文档">
-            <a target="_blank" href="http://pro.ant.design/docs/getting-started" rel="noopener noreferrer" className="action">
-              <Icon type="question-circle-o" />
-            </a>
-          </Tooltip>
+          <Badge count={459} className="noticeIcon">
+            <Icon type="bell" />
+          </Badge>
           <Dropdown overlay={this.menu}>
-            <span className="action account">
+            <span className="account">
               <Avatar size="small" className="avatar" src={curUser.avatar} />
-              <span className="name">{curUser.username}</span>
+              <span>{curUser.username}</span>
             </span>
           </Dropdown>
         </div>

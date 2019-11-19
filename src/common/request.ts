@@ -5,8 +5,6 @@ import {CustomError} from 'entity/common';
 const request = axios.create();
 
 request.interceptors.request.use(request => {
-  const sessionid = sessionStorage.getItem(metaKeys.SessionIDSessionStorageKey);
-  Object.assign(request.data, {sessionid});
   return request;
 });
 
@@ -16,10 +14,11 @@ request.interceptors.response.use(
   },
   (error: AxiosError<{message: string}>) => {
     const httpErrorCode = error.response ? error.response.status : 0;
+    const statusText = error.response ? error.response.statusText : '';
     const responseData = error.response ? error.response.data : '';
 
-    const errorMessage = responseData && responseData.message ? responseData.message : `failed to call ${error.config.url}`;
-    throw new CustomError(errorMessage, httpErrorCode.toString(), responseData);
+    const errorMessage = responseData && responseData.message ? responseData.message : `${statusText}, failed to call ${error.config.url}`;
+    throw new CustomError(httpErrorCode.toString(), errorMessage, responseData);
   }
 );
 

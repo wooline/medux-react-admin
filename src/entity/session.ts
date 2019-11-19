@@ -1,8 +1,8 @@
 export interface CurUser {
   username: string;
   hasLogin: boolean;
-  sessionId: string;
   avatar: string;
+  sessionId: string;
 }
 export interface LoginRequest {
   username: string;

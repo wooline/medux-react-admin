@@ -2,17 +2,17 @@
 :global {
   :local(.root) {
     padding: 0 15px;
-    background: #fff;
     line-height: 30px;
     height: 30px;
     display: flex;
     font-size: 12px;
 
     > div {
+      background: #fff;
       padding: 0 20px;
       border: 1px solid @border-color-base;
+      border-bottom-color: #eee;
       border-radius: 5px 5px 0 0;
-      border-bottom: none;
       margin-right: 1px;
       cursor: pointer;
       position: relative;
@@ -41,6 +41,7 @@
       }
 
       &:hover {
+        border-bottom-color: @layout-body-background;
         background: @layout-body-background;
 
         > .action {
@@ -49,6 +50,7 @@
       }
 
       &.cur {
+        border-bottom-color: @layout-body-background;
         background: @layout-body-background;
       }
     }
