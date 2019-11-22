@@ -13,6 +13,8 @@ import styles from './index.m.less';
 
 const {Content, Footer} = Layout;
 const AdminHome = loadView('adminHome', 'Main');
+const AdminMember = loadView('adminMember', 'Main');
+const AdminRole = loadView('adminRole', 'Main');
 
 interface StoreProps {
   curUser: CurUser;
@@ -38,6 +40,8 @@ class Component extends React.PureComponent<StoreProps> {
               <Switch>
                 <Redirect exact path="/admin" to="/admin/home" />
                 <Route exact path="/admin/home" component={AdminHome} />
+                <Route exact path="/admin/member" component={AdminMember} />
+                <Route exact path="/admin/role" component={AdminRole} />
                 <Route component={NotFound} />
               </Switch>
             </Content>

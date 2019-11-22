@@ -8,7 +8,7 @@ const result = {
 
 if (username === 'admin' && password === '123456') {
   result.statusCode = 200;
-  result.cookies = [['token', 'asfdfdsf']];
+  result.cookies = [['token', 'asfdfdsf', {expires: new Date(Date.now() + 900000), httpOnly: true}]];
   result.response = {
     username: 'admin',
     hasLogin: true,

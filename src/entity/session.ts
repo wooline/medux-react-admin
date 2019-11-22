@@ -14,7 +14,7 @@ export interface RegisterRequest {
   phone: string;
 }
 export interface Notices {
-  messages?: string[];
+  count: number;
 }
 export interface MenuItem {
   name: string;

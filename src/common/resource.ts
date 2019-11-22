@@ -1,26 +1,13 @@
 import {ActionTypes, BaseModelHandlers, BaseModelState, RouteData, effect, reducer} from '@medux/react-web-router';
-
-import {CommonResource} from 'entity/common';
-
-export interface ResourceAPI {
-  searchList?: (listSearch: any) => Promise<{list: any; listSummary: any}>;
-  getDetailItem?: (id: any) => Promise<any>;
-  getEditItem?: (id: any) => Promise<any>;
-  deleteItem?: (id: any) => Promise<void>;
-  deleteList?: (ids: any[]) => Promise<void>;
-  createItem?: (data: any) => Promise<void>;
-  updateItem?: (data: any) => Promise<void>;
-  changeItemsStatus?: (ids: any[], status: any) => Promise<void>;
-}
+import {BaseListItem, BaseListSearch, BaseListSummary, CommonResource} from 'entity/common';
 
 export interface CommonResourceState<Resource extends CommonResource> extends BaseModelState<Resource['RouteParams']> {
   list?: Resource['ListItem'][];
   listSummary?: Resource['ListSummary'];
   selectedRows?: Resource['ListItem'][];
-  selectedRowKeys?: string[] | number[];
-  editItem?: Resource['EditItem'];
-  createItem?: Resource['CreateItem'];
-  detailItem?: Resource['DetailItem'];
+  selectionList?: Resource['ListItem'][];
+  currentOperation?: Resource['Operation'];
+  currentItem?: any;
 }
 
 export class CommonResourceHandlers<
@@ -29,188 +16,114 @@ export class CommonResourceHandlers<
   RootState extends {route: {location: {pathname: string}; data: RouteData}}
 > extends BaseModelHandlers<State, RootState> {
   protected api: ResourceAPI = {};
-  protected pathname: string = '';
-  protected defaultRouteParams: Resource['RouteParams'] = null as any;
-  protected enableRouteParams: boolean = false;
-
-  protected setConfig(pathname: string, api: ResourceAPI, defaultRouteParams: Resource['RouteParams'], enableRouteParams?: boolean) {
-    this.pathname = pathname;
-    this.api = api;
-    this.defaultRouteParams = defaultRouteParams;
-    this.enableRouteParams = !!enableRouteParams;
-  }
+  protected defaultRouteParams: Resource['RouteParams'] = {} as any;
 
   @reducer
-  public putDetailItem(detailItem?: Resource['DetailItem']): State {
-    return {...this.state, detailItem, createItem: undefined, editItem: undefined};
+  public putSearchList({list, listSearch, listSummary}: {list: Resource['ListItem'][]; listSearch: Resource['ListSearch']; listSummary: Resource['ListSummary']}): State {
+    return {...this.state, selectedRows: undefined, routeParams: {...this.state.routeParams!, listSearch}, list, listSummary};
   }
   @reducer
-  public putEditItem(editItem?: Resource['EditItem']): State {
-    return {...this.state, editItem, detailItem: undefined, createItem: undefined};
+  public putCurrentItem(currentOperation?: Resource['Operation'], currentItem?: any): State {
+    return {...this.state, currentOperation, currentItem};
   }
   @reducer
-  public putCreateItem(createItem?: Resource['CreateItem']): State {
-    return {...this.state, createItem, detailItem: undefined, editItem: undefined};
+  public putSelectedRows(selectedRows?: Resource['ListItem'][]): State {
+    return {...this.state, selectedRows};
   }
   @reducer
-  public putSelectedRows({selectedRowKeys, selectedRows}: {selectedRowKeys?: string[] | number[]; selectedRows?: Resource['ListItem'][]}): State {
-    return {...this.state, selectedRows, selectedRowKeys};
+  public putSelectionList(selectionList?: Resource['ListItem'][]): State {
+    return {...this.state, selectionList};
   }
   @effect()
-  public async getDetailItem(id: string | number) {
+  public async getDetailItem(id: string) {
     const itemDetail = await this.api.getDetailItem!(id);
-    this.dispatch(this.actions.putDetailItem(itemDetail));
+    this.dispatch(this.actions.putCurrentItem('detail', itemDetail));
   }
   @effect()
-  public async getEditItem(id: string | number) {
-    const itemDetail = await this.api.getEditItem!(id);
-    this.dispatch(this.actions.putDetailItem(itemDetail));
+  public async getEditItem(id: string) {
+    const itemDetail = await this.api.getDetailItem!(id);
+    this.dispatch(this.actions.putCurrentItem('edit', itemDetail));
   }
-  public async createItem(data: Resource['CreateItem'] & {_callback?: Function}) {
-    const {_callback} = data;
-    delete data._callback;
+  @effect()
+  public async createItem(data: Resource['CreateItem'], callback?: (res: any) => void) {
     return this.api.createItem!(data).then(
-      () => {
-        this.dispatch(this.actions.putCreateItem());
+      res => {
+        this.dispatch(this.actions.putCurrentItem(undefined));
         message.success('创建成功');
-        this.dispatch(this.actions.searchList());
+        this.dispatch(this.actions.searchList({}, 'none'));
+        callback && callback(res);
       },
-      err => _callback && _callback(err)
+      err => callback && callback(err)
     );
   }
   @effect()
-  public async updateItem(data: Resource['EditItem'] & {_callback?: Function}) {
+  public async updateItem(data: Resource['UpdateItem'], callback?: (res: any) => void) {
     const {_callback} = data;
     delete data._callback;
     return this.api.updateItem!(data).then(
-      () => {
-        this.dispatch(this.actions.putEditItem());
+      res => {
+        this.dispatch(this.actions.putCurrentItem(undefined));
         message.success('修改成功');
-        this.dispatch(this.actions.searchList({}));
-        _callback && _callback();
+        this.dispatch(this.actions.searchList({}, 'current'));
+        callback && callback(res);
       },
-      err => _callback && _callback(err)
+      err => callback && callback(err)
     );
   }
   @effect()
-  public async changeItemStatus({id, status}: {id: string | number; status: string | number}) {
-    await this.api.changeItemsStatus!([id as any], status);
-    message.success('修改状态成功');
-    await this.dispatch(this.actions.searchList({}));
+  public async changeListStatus({ids, status, remark}: {ids: string[]; status: any; remark?: string}) {
+    await this.api.changeListStatus!(ids, status, remark);
+    message.success('操作成功');
+    await this.dispatch(this.actions.searchList({}, 'current'));
   }
   @effect()
-  public async changeListStatus(ids: string[] | number[], status: string | number) {
-    await this.api.changeItemsStatus!(ids, status);
-    message.success('修改状态成功');
-    await this.dispatch(this.actions.searchList({}));
-  }
-  @effect()
-  public async deleteItem(id: string | number) {
-    await this.api.deleteItem!(id);
-    message.success('删除成功');
-    await this.dispatch(this.actions.searchList({}));
-  }
-  @effect()
-  public async deleteList(ids: string[] | number[]) {
+  public async deleteList(ids: string[]) {
     await this.api.deleteList!(ids);
-    this.dispatch(this.actions.putSelectedRows({}));
     message.success('删除成功');
-    await this.dispatch(this.actions.searchList({}));
+    await this.dispatch(this.actions.searchList({}, 'current'));
   }
-
-  @effect(null)
-  public async searchList(params?: Partial<Resource['ListSearch']>) {
-    if (!params) {
-      params = this.defaultRouteParams.listSearch;
-    }
-    const listSearch = {...this.state.routeParams!.listSearch, ...params};
-    if (this.enableRouteParams) {
-      historyActions.push({extend: this.rootState.route.data, params: {[this.moduleName]: {listSearch}}});
-    } else {
-      await this.dispatch(this.actions.PreRouteParams({listSearch}));
-    }
-  }
-  @effect('getList')
-  protected async getList(listSearch: Resource['ListSearch']) {
+  @effect()
+  protected async fetchList(listSearch: Resource['ListSearch']) {
     const {list, listSummary} = await this.api.searchList!(listSearch);
     this.dispatch(this.actions.putSearchList({list, listSearch, listSummary}));
   }
-  @reducer
-  public putSearchList({list, listSearch, listSummary}: {list: Resource['ListItem'][]; listSearch: Resource['ListSearch']; listSummary: Resource['ListSummary']}): State {
-    return {...this.state, routeParams: {...this.state.routeParams!, listSearch}, list, listSummary};
+  @effect(null)
+  public async searchList(listSearch: Resource['ListSearch'], extend: 'default' | 'current' | 'none', disableRoute?: boolean) {
+    if (extend === 'default') {
+      listSearch = {...this.defaultRouteParams.listSearch, ...listSearch};
+    } else if (extend === 'current') {
+      listSearch = {...this.state.routeParams!.listSearch, ...listSearch};
+    }
+    if (disableRoute) {
+      //不使用路由需要手动触发Action PreRouteParams
+      this.dispatch(this.actions.PreRouteParams({...this.state.routeParams, listSearch}));
+    } else {
+      //路由变换时会自动触发Action PreRouteParams
+      historyActions.push({extend: this.rootState.route.data, params: {[this.moduleName]: {listSearch}}});
+    }
   }
   @effect(null)
   protected async [`this/${ActionTypes.MInit}, this/${ActionTypes.MPreRouteParams}`]() {
-    await this.dispatch(this.callThisAction(this.getList, this.state.preRouteParams!.listSearch));
+    await this.dispatch(this.callThisAction(this.fetchList, this.state.preRouteParams!.listSearch));
   }
 }
 
-// export abstract class CommonResourceWithoutHandlers<
-//   State extends CommonResourceStateWithout<ListSearch, ListItem, ListSummary, DetailItem, EditItem, CreateItem>,
-//   RootState extends {route: {location: {pathname: string}}},
-//   ListSearch = any,
-//   ListItem = any,
-//   ListSummary = any,
-//   DetailItem = ListItem,
-//   EditItem = ListItem,
-//   CreateItem = ListItem
-// > extends CommonResourceHandlers<State, RootState, {}, ListSearch, ListItem, ListSummary, DetailItem, EditItem, CreateItem> {
-//   protected defaultListSearch: ListSearch = null as any;
-
-//   protected setConfig(pathname: string, api: ResourceAPI, defaultListSearch: ListSearch) {
-//     super.setConfig(pathname, api, defaultListSearch);
-//     this.defaultListSearch = defaultListSearch;
-//   }
-//   @reducer
-//   public putSearchList({list, listSearch, listSummary}: {list: ListItem[]; listSearch: ListSearch; listSummary: ListSummary}): State {
-//     return {...this.state, list, listSearch, listSummary};
-//   }
-//   @effect('searchList')
-//   public async searchList(params?: Partial<ListSearch>) {
-//     if (!params) {
-//       params = this.defaultListSearch;
-//     }
-//     const listSearch = {...this.state.listSearch, ...params};
-//     const {list, listSummary} = await this.api.searchList!(listSearch);
-//     this.dispatch(this.actions.putSearchList({list, listSearch, listSummary}));
-//   }
-// }
-
-// export abstract class CommonResourceWithParamsHandlers<
-//   State extends CommonResourceStateWithParams<RouteParams, ListSearch, ListItem, ListSummary, DetailItem, EditItem, CreateItem>,
-//   RootState extends {route: {location: {pathname: string}; data: {params: {}}}},
-//   RouteParams extends ResourceRouteParams<ListSearch> = any,
-//   ListSearch = any,
-//   ListItem = any,
-//   ListSummary = any,
-//   DetailItem = ListItem,
-//   EditItem = ListItem,
-//   CreateItem = ListItem
-// > extends CommonResourceHandlers<State, RootState, RouteParams, ListSearch, ListItem, ListSummary, DetailItem, EditItem, CreateItem> {
-//   protected defaultRouteParams: RouteParams = null as any;
-
-//   protected setConfig(pathname: string, api: ResourceAPI, defaultRouteParams: RouteParams) {
-//     super.setConfig(pathname, api, defaultRouteParams);
-//     this.defaultRouteParams = defaultRouteParams;
-//   }
-//   @reducer
-//   public putSearchList({list, listSearch, listSummary}: {list: ListItem[]; listSearch: ListSearch; listSummary: ListSummary}): State {
-//     const routeParams: RouteParams = {...this.state.routeParams!, listSearch};
-//     return {...this.state, routeParams, list, listSummary};
-//   }
-//   @effect('searchList')
-//   public async searchList(params?: Partial<ListSearch>) {
-//     if (!params) {
-//       params = this.defaultRouteParams.listSearch;
-//     }
-//     const listSearch = {...this.state.routeParams!.listSearch, ...params};
-//     const {list, listSummary} = await this.api.searchList!(listSearch);
-//     this.dispatch(this.actions.putSearchList({list, listSearch, listSummary}));
-//   }
-//   @effect(null)
-//   protected async [`this/${ActionTypes.MInit}, ${ActionTypes.RouteChange}`]() {
-//     if (this.rootState.route.location.pathname === this.pathname) {
-//       await this.dispatch(this.actions.searchList(this.rootState.route.data.params[this.moduleName].listSearch));
-//     }
-//   }
-// }
+export interface ResourceAPI {
+  searchList?: (listSearch: BaseListSearch) => Promise<{list: any[]; listSummary: BaseListSummary}>;
+  getDetailItem?: (id: string) => Promise<BaseListItem>;
+  deleteList?: (ids: string[]) => Promise<void>;
+  createItem?: (data: BaseListItem) => Promise<void>;
+  updateItem?: (data: BaseListItem) => Promise<void>;
+  changeListStatus?: (ids: string[], status: any, remark?: string) => Promise<void>;
+}
+export class CommonResourceAPI implements ResourceAPI {
+  getDetailItem(id: string) {
+    return Promise.resolve({id: '1'});
+  }
+  protected _pickFields<T, K extends keyof T>(source: T, fields: K[]): Pick<T, K> {
+    return fields.reduce((prev, cur) => {
+      prev[cur] = source[cur];
+      return prev;
+    }, {} as any);
+  }
+}

@@ -1,10 +1,15 @@
 import {LoadView as BaseLoadView, RootState as BaseState, RouteConfig, exportActions, getBrowserHistory, setRouteConfig} from '@medux/react-web-router';
 
+import adminMemberParams from 'modules/admin/adminMember/meta';
+import adminRoleParams from 'modules/admin/adminRole/meta';
+
 const defaultRouteParams: {[K in moduleNames]: any} = {
   app: null,
   adminLayout: null,
-  articleLayout: null,
   adminHome: null,
+  adminRole: adminRoleParams,
+  adminMember: adminMemberParams,
+  articleLayout: null,
   articleHome: null,
   articleAbout: null,
   articleService: null,
@@ -14,8 +19,10 @@ setRouteConfig({defaultRouteParams});
 export enum moduleNames {
   app = 'app',
   adminLayout = 'adminLayout',
-  articleLayout = 'articleLayout',
+  adminRole = 'adminRole',
   adminHome = 'adminHome',
+  adminMember = 'adminMember',
+  articleLayout = 'articleLayout',
   articleHome = 'articleHome',
   articleAbout = 'articleAbout',
   articleService = 'articleService',
@@ -29,11 +36,17 @@ export const moduleGetter = {
   adminLayout: () => {
     return import(/* webpackChunkName: "adminLayout" */ 'modules/admin/adminLayout');
   },
-  articleLayout: () => {
-    return import(/* webpackChunkName: "articleLayout" */ 'modules/article/articleLayout');
-  },
   adminHome: () => {
     return import(/* webpackChunkName: "adminHome" */ 'modules/admin/adminHome');
+  },
+  adminRole: () => {
+    return import(/* webpackChunkName: "adminRole" */ 'modules/admin/adminRole');
+  },
+  adminMember: () => {
+    return import(/* webpackChunkName: "adminMember" */ 'modules/admin/adminMember');
+  },
+  articleLayout: () => {
+    return import(/* webpackChunkName: "articleLayout" */ 'modules/article/articleLayout');
   },
   articleHome: () => {
     return import(/* webpackChunkName: "articleHome" */ 'modules/article/articleHome');
@@ -63,6 +76,8 @@ export const routeConfig: RouteConfig = {
         'adminLayout.Main',
         {
           '/admin/home': 'adminHome.Main',
+          '/admin/role': 'adminRole.Main',
+          '/admin/member': 'adminMember.Main',
         },
       ],
       '/article': [
@@ -84,4 +99,6 @@ export const pageNames = {
   '/article/service': '用户服务',
   '/article/about': '关于我们',
   '/admin/home': '管理中心',
+  '/admin/role': '用户角色列表',
+  '/admin/member': '用户列表',
 };

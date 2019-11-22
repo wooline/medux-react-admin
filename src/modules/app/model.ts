@@ -19,7 +19,7 @@ export interface State extends BaseModelState {
 
 // 定义本模块State的初始值
 export const initModelState: State = {
-  notices: {},
+  notices: {count: 0},
   loading: {
     global: LoadingState.Stop,
   },
@@ -39,7 +39,7 @@ export class ModelHandlers extends BaseModelHandlers<State, RootState> {
       if (!this.noticesTimer) {
         this.noticesTimer = setInterval(() => {
           this.getNotice();
-        }, 15000);
+        }, 5000);
       }
     }
   }

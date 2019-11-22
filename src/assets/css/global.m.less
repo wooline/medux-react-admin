@@ -79,11 +79,68 @@
     }
   }
   :local(.adminPage) {
-    .ant-breadcrumb {
-      padding: 10px;
-    }
-    article {
+    > div {
+      margin-bottom: 10px;
       background: #fff;
+      border: 1px solid @light-bd-color;
+      padding: 20px;
+    }
+    h1 {
+      font-size: 18px;
+      font-weight: bold;
+      padding-left: 10px;
+      border-left: 5px solid #999;
+      margin: 10px 0 20px 10px;
+    }
+  }
+
+  :local(.search) {
+    padding: 15px 5px 10px !important;
+    .ant-form {
+      display: flex;
+      flex-flow: row wrap;
+      > div {
+        margin: 0;
+        margin-bottom: 15px;
+        padding-left: 1%;
+        padding-right: 1%;
+        display: flex;
+      }
+    }
+    .ant-form-item-label {
+      flex: none;
+      .label {
+        display: inline-block;
+      }
+    }
+    .btns {
+      flex: 1;
+      justify-content: flex-end;
+      align-items: center;
+      > * {
+        margin-left: 10px;
+      }
+      .expand {
+        font-size: 12px;
+        display: block;
+        padding: 5px;
+      }
+    }
+    .ant-form-item-control-wrapper {
+      flex: auto;
+    }
+    .ant-calendar-picker {
+      width: 100% !important;
+    }
+    .col4 {
+      > div {
+        width: 25%;
+      }
+    }
+    .col3 {
+      > div {
+        width: 33.3%;
+      }
     }
   }
 }

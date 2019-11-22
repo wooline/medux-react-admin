@@ -7,6 +7,7 @@ import {connect} from 'react-redux';
 import styles from './index.m.less';
 
 interface StoreProps {
+  notices: number;
   curUser: CurUser;
   siderCollapsed: boolean;
 }
@@ -43,7 +44,7 @@ class Component extends React.PureComponent<StoreProps & DispatchProp> {
     </Menu>
   );
   public render() {
-    const {siderCollapsed, curUser} = this.props;
+    const {siderCollapsed, curUser, notices} = this.props;
     return (
       <div className={styles.root}>
         <div className="main">
@@ -53,7 +54,7 @@ class Component extends React.PureComponent<StoreProps & DispatchProp> {
           </Link>
         </div>
         <div className="side">
-          <Badge count={459} className="noticeIcon">
+          <Badge count={notices} className="noticeIcon">
             <Icon type="bell" />
           </Badge>
           <Dropdown overlay={this.menu}>
@@ -70,6 +71,7 @@ class Component extends React.PureComponent<StoreProps & DispatchProp> {
 
 const mapStateToProps: (state: RootState) => StoreProps = state => {
   return {
+    notices: state.app!.notices.count,
     curUser: state.app!.curUser!,
     siderCollapsed: !!state.adminLayout!.siderCollapsed,
   };

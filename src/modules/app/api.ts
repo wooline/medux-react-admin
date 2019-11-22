@@ -29,12 +29,11 @@ export class API {
     const {username, password, phone} = req;
     return ajax<CurUser>('post', '/api/user', {}, {username, password, phone});
   }
-  public logout(): Promise<CurUser> {
-    setCookie('token', '', -1);
-    return Promise.resolve(guest);
+  public logout(): Promise<void> {
+    return ajax<void>('delete', '/api/session');
   }
   public getNotices(): Promise<Notices> {
-    return Promise.resolve({messages: []});
+    return ajax<Notices>('get', '/api/notices');
   }
   public getProjectConfig(): Promise<ProjectConfig> {
     return Promise.resolve({

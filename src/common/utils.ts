@@ -72,15 +72,23 @@ export const metaKeys = {
   FavoritesUrlStorageKey: 'FavoritesUrl',
 };
 
-export function getFormDecorators<D>(form: WrappedFormUtils, fields: {[key in keyof D]?: GetFieldDecoratorOptions}, initValues: {[key in keyof D]?: any} = {}) {
-  type Keys = keyof typeof fields;
-  const decorators = {};
-  Object.keys(fields).forEach(key => {
-    const item = fields[key];
-    item.initialValue = initValues[key];
-    decorators[key] = form.getFieldDecorator(key, fields[key]);
-  });
-  return decorators as {[K in Keys]: (node: React.ReactNode) => React.ReactNode};
+export function getFormDecorators<D>(form: WrappedFormUtils, fields: {[key in keyof D]?: GetFieldDecoratorOptions} = {}, initValues: {[key in keyof D]?: any} = {}) {
+  const decorators = new Proxy(
+    {},
+    {
+      get: (target: {}, key: string) => {
+        const item = fields[key] || {};
+        if (initValues[key]) {
+          item.initialValue = initValues[key];
+        }
+        return form.getFieldDecorator(key, item);
+      },
+      set: () => {
+        return true;
+      },
+    }
+  );
+  return decorators as {[K in keyof typeof fields]-?: (node: React.ReactNode) => React.ReactNode};
 }
 
 type OmitForm<C> = C extends ComponentType<infer F> ? ComponentType<Omit<F, keyof WrappedFormInternalProps>> : never;
@@ -102,4 +110,20 @@ export function arrayToMap<T>(arr: T[], key: string = 'id'): {[key: string]: T} 
     pre[cur[key]] = cur;
     return pre;
   }, {});
+}
+
+export function enumOptions<T extends {[key: string]: any}>(data: T) {
+  const options: {key: string; name: string}[] = [];
+  const nameToKey: {[key in keyof T]: T[key]} = {} as any;
+  const keyToName: {[key in T[keyof T]]: string} = {} as any;
+  Object.keys(data).forEach(name => {
+    options.push({name, key: data[name]});
+    (nameToKey as any)[name] = data[name];
+    keyToName[data[name]] = name;
+  });
+  return {
+    keyToName,
+    nameToKey,
+    options,
+  };
 }

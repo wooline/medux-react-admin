@@ -25,21 +25,25 @@ export interface BaseListSummary {
   totalItems: number;
   totalPages: number;
 }
+
+export interface BaseListItem {
+  id: string;
+}
 export interface BaseListSearch {
-  pagination: {
-    current: number;
-    pageSize: number;
-  };
+  pageCurrent?: number;
+  pageSize?: number;
+  sorterOrder?: 'ascend';
+  sorterField?: string;
 }
 
 export interface CommonResource {
   RouteParams: {listSearch: any};
-  ListSearch: any;
-  ListItem: any;
-  ListSummary: any;
-  DetailItem: any;
-  EditItem: any;
+  ListSearch: BaseListSearch;
+  ListItem: BaseListItem;
+  ListSummary: BaseListSummary;
+  Operation: 'detail' | 'edit' | 'create';
   CreateItem: any;
+  UpdateItem: any;
 }
 
 export interface TabNav {

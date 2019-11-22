@@ -10,8 +10,7 @@
     > div {
       background: #fff;
       padding: 0 20px;
-      border: 1px solid @border-color-base;
-      border-bottom-color: #eee;
+      border: 1px solid @split-bd-color;
       border-radius: 5px 5px 0 0;
       margin-right: 1px;
       cursor: pointer;
@@ -41,17 +40,16 @@
       }
 
       &:hover {
-        border-bottom-color: @layout-body-background;
         background: @layout-body-background;
-
+        border-bottom-color: @layout-body-background;
         > .action {
           visibility: visible;
         }
       }
 
       &.cur {
-        border-bottom-color: @layout-body-background;
         background: @layout-body-background;
+        border-bottom-color: @layout-body-background;
       }
     }
   }
