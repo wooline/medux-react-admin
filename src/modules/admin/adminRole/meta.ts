@@ -5,7 +5,7 @@ export interface RouteParams {
 }
 const defaultRouteParams: RouteParams = {
   listSearch: {
-    pageSize: 20,
+    pageSize: 100,
     pageCurrent: 1,
   },
 };

@@ -97,7 +97,7 @@ class Component extends React.PureComponent<StoreProps & FormComponentProps & Di
             <Form.Item>
               {getFieldDecorator('username', {
                 rules: [{required: true, message: '请输入用户名!'}],
-              })(<Input prefix={<Icon type="user" />} placeholder="用户名" />)}
+              })(<Input size="large" prefix={<Icon type="user" />} placeholder="用户名" />)}
             </Form.Item>
             <Form.Item>
               {getFieldDecorator('password', {
@@ -107,7 +107,7 @@ class Component extends React.PureComponent<StoreProps & FormComponentProps & Di
                     validator: this.validateToNextPassword,
                   },
                 ],
-              })(<Input prefix={<Icon type="lock" />} type="password" placeholder="密码" />)}
+              })(<Input size="large" prefix={<Icon type="lock" />} type="password" placeholder="密码" />)}
             </Form.Item>
             <Form.Item>
               {getFieldDecorator('confirm', {
@@ -117,7 +117,7 @@ class Component extends React.PureComponent<StoreProps & FormComponentProps & Di
                     validator: this.compareToFirstPassword,
                   },
                 ],
-              })(<Input prefix={<Icon type="lock" />} type="password" placeholder="确认密码" onBlur={this.handleConfirmBlur} />)}
+              })(<Input size="large" prefix={<Icon type="lock" />} type="password" placeholder="确认密码" onBlur={this.handleConfirmBlur} />)}
             </Form.Item>
             <Form.Item>
               {getFieldDecorator('agreement', {

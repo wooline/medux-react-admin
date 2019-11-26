@@ -1,5 +1,6 @@
 import {Button, Form, Input} from 'antd';
 import {DispatchProp, connect} from 'react-redux';
+import {createForm, getFormDecorators} from 'common/utils';
 
 import {FormComponentProps} from 'antd/lib/form';
 import React from 'react';
@@ -18,6 +19,8 @@ class Component extends React.Component<StoreProps & FormComponentProps & Dispat
       if (!errors) {
         const {title} = values;
         this.props.dispatch(actions.adminLayout.updateTabNav({...this.props.curItem!, title}));
+      } else {
+        message.error('请输入书签名');
       }
     });
   };
@@ -28,15 +31,16 @@ class Component extends React.Component<StoreProps & FormComponentProps & Dispat
   render() {
     const {curItem = prevCurItem, form} = this.props;
     prevCurItem = curItem;
-    const titleDecorator = form.getFieldDecorator('title', {
-      rules: [{required: true, message: '请输入书签名'}],
-      initialValue: curItem.title,
+
+    const formDecorators = getFormDecorators<{title: string}>(form, {
+      title: {rules: [{required: true, message: '请输入书签名'}]},
     });
+
     return (
       <div className={styles.root}>
         <h4 className="title">{curItem!.id ? '重命名当前书签：' : '将当前页面加入书签：'}</h4>
         <Form layout="horizontal" onSubmit={this.onSubmit}>
-          {titleDecorator(<Input placeholder="请输入书签名" />)}
+          {formDecorators.title(<Input allowClear={true} placeholder="请输入书签名" />)}
           <div className="g-btns">
             <Button type="primary" htmlType="submit">
               确定
@@ -55,4 +59,9 @@ const mapStateToProps: (state: RootState) => StoreProps = state => {
   };
 };
 
-export default connect(mapStateToProps)(Form.create()(Component));
+const mapPropsToFields = (props: StoreProps) => {
+  return {
+    title: props.curItem ? props.curItem.title : '',
+  };
+};
+export default connect(mapStateToProps)(createForm(Component, mapPropsToFields));

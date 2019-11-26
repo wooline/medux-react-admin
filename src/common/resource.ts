@@ -77,7 +77,11 @@ export class CommonResourceHandlers<
     await this.dispatch(this.actions.searchList({}, 'current'));
   }
   @effect()
-  public async deleteList(ids: string[]) {
+  public async deleteList(ids?: string[]) {
+    ids = ids || this.state.selectedRows!.map(item => item.id);
+    if (!ids.length) {
+      return;
+    }
     await this.api.deleteList!(ids);
     message.success('删除成功');
     await this.dispatch(this.actions.searchList({}, 'current'));
@@ -94,6 +98,7 @@ export class CommonResourceHandlers<
     } else if (extend === 'current') {
       listSearch = {...this.state.routeParams!.listSearch, ...listSearch};
     }
+    debugger;
     if (disableRoute) {
       //不使用路由需要手动触发Action PreRouteParams
       this.dispatch(this.actions.PreRouteParams({...this.state.routeParams, listSearch}));

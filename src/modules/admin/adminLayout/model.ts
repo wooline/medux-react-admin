@@ -1,9 +1,8 @@
 import {ActionTypes, BaseModelHandlers, BaseModelState, RouteData, effect, reducer} from '@medux/react-web-router';
+import {MenuItem, menuData} from 'entity/role';
 
-import {MenuItem} from 'entity/session';
 import {TabNav} from 'entity/common';
 import {UnauthorizedError} from 'common';
-import api from './api';
 import {arrayToMap} from 'common/utils';
 
 const tabNavs: TabNav[] = JSON.parse(localStorage.getItem(metaKeys.FavoritesUrlStorageKey) || '[]');
@@ -32,7 +31,7 @@ function getCurTabNav(): TabNav {
 }
 
 export interface State extends BaseModelState {
-  menuData?: MenuItem[];
+  menuData: MenuItem[];
   siderCollapsed?: boolean;
   tabNavEditor?: TabNav;
   tabNavCurId?: string;
@@ -41,6 +40,7 @@ export interface State extends BaseModelState {
 }
 
 export const initModelState: State = {
+  menuData,
   tabNavsMap,
   tabNavs,
 };
@@ -115,10 +115,6 @@ export class ModelHandlers extends BaseModelHandlers<State, RootState> {
   protected async [`this/${ActionTypes.MInit}, ${ActionTypes.RouteChange}`]() {
     if (this.rootState.route.data.views.adminLayout && !this.rootState.app!.curUser!.hasLogin) {
       throw new UnauthorizedError(true);
-    }
-    if (!this.state.menuData) {
-      const menuData = await api.getMenuData(this.rootState.app!.curUser!);
-      this.dispatch(this.callThisAction(this.putMenuData, menuData));
     }
     const {id} = getCurTabNav();
     this.updateState({tabNavCurId: id, tabNavEditor: undefined});

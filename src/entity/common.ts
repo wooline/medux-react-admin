@@ -20,7 +20,7 @@ export class CustomError<Detail = any> {
 }
 
 export interface BaseListSummary {
-  page: number;
+  pageCurrent: number;
   pageSize: number;
   totalItems: number;
   totalPages: number;

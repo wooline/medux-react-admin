@@ -71,12 +71,12 @@ class Component extends React.PureComponent<StoreProps & FormComponentProps & Di
             <Form.Item>
               {getFieldDecorator('username', {
                 rules: [{required: true, message: '请输入用户名!'}],
-              })(<Input onChange={this.clearError} prefix={<Icon type="user" />} placeholder="用户名" />)}
+              })(<Input size="large" onChange={this.clearError} prefix={<Icon type="user" />} placeholder="用户名" />)}
             </Form.Item>
             <Form.Item help={errorMessage} validateStatus={errorMessage ? 'error' : undefined}>
               {getFieldDecorator('password', {
                 rules: [{required: true, message: '请输入密码!'}],
-              })(<Input onChange={this.clearError} prefix={<Icon type="lock" />} type="password" placeholder="密码" />)}
+              })(<Input size="large" onChange={this.clearError} prefix={<Icon type="lock" />} type="password" placeholder="密码" />)}
             </Form.Item>
             <Form.Item style={{marginBottom: 0}}>
               {getFieldDecorator('remember', {

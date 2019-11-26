@@ -127,3 +127,7 @@ export function enumOptions<T extends {[key: string]: any}>(data: T) {
     options,
   };
 }
+
+export function reference(...args: any) {
+  return true;
+}

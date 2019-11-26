@@ -99,6 +99,6 @@ export const pageNames = {
   '/article/service': '用户服务',
   '/article/about': '关于我们',
   '/admin/home': '管理中心',
-  '/admin/role': '用户角色列表',
+  '/admin/role': '角色列表',
   '/admin/member': '用户列表',
 };

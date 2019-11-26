@@ -51,18 +51,18 @@
     }
   },
   "dependencies": {
-    "@medux/react-web-router": "~0.2.16",
-    "antd": "~3.23.1",
-    "cookie-parser": "^1.4.4",
-    "path-to-regexp": "^5.0.0",
-    "react": "~16.8.6",
-    "react-dom": "~16.8.6"
+    "@medux/react-web-router": "~0.2.17",
+    "antd": "~3.25.3",
+    "cookie-parser": "~1.4.4",
+    "path-to-regexp": "~6.1.0",
+    "react": "~16.9.0",
+    "react-dom": "~16.9.0"
   },
   "devDependencies": {
     "@medux/dev-pkg": "~0.2.16",
-    "@medux/dev-utils": "~0.2.16",
-    "@types/react": "^16.9.0",
-    "@types/react-dom": "^16.9.0",
+    "@medux/dev-utils": "~0.2.17",
+    "@types/react": "~16.9.0",
+    "@types/react-dom": "~16.9.0",
     "babel-plugin-import": "~1.12.0",
     "less": "~3.10.1",
     "less-loader": "~5.0.0",

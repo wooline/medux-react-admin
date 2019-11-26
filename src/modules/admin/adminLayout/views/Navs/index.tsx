@@ -1,7 +1,7 @@
 import {Icon, Menu} from 'antd';
 
 import {Link} from 'react-router-dom';
-import {MenuItem} from 'entity/session';
+import {MenuItem} from 'entity/role';
 import {PickOptional} from 'common/utils';
 import React from 'react';
 import {connect} from 'react-redux';
