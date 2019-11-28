@@ -32,13 +32,14 @@ interface State {
 
 class MTable<T> extends React.PureComponent<Props<T>> {
   state: State = {};
-  formatColumns = (columns: ColumnProps<T>[], page: number, pageSize: number, sorterField?: string, sorterOrder?: 'descend' | 'ascend'): ColumnProps<T>[] => {
+  formatColumns = (columns: ColumnProps<T>[], page: number, pageSize: number, totalItems: number, sorterField?: string, sorterOrder?: 'descend' | 'ascend'): ColumnProps<T>[] => {
     const transFormText = (text?: string | string[]) => {
       if (!text) return '';
       return typeof text === 'string' ? text : text.join(',');
     };
 
     let noID = (page - 1) * pageSize;
+    const edID = Math.min(noID + pageSize, totalItems);
     return columns.filter(col => {
       if (!col.disable) {
         /**排序状态受控 */
@@ -55,7 +56,15 @@ class MTable<T> extends React.PureComponent<Props<T>> {
         }
         /**自动生成序号 */
         if (col.no) {
-          col.render = () => ++noID;
+          col.render = () => {
+            const id = noID + 1;
+            if (id < edID) {
+              noID = id;
+            } else {
+              noID = (page - 1) * pageSize;
+            }
+            return id;
+          };
         }
         return col;
       }
@@ -85,6 +94,7 @@ class MTable<T> extends React.PureComponent<Props<T>> {
           context: (
             <div className="g-em">
               您确认要 <cite>{target!.label}</cite> 所选择的 <em>{selectedRow}</em> 项吗？
+              {typeof target!.confirm === 'string' ? <div>{target!.confirm}</div> : null}
             </div>
           ),
           callback: () => {
@@ -159,7 +169,7 @@ class MTable<T> extends React.PureComponent<Props<T>> {
           rowSelection={rowSelection}
           dataSource={dataSource}
           rowKey={rowKey}
-          columns={this.formatColumns(columns, pageCurrent, pageSize, sorterField, sorterOrder)}
+          columns={this.formatColumns(columns, pageCurrent, pageSize, totalItems, sorterField, sorterOrder)}
           {...props}
         />
         {bottomArea && <div className="tableFooter">{bottomArea}</div>}

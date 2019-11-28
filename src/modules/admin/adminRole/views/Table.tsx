@@ -1,4 +1,4 @@
-import {Button, Divider} from 'antd';
+import {Button, Divider, Popconfirm} from 'antd';
 import {ListItem, ListSummary, UpdateItem, purviewNames} from 'entity/role';
 import MTable, {ColumnProps} from 'components/MTable';
 
@@ -75,24 +75,15 @@ class Component extends React.PureComponent<StoreProps & DispatchProp> {
       className: 'actions',
       render: (id: string, record) => (
         <>
-          <a
-            onClick={() => {
-              this.onShowDetail(record);
-            }}
-          >
-            详情
-          </a>
+          <a onClick={() => this.onShowDetail(record)}>详情</a>
           <Divider className={record.fixed ? 'disable' : ''} type="vertical" />
-          <a
-            onClick={() => {
-              this.onShowEditor(record);
-            }}
-            className={record.fixed ? 'disable' : ''}
-          >
+          <a onClick={() => this.onShowEditor(record)} className={record.fixed ? 'disable' : ''}>
             修改
           </a>
           <Divider className={record.fixed ? 'disable' : ''} type="vertical" />
-          <a className={record.fixed ? 'disable' : ''}>删除</a>
+          <Popconfirm placement="topRight" title="您确定要删除该条数据吗？" onConfirm={() => this.onDeleteList([record.id])}>
+            <a className={record.fixed ? 'disable' : ''}>删除</a>
+          </Popconfirm>
         </>
       ),
     },
@@ -105,6 +96,9 @@ class Component extends React.PureComponent<StoreProps & DispatchProp> {
   };
   onShowEditor = (item: ListItem) => {
     this.props.dispatch(actions.adminRole.putCurrentItem('edit', item));
+  };
+  onDeleteList = (ids?: string[]) => {
+    this.props.dispatch(actions.adminRole.deleteList(ids));
   };
   onSelectedRows = (selectedRowKeys: string[] | number[], selectedRows: ListItem[]) => {
     this.props.dispatch(actions.adminRole.putSelectedRows(selectedRows));
@@ -125,7 +119,7 @@ class Component extends React.PureComponent<StoreProps & DispatchProp> {
     actions: [{key: 'delete', label: '批量删除', confirm: true}],
     onClick: (item: {key: string}) => {
       if (item.key === 'delete') {
-        this.props.dispatch(actions.adminRole.deleteList());
+        this.onDeleteList();
       }
     },
   };

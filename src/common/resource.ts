@@ -126,7 +126,7 @@ export class CommonResourceHandlers<
     const preRouteParams = this.state.preRouteParams!;
     const thisParams = this.state.routeParams!;
     if (thisParams._listKey !== preRouteParams._listKey || !simpleEqual(thisParams.listSearch, preRouteParams.listSearch)) {
-      await this.dispatch(this.actions.fetchList(preRouteParams.listSearch, preRouteParams._listKey));
+      this.dispatch(this.actions.fetchList(preRouteParams.listSearch, preRouteParams._listKey));
     }
   }
 }
@@ -135,8 +135,8 @@ export interface ResourceAPI {
   searchList?: (listSearch: BaseListSearch) => Promise<{list: any[]; listSummary: BaseListSummary}>;
   getDetailItem?: (id: string) => Promise<BaseListItem>;
   deleteList?: (ids: string[]) => Promise<void>;
-  createItem?: (data: BaseListItem) => Promise<void>;
-  updateItem?: (data: BaseListItem) => Promise<void>;
+  createItem?: (data: any) => Promise<void>;
+  updateItem?: (data: any) => Promise<void>;
   changeListStatus?: (ids: string[], status: any, remark?: string) => Promise<void>;
 }
 export class CommonResourceAPI implements ResourceAPI {
