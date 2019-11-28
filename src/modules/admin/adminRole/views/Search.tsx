@@ -1,15 +1,12 @@
-import {Input, Select} from 'antd';
-import {createForm, getFormDecorators} from 'common/utils';
+import {createForm, filterEmpty, getFormDecorators} from 'common/utils';
 
 import {FormComponentProps} from 'antd/lib/form';
+import {Input} from 'antd';
 import {ListSearch} from 'entity/role';
 import PurviewSelector from 'components/PurviewSelector';
 import React from 'react';
 import SearchForm from 'components/SearchForm';
 import {connect} from 'react-redux';
-import {purviewNames} from 'entity/role';
-
-const {Option, OptGroup} = Select;
 
 interface StoreProps {
   listSearch: ListSearch;
@@ -20,9 +17,12 @@ class Component extends React.PureComponent<StoreProps & FormComponentProps & Di
     event.preventDefault();
     this.props.form.validateFields((errors, values: ListSearch) => {
       if (!errors) {
-        this.props.dispatch(actions.adminRole.searchList(values, 'current'));
+        this.props.dispatch(actions.adminRole.searchList(filterEmpty(values), 'current'));
       }
     });
+  };
+  private onReset = () => {
+    this.props.dispatch(actions.adminRole.searchList({}, 'default'));
   };
   public render() {
     const {form} = this.props;
@@ -37,7 +37,7 @@ class Component extends React.PureComponent<StoreProps & FormComponentProps & Di
     ];
     return (
       <div className="g-search">
-        <SearchForm onSubmit={this.onSubmit} items={items}></SearchForm>
+        <SearchForm onReset={this.onReset} onSubmit={this.onSubmit} items={items}></SearchForm>
       </div>
     );
   }

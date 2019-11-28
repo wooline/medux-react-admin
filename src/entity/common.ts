@@ -32,12 +32,12 @@ export interface BaseListItem {
 export interface BaseListSearch {
   pageCurrent?: number;
   pageSize?: number;
-  sorterOrder?: 'ascend';
+  sorterOrder?: 'ascend' | 'descend';
   sorterField?: string;
 }
 
 export interface CommonResource {
-  RouteParams: {listSearch: any};
+  RouteParams: {listSearch: any; _listKey: string; id: string};
   ListSearch: BaseListSearch;
   ListItem: BaseListItem;
   ListSummary: BaseListSummary;

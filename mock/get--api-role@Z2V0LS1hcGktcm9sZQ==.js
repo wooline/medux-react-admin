@@ -5,7 +5,7 @@ pageSize = parseInt(pageSize);
 return {
   statusCode: 200,
   headers: {
-    'x-delay': 0,
+    'x-delay': 1000,
     'content-type': 'application/json; charset=utf-8',
   },
   response: {
@@ -17,7 +17,7 @@ return {
     },
     list: [
       {
-        id: 'superAdmin',
+        id: '1',
         roleName: '超级管理员',
         purviews: [
           'role.all',
@@ -34,12 +34,13 @@ return {
           'article.detail',
           'article.review',
         ],
+        owner: 1,
         fixed: true,
         remark: '系统内置，不可修改',
         updateTime: new Date('2019-10-01').getTime(),
       },
       {
-        id: 'admin',
+        id: '2',
         roleName: '普通管理员',
         purviews: [
           'user.create',
@@ -55,13 +56,26 @@ return {
           'article.detail',
           'article.review',
         ],
+        owner: 3,
+        fixed: false,
         remark: '',
         updateTime: new Date('2019-10-01').getTime(),
       },
       {
-        id: 'editor',
+        id: '3',
         roleName: '文章编辑',
         purviews: ['article.create', 'article.delete', 'article.update', 'article.list', 'article.detail', 'article.review'],
+        owner: 8,
+        fixed: false,
+        remark: '',
+        updateTime: new Date('2019-10-01').getTime(),
+      },
+      {
+        id: '4',
+        roleName: '普通会员',
+        purviews: ['article.list', 'article.detail'],
+        owner: 100,
+        fixed: false,
         remark: '',
         updateTime: new Date('2019-10-01').getTime(),
       },

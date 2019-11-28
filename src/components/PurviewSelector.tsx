@@ -8,11 +8,11 @@ const {Option, OptGroup} = Select;
 function generateOptions() {
   const options: {[key: string]: string[]} = {};
   Object.keys(purviewNames).forEach(item => {
-    const arr = item.split('.');
-    if (!arr[1]) {
-      options[arr[0]] = [];
+    const [resource, action] = item.split('.');
+    if (!action) {
+      options[resource] = [];
     } else {
-      options[arr[0]].push(item);
+      options[resource].push(item);
     }
   });
   return options;

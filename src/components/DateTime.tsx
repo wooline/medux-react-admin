@@ -4,7 +4,7 @@ import moment from 'moment';
 const dateFormat = 'YYYY-MM-DD HH:mm:ss';
 
 interface Props {
-  date: string;
+  date: string | number;
 }
 class Component extends React.PureComponent<Props> {
   public render() {

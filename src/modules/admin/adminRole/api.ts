@@ -1,4 +1,4 @@
-import {ListItem, ListSearch, ListSummary} from 'entity/role';
+import {ListItem, ListSearch, ListSummary, UpdateItem} from 'entity/role';
 
 import {CommonResourceAPI} from 'common/resource';
 import ajax from 'common/request';
@@ -9,6 +9,12 @@ export class API extends CommonResourceAPI {
   }
   public deleteList(ids: string[]): Promise<void> {
     return ajax('delete', '/api/role', {}, ids);
+  }
+  public updateItem(item: UpdateItem): Promise<void> {
+    return ajax('put', '/api/role', {}, item);
+  }
+  public createItem(item: UpdateItem): Promise<void> {
+    return ajax('post', '/api/role', {}, item);
   }
 }
 

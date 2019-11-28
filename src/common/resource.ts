@@ -1,11 +1,12 @@
 import {ActionTypes, BaseModelHandlers, BaseModelState, RouteData, effect, reducer} from '@medux/react-web-router';
 import {BaseListItem, BaseListSearch, BaseListSummary, CommonResource} from 'entity/common';
 
+import {simpleEqual} from 'common/utils';
+
 export interface CommonResourceState<Resource extends CommonResource> extends BaseModelState<Resource['RouteParams']> {
   list?: Resource['ListItem'][];
   listSummary?: Resource['ListSummary'];
   selectedRows?: Resource['ListItem'][];
-  selectionList?: Resource['ListItem'][];
   currentOperation?: Resource['Operation'];
   currentItem?: any;
 }
@@ -19,11 +20,14 @@ export class CommonResourceHandlers<
   protected defaultRouteParams: Resource['RouteParams'] = {} as any;
 
   @reducer
-  public putSearchList({list, listSearch, listSummary}: {list: Resource['ListItem'][]; listSearch: Resource['ListSearch']; listSummary: Resource['ListSummary']}): State {
-    return {...this.state, selectedRows: undefined, routeParams: {...this.state.routeParams!, listSearch}, list, listSummary};
+  public putSearchList({list, listSearch, _listKey, listSummary}: {list: Resource['ListItem'][]; listSearch: Resource['ListSearch']; _listKey: string; listSummary: Resource['ListSummary']}): State {
+    return {...this.state, routeParams: {...this.state.routeParams!, listSearch, _listKey}, list, listSummary};
   }
   @reducer
   public putCurrentItem(currentOperation?: Resource['Operation'], currentItem?: any): State {
+    if (arguments.length < 2) {
+      currentItem = this.state.currentItem;
+    }
     return {...this.state, currentOperation, currentItem};
   }
   @reducer
@@ -50,16 +54,20 @@ export class CommonResourceHandlers<
       res => {
         this.dispatch(this.actions.putCurrentItem(undefined));
         message.success('创建成功');
-        this.dispatch(this.actions.searchList({}, 'none'));
+        this.dispatch(this.actions.searchList({sorterField: 'createdTime', sorterOrder: 'descend'}, 'none'));
         callback && callback(res);
       },
-      err => callback && callback(err)
+      err => {
+        if (callback) {
+          return callback(err);
+        } else {
+          throw err;
+        }
+      }
     );
   }
   @effect()
   public async updateItem(data: Resource['UpdateItem'], callback?: (res: any) => void) {
-    const {_callback} = data;
-    delete data._callback;
     return this.api.updateItem!(data).then(
       res => {
         this.dispatch(this.actions.putCurrentItem(undefined));
@@ -67,7 +75,13 @@ export class CommonResourceHandlers<
         this.dispatch(this.actions.searchList({}, 'current'));
         callback && callback(res);
       },
-      err => callback && callback(err)
+      err => {
+        if (callback) {
+          return callback(err);
+        } else {
+          throw err;
+        }
+      }
     );
   }
   @effect()
@@ -87,9 +101,9 @@ export class CommonResourceHandlers<
     await this.dispatch(this.actions.searchList({}, 'current'));
   }
   @effect()
-  protected async fetchList(listSearch: Resource['ListSearch']) {
+  public async fetchList(listSearch: Resource['ListSearch'], _listKey?: string) {
     const {list, listSummary} = await this.api.searchList!(listSearch);
-    this.dispatch(this.actions.putSearchList({list, listSearch, listSummary}));
+    this.dispatch(this.actions.putSearchList({list, listSearch, listSummary, _listKey: _listKey || Date.now().toString()}));
   }
   @effect(null)
   public async searchList(listSearch: Resource['ListSearch'], extend: 'default' | 'current' | 'none', disableRoute?: boolean) {
@@ -98,18 +112,22 @@ export class CommonResourceHandlers<
     } else if (extend === 'current') {
       listSearch = {...this.state.routeParams!.listSearch, ...listSearch};
     }
-    debugger;
+    const _listKey = Date.now().toString();
     if (disableRoute) {
       //不使用路由需要手动触发Action PreRouteParams
-      this.dispatch(this.actions.PreRouteParams({...this.state.routeParams, listSearch}));
+      this.dispatch(this.actions.PreRouteParams({...this.state.routeParams, listSearch, _listKey}));
     } else {
       //路由变换时会自动触发Action PreRouteParams
-      historyActions.push({extend: this.rootState.route.data, params: {[this.moduleName]: {listSearch}}});
+      historyActions.push({extend: this.rootState.route.data, params: {[this.moduleName]: {listSearch, _listKey}}});
     }
   }
   @effect(null)
   protected async [`this/${ActionTypes.MInit}, this/${ActionTypes.MPreRouteParams}`]() {
-    await this.dispatch(this.callThisAction(this.fetchList, this.state.preRouteParams!.listSearch));
+    const preRouteParams = this.state.preRouteParams!;
+    const thisParams = this.state.routeParams!;
+    if (thisParams._listKey !== preRouteParams._listKey || !simpleEqual(thisParams.listSearch, preRouteParams.listSearch)) {
+      await this.dispatch(this.actions.fetchList(preRouteParams.listSearch, preRouteParams._listKey));
+    }
   }
 }
 

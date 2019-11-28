@@ -21,6 +21,7 @@ module.exports = {
   },
   rules: {
     'sort-imports': 'error',
+    '@typescript-eslint/no-use-before-define':'off',
     '@typescript-eslint/no-inferrable-types':'off',
     '@typescript-eslint/no-unused-vars': 'off',
     '@typescript-eslint/explicit-function-return-type': 'off',

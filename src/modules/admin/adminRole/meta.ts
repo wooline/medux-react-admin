@@ -1,10 +1,12 @@
-import {ListSearch} from 'entity/role';
+import {RouteParams} from 'entity/role';
 // 定义本模块的路由参数类型
-export interface RouteParams {
-  listSearch: ListSearch;
-}
+
 const defaultRouteParams: RouteParams = {
+  id: '',
+  _listKey: '',
   listSearch: {
+    roleName: undefined,
+    purview: undefined,
     pageSize: 100,
     pageCurrent: 1,
   },

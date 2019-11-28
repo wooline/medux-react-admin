@@ -26,6 +26,7 @@ declare global {
     version: string;
     staticPath: string;
     apiServerPath: {[key: string]: string};
+    production: boolean;
   };
   const loadView: LoadView;
   const actions: Actions;

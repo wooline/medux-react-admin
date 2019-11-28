@@ -1,10 +1,16 @@
-import {ListItem, ListSummary, purviewNames} from 'entity/role';
+import {Button, Divider} from 'antd';
+import {ListItem, ListSummary, UpdateItem, purviewNames} from 'entity/role';
 import MTable, {ColumnProps} from 'components/MTable';
 
-import {Button} from 'antd';
 import React from 'react';
 import {connect} from 'react-redux';
 
+const newItem: UpdateItem = {
+  id: '',
+  roleName: '',
+  remark: '',
+  purviews: [],
+};
 interface StoreProps {
   selectedRows?: ListItem[];
   list?: ListItem[];
@@ -27,13 +33,7 @@ class Component extends React.PureComponent<StoreProps & DispatchProp> {
     {
       title: '角色名称',
       dataIndex: 'roleName',
-      width: '12%',
-    },
-    {
-      title: '更新时间',
-      dataIndex: 'updateTime',
-      width: '11%',
-      timestamp: true,
+      width: '10%',
     },
     {
       title: '拥有权限',
@@ -46,30 +46,66 @@ class Component extends React.PureComponent<StoreProps & DispatchProp> {
         }, {});
         return Object.keys(resources)
           .map(item => purviewNames[item] + '模块')
-          .join(',');
+          .join('，');
       },
+    },
+    {
+      title: '人数',
+      dataIndex: 'owner',
+      align: 'center',
+      width: '5%',
+    },
+    {
+      title: '更新时间',
+      dataIndex: 'updateTime',
+      width: '11%',
+      timestamp: true,
     },
     {
       title: '备注',
       dataIndex: 'remark',
       ellipsis: true,
-      width: '20%',
+      width: '15%',
     },
     {
-      width: '13%',
       title: '操作',
+      dataIndex: 'fixed',
+      width: '13%',
       align: 'center',
-      key: 'fixed',
-      className: 'g-actions',
-      render: (fixed?: boolean) => (
+      className: 'actions',
+      render: (id: string, record) => (
         <>
-          <a>详情</a>
-          <a className={fixed ? 'disable' : ''}>删除</a>
+          <a
+            onClick={() => {
+              this.onShowDetail(record);
+            }}
+          >
+            详情
+          </a>
+          <Divider className={record.fixed ? 'disable' : ''} type="vertical" />
+          <a
+            onClick={() => {
+              this.onShowEditor(record);
+            }}
+            className={record.fixed ? 'disable' : ''}
+          >
+            修改
+          </a>
+          <Divider className={record.fixed ? 'disable' : ''} type="vertical" />
+          <a className={record.fixed ? 'disable' : ''}>删除</a>
         </>
       ),
     },
   ];
-
+  onCreate = () => {
+    this.props.dispatch(actions.adminRole.putCurrentItem('create', newItem));
+  };
+  onShowDetail = (item: ListItem) => {
+    this.props.dispatch(actions.adminRole.putCurrentItem('detail', item));
+  };
+  onShowEditor = (item: ListItem) => {
+    this.props.dispatch(actions.adminRole.putCurrentItem('edit', item));
+  };
   onSelectedRows = (selectedRowKeys: string[] | number[], selectedRows: ListItem[]) => {
     this.props.dispatch(actions.adminRole.putSelectedRows(selectedRows));
   };
@@ -102,7 +138,7 @@ class Component extends React.PureComponent<StoreProps & DispatchProp> {
         <MTable<ListItem>
           topArea={
             <>
-              <Button type="primary" icon="plus">
+              <Button type="primary" icon="plus" onClick={this.onCreate}>
                 新建
               </Button>
             </>

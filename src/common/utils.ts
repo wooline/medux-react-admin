@@ -54,6 +54,22 @@ export function pickEqual<T, P extends T, K extends keyof T>(obj1: T, obj2: P, p
   }
   return true;
 }
+export function filterEmpty<T extends {[key: string]: any}>(params: T): T {
+  return Object.keys(params).reduce((pre, cur) => {
+    const value = params[cur];
+    const ntype = typeof value;
+    if (Array.isArray(value) && value.length === 0) {
+      pre[cur] = undefined;
+      return pre;
+    }
+    if (ntype === 'number' || ntype === 'boolean' || params[cur]) {
+      pre[cur] = params[cur];
+    } else {
+      pre[cur] = undefined;
+    }
+    return pre;
+  }, {}) as T;
+}
 export const message = {
   success: (content: string) => {
     antdMessage.success(content);

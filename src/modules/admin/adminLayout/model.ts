@@ -46,6 +46,7 @@ export const initModelState: State = {
 };
 
 export class ModelHandlers extends BaseModelHandlers<State, RootState> {
+  private inited: boolean = false;
   @reducer
   protected putMenuData(menuData: MenuItem[]): State {
     return {...this.state, menuData};
@@ -116,7 +117,14 @@ export class ModelHandlers extends BaseModelHandlers<State, RootState> {
     if (this.rootState.route.data.views.adminLayout && !this.rootState.app!.curUser!.hasLogin) {
       throw new UnauthorizedError(true);
     }
-    const {id} = getCurTabNav();
+    const {id, url, title} = getCurTabNav();
+    if (!this.inited) {
+      this.inited = true;
+      if (tabNavs.length === 0) {
+        this.dispatch(this.actions.updateTabNav({id: '', title, url}));
+      }
+    }
+
     this.updateState({tabNavCurId: id, tabNavEditor: undefined});
   }
 }

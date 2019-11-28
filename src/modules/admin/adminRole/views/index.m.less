@@ -1,0 +1,63 @@
+@import '~antd/lib/style/themes/default.less';
+:global {
+  :local(.root) {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    > * {
+      width: 48%;
+    }
+    .g-actions {
+      width: 100%;
+    }
+    .purviewsError {
+      visibility: hidden;
+      width: 100%;
+      text-align: right;
+      color: @error-color;
+      padding-top: 5px;
+
+      &.show {
+        visibility: visible;
+      }
+    }
+    .purviews {
+      max-height: 400px;
+      overflow: auto;
+      line-height: 2;
+
+      .ant-checkbox-wrapper {
+        margin-right: 5px;
+      }
+      h4 {
+        padding: 3px 10px;
+        background: #666;
+        color: #fff;
+        margin: 0;
+      }
+      dl {
+        border: 1px solid @border-color-base;
+        border-top: none;
+        margin: 0;
+      }
+      dt {
+        font-weight: bold;
+        border-top: 1px solid @light-bd-color;
+        border-bottom: 1px solid @light-bd-color;
+        padding: 3px 15px;
+        background: @descriptions-bg;
+        margin-top: 5px;
+        margin-bottom: 5px;
+        &:first-child {
+          border-top: none;
+          margin-top: 0;
+        }
+      }
+      dd {
+        display: inline-block;
+        padding: 3px 15px;
+        margin-bottom: 0;
+      }
+    }
+  }
+}

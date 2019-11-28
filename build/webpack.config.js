@@ -11,6 +11,9 @@ const {clientGlobal, clientPublicPath} = require(path.join(pathsConfig.envPath, 
 const lessVars = require(path.join(pathsConfig.srcPath, 'assets/css/antd-vars.js'));
 
 const fileName = '[name].[hash:8]';
+
+clientGlobal.production = prodModel;
+
 const htmlReplace = [
   {
     pattern: '$$ClientGlobal$$',

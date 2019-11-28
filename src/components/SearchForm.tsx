@@ -8,6 +8,7 @@ interface Props {
   items: {label: string; item: React.ReactNode; col?: number}[];
   senior?: number;
   cols?: number;
+  onReset?: () => void;
   onSubmit?: (event: React.FormEvent<HTMLFormElement>) => void;
 }
 
@@ -23,8 +24,9 @@ class Component extends React.PureComponent<Props, State> {
     const {expand} = this.state;
     this.setState({expand: !expand});
   };
+
   public render() {
-    const {onSubmit, items, cols = 4} = this.props;
+    const {onSubmit, onReset, items, cols = 4} = this.props;
     const {senior = items.length} = this.props;
     const {expand} = this.state;
     const shrink = expand ? items.length : senior;
@@ -64,7 +66,7 @@ class Component extends React.PureComponent<Props, State> {
             <Button type="primary" htmlType="submit">
               搜索
             </Button>
-            <Button>重置</Button>
+            <Button onClick={onReset}>重置</Button>
             {items.length > senior && (
               <a className="expand" onClick={this.toggle}>
                 {expand ? '收起' : '展开'} <Icon type={expand ? 'up' : 'down'} />

@@ -114,18 +114,29 @@ export interface ListSearch extends BaseListSearch {
 export interface ListItem extends BaseListItem {
   roleName: string;
   purviews: string[];
+  owner: number;
   updateTime: number;
   remark: string;
   fixed?: boolean;
 }
-export interface ListSummary extends BaseListSummary {}
 
+export interface UpdateItem {
+  id: string;
+  roleName: string;
+  purviews: string[];
+  remark: string;
+}
+
+export interface ListSummary extends BaseListSummary {}
+export interface RouteParams {
+  id: string;
+  _listKey: string;
+  listSearch: ListSearch;
+}
 export interface Resource extends CommonResource {
-  RouteParams: {
-    listSearch: ListSearch;
-  };
+  RouteParams: RouteParams;
   ListSearch: ListSearch;
   ListItem: ListItem;
-  EditItem: ListItem;
   ListSummary: ListSummary;
+  UpdateItem: UpdateItem;
 }

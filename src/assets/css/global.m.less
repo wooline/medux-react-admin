@@ -23,6 +23,8 @@
     justify-content: space-between;
   }
   :local(.actions) {
+    margin-top: 20px;
+    text-align: center;
     .disable {
       display: none;
     }
@@ -114,6 +116,11 @@
     }
   }
   :local(.table) {
+    td.actions {
+      .disable {
+        visibility: hidden;
+      }
+    }
     .tableHeader {
       display: flex;
       margin-bottom: 20px;

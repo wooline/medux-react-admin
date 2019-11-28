@@ -32,10 +32,13 @@ export interface ListItem extends BaseListItem {
 }
 export interface ListSummary extends BaseListSummary {}
 
+export interface RouteParams {
+  id: string;
+  _listKey: string;
+  listSearch: ListSearch;
+}
 export interface Resource extends CommonResource {
-  RouteParams: {
-    listSearch: ListSearch;
-  };
+  RouteParams: RouteParams;
   ListSearch: ListSearch;
   ListItem: ListItem;
   EditItem: ListItem;
