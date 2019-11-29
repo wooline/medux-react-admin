@@ -32,14 +32,12 @@ interface State {
 
 class MTable<T> extends React.PureComponent<Props<T>> {
   state: State = {};
-  formatColumns = (columns: ColumnProps<T>[], page: number, pageSize: number, totalItems: number, sorterField?: string, sorterOrder?: 'descend' | 'ascend'): ColumnProps<T>[] => {
+  formatColumns = (columns: ColumnProps<T>[], noID: number, sorterField?: string, sorterOrder?: 'descend' | 'ascend'): ColumnProps<T>[] => {
     const transFormText = (text?: string | string[]) => {
       if (!text) return '';
       return typeof text === 'string' ? text : text.join(',');
     };
 
-    let noID = (page - 1) * pageSize;
-    const edID = Math.min(noID + pageSize, totalItems);
     return columns.filter(col => {
       if (!col.disable) {
         /**排序状态受控 */
@@ -56,15 +54,7 @@ class MTable<T> extends React.PureComponent<Props<T>> {
         }
         /**自动生成序号 */
         if (col.no) {
-          col.render = () => {
-            const id = noID + 1;
-            if (id < edID) {
-              noID = id;
-            } else {
-              noID = (page - 1) * pageSize;
-            }
-            return id;
-          };
+          col.render = (text, record, index: number) => noID + index;
         }
         return col;
       }
@@ -169,7 +159,7 @@ class MTable<T> extends React.PureComponent<Props<T>> {
           rowSelection={rowSelection}
           dataSource={dataSource}
           rowKey={rowKey}
-          columns={this.formatColumns(columns, pageCurrent, pageSize, totalItems, sorterField, sorterOrder)}
+          columns={this.formatColumns(columns, (pageCurrent - 1) * pageSize + 1, sorterField, sorterOrder)}
           {...props}
         />
         {bottomArea && <div className="tableFooter">{bottomArea}</div>}

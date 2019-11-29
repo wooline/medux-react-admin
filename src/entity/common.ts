@@ -2,7 +2,9 @@ export enum CommonErrorCode {
   unknown = 'unknown',
   notFound = 'notFound',
   unauthorized = 'unauthorized',
+  forbidden = 'forbidden',
   redirect = 'redirect',
+  refresh = 'refresh',
   handled = 'handled',
   noToast = 'noToast',
 }
@@ -16,7 +18,19 @@ export interface ErrorEntity<Detail = any> {
 }
 
 export class CustomError<Detail = any> {
-  public constructor(public code: string, public message?: string, public detail?: Detail) {}
+  private httpCode: {[key: string]: string} = {
+    '401': CommonErrorCode.unauthorized,
+    '403': CommonErrorCode.forbidden,
+    '404': CommonErrorCode.notFound,
+    '300': CommonErrorCode.refresh,
+    '301': CommonErrorCode.redirect,
+    '302': CommonErrorCode.redirect,
+  };
+  public constructor(public code: string, public message?: string, public detail?: Detail) {
+    if (parseFloat(code)) {
+      this.code = this.httpCode[code];
+    }
+  }
 }
 
 export interface BaseListSummary {

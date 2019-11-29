@@ -1,14 +1,7 @@
-import {CurUser, LoginRequest, Notices, RegisterRequest} from 'entity/session';
+import {CurUser, LoginRequest, Notices, RegisterRequest, guest} from 'entity/session';
 
 import {ProjectConfig} from 'entity/common';
 import ajax from 'common/request';
-
-const guest: CurUser = {
-  username: 'guest',
-  hasLogin: false,
-  sessionId: '',
-  avatar: initEnv.staticPath + 'imgs/u1.jpg',
-};
 
 function setCookie(name: string, value: string, expiredays: number) {
   const exdate = new Date();
@@ -17,17 +10,16 @@ function setCookie(name: string, value: string, expiredays: number) {
 }
 export class API {
   public getCurUser(): Promise<CurUser> {
-    return ajax<CurUser>('get', '/api/session').catch(() => {
+    return ajax<CurUser>('get', '/api/session').catch(err => {
+      console.log(err);
       return guest;
     });
   }
   public login(req: LoginRequest): Promise<CurUser> {
-    const {username, password} = req;
-    return ajax<CurUser>('post', '/api/session', {}, {username, password});
+    return ajax<CurUser>('post', '/api/session', {}, req);
   }
-  public register(req: RegisterRequest): Promise<CurUser> {
-    const {username, password, phone} = req;
-    return ajax<CurUser>('post', '/api/user', {}, {username, password, phone});
+  public register(req: RegisterRequest): Promise<void> {
+    return ajax<void>('post', '/api/user', {}, req);
   }
   public logout(): Promise<void> {
     return ajax<void>('delete', '/api/session');

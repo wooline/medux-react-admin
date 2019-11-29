@@ -22,7 +22,7 @@ class Component extends React.PureComponent<StoreProps & DispatchProp> {
 
 const mapStateToProps: (state: RootState) => StoreProps = state => {
   return {
-    showPop: state.app!.showLoginOrRegisterPop === 'login' && !state.app!.curUser!.hasLogin,
+    showPop: state.app!.showLoginOrRegisterPop === 'login',
   };
 };
 export default connect(mapStateToProps)(Component);

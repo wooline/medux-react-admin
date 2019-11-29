@@ -10,6 +10,9 @@ request.interceptors.request.use(request => {
 
 request.interceptors.response.use(
   (response: AxiosResponse<any>) => {
+    if (initEnv.lastActivedTime) {
+      initEnv.lastActivedTime = Date.now();
+    }
     return response;
   },
   (error: AxiosError<{message: string}>) => {

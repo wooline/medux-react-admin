@@ -1,6 +1,6 @@
 import {ActionTypes, BaseModelHandlers, BaseModelState, LoadingState, effect, errorAction, reducer} from '@medux/react-web-router';
 import {CommonErrorCode, CustomError, ProjectConfig} from 'entity/common';
-import {CurUser, LoginRequest, Notices, RegisterRequest} from 'entity/session';
+import {CurUser, LoginRequest, Notices, RegisterRequest, guest} from 'entity/session';
 
 import {HandledError} from 'common';
 import api from './api';
@@ -43,6 +43,34 @@ export class ModelHandlers extends BaseModelHandlers<State, RootState> {
       }
     }
   }
+  private getIdelTime() {
+    // 如果因为token过期，且过期时间在某个范围内，允许登录后不刷新页面，从而不打断当前操作流程
+    // 在过期后10分钟内登录成功，不刷新页面
+    if (initEnv.lastActivedTime) {
+      return Date.now() - initEnv.lastActivedTime < 60000 ? initEnv.lastActivedTime : 0;
+    } else {
+      return 0;
+    }
+  }
+  private checkLoginRedirect() {
+    if (this.state.curUser && this.state.curUser.hasLogin) {
+      let redirect = sessionStorage.getItem(metaKeys.LoginRedirectSessionStorageKey);
+      sessionStorage.removeItem(metaKeys.LoginRedirectSessionStorageKey);
+      if (redirect === metaKeys.LoginPathname) {
+        redirect = metaKeys.UserHomePathname;
+      }
+      redirect && historyActions.push(redirect);
+    }
+  }
+  @reducer
+  public putCurUser(curUser: CurUser): State {
+    if (curUser.hasLogin) {
+      initEnv.lastActivedTime = Date.now();
+    } else {
+      initEnv.lastActivedTime = undefined;
+    }
+    return {...this.state, curUser};
+  }
   @effect()
   public async register(params: RegisterRequest) {
     await api.register(params);
@@ -50,30 +78,31 @@ export class ModelHandlers extends BaseModelHandlers<State, RootState> {
   }
   @effect()
   public async login(params: LoginRequest) {
-    const curUser = await api.login(params);
-    let redirect = sessionStorage.getItem(metaKeys.LoginRedirectSessionStorageKey);
-    if (!redirect || redirect === metaKeys.LoginPathname) {
-      redirect = metaKeys.UserHomePathname;
-    }
-    sessionStorage.removeItem(metaKeys.LoginRedirectSessionStorageKey);
     const oCurUser = this.state.curUser!;
-    if (oCurUser.hasLogin && oCurUser.sessionId !== curUser.sessionId) {
-      //如果客户端没有主动退出，而服务器返回了不一样的sessionId，则刷新
-      location.href = redirect;
-    } else {
-      const isPop = !!this.state.showLoginOrRegisterPop;
-      this.updateState({curUser, showLoginOrRegisterPop: undefined});
+    const curUser = await api.login(params);
+    const isPop = !!this.state.showLoginOrRegisterPop;
+    const idleTime = this.getIdelTime();
+    if (isPop && oCurUser.id === curUser.id && idleTime) {
+      this.dispatch(this.actions.putCurUser(curUser));
+      this.dispatch(this.actions.closesLoginOrRegisterPop());
       this.getNoticeTimer();
-      if (!isPop) {
-        historyActions.push(redirect);
-      }
+    } else {
+      location.reload();
     }
   }
+
   @effect()
-  public async logout() {
-    await api.logout();
-    sessionStorage.setItem(metaKeys.LoginRedirectSessionStorageKey, location.pathname + location.search + location.hash);
-    location.reload();
+  public async logout(expired?: number) {
+    if (expired) {
+      if (this.noticesTimer) {
+        clearInterval(this.noticesTimer);
+        this.noticesTimer = 0;
+      }
+      this.dispatch(this.actions.putCurUser({...this.state.curUser!, expired}));
+    } else {
+      await api.logout();
+      location.reload();
+    }
   }
   @reducer
   public closesLoginOrRegisterPop(): State {
@@ -90,13 +119,20 @@ export class ModelHandlers extends BaseModelHandlers<State, RootState> {
   @effect(null) // 不需要loading，设置为null
   protected async [ActionTypes.Error](error: CustomError) {
     if (error.code === CommonErrorCode.unauthorized) {
-      const redirect: boolean = error.detail;
-      if (redirect) {
-        sessionStorage.setItem(metaKeys.LoginRedirectSessionStorageKey, location.pathname + location.search + location.hash);
-        historyActions.push(metaKeys.LoginPathname);
-      } else {
-        this.dispatch(this.actions.openLoginOrRegisterPop('login'));
+      sessionStorage.setItem(metaKeys.LoginRedirectSessionStorageKey, location.pathname + location.search + location.hash);
+      const curUser = this.state.curUser || guest;
+      const idleTime = this.getIdelTime();
+      if (curUser.hasLogin) {
+        await this.dispatch(this.actions.logout(idleTime));
       }
+      if (idleTime || !error.detail) {
+        this.dispatch(this.actions.openLoginOrRegisterPop('login'));
+      } else {
+        historyActions.push(metaKeys.LoginPathname);
+      }
+      throw new HandledError(error);
+    } else if (error.code === CommonErrorCode.refresh) {
+      location.reload();
       throw new HandledError(error);
     } else {
       error.code !== CommonErrorCode.noToast && error.message && message.error(error.message);
@@ -117,12 +153,13 @@ export class ModelHandlers extends BaseModelHandlers<State, RootState> {
       }
     };
     const projectConfig = await api.getProjectConfig();
-    const curUser = await api.getCurUser();
+    this.updateState({projectConfig});
     document.title = projectConfig.title;
-    this.updateState({
-      curUser,
-      projectConfig,
-    });
-    this.getNoticeTimer();
+    const curUser = await api.getCurUser();
+    this.dispatch(this.actions.putCurUser(curUser));
+    if (curUser.hasLogin) {
+      this.getNoticeTimer();
+      this.checkLoginRedirect();
+    }
   }
 }

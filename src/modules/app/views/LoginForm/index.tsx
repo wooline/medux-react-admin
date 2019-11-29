@@ -53,7 +53,7 @@ class Component extends React.PureComponent<StoreProps & FormComponentProps & Di
       <div className={styles.root}>
         <h2 className="title">用户登录</h2>
 
-        {curUser.hasLogin ? (
+        {curUser.hasLogin && !curUser.expired ? (
           <div className="hasLogin">
             <p>
               亲爱的{' '}
@@ -79,9 +79,8 @@ class Component extends React.PureComponent<StoreProps & FormComponentProps & Di
               })(<Input size="large" onChange={this.clearError} prefix={<Icon type="lock" />} type="password" placeholder="密码" />)}
             </Form.Item>
             <Form.Item style={{marginBottom: 0}}>
-              {getFieldDecorator('remember', {
+              {getFieldDecorator('keep', {
                 valuePropName: 'checked',
-                initialValue: true,
               })(<Checkbox>自动登录</Checkbox>)}
               <span className="register link" onClick={this.handleRegister}>
                 注册新用户

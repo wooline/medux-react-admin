@@ -23,7 +23,13 @@ class Component extends Page<StoreProps & DispatchProp> {
           bg={banner}
           onConsult={this.onConsult}
         />
-        <Anchor navs={[['摘要简介', 'articleHome_Activities'], ['特色推荐', 'articleHome_Recommend'], ['技术优势', 'articleHome_Special']]} />
+        <Anchor
+          navs={[
+            ['摘要简介', 'articleHome_Activities'],
+            ['特色推荐', 'articleHome_Recommend'],
+            ['技术优势', 'articleHome_Special'],
+          ]}
+        />
         <Activities />
         <Recommend />
         <Special />

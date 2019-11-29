@@ -79,7 +79,7 @@ class Component extends React.PureComponent<StoreProps & FormComponentProps & Di
       <div className={styles.root}>
         <h2 className="title">注册新用户</h2>
 
-        {curUser.hasLogin ? (
+        {curUser.hasLogin && !curUser.expired ? (
           <div className="hasLogin">
             <p>
               亲爱的{' '}

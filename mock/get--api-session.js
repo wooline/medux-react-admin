@@ -1,12 +1,14 @@
 const token = request.cookies.token;
 
 const guest = {
+  id: '',
   username: 'guest',
   hasLogin: false,
   sessionId: '',
   avatar: '/client/imgs/u1.jpg',
 };
 const admin = {
+  id: 'admin',
   username: 'admin',
   hasLogin: true,
   sessionId: 'afdsfasdfasf',
