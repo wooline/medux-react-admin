@@ -5,11 +5,12 @@ export enum CommonErrorCode {
   forbidden = 'forbidden',
   redirect = 'redirect',
   refresh = 'refresh',
+  authorizeExpired = 'authorizeExpired',
   handled = 'handled',
   noToast = 'noToast',
 }
 export interface ProjectConfig {
-  title: string;
+  tokenRenewalTime: number;
 }
 export interface ErrorEntity<Detail = any> {
   code: string;
@@ -20,6 +21,7 @@ export interface ErrorEntity<Detail = any> {
 export class CustomError<Detail = any> {
   private httpCode: {[key: string]: string} = {
     '401': CommonErrorCode.unauthorized,
+    '402': CommonErrorCode.authorizeExpired,
     '403': CommonErrorCode.forbidden,
     '404': CommonErrorCode.notFound,
     '300': CommonErrorCode.refresh,

@@ -38,28 +38,31 @@ class MTable<T> extends React.PureComponent<Props<T>> {
       return typeof text === 'string' ? text : text.join(',');
     };
 
-    return columns.filter(col => {
-      if (!col.disable) {
+    return columns
+      .filter(col => !col.disable)
+      .map(col => {
         /**排序状态受控 */
         if (col.sorter && typeof col.sorter === 'boolean' && !col.sortOrder) {
+          col = {...col};
           col.sortOrder = sorterField === col.dataIndex && sorterOrder;
         }
         /**超出一行省略 */
         if (col.ellipsis && !col.render) {
+          col = {...col};
           col.render = (text: string) => <EllipsisText>{transFormText(text)}</EllipsisText>;
         }
         /**时间戳转换 */
         if (col.timestamp && !col.render) {
+          col = {...col};
           col.render = (text: string) => <DateTime date={text} />;
         }
         /**自动生成序号 */
         if (col.no) {
+          col = {...col};
           col.render = (text, record, index: number) => noID + index;
         }
         return col;
-      }
-      return false;
-    });
+      });
   };
   returnTotal = (total: number) => {
     return `共${total}条`;
@@ -134,7 +137,7 @@ class MTable<T> extends React.PureComponent<Props<T>> {
         );
       }
     }
-
+    const cols = this.formatColumns(columns, (pageCurrent - 1) * pageSize + 1, sorterField, sorterOrder);
     return (
       <>
         <div className="tableHeader">
@@ -159,7 +162,7 @@ class MTable<T> extends React.PureComponent<Props<T>> {
           rowSelection={rowSelection}
           dataSource={dataSource}
           rowKey={rowKey}
-          columns={this.formatColumns(columns, (pageCurrent - 1) * pageSize + 1, sorterField, sorterOrder)}
+          columns={cols}
           {...props}
         />
         {bottomArea && <div className="tableFooter">{bottomArea}</div>}

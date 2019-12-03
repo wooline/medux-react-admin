@@ -5,12 +5,16 @@ const defaultRouteParams: RouteParams = {
   id: '',
   _listKey: '',
   listSearch: {
-    pageSize: 20,
+    pageSize: 10,
     pageCurrent: 1,
-    sorterField: 'createdTime',
-    sorterOrder: 'ascend',
+    sorterField: undefined,
+    sorterOrder: undefined,
     username: undefined,
+    nickname: undefined,
+    status: undefined,
+    gender: undefined,
     createdTime: undefined,
+    loginTime: undefined,
   },
 };
 export default defaultRouteParams;

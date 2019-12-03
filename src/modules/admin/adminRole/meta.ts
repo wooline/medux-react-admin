@@ -5,10 +5,12 @@ const defaultRouteParams: RouteParams = {
   id: '',
   _listKey: '',
   listSearch: {
-    roleName: undefined,
-    purview: undefined,
     pageSize: 100,
     pageCurrent: 1,
+    sorterField: undefined,
+    sorterOrder: undefined,
+    roleName: undefined,
+    purview: undefined,
   },
 };
 export default defaultRouteParams;

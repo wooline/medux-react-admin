@@ -1,4 +1,4 @@
-let {pageCurrent = 1, pageSize = 50} = request.query;
+let {pageCurrent = 1, pageSize = 20} = request.query;
 pageCurrent = parseInt(pageCurrent);
 pageSize = parseInt(pageSize);
 

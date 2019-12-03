@@ -6,9 +6,13 @@ const result = {
   },
 };
 
+const year = Date.now() + 24 * 3600 * 365;
+const week = Date.now() + 30000; //Date.now() + 24 * 3600 * 7;
+expired = keep ? week : year;
+
 if (username === 'admin' && password === '123456') {
   result.statusCode = 200;
-  result.cookies = [['token', 'asfdfdsf', {expires: keep ? new Date(Date.now() + 60000) : undefined, httpOnly: true}]];
+  result.cookies = [['token', JSON.stringify({id: 'admin', expired}), {expires: keep ? new Date(year) : undefined, httpOnly: true}]];
   result.response = {
     id: 'admin',
     username: 'admin',
@@ -17,7 +21,7 @@ if (username === 'admin' && password === '123456') {
   };
 } else if (username === 'superadmin' && password === '123456') {
   result.statusCode = 200;
-  result.cookies = [['token', 'bdasfe', {expires: keep ? new Date(Date.now() + 24 * 3600 * 1000) : undefined, httpOnly: true}]];
+  result.cookies = [['token', JSON.stringify({id: 'superadmin', expired}), {expires: keep ? new Date(year) : undefined, httpOnly: true}]];
   result.response = {
     id: 'superadmin',
     username: 'superadmin',

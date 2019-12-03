@@ -9,11 +9,12 @@ import SearchForm from 'components/SearchForm';
 import {connect} from 'react-redux';
 
 interface StoreProps {
-  listSearch: ListSearch;
+  listSearch?: ListSearch;
 }
 
 class Component extends React.PureComponent<StoreProps & FormComponentProps & DispatchProp> {
   private onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.stopPropagation();
     event.preventDefault();
     this.props.form.validateFields((errors, values: ListSearch) => {
       if (!errors) {
@@ -44,7 +45,7 @@ class Component extends React.PureComponent<StoreProps & FormComponentProps & Di
 }
 
 const mapStateToProps: (state: RootState) => StoreProps = state => {
-  return {listSearch: state.adminRole!.preRouteParams!.listSearch};
+  return {listSearch: state.adminRole!.preRouteParams?.listSearch};
 };
 const mapPropsToFields = (props: StoreProps) => {
   return {

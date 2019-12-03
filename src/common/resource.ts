@@ -34,10 +34,6 @@ export class CommonResourceHandlers<
   public putSelectedRows(selectedRows?: Resource['ListItem'][]): State {
     return {...this.state, selectedRows};
   }
-  @reducer
-  public putSelectionList(selectionList?: Resource['ListItem'][]): State {
-    return {...this.state, selectionList};
-  }
   @effect()
   public async getDetailItem(id: string) {
     const itemDetail = await this.api.getDetailItem!(id);
@@ -97,6 +93,7 @@ export class CommonResourceHandlers<
       return;
     }
     await this.api.deleteList!(ids);
+    this.dispatch(this.actions.putSelectedRows());
     message.success('删除成功');
     await this.dispatch(this.actions.searchList({}, 'current'));
   }
@@ -106,13 +103,16 @@ export class CommonResourceHandlers<
     this.dispatch(this.actions.putSearchList({list, listSearch, listSummary, _listKey: _listKey || Date.now().toString()}));
   }
   @effect(null)
-  public async searchList(listSearch: Resource['ListSearch'], extend: 'default' | 'current' | 'none', disableRoute?: boolean) {
+  public async searchList(listSearch: Resource['ListSearch'], extend: 'default' | 'current' | 'none', disableRoute?: boolean, clearList?: boolean) {
     if (extend === 'default') {
       listSearch = {...this.defaultRouteParams.listSearch, ...listSearch};
     } else if (extend === 'current') {
       listSearch = {...this.state.routeParams!.listSearch, ...listSearch};
     }
     const _listKey = Date.now().toString();
+    if (clearList) {
+      this.updateState({list: undefined});
+    }
     if (disableRoute) {
       //不使用路由需要手动触发Action PreRouteParams
       this.dispatch(this.actions.PreRouteParams({...this.state.routeParams, listSearch, _listKey}));
@@ -122,11 +122,13 @@ export class CommonResourceHandlers<
     }
   }
   @effect(null)
-  protected async [`this/${ActionTypes.MInit}, this/${ActionTypes.MPreRouteParams}`]() {
-    const preRouteParams = this.state.preRouteParams!;
-    const thisParams = this.state.routeParams!;
-    if (thisParams._listKey !== preRouteParams._listKey || !simpleEqual(thisParams.listSearch, preRouteParams.listSearch)) {
-      this.dispatch(this.actions.fetchList(preRouteParams.listSearch, preRouteParams._listKey));
+  protected async [`this/${ActionTypes.MPreRouteParams}`](preRouteParams?: Resource['RouteParams']) {
+    const oPreRouteParams: Resource['RouteParams'] = this.beforeRootState[this.moduleName]?.preRouteParams || {};
+    if (preRouteParams) {
+      //const thisParams = this.state.routeParams!;
+      if (oPreRouteParams._listKey !== preRouteParams._listKey || !simpleEqual(oPreRouteParams.listSearch, preRouteParams.listSearch)) {
+        this.dispatch(this.actions.fetchList(preRouteParams.listSearch, preRouteParams._listKey));
+      }
     }
   }
 }

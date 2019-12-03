@@ -1,3 +1,5 @@
+@import '~antd/lib/style/themes/default.less';
+
 /* 此文件用来写公共样式 */
 :global {
   :local(.doc) {
@@ -92,7 +94,7 @@
   :local(.em) {
     em {
       font-weight: bold;
-      color: #f30;
+      color: @error-color;
       font-style: normal;
     }
     cite {
@@ -115,11 +117,19 @@
       margin: 10px 0 20px 10px;
     }
   }
+  :local(.selector) {
+    .g-search {
+      padding-top: 0 !important;
+    }
+  }
   :local(.table) {
     td.actions {
       .disable {
         visibility: hidden;
       }
+    }
+    .status-disable {
+      color: @error-color;
     }
     .tableHeader {
       display: flex;

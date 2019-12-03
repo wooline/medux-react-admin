@@ -8,6 +8,7 @@ interface Props {
   items: {label: string; item: React.ReactNode; col?: number}[];
   senior?: number;
   cols?: number;
+  expand?: boolean;
   onReset?: () => void;
   onSubmit?: (event: React.FormEvent<HTMLFormElement>) => void;
 }
@@ -17,9 +18,12 @@ interface State {
 }
 
 class Component extends React.PureComponent<Props, State> {
-  state: State = {
-    expand: false,
-  };
+  constructor(props: any, context?: any) {
+    super(props, context);
+    this.state = {
+      expand: !!props.expand,
+    };
+  }
   toggle = () => {
     const {expand} = this.state;
     this.setState({expand: !expand});

@@ -1,4 +1,3 @@
-import {Button, Divider, Popconfirm} from 'antd';
 import {ListItem, ListSummary, UpdateItem, purviewNames} from 'entity/role';
 import MTable, {ColumnProps} from 'components/MTable';
 
@@ -21,17 +20,8 @@ interface State {
 }
 class Component extends React.PureComponent<StoreProps & DispatchProp> {
   state: State = {};
-  onCreate = () => {
-    this.props.dispatch(actions.adminRole.putCurrentItem('create', newItem));
-  };
   onShowDetail = (item: ListItem) => {
     this.props.dispatch(actions.adminRole.putCurrentItem('detail', item));
-  };
-  onShowEditor = (item: ListItem) => {
-    this.props.dispatch(actions.adminRole.putCurrentItem('edit', item));
-  };
-  onDeleteList = (ids?: string[]) => {
-    this.props.dispatch(actions.adminRole.deleteList(ids));
   };
   onSelectedRows = (selectedRowKeys: string[] | number[], selectedRows: ListItem[]) => {
     this.props.dispatch(actions.adminRole.putSelectedRows(selectedRows));
@@ -47,14 +37,6 @@ class Component extends React.PureComponent<StoreProps & DispatchProp> {
         'current'
       )
     );
-  };
-  batchActions = {
-    actions: [{key: 'delete', label: '批量删除', confirm: true}],
-    onClick: (item: {key: string}) => {
-      if (item.key === 'delete') {
-        this.onDeleteList();
-      }
-    },
   };
   render() {
     const {list, listSummary, selectedRows = []} = this.props;
@@ -94,34 +76,20 @@ class Component extends React.PureComponent<StoreProps & DispatchProp> {
         width: '10%',
       },
       {
-        title: '更新时间',
-        dataIndex: 'updateTime',
-        width: '11%',
-        timestamp: true,
-      },
-      {
         title: '备注',
         dataIndex: 'remark',
         ellipsis: true,
-        width: '15%',
+        width: '14%',
       },
       {
         title: '操作',
         dataIndex: 'fixed',
-        width: '13%',
+        width: '9%',
         align: 'center',
         className: 'actions',
         render: (id: string, record) => (
           <>
             <a onClick={() => this.onShowDetail(record)}>详细</a>
-            <Divider className={record.fixed ? 'disable' : ''} type="vertical" />
-            <a onClick={() => this.onShowEditor(record)} className={record.fixed ? 'disable' : ''}>
-              修改
-            </a>
-            <Divider className={record.fixed ? 'disable' : ''} type="vertical" />
-            <Popconfirm placement="topRight" title="您确定要删除该条数据吗？" onConfirm={() => this.onDeleteList([record.id])}>
-              <a className={record.fixed ? 'disable' : ''}>删除</a>
-            </Popconfirm>
           </>
         ),
       },
@@ -129,14 +97,7 @@ class Component extends React.PureComponent<StoreProps & DispatchProp> {
     return (
       <div className="g-table">
         <MTable<ListItem>
-          topArea={
-            <>
-              <Button type="primary" icon="plus" onClick={this.onCreate}>
-                新建
-              </Button>
-            </>
-          }
-          batchActions={this.batchActions}
+          topArea={<>请选择一项</>}
           onChange={this.onChange as any}
           rowSelection={{
             selectedRowKeys,
@@ -151,9 +112,7 @@ class Component extends React.PureComponent<StoreProps & DispatchProp> {
     );
   }
   componentDidMount() {
-    if (!this.props.list) {
-      this.props.dispatch(actions.adminRole.searchList({}, 'default'));
-    }
+    this.props.dispatch(actions.adminRole.searchList({}, 'default', true, true));
   }
 }
 

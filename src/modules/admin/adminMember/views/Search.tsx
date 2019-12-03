@@ -1,27 +1,40 @@
 import {DGender, DStatus, ListSearch} from 'entity/member';
-import {Form, Input, Select} from 'antd';
-import {createForm, getFormDecorators} from 'common/utils';
+import {Input, Select} from 'antd';
+import {createForm, filterEmpty, getFormDecorators} from 'common/utils';
 
 import {FormComponentProps} from 'antd/lib/form';
 import RangeDatePicker from 'components/RangeDatePicker';
 import React from 'react';
+import ResourceSelector from 'components/ResourceSelector';
 import SearchForm from 'components/SearchForm';
 import {connect} from 'react-redux';
 
+const RoleSelector = loadView('adminRole', 'Selector');
+
 const Option = Select.Option;
-const FormItem = Form.Item;
 
 interface StoreProps {
-  listSearch: ListSearch;
+  listSearch?: ListSearch;
 }
 
-class Component extends React.PureComponent<StoreProps & FormComponentProps> {
+class Component extends React.PureComponent<StoreProps & FormComponentProps & DispatchProp> {
+  private onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    this.props.form.validateFields((errors, values: ListSearch) => {
+      if (!errors) {
+        this.props.dispatch(actions.adminMember.searchList(filterEmpty(values), 'current'));
+      }
+    });
+  };
+  private onReset = () => {
+    this.props.dispatch(actions.adminMember.searchList({}, 'default'));
+  };
   public render() {
-    const {form} = this.props;
+    const {form, listSearch = {}} = this.props;
     const formDecorators = getFormDecorators<ListSearch>(form);
     const items = [
-      {label: '姓名', item: formDecorators.username(<Input autoComplete="off" allowClear={true} placeholder="请输入用户名" />)},
-      {label: '用户ID', item: formDecorators.uid(<Input autoComplete="off" allowClear={true} placeholder="请输入用户ID" />)},
+      {label: '用户名', item: formDecorators.username(<Input autoComplete="off" allowClear={true} placeholder="请输入用户名" />)},
+      {label: '呢称', item: formDecorators.nickname(<Input autoComplete="off" allowClear={true} placeholder="请输入呢称" />)},
       {
         label: '状态',
         item: formDecorators.status!(
@@ -34,7 +47,10 @@ class Component extends React.PureComponent<StoreProps & FormComponentProps> {
           </Select>
         ),
       },
-      {label: '角色', item: formDecorators.uid!(<Input autoComplete="off" allowClear={true} placeholder="请选择用户角色" />)},
+      {
+        label: '角色',
+        item: formDecorators.roleId!(<ResourceSelector title="请选择角色" placeholder="请选择角色" selector={RoleSelector} />),
+      },
       {
         label: '性别',
         item: formDecorators.gender!(
@@ -52,14 +68,14 @@ class Component extends React.PureComponent<StoreProps & FormComponentProps> {
     ];
     return (
       <div className="g-search">
-        <SearchForm senior={4} items={items}></SearchForm>
+        <SearchForm expand={!!listSearch.gender || !!listSearch.createdTime || !!listSearch.loginTime} onReset={this.onReset} onSubmit={this.onSubmit} senior={4} items={items}></SearchForm>
       </div>
     );
   }
 }
 
 const mapStateToProps: (state: RootState) => StoreProps = state => {
-  return {listSearch: state.adminMember!.preRouteParams!.listSearch};
+  return {listSearch: state.adminMember!.preRouteParams?.listSearch};
 };
 const mapPropsToFields = (props: StoreProps) => {
   return {

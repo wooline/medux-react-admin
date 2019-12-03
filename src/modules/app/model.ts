@@ -43,15 +43,6 @@ export class ModelHandlers extends BaseModelHandlers<State, RootState> {
       }
     }
   }
-  private getIdelTime() {
-    // 如果因为token过期，且过期时间在某个范围内，允许登录后不刷新页面，从而不打断当前操作流程
-    // 在过期后10分钟内登录成功，不刷新页面
-    if (initEnv.lastActivedTime) {
-      return Date.now() - initEnv.lastActivedTime < 60000 ? initEnv.lastActivedTime : 0;
-    } else {
-      return 0;
-    }
-  }
   private checkLoginRedirect() {
     if (this.state.curUser && this.state.curUser.hasLogin) {
       let redirect = sessionStorage.getItem(metaKeys.LoginRedirectSessionStorageKey);
@@ -64,11 +55,6 @@ export class ModelHandlers extends BaseModelHandlers<State, RootState> {
   }
   @reducer
   public putCurUser(curUser: CurUser): State {
-    if (curUser.hasLogin) {
-      initEnv.lastActivedTime = Date.now();
-    } else {
-      initEnv.lastActivedTime = undefined;
-    }
     return {...this.state, curUser};
   }
   @effect()
@@ -79,10 +65,10 @@ export class ModelHandlers extends BaseModelHandlers<State, RootState> {
   @effect()
   public async login(params: LoginRequest) {
     const oCurUser = this.state.curUser!;
+    const expired = oCurUser.expired || 0;
     const curUser = await api.login(params);
     const isPop = !!this.state.showLoginOrRegisterPop;
-    const idleTime = this.getIdelTime();
-    if (isPop && oCurUser.id === curUser.id && idleTime) {
+    if (isPop && oCurUser.id === curUser.id && Date.now() - expired < this.state.projectConfig!.tokenRenewalTime) {
       this.dispatch(this.actions.putCurUser(curUser));
       this.dispatch(this.actions.closesLoginOrRegisterPop());
       this.getNoticeTimer();
@@ -118,14 +104,15 @@ export class ModelHandlers extends BaseModelHandlers<State, RootState> {
   }
   @effect(null) // 不需要loading，设置为null
   protected async [ActionTypes.Error](error: CustomError) {
-    if (error.code === CommonErrorCode.unauthorized) {
+    //如果仅仅是因为token过期而导致的用户退出，在过期时间较短的情况下，允许用户不刷新页面而弹出登录弹窗，重新登录以续期
+    //主要为了不强制打断当前的用户操作流
+    if (error.code === CommonErrorCode.unauthorized || error.code === CommonErrorCode.authorizeExpired) {
       sessionStorage.setItem(metaKeys.LoginRedirectSessionStorageKey, location.pathname + location.search + location.hash);
       const curUser = this.state.curUser || guest;
-      const idleTime = this.getIdelTime();
       if (curUser.hasLogin) {
-        await this.dispatch(this.actions.logout(idleTime));
+        await this.dispatch(this.actions.logout(parseInt(error.detail)));
       }
-      if (idleTime || !error.detail) {
+      if (error.code === CommonErrorCode.authorizeExpired || !error.detail) {
         this.dispatch(this.actions.openLoginOrRegisterPop('login'));
       } else {
         historyActions.push(metaKeys.LoginPathname);
@@ -154,7 +141,6 @@ export class ModelHandlers extends BaseModelHandlers<State, RootState> {
     };
     const projectConfig = await api.getProjectConfig();
     this.updateState({projectConfig});
-    document.title = projectConfig.title;
     const curUser = await api.getCurUser();
     this.dispatch(this.actions.putCurUser(curUser));
     if (curUser.hasLogin) {

@@ -75,7 +75,8 @@ export const message = {
     antdMessage.success(content);
   },
   error: (content: string) => {
-    antdMessage.error(content);
+    const initLoading = document.getElementById('g-init-loading');
+    antdMessage.error(content, initLoading ? 9999999 : 3);
   },
 };
 export const metaKeys = {

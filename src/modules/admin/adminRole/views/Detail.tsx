@@ -1,4 +1,4 @@
-import {Button, Descriptions, Icon, Modal} from 'antd';
+import {Button, Descriptions, Icon} from 'antd';
 
 import DateTime from 'components/DateTime';
 import {ListItem} from 'entity/role';
@@ -28,9 +28,6 @@ export const ModalSubmitLayout = {
 class Component extends React.PureComponent<StoreProps & DispatchProp> {
   onHide = () => {
     this.props.dispatch(actions.adminRole.putCurrentItem());
-  };
-  onEdit = () => {
-    this.props.dispatch(actions.adminRole.putCurrentItem('edit'));
   };
   public render() {
     const {dataSource} = this.props;
@@ -81,9 +78,6 @@ class Component extends React.PureComponent<StoreProps & DispatchProp> {
           <div className="g-actions">
             <Button type="primary" onClick={this.onHide}>
               确定
-            </Button>
-            <Button disabled={dataSource.fixed} icon="edit" onClick={this.onEdit}>
-              修改
             </Button>
           </div>
         </div>

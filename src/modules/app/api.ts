@@ -11,26 +11,23 @@ function setCookie(name: string, value: string, expiredays: number) {
 export class API {
   public getCurUser(): Promise<CurUser> {
     return ajax<CurUser>('get', '/api/session').catch(err => {
-      console.log(err);
       return guest;
     });
   }
   public login(req: LoginRequest): Promise<CurUser> {
-    return ajax<CurUser>('post', '/api/session', {}, req);
+    return ajax('post', '/api/session', {}, req);
   }
   public register(req: RegisterRequest): Promise<void> {
-    return ajax<void>('post', '/api/user', {}, req);
+    return ajax('post', '/api/user', {}, req);
   }
   public logout(): Promise<void> {
-    return ajax<void>('delete', '/api/session');
+    return ajax('delete', '/api/session');
   }
   public getNotices(): Promise<Notices> {
-    return ajax<Notices>('get', '/api/notices');
+    return ajax('get', '/api/notices');
   }
   public getProjectConfig(): Promise<ProjectConfig> {
-    return Promise.resolve({
-      title: 'Medux Demo',
-    });
+    return ajax('get', '/api/projectConfig');
   }
 }
 

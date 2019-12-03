@@ -12,13 +12,14 @@ export const DGender = enumOptions(Gender);
 
 export enum Status {
   '正常' = 'enable',
-  '禁用' = 'desable',
+  '禁用' = 'disable',
 }
 export const DStatus = enumOptions(Status);
 
 export interface ListSearch extends BaseListSearch {
-  uid?: string;
   username?: string;
+  nickname?: string;
+  roleId?: string;
   createdTime?: [number, number];
   loginTime?: [number, number];
   gender?: Gender;
@@ -26,9 +27,15 @@ export interface ListSearch extends BaseListSearch {
 }
 export interface ListItem extends BaseListItem {
   username: string;
+  nickname: string;
   gender: Gender;
   age: number;
+  roleId: string;
+  roleName: string;
+  status: Status;
+  loginTime: number;
   createdTime: number;
+  email: string;
 }
 export interface ListSummary extends BaseListSummary {}
 

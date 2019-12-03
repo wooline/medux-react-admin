@@ -23,7 +23,6 @@ declare global {
   const message: Message;
   //初始环境变量放在index.html中, 以防止被 webpack 打包
   const initEnv: {
-    lastActivedTime?: number;
     version: string;
     staticPath: string;
     apiServerPath: {[key: string]: string};
