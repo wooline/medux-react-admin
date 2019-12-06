@@ -125,6 +125,10 @@ export class CommonResourceHandlers<
   protected async [`this/${ActionTypes.MPreRouteParams}`](preRouteParams?: Resource['RouteParams']) {
     const oPreRouteParams: Resource['RouteParams'] = this.beforeRootState[this.moduleName]?.preRouteParams || {};
     if (preRouteParams) {
+      if (!preRouteParams._listKey) {
+        this.dispatch(this.actions.putSelectedRows());
+        preRouteParams = {...preRouteParams, _listKey: Date.now().toString()};
+      }
       //const thisParams = this.state.routeParams!;
       if (oPreRouteParams._listKey !== preRouteParams._listKey || !simpleEqual(oPreRouteParams.listSearch, preRouteParams.listSearch)) {
         this.dispatch(this.actions.fetchList(preRouteParams.listSearch, preRouteParams._listKey));

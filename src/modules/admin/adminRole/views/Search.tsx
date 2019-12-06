@@ -12,18 +12,22 @@ interface StoreProps {
   listSearch?: ListSearch;
 }
 
-class Component extends React.PureComponent<StoreProps & FormComponentProps & DispatchProp> {
+interface OwnProps {
+  disableRoute?: boolean;
+}
+class Component extends React.PureComponent<StoreProps & FormComponentProps & DispatchProp & OwnProps> {
   private onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.stopPropagation();
     event.preventDefault();
-    this.props.form.validateFields((errors, values: ListSearch) => {
+    const {form, dispatch, disableRoute} = this.props;
+    form.validateFields((errors, values: ListSearch) => {
       if (!errors) {
-        this.props.dispatch(actions.adminRole.searchList(filterEmpty(values), 'current'));
+        dispatch(actions.adminRole.searchList(filterEmpty(values), 'current', disableRoute));
       }
     });
   };
   private onReset = () => {
-    this.props.dispatch(actions.adminRole.searchList({}, 'default'));
+    this.props.dispatch(actions.adminRole.searchList({}, 'default', this.props.disableRoute));
   };
   public render() {
     const {form} = this.props;

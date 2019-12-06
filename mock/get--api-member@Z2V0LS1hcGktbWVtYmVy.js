@@ -1,11 +1,12 @@
+console.log(11, database);
 let {pageCurrent = 1, pageSize = 20} = request.query;
 pageCurrent = parseInt(pageCurrent);
 pageSize = parseInt(pageSize);
-
+const idStart = pageCurrent * pageSize;
 const data = mockjs.mock({
   ['list|' + (pageSize - 4)]: [
     {
-      'id|+1': 5,
+      'id|+1': idStart + 5,
       username: '@last',
       nickname: '@cname',
       'gender|1': ['male', 'female', 'unknow'],
@@ -22,7 +23,7 @@ const data = mockjs.mock({
 
 const list = [
   {
-    id: '1',
+    id: idStart + 1,
     username: 'Superadmin',
     nickname: '李白',
     gender: 'male',
@@ -35,7 +36,7 @@ const list = [
     email: 'sdfsdf@qq.com',
   },
   {
-    id: '2',
+    id: idStart + 2,
     username: 'Admin',
     nickname: '夏天',
     gender: 'female',
@@ -48,7 +49,7 @@ const list = [
     email: 'daefdsfs@163.com',
   },
   {
-    id: '3',
+    id: idStart + 3,
     username: 'Lily',
     nickname: '莉莉',
     gender: 'female',
@@ -61,7 +62,7 @@ const list = [
     email: 'revvc@sina.com.cn',
   },
   {
-    id: '4',
+    id: idStart + 4,
     username: 'Jim',
     nickname: '大状',
     gender: 'male',

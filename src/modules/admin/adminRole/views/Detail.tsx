@@ -11,6 +11,7 @@ import styles from './index.m.less';
 const DescriptionsItem = Descriptions.Item;
 
 interface StoreProps {
+  primaryMode?: boolean;
   dataSource?: ListItem;
 }
 
@@ -29,8 +30,15 @@ class Component extends React.PureComponent<StoreProps & DispatchProp> {
   onHide = () => {
     this.props.dispatch(actions.adminRole.putCurrentItem());
   };
+  onEdit = () => {
+    this.props.dispatch(actions.adminRole.putCurrentItem('edit'));
+  };
+  onDelete = async () => {
+    await this.props.dispatch(actions.adminRole.deleteList([this.props.dataSource!.id]));
+    this.onHide();
+  };
   public render() {
-    const {dataSource} = this.props;
+    const {dataSource, primaryMode} = this.props;
     if (dataSource) {
       const purviews: {[key: string]: boolean} = dataSource.purviews.reduce((pre, cur) => {
         pre[cur] = true;
@@ -79,6 +87,16 @@ class Component extends React.PureComponent<StoreProps & DispatchProp> {
             <Button type="primary" onClick={this.onHide}>
               确定
             </Button>
+            {primaryMode && (
+              <>
+                <Button className={dataSource.fixed ? 'disable' : ''} icon="edit" onClick={this.onEdit}>
+                  修改
+                </Button>
+                <Button className={dataSource.fixed ? 'disable' : ''} icon="delete" type="danger" onClick={this.onDelete}>
+                  删除
+                </Button>
+              </>
+            )}
           </div>
         </div>
       );
@@ -90,6 +108,7 @@ class Component extends React.PureComponent<StoreProps & DispatchProp> {
 const mapStateToProps: (state: RootState) => StoreProps = state => {
   const thisModule = state.adminRole!;
   return {
+    primaryMode: !!state.route.data.views.adminRole,
     dataSource: thisModule.currentItem,
   };
 };

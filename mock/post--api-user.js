@@ -5,15 +5,21 @@ const result = {
     'content-type': 'application/json; charset=utf-8',
   },
 };
-
-if (username === 'admin') {
-  result.statusCode = 200;
-  result.response = '';
-} else {
+const users = database.users;
+if (users[username]) {
   result.statusCode = 422;
   result.response = {
     message: '用户名已存在！',
   };
+} else {
+  users[username] = {
+    id: username,
+    username: username,
+    password: password,
+    hasLogin: true,
+  };
+  result.statusCode = 200;
+  result.response = '';
 }
 
 return result;

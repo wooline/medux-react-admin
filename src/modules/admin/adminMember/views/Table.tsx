@@ -1,5 +1,5 @@
 import {Button, Divider} from 'antd';
-import {DGender, DStatus, ListItem, ListSearch, ListSummary} from 'entity/member';
+import {DGender, DStatus, ListItem, ListSearch, ListSummary, Status} from 'entity/member';
 import MTable, {ColumnProps} from 'components/MTable';
 
 import React from 'react';
@@ -80,7 +80,7 @@ class Component extends React.PureComponent<StoreProps & DispatchProp> {
         <>
           <a onClick={() => this.onShowDetail(record)}>详细</a>
           <Divider type="vertical" />
-          <a onClick={() => this.onShowDetail(record)}>禁用</a>
+          <a onClick={() => this.onShowDetail(record)}>{record.status === Status.启用 ? '禁用' : '启用'}</a>
           <Divider type="vertical" />
           <a onClick={() => this.onShowDetail(record)}>修改</a>
           <br />
@@ -89,7 +89,6 @@ class Component extends React.PureComponent<StoreProps & DispatchProp> {
       ),
     },
   ];
-
   onShowDetail = (item: ListItem) => {
     this.props.dispatch(actions.adminMember.putCurrentItem('detail', item));
   };
@@ -99,8 +98,30 @@ class Component extends React.PureComponent<StoreProps & DispatchProp> {
   onDeleteList = (ids?: string[]) => {
     this.props.dispatch(actions.adminMember.deleteList(ids));
   };
-  onSelectedRows = (selectedRowKeys: string[] | number[], selectedRows: ListItem[]) => {
-    this.props.dispatch(actions.adminMember.putSelectedRows(selectedRows));
+  onClearSelect = () => {
+    this.props.dispatch(actions.adminMember.putSelectedRows([]));
+  };
+  onRowSelect = (record: ListItem) => {
+    const {selectedRows = []} = this.props;
+    const rows = selectedRows.filter(item => item.id !== record.id);
+    if (rows.length === selectedRows.length) {
+      rows.push(record);
+    }
+    this.props.dispatch(actions.adminMember.putSelectedRows(rows));
+  };
+  onAllSelect = (checked: boolean, selectRows: ListItem[], changeRows: ListItem[]) => {
+    const {selectedRows = []} = this.props;
+    let rows: ListItem[] = [];
+    if (checked) {
+      rows = [...selectedRows, ...changeRows];
+    } else {
+      const changeRowsKeys: {[key: string]: boolean} = changeRows.reduce((pre, cur) => {
+        pre[cur.id] = true;
+        return pre;
+      }, {});
+      rows = selectedRows.filter(item => !changeRowsKeys[item.id]);
+    }
+    this.props.dispatch(actions.adminMember.putSelectedRows(rows));
   };
   onChange = (pagination: {current: number; pageSize: number}, filter: any, sorter: {field: string; order: any}) => {
     const {current: pageCurrent, pageSize} = pagination;
@@ -117,7 +138,11 @@ class Component extends React.PureComponent<StoreProps & DispatchProp> {
     );
   };
   batchActions = {
-    actions: [{key: 'delete', label: '批量删除', confirm: true}],
+    actions: [
+      {key: 'delete', label: '批量删除', confirm: true},
+      {key: 'enable', label: '批量启用', confirm: true},
+      {key: 'disable', label: '批量禁用', confirm: true},
+    ],
     onClick: (item: {key: string}) => {
       if (item.key === 'delete') {
         this.onDeleteList();
@@ -125,8 +150,7 @@ class Component extends React.PureComponent<StoreProps & DispatchProp> {
     },
   };
   render() {
-    const {list, listSummary, listSearch, selectedRows = []} = this.props;
-    const selectedRowKeys = selectedRows.map(item => item.id);
+    const {list, listSummary, listSearch, selectedRows} = this.props;
 
     return (
       <div className="g-table">
@@ -142,8 +166,10 @@ class Component extends React.PureComponent<StoreProps & DispatchProp> {
           onChange={this.onChange as any}
           listSearch={listSearch}
           rowSelection={{
-            selectedRowKeys,
-            onChange: this.onSelectedRows,
+            selectedRows,
+            onClear: this.onClearSelect,
+            onSelect: this.onRowSelect,
+            onSelectAll: this.onAllSelect,
           }}
           columns={this.columns}
           dataSource={list}
@@ -154,7 +180,7 @@ class Component extends React.PureComponent<StoreProps & DispatchProp> {
   }
   componentDidMount() {
     if (!this.props.list) {
-      this.props.dispatch(actions.adminMember.searchList({}, 'default'));
+      this.props.dispatch(actions.adminMember.searchList({}, 'current'));
     }
   }
 }

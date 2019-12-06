@@ -3,14 +3,16 @@ import {ListItem} from 'entity/role';
 import {Modal} from 'antd';
 import React from 'react';
 import Search from './Search';
-import Table from './SelectorTable';
+import SelectorTable from './SelectorTable';
 import {connect} from 'react-redux';
 
 interface StoreProps {
   currentOperation?: 'detail' | 'edit' | 'create';
 }
 interface OwnProps {
-  onChange: (items?: ListItem[]) => void;
+  limit?: number | [number, number];
+  value?: ListItem[];
+  onChange?: (items: ListItem[]) => void;
 }
 
 class Component extends React.PureComponent<StoreProps & DispatchProp & OwnProps> {
@@ -18,11 +20,11 @@ class Component extends React.PureComponent<StoreProps & DispatchProp & OwnProps
     this.props.dispatch(actions.adminRole.putCurrentItem());
   };
   public render() {
-    const {currentOperation} = this.props;
+    const {currentOperation, onChange, limit, value} = this.props;
     return (
       <div className="g-selector">
-        <Search />
-        <Table />
+        <Search disableRoute={true} />
+        <SelectorTable onSelectdChange={onChange} selectedRows={value} selectLimit={limit} />
         <Modal visible={currentOperation === 'detail'} onCancel={this.onHideCurrent} footer={null} title="角色详情" width={900}>
           <Detail />
         </Modal>

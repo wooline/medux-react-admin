@@ -11,7 +11,7 @@ export enum Gender {
 export const DGender = enumOptions(Gender);
 
 export enum Status {
-  '正常' = 'enable',
+  '启用' = 'enable',
   '禁用' = 'disable',
 }
 export const DStatus = enumOptions(Status);
