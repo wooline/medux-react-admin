@@ -39,7 +39,7 @@ export class ModelHandlers extends BaseModelHandlers<State, RootState> {
       if (!this.noticesTimer) {
         this.noticesTimer = setInterval(() => {
           this.getNotice();
-        }, 5000);
+        }, this.state.projectConfig!.noticeTimer * 1000);
       }
     }
   }

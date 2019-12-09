@@ -1,4 +1,3 @@
-const {username, password} = request.body;
 const result = {
   statusCode: 200,
   cookies: [['token', '', {expires: new Date(Date.now() - 10000), httpOnly: true}]],

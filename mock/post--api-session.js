@@ -8,14 +8,17 @@ const result = {
 
 const year = Date.now() + 24 * 3600 * 365;
 const week = Date.now() + 24 * 3600 * 7;
+
 expired = keep ? week : year;
 
-const users = database.users;
-
-if (users[username] && password === users[username].password) {
+const users = database.data.users;
+const curUser = users[username];
+if (curUser && password === curUser.password) {
+  curUser.loginTime = Date.now();
+  const token = database.action.users.createToken(username, expired);
   result.statusCode = 200;
-  result.cookies = [['token', JSON.stringify({id: username, expired}), {expires: keep ? new Date(year) : undefined, httpOnly: true}]];
-  result.response = database.users.admin;
+  result.cookies = [['token', token, {expires: keep ? new Date(year) : undefined, httpOnly: true}]];
+  result.response = curUser;
 } else {
   result.statusCode = 422;
   result.response = {

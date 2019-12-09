@@ -18,7 +18,7 @@ export class API {
     return ajax('post', '/api/session', {}, req);
   }
   public register(req: RegisterRequest): Promise<void> {
-    return ajax('post', '/api/user', {}, req);
+    return ajax('post', '/api/member', {}, req);
   }
   public logout(): Promise<void> {
     return ajax('delete', '/api/session');

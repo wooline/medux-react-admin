@@ -11,6 +11,7 @@ export enum CommonErrorCode {
 }
 export interface ProjectConfig {
   tokenRenewalTime: number;
+  noticeTimer: number;
 }
 export interface ErrorEntity<Detail = any> {
   code: string;
