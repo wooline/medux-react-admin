@@ -108,6 +108,16 @@ export class CommonResourceHandlers<
       listSearch = {...this.defaultRouteParams.listSearch, ...listSearch};
     } else if (extend === 'current') {
       listSearch = {...this.state.routeParams!.listSearch, ...listSearch};
+    } else {
+      const defaultSearch = this.defaultRouteParams.listSearch;
+      const noneSearch = Object.keys(defaultSearch).reduce((prev, cur) => {
+        prev[cur] = undefined;
+        return prev;
+      }, {});
+      listSearch = {
+        ...noneSearch,
+        ...listSearch,
+      };
     }
     const _listKey = Date.now().toString();
     if (clearList) {

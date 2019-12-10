@@ -1,51 +1,81 @@
-let {pageCurrent = 1, pageSize = 20} = request.query;
-const {sorterField = '', sorterOrder = 'ascend'} = request.query;
+let {sorterField = '', sorterOrder = '', username = '', nickname = '', status = '', email = '', roleId = '', pageCurrent, pageSize, loginTime} = request.query;
 
+sorterField = sorterField.toString();
+sorterOrder = sorterOrder.toString();
+username = username.toString();
+nickname = nickname.toString();
+status = status.toString();
+email = email.toString();
+roleId = roleId.toString();
+loginTime = Array.isArray(loginTime) ? loginTime : [];
 pageCurrent = parseInt(pageCurrent) || 1;
 pageSize = parseInt(pageSize) || 10;
 
 const start = (pageCurrent - 1) * pageSize;
 const end = start + pageSize;
 
-const userList = Object.keys(database.data.users).map(id => {
+const result = {
+  statusCode: 422,
+  headers: {
+    'x-delay': 0,
+    'content-type': 'application/json; charset=utf-8',
+  },
+};
+
+let resourceList = Object.keys(database.data.users).map(id => {
   return database.data.users[id];
 });
+
+if (username) {
+  resourceList = resourceList.filter(item => item.username.includes(username));
+}
+if (nickname) {
+  resourceList = resourceList.filter(item => item.nickname.includes(nickname));
+}
+if (status) {
+  resourceList = resourceList.filter(item => item.status === status);
+}
+if (email) {
+  resourceList = resourceList.filter(item => item.email === email);
+}
+if (roleId) {
+  resourceList = resourceList.filter(item => item.roleId === roleId);
+}
+if (loginTime.length === 2) {
+  resourceList = resourceList.filter(item => item.loginTime > loginTime[0] && item.loginTime < loginTime[1]);
+}
 if (sorterField === 'createdTime') {
   if (sorterOrder === 'ascend') {
-    userList.sort((a, b) => {
+    resourceList.sort((a, b) => {
       return a.createdTime - b.createdTime;
     });
   } else if (sorterOrder === 'descend') {
-    userList.sort((a, b) => {
+    resourceList.sort((a, b) => {
       return b.createdTime - a.createdTime;
     });
   }
 }
 if (sorterField === 'loginTime') {
   if (sorterOrder === 'ascend') {
-    userList.sort((a, b) => {
+    resourceList.sort((a, b) => {
       return a.loginTime - b.loginTime;
     });
   } else if (sorterOrder === 'descend') {
-    userList.sort((a, b) => {
+    resourceList.sort((a, b) => {
       return b.loginTime - a.loginTime;
     });
   }
 }
-const totalItems = userList.length;
-return {
-  statusCode: 200,
-  headers: {
-    'x-delay': 0,
-    'content-type': 'application/json; charset=utf-8',
+const totalItems = resourceList.length;
+
+result.statusCode = 200;
+result.response = {
+  listSummary: {
+    pageCurrent,
+    pageSize,
+    totalItems,
+    totalPages: Math.ceil(resourceList.length / pageSize),
   },
-  response: {
-    listSummary: {
-      pageCurrent,
-      pageSize,
-      totalItems,
-      totalPages: Math.ceil(userList.length / pageSize),
-    },
-    list: userList.slice(start, end),
-  },
+  list: resourceList.slice(start, end),
 };
+return result;

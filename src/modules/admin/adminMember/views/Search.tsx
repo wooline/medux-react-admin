@@ -1,4 +1,4 @@
-import {DGender, DStatus, ListSearch} from 'entity/member';
+import {DStatus, ListSearch} from 'entity/member';
 import {Input, Select} from 'antd';
 import {createForm, filterEmpty, getFormDecorators} from 'common/utils';
 
@@ -22,6 +22,9 @@ class Component extends React.PureComponent<StoreProps & FormComponentProps & Di
     event.preventDefault();
     this.props.form.validateFields((errors, values: ListSearch) => {
       if (!errors) {
+        values.pageCurrent = 1;
+        values.sorterField = undefined;
+        values.sorterOrder = undefined;
         this.props.dispatch(actions.adminMember.searchList(filterEmpty(values), 'current'));
       }
     });
@@ -49,26 +52,17 @@ class Component extends React.PureComponent<StoreProps & FormComponentProps & Di
       },
       {
         label: '角色',
-        item: formDecorators.roleId!(<ResourceSelector title="请选择角色" placeholder="请选择角色" resourceNameField="roleName" limit={3} allowClear={true} resource={RoleSelector} />),
+        item: formDecorators.roleId!(<ResourceSelector title="请选择角色" placeholder="请选择角色" resourceNameField="roleName" allowClear={true} resource={RoleSelector} />),
       },
       {
-        label: '性别',
-        item: formDecorators.gender!(
-          <Select allowClear={true} placeholder="请选择性别">
-            {DGender.options.map(option => (
-              <Option key={option.key} value={option.key}>
-                {option.name}
-              </Option>
-            ))}
-          </Select>
-        ),
+        label: 'Email',
+        item: formDecorators.email!(<Input autoComplete="off" allowClear={true} placeholder="请输入Email" />),
       },
-      {label: '注册时间', item: formDecorators.createdTime!(<RangeDatePicker />)},
       {label: '登录时间', item: formDecorators.loginTime!(<RangeDatePicker />)},
     ];
     return (
       <div className="g-search">
-        <SearchForm expand={!!listSearch.gender || !!listSearch.createdTime || !!listSearch.loginTime} onReset={this.onReset} onSubmit={this.onSubmit} senior={4} items={items}></SearchForm>
+        <SearchForm expand={!!listSearch.email || !!listSearch.loginTime} onReset={this.onReset} onSubmit={this.onSubmit} senior={4} items={items}></SearchForm>
       </div>
     );
   }

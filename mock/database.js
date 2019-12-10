@@ -28,26 +28,12 @@ function createMap(obj = {}, len = 50, prot) {
       }
       return result;
     },
-  });
-}
-function createArray(arr = [], len = 50, prot) {
-  if (prot === undefined) {
-    prot = arr.length;
-  }
-  return new Proxy(arr, {
-    set: function(target, key, value, receiver) {
-      const index = Number(key);
-      if (!isNaN(index)) {
-        if (Reflect.get(target, 'length') >= len) {
-          target.splice(prot, 1);
-          key = len - 1;
-        }
-      } else if (key === 'length') {
-        if (value > len) {
-          value = len;
-        }
+    deleteProperty: function(target, key) {
+      if (protKeys[key]) {
+        return false;
       }
-      return Reflect.set(target, key, value, receiver);
+      delete target[key];
+      return true;
     },
   });
 }
@@ -109,8 +95,8 @@ function createArray(arr = [], len = 50, prot) {
   });
 }
 
-const users = createMap(
-  {
+function createUsers() {
+  const list = createMap({
     superadmin: {
       id: 'superadmin',
       username: 'superadmin',
@@ -119,7 +105,7 @@ const users = createMap(
       hasLogin: true,
       gender: 'unknow',
       age: '25',
-      rolId: '1',
+      roleId: '1',
       roleName: '超级管理员',
       status: 'enable',
       loginTime: timestamp,
@@ -135,7 +121,7 @@ const users = createMap(
       hasLogin: true,
       gender: 'unknow',
       age: '18',
-      rolId: '2',
+      roleId: '2',
       roleName: '普通管理员',
       status: 'enable',
       loginTime: timestamp,
@@ -149,46 +135,171 @@ const users = createMap(
       nickname: '莉莉',
       gender: 'female',
       age: 24,
-      rolId: '3',
+      roleId: '3',
       roleName: '文章编辑',
       status: 'enable',
       loginTime: timestamp,
       createdTime: timestamp,
       email: 'revvc@sina.com.cn',
     },
-  },
-  32
-);
-mockjs
-  .mock({
-    'list|27': [
-      {
-        'id|+1': 1,
-        username: '@last',
-        nickname: '@cname',
-        password: '123456',
-        hasLogin: true,
-        'gender|1': ['male', 'female', 'unknow'],
-        'age|18-50': 30,
-        rolId: '4',
-        roleName: '普通会员',
-        'status|1': ['enable', 'disable', 'enable'],
-        loginTime: timestamp,
-        createdTime: timestamp,
-        avatar: '/client/imgs/u1.jpg',
-        email: '@email',
-      },
-    ],
-  })
-  .list.forEach(user => {
-    user.loginTime = user.createdTime = timestamp + user.id * 1000;
-    user.id = user.username = user.username + user.id;
-    users[user.id] = user;
   });
+  mockjs
+    .mock({
+      'list|27': [
+        {
+          'id|+1': 1,
+          username: '@last',
+          nickname: '@cname',
+          password: '123456',
+          hasLogin: true,
+          'gender|1': ['male', 'female', 'unknow'],
+          'age|18-50': 30,
+          roleId: '4',
+          roleName: '普通会员',
+          'status|1': ['enable', 'disable', 'enable'],
+          loginTime: timestamp,
+          createdTime: timestamp,
+          avatar: '/client/imgs/u1.jpg',
+          email: '@email',
+        },
+      ],
+    })
+    .list.forEach(item => {
+      item.loginTime = item.createdTime = timestamp + item.id * 1000;
+      item.id = item.username = item.username + item.id;
+      list[item.id] = item;
+    });
+  return list;
+}
+
+function createRoles() {
+  const purviews = [
+    'role.all',
+    'user.create',
+    'user.delete',
+    'user.update',
+    'user.list',
+    'user.detail',
+    'user.review',
+    'article.create',
+    'article.delete',
+    'article.update',
+    'article.list',
+    'article.detail',
+    'article.review',
+  ];
+  const list = createMap({
+    1: {
+      id: '1',
+      roleName: '超级管理员',
+      purviews: [
+        'role.all',
+        'user.create',
+        'user.delete',
+        'user.update',
+        'user.list',
+        'user.detail',
+        'user.review',
+        'article.create',
+        'article.delete',
+        'article.update',
+        'article.list',
+        'article.detail',
+        'article.review',
+      ],
+      owner: 1,
+      fixed: true,
+      remark: '系统内置，不可修改',
+      createdTime: timestamp,
+    },
+    2: {
+      id: '2',
+      roleName: '普通管理员',
+      purviews: [
+        'user.create',
+        'user.delete',
+        'user.update',
+        'user.list',
+        'user.detail',
+        'user.review',
+        'article.create',
+        'article.delete',
+        'article.update',
+        'article.list',
+        'article.detail',
+        'article.review',
+      ],
+      owner: 1,
+      fixed: true,
+      remark: '系统内置，不可修改',
+      createdTime: timestamp,
+    },
+    3: {
+      id: '3',
+      roleName: '文章编辑',
+      purviews: ['article.create', 'article.delete', 'article.update', 'article.list', 'article.detail', 'article.review'],
+      owner: 1,
+      fixed: true,
+      remark: '系统内置，不可修改',
+      createdTime: timestamp,
+    },
+    4: {
+      id: '4',
+      roleName: '普通会员',
+      purviews: ['article.list', 'article.detail'],
+      owner: 1,
+      fixed: true,
+      remark: '系统内置，不可修改',
+      createdTime: timestamp,
+    },
+  });
+  mockjs
+    .mock({
+      'list|26': [
+        {
+          'id|+1': 5,
+          roleName: '@ctitle(2, 8)',
+          purviews: () => {
+            const start = Math.floor(Math.random() * (purviews.length - 1));
+            const len = Math.ceil(Math.random() * (purviews.length - start));
+            return purviews.slice(start, start + len);
+          },
+          owner: 0,
+          fixed: false,
+          remark: '',
+          createdTime: timestamp,
+        },
+      ],
+    })
+    .list.forEach(item => {
+      item.createdTime = timestamp + item.id * 1000;
+      item.id = '' + item.id;
+      list[item.id] = item;
+    });
+  return list;
+}
 
 const data = {
-  config: {tokenRenewalTime: 30000},
-  users,
+  config: {
+    tokenRenewalTime: 30000,
+    purviews: {
+      'role.all': '角色管理',
+      'user.create': '新增',
+      'user.delete': '删除',
+      'user.update': '修改',
+      'user.list': '列表',
+      'user.detail': '详情',
+      'user.review': '审核',
+      'article.create': '新增',
+      'article.delete': '删除',
+      'article.update': '修改',
+      'article.list': '列表',
+      'article.detail': '详情',
+      'article.review': '审核',
+    },
+  },
+  roles: createRoles(),
+  users: createUsers(),
 };
 
 const database = {
@@ -242,9 +353,6 @@ const database = {
           headers,
           response: '',
         };
-      },
-      addUser(user) {
-        data.users[user.id] = user;
       },
     },
   },

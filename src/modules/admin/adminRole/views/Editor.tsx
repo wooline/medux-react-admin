@@ -20,6 +20,7 @@ export const formItemLayout = {
 };
 
 interface StoreProps {
+  currentOperation?: 'detail' | 'edit' | 'create';
   dataSource?: UpdateItem;
 }
 
@@ -28,6 +29,16 @@ interface State {
 }
 
 class Component extends React.PureComponent<StoreProps & FormComponentProps & DispatchProp, State> {
+  static getDerivedStateFromProps(nextProps: StoreProps, prevState: State): State | null {
+    if (!nextProps.currentOperation) {
+      return {
+        ...prevState,
+        purviewsError: '',
+      };
+    }
+    return null;
+  }
+
   state: State = {};
 
   validatePurview = (rule: {message: string}, value: string[] | undefined, callback: (err?: string) => void) => {
@@ -44,7 +55,6 @@ class Component extends React.PureComponent<StoreProps & FormComponentProps & Di
     }
   };
   onHide = () => {
-    this.onReset();
     this.props.dispatch(actions.adminRole.putCurrentItem());
   };
   onReset = () => {
@@ -116,6 +126,7 @@ class Component extends React.PureComponent<StoreProps & FormComponentProps & Di
 const mapStateToProps: (state: RootState) => StoreProps = state => {
   const thisModule = state.adminRole!;
   return {
+    currentOperation: thisModule.currentOperation,
     dataSource: thisModule.currentItem,
   };
 };

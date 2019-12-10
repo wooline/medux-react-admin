@@ -1,4 +1,8 @@
-const {username, password, info = {}} = request.body;
+let {username = '', password = '', info} = request.body;
+username = username.toString();
+password = password.toString();
+info = info || {};
+
 const result = {
   statusCode: 422,
   headers: {

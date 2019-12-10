@@ -5,6 +5,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 
 interface StoreProps {
+  listSearch?: ListSearch;
   list?: ListItem[];
   listSummary?: ListSummary;
 }
@@ -14,23 +15,20 @@ interface OwnProps {
   selectedRows?: ListItem[];
   onSelectdChange?: (items: ListItem[]) => void;
 }
-interface State {
-  confirmModal?: {context: React.ReactNode; callback: Function};
-}
+
 class Component extends React.PureComponent<StoreProps & DispatchProp & OwnProps> {
-  state: State = {};
   columns: ColumnProps<ListItem>[] = [
     {
-      title: 'No.',
-      dataIndex: 'id',
-      width: '5%',
-      align: 'center',
-      no: true,
+      title: '创建时间',
+      dataIndex: 'createdTime',
+      width: '16%',
+      sorter: true,
+      timestamp: true,
     },
     {
       title: '角色名称',
       dataIndex: 'roleName',
-      width: '10%',
+      width: '15%',
     },
     {
       title: '拥有权限',
@@ -95,26 +93,29 @@ class Component extends React.PureComponent<StoreProps & DispatchProp & OwnProps
     }
     this.props.onSelectdChange && this.props.onSelectdChange(rows);
   };
-  onChange = (pagination: {current: number; pageSize: number}) => {
+  onChange = (pagination: {current: number; pageSize: number}, filter: any, sorter: {field: string; order: string}) => {
     const {current: pageCurrent, pageSize} = pagination;
     this.props.dispatch(
       actions.adminRole.searchList(
         {
           pageCurrent,
           pageSize,
+          sorterField: sorter.order && sorter.field,
+          sorterOrder: sorter.order,
         },
-        'current',
-        true
+        'current'
       )
     );
   };
   render() {
-    const {list, listSummary, selectLimit, selectedRows} = this.props;
+    const {list, listSummary, selectLimit, selectedRows, listSearch} = this.props;
 
     return (
       <div className="g-table">
         <MTable<ListItem>
+          scroll={{y: 410}}
           onChange={this.onChange as any}
+          listSearch={listSearch}
           rowSelection={{
             selectedRows,
             selectLimit,
@@ -135,8 +136,9 @@ class Component extends React.PureComponent<StoreProps & DispatchProp & OwnProps
 }
 
 const mapStateToProps: (state: RootState) => StoreProps = state => {
-  const {list, listSummary} = state.adminRole!;
-  return {list, listSummary};
+  const thisModule = state.adminRole!;
+  const {list, listSummary} = thisModule;
+  return {list, listSummary, listSearch: thisModule.preRouteParams?.listSearch};
 };
 
 export default connect(mapStateToProps)(Component);

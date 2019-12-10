@@ -1,4 +1,8 @@
-const {username, password, keep} = request.body;
+let {username = '', password = '', keep} = request.body;
+username = username.toString();
+password = password.toString();
+keep = Boolean(keep);
+
 const result = {
   headers: {
     'x-delay': 0,

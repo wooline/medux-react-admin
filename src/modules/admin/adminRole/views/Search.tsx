@@ -22,6 +22,9 @@ class Component extends React.PureComponent<StoreProps & FormComponentProps & Di
     const {form, dispatch, disableRoute} = this.props;
     form.validateFields((errors, values: ListSearch) => {
       if (!errors) {
+        values.pageCurrent = 1;
+        values.sorterField = undefined;
+        values.sorterOrder = undefined;
         dispatch(actions.adminRole.searchList(filterEmpty(values), 'current', disableRoute));
       }
     });
@@ -37,7 +40,7 @@ class Component extends React.PureComponent<StoreProps & FormComponentProps & Di
       {
         label: '用户权限',
         col: 2,
-        item: formDecorators.purview(<PurviewSelector mode="multiple" />),
+        item: formDecorators.purviews(<PurviewSelector mode="multiple" />),
       },
     ];
     return (

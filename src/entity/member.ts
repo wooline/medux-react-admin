@@ -19,10 +19,9 @@ export const DStatus = enumOptions(Status);
 export interface ListSearch extends BaseListSearch {
   username?: string;
   nickname?: string;
-  roleId?: string;
-  createdTime?: [number, number];
+  email?: string;
+  roleId?: [{id: string}];
   loginTime?: [number, number];
-  gender?: Gender;
   status?: Status;
 }
 export interface ListItem extends BaseListItem {

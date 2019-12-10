@@ -123,7 +123,7 @@ class Component extends React.PureComponent<StoreProps & DispatchProp> {
     }
     this.props.dispatch(actions.adminMember.putSelectedRows(rows));
   };
-  onChange = (pagination: {current: number; pageSize: number}, filter: any, sorter: {field: string; order: any}) => {
+  onChange = (pagination: {current: number; pageSize: number}, filter: any, sorter: {field: string; order: string}) => {
     const {current: pageCurrent, pageSize} = pagination;
     this.props.dispatch(
       actions.adminMember.searchList(

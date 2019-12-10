@@ -1,5 +1,5 @@
 import {Button, Divider, Popconfirm} from 'antd';
-import {ListItem, ListSummary, UpdateItem, purviewNames} from 'entity/role';
+import {ListItem, ListSearch, ListSummary, UpdateItem, purviewNames} from 'entity/role';
 import MTable, {ColumnProps} from 'components/MTable';
 
 import React from 'react';
@@ -12,6 +12,7 @@ const newItem: UpdateItem = {
   purviews: [],
 };
 interface StoreProps {
+  listSearch?: ListSearch;
   selectedRows?: ListItem[];
   list?: ListItem[];
   listSummary?: ListSummary;
@@ -33,7 +34,7 @@ class Component extends React.PureComponent<StoreProps & DispatchProp> {
     {
       title: '角色名称',
       dataIndex: 'roleName',
-      width: '10%',
+      width: '15%',
     },
     {
       title: '拥有权限',
@@ -56,9 +57,10 @@ class Component extends React.PureComponent<StoreProps & DispatchProp> {
       width: '10%',
     },
     {
-      title: '更新时间',
-      dataIndex: 'updateTime',
+      title: '创建时间',
+      dataIndex: 'createdTime',
       width: '11%',
+      sorter: true,
       timestamp: true,
     },
     {
@@ -125,13 +127,16 @@ class Component extends React.PureComponent<StoreProps & DispatchProp> {
     }
     this.props.dispatch(actions.adminRole.putSelectedRows(rows));
   };
-  onChange = (pagination: {current: number; pageSize: number}) => {
+
+  onChange = (pagination: {current: number; pageSize: number}, filter: any, sorter: {field: string; order: string}) => {
     const {current: pageCurrent, pageSize} = pagination;
     this.props.dispatch(
       actions.adminRole.searchList(
         {
           pageCurrent,
           pageSize,
+          sorterField: sorter.order && sorter.field,
+          sorterOrder: sorter.order,
         },
         'current'
       )
@@ -146,7 +151,7 @@ class Component extends React.PureComponent<StoreProps & DispatchProp> {
     },
   };
   render() {
-    const {list, listSummary, selectedRows} = this.props;
+    const {list, listSummary, selectedRows, listSearch} = this.props;
 
     return (
       <div className="g-table">
@@ -160,6 +165,7 @@ class Component extends React.PureComponent<StoreProps & DispatchProp> {
           }
           batchActions={this.batchActions}
           onChange={this.onChange as any}
+          listSearch={listSearch}
           rowSelection={{
             selectedRows,
             onClear: this.onClearSelect,
@@ -182,8 +188,9 @@ class Component extends React.PureComponent<StoreProps & DispatchProp> {
 }
 
 const mapStateToProps: (state: RootState) => StoreProps = state => {
-  const {list, listSummary, selectedRows} = state.adminRole!;
-  return {list, listSummary, selectedRows};
+  const thisModule = state.adminRole!;
+  const {list, listSummary, selectedRows} = thisModule;
+  return {list, listSummary, selectedRows, listSearch: thisModule.preRouteParams?.listSearch};
 };
 
 export default connect(mapStateToProps)(Component);

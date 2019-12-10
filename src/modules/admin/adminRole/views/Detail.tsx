@@ -66,8 +66,8 @@ class Component extends React.PureComponent<StoreProps & DispatchProp> {
           <Descriptions bordered column={1}>
             <DescriptionsItem label="角色名称">{dataSource.roleName}</DescriptionsItem>
             <DescriptionsItem label="当前人数">{dataSource.owner}</DescriptionsItem>
-            <DescriptionsItem label="更新时间">
-              <DateTime date={dataSource.updateTime} />
+            <DescriptionsItem label="创建时间">
+              <DateTime date={dataSource.createdTime} />
             </DescriptionsItem>
             <DescriptionsItem label="备注说明">{dataSource.remark}</DescriptionsItem>
           </Descriptions>

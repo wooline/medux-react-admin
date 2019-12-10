@@ -1,22 +1,22 @@
 import {BaseListItem, BaseListSearch, BaseListSummary, CommonResource} from './common';
 
 export const purviewNames: {[key: string]: string} = {
-  ['role']: '角色',
-  ['role.all']: '角色管理',
-  ['user']: '用户',
-  ['user.create']: '新增',
-  ['user.delete']: '删除',
-  ['user.update']: '修改',
-  ['user.list']: '列表',
-  ['user.detail']: '详情',
-  ['user.review']: '审核',
-  ['article']: '文章',
-  ['article.create']: '新增',
-  ['article.delete']: '删除',
-  ['article.update']: '修改',
-  ['article.list']: '列表',
-  ['article.detail']: '详情',
-  ['article.review']: '审核',
+  role: '角色',
+  'role.all': '角色管理',
+  user: '用户',
+  'user.create': '新增',
+  'user.delete': '删除',
+  'user.update': '修改',
+  'user.list': '列表',
+  'user.detail': '详情',
+  'user.review': '审核',
+  article: '文章',
+  'article.create': '新增',
+  'article.delete': '删除',
+  'article.update': '修改',
+  'article.list': '列表',
+  'article.detail': '详情',
+  'article.review': '审核',
 };
 
 export interface Purview {
@@ -108,14 +108,14 @@ export const menuData: MenuItem[] = [
 ];
 export interface ListSearch extends BaseListSearch {
   roleName?: string;
-  purview?: string[];
+  purviews?: string[];
 }
 
 export interface ListItem extends BaseListItem {
   roleName: string;
   purviews: string[];
   owner: number;
-  updateTime: number;
+  createdTime: number;
   remark: string;
   fixed?: boolean;
 }
