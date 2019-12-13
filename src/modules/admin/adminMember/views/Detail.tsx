@@ -46,7 +46,7 @@ class Component extends React.PureComponent<StoreProps & DispatchProp> {
             <DescriptionsItem label="呢称">{dataSource.nickname}</DescriptionsItem>
             <DescriptionsItem label="角色">{dataSource.roleName}</DescriptionsItem>
             <DescriptionsItem label="性别">{DGender.keyToName[dataSource.gender]}</DescriptionsItem>
-            <DescriptionsItem label="年龄">{dataSource.age}</DescriptionsItem>
+            <DescriptionsItem label="发表文章">{dataSource.article}</DescriptionsItem>
             <DescriptionsItem label="注册时间">
               <DateTime date={dataSource.createdTime} />
             </DescriptionsItem>

@@ -1,4 +1,5 @@
 import Detail from './Detail';
+import Editor from './Editor';
 import {Modal} from 'antd';
 import React from 'react';
 import Search from './Search';
@@ -22,6 +23,15 @@ class Component extends React.PureComponent<StoreProps & DispatchProp> {
         <Table />
         <Modal visible={currentOperation === 'detail'} onCancel={this.onHideCurrent} footer={null} title="角色详情" width={900}>
           <Detail />
+        </Modal>
+        <Modal
+          visible={currentOperation === 'edit' || currentOperation === 'create'}
+          onCancel={this.onHideCurrent}
+          footer={null}
+          title={currentOperation === 'edit' ? '修改角色' : '新建角色'}
+          width={600}
+        >
+          <Editor />
         </Modal>
       </div>
     );

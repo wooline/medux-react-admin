@@ -97,12 +97,17 @@ class Component extends React.PureComponent<StoreProps & DispatchProp & OwnProps
   onChange = (pagination: {current: number; pageSize: number}, filter: any, sorter: {field: string; order: any}) => {
     const {current: pageCurrent, pageSize} = pagination;
     this.props.dispatch(
-      actions.adminRole.searchList({
-        pageCurrent,
-        pageSize,
-        sorterField: sorter.order && sorter.field,
-        sorterOrder: sorter.order,
-      })
+      actions.adminRole.searchList(
+        {
+          pageCurrent,
+          pageSize,
+          sorterField: sorter.order && sorter.field,
+          sorterOrder: sorter.order,
+        },
+        'current',
+        'Selector',
+        true
+      )
     );
   };
   render() {

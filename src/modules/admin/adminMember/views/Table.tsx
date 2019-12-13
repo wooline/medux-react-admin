@@ -1,10 +1,21 @@
 import {Button, Divider} from 'antd';
-import {DGender, DStatus, ListItem, ListSearch, ListSummary, Status} from 'entity/member';
+import {DGender, DStatus, Gender, ListItem, ListSearch, ListSummary, Status, UpdateItem} from 'entity/member';
 import MTable, {ColumnProps} from 'components/MTable';
 
 import React from 'react';
 import {connect} from 'react-redux';
 
+const newItem: UpdateItem = {
+  id: '',
+  username: '',
+  nickname: '',
+  gender: Gender.未知,
+  role: undefined,
+  roleId: '',
+  roleName: '',
+  status: Status.启用,
+  email: '',
+};
 interface StoreProps {
   selectedRows?: ListItem[];
   listSearch?: ListSearch;
@@ -41,13 +52,14 @@ class Component extends React.PureComponent<StoreProps & DispatchProp> {
       render: (gender: string) => DGender.keyToName[gender],
     },
     {
-      title: '年龄',
-      dataIndex: 'age',
+      title: '发表文章',
+      dataIndex: 'article',
       align: 'center',
-      width: '6%',
+      sorter: true,
+      width: '8%',
     },
     {
-      title: 'email',
+      title: 'Email',
       dataIndex: 'email',
       ellipsis: true,
     },
@@ -89,6 +101,9 @@ class Component extends React.PureComponent<StoreProps & DispatchProp> {
       ),
     },
   ];
+  onCreate = () => {
+    this.props.dispatch(actions.adminMember.execCurrentItem('create', newItem));
+  };
   onShowDetail = (item: ListItem) => {
     this.props.dispatch(actions.adminMember.execCurrentItem('detail', item.id));
   };
@@ -154,7 +169,7 @@ class Component extends React.PureComponent<StoreProps & DispatchProp> {
         <MTable<ListItem>
           topArea={
             <>
-              <Button type="primary" icon="plus">
+              <Button type="primary" icon="plus" onClick={this.onCreate}>
                 新建
               </Button>
             </>

@@ -7,7 +7,7 @@ const apiServer: any = {};
 
 export class API extends CommonResourceAPI {
   public searchList(request: ListSearch): Promise<{list: ListItem[]; listSummary: ListSummary}> {
-    const roleId = request.roleId && request.roleId[0] && request.roleId[0].id;
+    const roleId = request.role && request.role[0] && request.role[0].id;
     return ajax('get', '/api/member', {...request, roleId});
   }
   public deleteList(ids: string[]): Promise<any> {

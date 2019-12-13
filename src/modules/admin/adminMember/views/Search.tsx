@@ -52,7 +52,7 @@ class Component extends React.PureComponent<StoreProps & FormComponentProps & Di
       },
       {
         label: '角色',
-        item: formDecorators.roleId!(<ResourceSelector title="请选择角色" placeholder="请选择角色" resourceNameField="roleName" allowClear={true} resource={RoleSelector} />),
+        item: formDecorators.role!(<ResourceSelector title="请选择角色" placeholder="请选择角色" resourceNameField="roleName" allowClear={true} resource={RoleSelector} />),
       },
       {
         label: 'Email',

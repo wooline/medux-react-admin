@@ -13,7 +13,6 @@ const result = {
 const users = database.data.users;
 
 const {nickname = username, gender = 'unknow', rolId = '4', roleName = '普通会员', status = 'enable', email = ''} = info;
-const age = parseInt(info.age) || 0;
 
 if (users[username]) {
   result.response = {
@@ -45,12 +44,7 @@ if (!['male', 'female', 'unknow'].includes(gender)) {
   };
   return result;
 }
-if (age > 100 || info < 10) {
-  result.response = {
-    message: '年龄不合法！',
-  };
-  return result;
-}
+
 if (!['enable', 'disable'].includes(status)) {
   result.response = {
     message: '状态不合法！',
@@ -73,7 +67,6 @@ users[username] = {
   createdTime: Date.now(),
   nickname,
   gender,
-  age,
   rolId,
   roleName,
   status,
