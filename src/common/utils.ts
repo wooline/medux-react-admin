@@ -7,6 +7,7 @@ export type ExcludeNull<T> = {[K in keyof T]-?: T[K] extends null ? never : K}[k
 export type ExtractArray<T extends any[]> = T[Extract<keyof T, number>];
 export type OmitSelf<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 export type PickOptional<T> = Pick<T, {[K in keyof T]-?: {} extends {[P in K]: T[K]} ? K : never}[keyof T]>;
+export type Optional<F> = {[K in keyof F]?: F[K]};
 
 export function extract<T, K extends keyof T, U extends K[], P extends ExtractArray<U>>(target: T, ...args: U): Pick<T, P> & {$: OmitSelf<T, P>} {
   const clone = {...target};

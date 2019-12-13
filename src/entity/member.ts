@@ -1,4 +1,4 @@
-import {BaseListItem, BaseListSearch, BaseListSummary, CommonResource} from './common';
+import {BaseListItem, BaseListSearch, BaseListSummary, CommonResource, CommonResourceRouteParams} from './common';
 
 import {enumOptions} from 'common/utils';
 
@@ -38,9 +38,7 @@ export interface ListItem extends BaseListItem {
 }
 export interface ListSummary extends BaseListSummary {}
 
-export interface RouteParams {
-  id: string;
-  _listKey: string;
+export interface RouteParams extends CommonResourceRouteParams {
   listSearch: ListSearch;
 }
 export interface Resource extends CommonResource {

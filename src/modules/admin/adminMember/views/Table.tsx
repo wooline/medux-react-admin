@@ -90,10 +90,10 @@ class Component extends React.PureComponent<StoreProps & DispatchProp> {
     },
   ];
   onShowDetail = (item: ListItem) => {
-    this.props.dispatch(actions.adminMember.putCurrentItem('detail', item));
+    this.props.dispatch(actions.adminMember.execCurrentItem('detail', item.id));
   };
   onShowEditor = (item: ListItem) => {
-    this.props.dispatch(actions.adminMember.putCurrentItem('edit', item));
+    this.props.dispatch(actions.adminMember.execCurrentItem('edit', item));
   };
   onDeleteList = (ids?: string[]) => {
     this.props.dispatch(actions.adminMember.deleteList(ids));
@@ -123,18 +123,15 @@ class Component extends React.PureComponent<StoreProps & DispatchProp> {
     }
     this.props.dispatch(actions.adminMember.putSelectedRows(rows));
   };
-  onChange = (pagination: {current: number; pageSize: number}, filter: any, sorter: {field: string; order: string}) => {
+  onChange = (pagination: {current: number; pageSize: number}, filter: any, sorter: {field: string; order: any}) => {
     const {current: pageCurrent, pageSize} = pagination;
     this.props.dispatch(
-      actions.adminMember.searchList(
-        {
-          pageCurrent,
-          pageSize,
-          sorterField: sorter.order && sorter.field,
-          sorterOrder: sorter.order,
-        },
-        'current'
-      )
+      actions.adminMember.searchList({
+        pageCurrent,
+        pageSize,
+        sorterField: sorter.order && sorter.field,
+        sorterOrder: sorter.order,
+      })
     );
   };
   batchActions = {
@@ -178,10 +175,8 @@ class Component extends React.PureComponent<StoreProps & DispatchProp> {
       </div>
     );
   }
-  componentDidMount() {
-    if (!this.props.list) {
-      this.props.dispatch(actions.adminMember.searchList({}, 'current'));
-    }
+  componentWillUnmount() {
+    this.props.dispatch(actions.adminMember.putSelectedRows());
   }
 }
 

@@ -1,4 +1,4 @@
-import {ListItem, ListSummary, UpdateItem, purviewNames} from 'entity/role';
+import {ListItem, ListSearch, ListSummary, purviewNames} from 'entity/role';
 import MTable, {ColumnProps} from 'components/MTable';
 
 import React from 'react';
@@ -55,6 +55,7 @@ class Component extends React.PureComponent<StoreProps & DispatchProp & OwnProps
       dataIndex: 'remark',
       ellipsis: true,
       width: '14%',
+      render: (text: string) => text,
     },
     {
       title: '操作',
@@ -66,7 +67,7 @@ class Component extends React.PureComponent<StoreProps & DispatchProp & OwnProps
     },
   ];
   onShowDetail = (item: ListItem) => {
-    this.props.dispatch(actions.adminRole.putCurrentItem('detail', item));
+    this.props.dispatch(actions.adminRole.execCurrentItem('detail', item));
   };
   onClearSelect = () => {
     this.props.onSelectdChange && this.props.onSelectdChange([]);
@@ -93,18 +94,15 @@ class Component extends React.PureComponent<StoreProps & DispatchProp & OwnProps
     }
     this.props.onSelectdChange && this.props.onSelectdChange(rows);
   };
-  onChange = (pagination: {current: number; pageSize: number}, filter: any, sorter: {field: string; order: string}) => {
+  onChange = (pagination: {current: number; pageSize: number}, filter: any, sorter: {field: string; order: any}) => {
     const {current: pageCurrent, pageSize} = pagination;
     this.props.dispatch(
-      actions.adminRole.searchList(
-        {
-          pageCurrent,
-          pageSize,
-          sorterField: sorter.order && sorter.field,
-          sorterOrder: sorter.order,
-        },
-        'current'
-      )
+      actions.adminRole.searchList({
+        pageCurrent,
+        pageSize,
+        sorterField: sorter.order && sorter.field,
+        sorterOrder: sorter.order,
+      })
     );
   };
   render() {
@@ -131,7 +129,7 @@ class Component extends React.PureComponent<StoreProps & DispatchProp & OwnProps
     );
   }
   componentDidMount() {
-    this.props.dispatch(actions.adminRole.searchList({}, 'default', true, true));
+    this.props.dispatch(actions.adminRole.searchList({}, 'default', undefined, true, true));
   }
 }
 

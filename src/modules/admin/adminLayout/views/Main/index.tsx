@@ -40,8 +40,8 @@ class Component extends React.PureComponent<StoreProps> {
               <Switch>
                 <Redirect exact path="/admin" to="/admin/home" />
                 <Route exact path="/admin/home" component={AdminHome} />
-                <Route exact path="/admin/member" component={AdminMember} />
-                <Route exact path="/admin/role" component={AdminRole} />
+                <Route exact path="/admin/role/:listView" component={AdminRole} />
+                <Route path="/admin/member/:listView" component={AdminMember} />
                 <Route component={NotFound} />
               </Switch>
             </Content>

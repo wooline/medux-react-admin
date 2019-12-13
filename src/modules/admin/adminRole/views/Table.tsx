@@ -68,6 +68,7 @@ class Component extends React.PureComponent<StoreProps & DispatchProp> {
       dataIndex: 'remark',
       ellipsis: true,
       width: '15%',
+      render: (text: string) => text,
     },
     {
       title: '操作',
@@ -91,13 +92,13 @@ class Component extends React.PureComponent<StoreProps & DispatchProp> {
     },
   ];
   onCreate = () => {
-    this.props.dispatch(actions.adminRole.putCurrentItem('create', newItem));
+    this.props.dispatch(actions.adminRole.execCurrentItem('create', newItem));
   };
   onShowDetail = (item: ListItem) => {
-    this.props.dispatch(actions.adminRole.putCurrentItem('detail', item));
+    this.props.dispatch(actions.adminRole.execCurrentItem('detail', item));
   };
   onShowEditor = (item: ListItem) => {
-    this.props.dispatch(actions.adminRole.putCurrentItem('edit', item));
+    this.props.dispatch(actions.adminRole.execCurrentItem('edit', item));
   };
   onDeleteList = (ids?: string[]) => {
     this.props.dispatch(actions.adminRole.deleteList(ids));
@@ -128,18 +129,15 @@ class Component extends React.PureComponent<StoreProps & DispatchProp> {
     this.props.dispatch(actions.adminRole.putSelectedRows(rows));
   };
 
-  onChange = (pagination: {current: number; pageSize: number}, filter: any, sorter: {field: string; order: string}) => {
+  onChange = (pagination: {current: number; pageSize: number}, filter: any, sorter: {field: string; order: any}) => {
     const {current: pageCurrent, pageSize} = pagination;
     this.props.dispatch(
-      actions.adminRole.searchList(
-        {
-          pageCurrent,
-          pageSize,
-          sorterField: sorter.order && sorter.field,
-          sorterOrder: sorter.order,
-        },
-        'current'
-      )
+      actions.adminRole.searchList({
+        pageCurrent,
+        pageSize,
+        sorterField: sorter.order && sorter.field,
+        sorterOrder: sorter.order,
+      })
     );
   };
   batchActions = {
@@ -180,10 +178,8 @@ class Component extends React.PureComponent<StoreProps & DispatchProp> {
       </div>
     );
   }
-  componentDidMount() {
-    if (!this.props.list) {
-      this.props.dispatch(actions.adminRole.searchList({}, 'current'));
-    }
+  componentWillUnmount() {
+    this.props.dispatch(actions.adminRole.putSelectedRows());
   }
 }
 

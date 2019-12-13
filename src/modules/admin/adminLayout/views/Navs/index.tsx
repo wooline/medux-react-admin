@@ -1,6 +1,6 @@
 import {Icon, Menu} from 'antd';
 
-import {Link} from 'react-router-dom';
+import ListKeyLink from 'components/ListKeyLink';
 import {MenuItem} from 'entity/role';
 import {PickOptional} from 'common/utils';
 import React from 'react';
@@ -89,6 +89,7 @@ function filterDisable(data: MenuItem[]): MenuItem[] {
     })
     .filter(Boolean) as any;
 }
+
 function generateMenu(menusData: MenuItem[], folderHandler: (item: {key: string}) => void) {
   return menusData.map(item => {
     const keys = typeof item.keys === 'string' ? [item.keys] : [...item.keys];
@@ -122,9 +123,9 @@ function generateMenu(menusData: MenuItem[], folderHandler: (item: {key: string}
               {getIcon(icon)} <span>{name}</span>
             </a>
           ) : (
-            <Link to={link}>
+            <ListKeyLink href={link}>
               {getIcon(icon)} <span>{name}</span>
-            </Link>
+            </ListKeyLink>
           )}
         </Menu.Item>
       );

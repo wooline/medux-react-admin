@@ -25,7 +25,7 @@ class Component extends React.PureComponent<StoreProps & FormComponentProps & Di
         values.pageCurrent = 1;
         values.sorterField = undefined;
         values.sorterOrder = undefined;
-        this.props.dispatch(actions.adminMember.searchList(filterEmpty(values), 'current'));
+        this.props.dispatch(actions.adminMember.searchList(filterEmpty(values)));
       }
     });
   };
@@ -33,7 +33,7 @@ class Component extends React.PureComponent<StoreProps & FormComponentProps & Di
     this.props.dispatch(actions.adminMember.searchList({}, 'default'));
   };
   public render() {
-    const {form, listSearch = {}} = this.props;
+    const {form, listSearch = {pageSize: 10, pageCurrent: 1}} = this.props;
     const formDecorators = getFormDecorators<ListSearch>(form);
     const items = [
       {label: '用户名', item: formDecorators.username(<Input autoComplete="off" allowClear={true} placeholder="请输入用户名" />)},

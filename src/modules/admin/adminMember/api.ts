@@ -16,6 +16,9 @@ export class API extends CommonResourceAPI {
   public changeListStatus(ids: string[], agree: boolean, auditingreason: string = ''): Promise<any> {
     return apiServer.v1.device.auditingdevice.call({deviceid: ids, agree, auditingreason});
   }
+  public getDetailItem(id: string): Promise<any> {
+    return ajax('get', '/api/member/:id', {id});
+  }
 }
 
 export default new API();

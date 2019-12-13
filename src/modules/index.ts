@@ -62,7 +62,7 @@ export const actions = exportActions(moduleGetter);
 
 export type RootState = BaseState<typeof moduleGetter>;
 
-export type LoadView = BaseLoadView<typeof moduleGetter, React.ComponentType<any>>;
+export type LoadView = BaseLoadView<typeof moduleGetter>;
 
 export const {historyActions, toUrl} = getBrowserHistory<RootState['route']['data']['params']>();
 
@@ -77,7 +77,19 @@ export const routeConfig: RouteConfig = {
         {
           '/admin/home': 'adminHome.Main',
           '/admin/role': 'adminRole.Main',
+          '/admin/role/:listView': [
+            'adminRole.list',
+            {
+              '/admin/role/:listView/:itemView/:itemId': 'adminRole.Detail',
+            },
+          ],
           '/admin/member': 'adminMember.Main',
+          '/admin/member/:listView': [
+            'adminMember.List',
+            {
+              '/admin/member/:listView/:itemView/:itemId': 'adminMember.Detail',
+            },
+          ],
         },
       ],
       '/article': [

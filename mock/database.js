@@ -281,6 +281,7 @@ function createRoles() {
 
 const data = {
   config: {
+    version: Date.now(),
     tokenRenewalTime: 30000,
     purviews: {
       'role.all': '角色管理',
@@ -307,11 +308,12 @@ const database = {
   action: {
     users: {
       createToken(userId, expired) {
+        const version = data.config.version;
         const curUser = data.users[userId];
-        const digestData = [userId, curUser.password, expired].join(',');
+        const digestData = [userId, curUser.password, expired, version].join(',');
         const md5 = crypto.createHash('md5');
         const digest = md5.update(digestData).digest('hex');
-        const tokenData = {expired, userId, digest};
+        const tokenData = {expired, userId, version, digest};
         const tokenStr = JSON.stringify(tokenData);
         const token = new Buffer(tokenStr).toString('base64');
         return token;
@@ -324,12 +326,12 @@ const database = {
           } catch (e) {
             token = {};
           }
-          const {expired, userId, digest} = token;
-          if (expired && userId && digest && data.users[userId]) {
+          const {expired, userId, version, digest} = token;
+          if (expired && data.users[userId] && version === data.config.version && digest) {
             const since = Date.now() - expired;
             if (since < 0) {
               const curUser = data.users[userId];
-              const digestData = [userId, curUser.password, expired].join(',');
+              const digestData = [userId, curUser.password, expired, version].join(',');
               const md5 = crypto.createHash('md5');
               const digestStr = md5.update(digestData).digest('hex');
               if (digestStr === digest) {

@@ -10,14 +10,18 @@ export interface Props {
   style?: React.CSSProperties;
   disabledDate?: (currentDate: moment.Moment | undefined) => boolean;
   value?: [number, number];
-  onChange?: (value: [number, number]) => void;
+  onChange?: (value?: [number, number]) => void;
 }
 
 class Component extends React.PureComponent<Props, {}> {
   handleChange = (dates: RangePickerValue) => {
-    const start = dates[0] ? dates[0].startOf('day').valueOf() : 0;
-    const end = dates[1] ? dates[1].endOf('day').valueOf() : 0;
-    this.props.onChange && this.props.onChange([start, end]);
+    if (dates[0] && dates[1]) {
+      const start = dates[0].startOf('day').valueOf();
+      const end = dates[1].endOf('day').valueOf();
+      this.props.onChange && this.props.onChange([start, end]);
+    } else {
+      this.props.onChange && this.props.onChange(undefined);
+    }
   };
   render() {
     const {disabledDate, allowClear = true, className, style} = this.props;

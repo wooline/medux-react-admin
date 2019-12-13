@@ -28,10 +28,10 @@ export const ModalSubmitLayout = {
 };
 class Component extends React.PureComponent<StoreProps & DispatchProp> {
   onHide = () => {
-    this.props.dispatch(actions.adminRole.putCurrentItem());
+    this.props.dispatch(actions.adminRole.execCurrentItem());
   };
   onEdit = () => {
-    this.props.dispatch(actions.adminRole.putCurrentItem('edit'));
+    this.props.dispatch(actions.adminRole.execCurrentItem('edit'));
   };
   onDelete = async () => {
     await this.props.dispatch(actions.adminRole.deleteList([this.props.dataSource!.id]));

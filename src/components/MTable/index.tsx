@@ -126,7 +126,7 @@ class MTable<T> extends React.PureComponent<Props<T>> {
   };
   render() {
     const defaultListSummary: BaseListSummary = {pageCurrent: 1, pageSize: 10, totalItems: 0, totalPages: 0};
-    const defaultListSearch: BaseListSearch = {sorterOrder: 'ascend', sorterField: ''};
+    const defaultListSearch: BaseListSearch = {sorterOrder: 'ascend', sorterField: '', pageSize: 10, pageCurrent: 1};
     const {reviewSelectedMode, showConfirmModal, confirmModal} = this.state;
     const {listSummary = defaultListSummary, listSearch = defaultListSearch, rowKey = 'id', bottomArea, batchActions, dataSource, topArea, rowSelection, columns, ...props} = this.props;
     const {pageCurrent, pageSize, totalItems} = listSummary;

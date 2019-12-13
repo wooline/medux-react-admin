@@ -25,12 +25,12 @@ class Component extends React.PureComponent<StoreProps & FormComponentProps & Di
         values.pageCurrent = 1;
         values.sorterField = undefined;
         values.sorterOrder = undefined;
-        dispatch(actions.adminRole.searchList(filterEmpty(values), 'current', disableRoute));
+        dispatch(actions.adminRole.searchList(filterEmpty(values), 'current', undefined, disableRoute));
       }
     });
   };
   private onReset = () => {
-    this.props.dispatch(actions.adminRole.searchList({}, 'default', this.props.disableRoute));
+    this.props.dispatch(actions.adminRole.searchList({}, 'default', undefined, this.props.disableRoute));
   };
   public render() {
     const {form} = this.props;

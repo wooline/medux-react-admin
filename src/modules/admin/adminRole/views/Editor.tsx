@@ -55,7 +55,7 @@ class Component extends React.PureComponent<StoreProps & FormComponentProps & Di
     }
   };
   onHide = () => {
-    this.props.dispatch(actions.adminRole.putCurrentItem());
+    this.props.dispatch(actions.adminRole.execCurrentItem());
   };
   onReset = () => {
     this.setState({purviewsError: ''});
@@ -126,7 +126,7 @@ class Component extends React.PureComponent<StoreProps & FormComponentProps & Di
 const mapStateToProps: (state: RootState) => StoreProps = state => {
   const thisModule = state.adminRole!;
   return {
-    currentOperation: thisModule.currentOperation,
+    currentOperation: thisModule.routeParams!.currentOperation,
     dataSource: thisModule.currentItem,
   };
 };

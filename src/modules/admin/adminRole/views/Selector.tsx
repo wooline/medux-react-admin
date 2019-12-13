@@ -17,7 +17,7 @@ interface OwnProps {
 
 class Component extends React.PureComponent<StoreProps & DispatchProp & OwnProps> {
   onHideCurrent = () => {
-    this.props.dispatch(actions.adminRole.putCurrentItem());
+    this.props.dispatch(actions.adminRole.execCurrentItem());
   };
   public render() {
     const {currentOperation, onChange, limit, value} = this.props;
@@ -36,7 +36,7 @@ class Component extends React.PureComponent<StoreProps & DispatchProp & OwnProps
 const mapStateToProps: (state: RootState) => StoreProps = state => {
   const thisModule = state.adminRole!;
   return {
-    currentOperation: thisModule.currentOperation,
+    currentOperation: thisModule.routeParams!.currentOperation,
   };
 };
 

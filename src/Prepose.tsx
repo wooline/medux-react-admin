@@ -9,7 +9,7 @@ const DefLoading = () => (
     <Icon type="sync" spin />
   </div>
 );
-const loadView = (moduleName: string, viewName: never, loading: React.ComponentType<any> = DefLoading) => baseLoadView(moduleName, viewName, loading);
+const loadView = (moduleName: string, viewName: never, modelOptions?: any, loading: React.ComponentType<any> = DefLoading) => baseLoadView(moduleName, viewName, modelOptions, loading);
 
 if (initEnv.production) {
   (window as any).console = {

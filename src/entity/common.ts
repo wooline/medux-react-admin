@@ -47,14 +47,23 @@ export interface BaseListItem {
   id: string;
 }
 export interface BaseListSearch {
-  pageCurrent?: number;
-  pageSize?: number;
+  pageCurrent: number;
+  pageSize: number;
   sorterOrder?: 'ascend' | 'descend';
   sorterField?: string;
 }
 
+export interface CommonResourceRouteParams {
+  listView: string;
+  listSearch: any;
+  _listKey: string;
+  itemView: string;
+  itemId: string;
+  _itemKey: string;
+  currentOperation?: 'detail' | 'edit' | 'create';
+}
 export interface CommonResource {
-  RouteParams: {listSearch: any; _listKey: string; id: string};
+  RouteParams: CommonResourceRouteParams;
   ListSearch: BaseListSearch;
   ListItem: BaseListItem;
   ListSummary: BaseListSummary;

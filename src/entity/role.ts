@@ -1,4 +1,4 @@
-import {BaseListItem, BaseListSearch, BaseListSummary, CommonResource} from './common';
+import {BaseListItem, BaseListSearch, BaseListSummary, CommonResource, CommonResourceRouteParams} from './common';
 
 export const purviewNames: {[key: string]: string} = {
   role: '角色',
@@ -47,8 +47,8 @@ export const menuData: MenuItem[] = [
     icon: 'user-add',
     keys: 'member',
     children: [
-      {name: '用户列表', keys: '/admin/member'},
-      {name: '角色管理', keys: '/admin/role'},
+      {name: '用户列表', keys: '/admin/member/list#q=%7B"adminMember"%3A%7B"_listKey"%3A"${listKey}"%7D%7D'},
+      {name: '角色管理', keys: '/admin/role/list#q=%7B"adminRole"%3A%7B"_listKey"%3A"${listKey}"%7D%7D'},
     ],
   },
   {
@@ -128,9 +128,7 @@ export interface UpdateItem {
 }
 
 export interface ListSummary extends BaseListSummary {}
-export interface RouteParams {
-  id: string;
-  _listKey: string;
+export interface RouteParams extends CommonResourceRouteParams {
   listSearch: ListSearch;
 }
 export interface Resource extends CommonResource {
