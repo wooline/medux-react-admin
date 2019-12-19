@@ -1,11 +1,10 @@
 import {DStatus, ListSearch} from 'entity/member';
 import {Input, Select} from 'antd';
-import {createForm, filterEmpty, getFormDecorators} from 'common/utils';
+import {createForm, getFormDecorators} from 'common/utils';
 
 import {FormComponentProps} from 'antd/lib/form';
 import RangeDatePicker from 'components/RangeDatePicker';
 import React from 'react';
-import ResourceSelector from 'components/ResourceSelector';
 import SearchForm from 'components/SearchForm';
 import {connect} from 'react-redux';
 
@@ -25,7 +24,7 @@ class Component extends React.PureComponent<StoreProps & FormComponentProps & Di
         values.pageCurrent = 1;
         values.sorterField = undefined;
         values.sorterOrder = undefined;
-        this.props.dispatch(actions.adminMember.searchList(filterEmpty(values)));
+        this.props.dispatch(actions.adminMember.searchList(values));
       }
     });
   };
@@ -52,7 +51,7 @@ class Component extends React.PureComponent<StoreProps & FormComponentProps & Di
       },
       {
         label: '角色',
-        item: formDecorators.role!(<ResourceSelector title="请选择角色" placeholder="请选择角色" resourceNameField="roleName" allowClear={true} resource={RoleSelector} />),
+        item: formDecorators.role!(<RoleSelector placeholder="请选择角色" />),
       },
       {
         label: 'Email',

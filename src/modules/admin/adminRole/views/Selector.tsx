@@ -1,43 +1,28 @@
-import Detail from './Detail';
 import {ListItem} from 'entity/role';
-import {Modal} from 'antd';
 import React from 'react';
-import Search from './Search';
-import SelectorTable from './SelectorTable';
-import {connect} from 'react-redux';
+import ResourceSimpleSelector from 'components/ResourceSimpleSelector';
+import api from '../api';
 
-interface StoreProps {
-  currentOperation?: 'detail' | 'edit' | 'create';
+export interface Item {
+  id: string;
+  name: string;
 }
 interface OwnProps {
+  placeholder?: string;
   limit?: number | [number, number];
-  value?: ListItem[];
-  onChange?: (items: ListItem[]) => void;
+  value?: string | Item | (Item | string)[];
+  onChange?: (items?: Item | Item[]) => void;
 }
 
-class Component extends React.PureComponent<StoreProps & DispatchProp & OwnProps> {
-  onHideCurrent = () => {
-    this.props.dispatch(actions.adminRole.execCurrentItem());
-  };
+class Component extends React.PureComponent<OwnProps> {
+  fetch(term: string, pageSize: number, pageCurrent: number) {
+    return api.searchList({term, pageSize, pageCurrent});
+  }
+
   public render() {
-    const {currentOperation, onChange, limit, value} = this.props;
-    return (
-      <div className="g-selector">
-        <Search disableRoute={true} />
-        <SelectorTable onSelectdChange={onChange} selectedRows={value} selectLimit={limit} />
-        <Modal visible={currentOperation === 'detail'} onCancel={this.onHideCurrent} footer={null} title="角色详情" width={900}>
-          <Detail />
-        </Modal>
-      </div>
-    );
+    const {onChange, limit, value, placeholder} = this.props;
+    return <ResourceSimpleSelector<ListItem> optionRender="roleName" onChange={onChange} placeholder={placeholder} value={value} limit={limit} fetch={this.fetch} />;
   }
 }
 
-const mapStateToProps: (state: RootState) => StoreProps = state => {
-  const thisModule = state.adminRole!;
-  return {
-    currentOperation: thisModule.routeParams!.currentOperation,
-  };
-};
-
-export default connect(mapStateToProps)(Component);
+export default Component;

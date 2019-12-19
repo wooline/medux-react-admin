@@ -52,8 +52,10 @@
   },
   "dependencies": {
     "@medux/react-web-router": "~0.2.23",
+    "@types/lodash": "~4.14.149",
     "antd": "~3.26.0",
     "cookie-parser": "~1.4.4",
+    "lodash": "~4.17.15",
     "path-to-regexp": "~6.1.0",
     "react": "~16.9.0",
     "react-dom": "~16.9.0"

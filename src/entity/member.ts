@@ -19,7 +19,8 @@ export interface ListSearch extends BaseListSearch {
   username?: string;
   nickname?: string;
   email?: string;
-  role?: [{id: string}];
+  role?: {id: string};
+  roleId?: string;
   loginTime?: [number, number];
   status?: Status;
 }
@@ -28,7 +29,7 @@ export interface ListItem extends BaseListItem {
   nickname: string;
   gender: Gender;
   article: number;
-  role: [{id: string}] | undefined;
+  role: {id: string} | undefined;
   roleId: string;
   roleName: string;
   status: Status;

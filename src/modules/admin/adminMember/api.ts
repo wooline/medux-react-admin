@@ -7,8 +7,9 @@ const apiServer: any = {};
 
 export class API extends CommonResourceAPI {
   public searchList(request: ListSearch): Promise<{list: ListItem[]; listSummary: ListSummary}> {
-    const roleId = request.role && request.role[0] && request.role[0].id;
-    return ajax('get', '/api/member', {...request, roleId});
+    const {role, ...args} = request;
+    args.roleId = request.role?.id;
+    return ajax('get', '/api/member', this._filterEmpty(args));
   }
   public deleteList(ids: string[]): Promise<any> {
     return apiServer.v1.device.deldevice.call({deviceid: ids});

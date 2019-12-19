@@ -5,6 +5,7 @@ const defaultRouteParams: RouteParams = {
   listSearch: {
     pageSize: 10,
     pageCurrent: 1,
+    term: undefined,
     sorterField: undefined,
     sorterOrder: undefined,
     roleName: undefined,

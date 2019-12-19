@@ -7,12 +7,13 @@ interface Item {
   id: string;
   name?: string;
 }
+
 interface Props<Resource = any, Value = any> {
   limit?: number | [number, number];
   allowClear?: boolean;
   placeholder?: string;
-  value?: Value[];
-  onChange?: (value?: Value[]) => void;
+  value?: Value | Value[];
+  onChange?: (value?: Value | Value[]) => void;
   width?: number;
   title?: React.ReactNode;
   children?: React.ReactElement<{placeholder?: string; allowClear?: boolean; value?: Value[]; onChange?: (value?: Value[]) => void}>;
@@ -22,12 +23,12 @@ interface Props<Resource = any, Value = any> {
   resource: React.ComponentType<{limit?: number | [number, number]; value?: Resource[]; onChange?: (items: Resource[]) => void}>;
 }
 interface State<Resource = any, Value = any> {
-  value?: Value[];
-  items?: Resource[];
-  showModal?: boolean;
+  value: Value[];
+  items: Resource[];
+  showModal: boolean;
 }
 
-function equalValue(a: Item[] = [], b: Item[] = []): boolean {
+function equalValue(a: Item[], b: Item[]): boolean {
   return a.map(item => item.id).join(',') === b.map(item => item.id).join(',');
 }
 function getLimitTips(limit: number | [number, number]): string {
@@ -45,19 +46,23 @@ function defValueToResource(props: Props, value: Item): Item {
 }
 class Component<Resource extends Item = Item, Value extends Item = Item> extends React.PureComponent<Props<Resource, Value>, State<Resource, Value>> {
   static getDerivedStateFromProps(nextProps: Props<Item, Item>, prevState: State<Item, Item>): State<Item, Item> | null {
-    if (!equalValue(nextProps.value, prevState.value)) {
+    let {value = []} = nextProps;
+    value = Array.isArray(value) ? value : [value];
+    if (!equalValue(value, prevState.value)) {
       const resourceToValue = nextProps.valueToResource || defValueToResource.bind(null, nextProps);
       return {
-        value: nextProps.value,
-        items: nextProps.value?.map(resourceToValue),
+        value,
+        items: value.map(resourceToValue),
         showModal: prevState.showModal,
       };
     }
 
     return null;
   }
-  state: State<Resource> = {
+  state: State<Resource, Value> = {
+    value: [],
     items: [],
+    showModal: false,
   };
   defResourceToValue = (record: Resource) => {
     const {resourceNameField = 'name'} = this.props;
@@ -72,12 +77,22 @@ class Component<Resource extends Item = Item, Value extends Item = Item> extends
     this.setState({showModal: true});
   };
   onCloseModal = () => {
-    this.setState({showModal: false, items: undefined, value: undefined});
+    this.setState({showModal: false});
   };
   onOk = () => {
     const resourceToValue = this.props.resourceToValue || this.defResourceToValue;
-    this.props.onChange && this.props.onChange(this.state.items && this.state.items.map(resourceToValue));
-    this.setState({showModal: false, items: undefined, value: undefined});
+    const {limit = 1} = this.props;
+    const items = this.state.items;
+    let value: Value | Value[] | undefined = undefined;
+    if (items.length) {
+      if (limit === 1) {
+        value = items.map(resourceToValue)[0];
+      } else {
+        value = items.map(resourceToValue);
+      }
+    }
+    this.props.onChange && this.props.onChange(value);
+    this.setState({showModal: false});
   };
   onSelect = (items: Resource[]) => {
     const {limit = 1} = this.props;
@@ -101,7 +116,8 @@ class Component<Resource extends Item = Item, Value extends Item = Item> extends
   public render() {
     const {title, width = 1200, placeholder, allowClear, limit = 1} = this.props;
     let children = this.props.children;
-    const {showModal, items = [], value = []} = this.state;
+    const {showModal, items, value} = this.state;
+
     let inputValue: string[] = [];
     if (!children) {
       children = <Input readOnly autoComplete="off" />;

@@ -99,7 +99,7 @@ class Component extends React.PureComponent<StoreProps & FormComponentProps & Di
           <FormItem label="用户名">{formDecorators.username(<Input autoComplete="off" allowClear={true} placeholder="请输入用户名" />)}</FormItem>
           <FormItem label="呢称">{formDecorators.nickname(<Input autoComplete="off" allowClear={true} placeholder="请输入呢称" />)}</FormItem>
           <FormItem label="角色">
-            {formDecorators.role(<ResourceSelector title="请选择角色" placeholder="请选择角色" resourceNameField="roleName" allowClear={true} resource={RoleSelector} />)}
+            {/* {formDecorators.role(<ResourceSelector title="请选择角色" placeholder="请选择角色" resourceNameField="roleName" allowClear={true} resource={RoleSelector} />)} */}
           </FormItem>
           <FormItem label="性别">
             {formDecorators.gender(

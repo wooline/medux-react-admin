@@ -12,6 +12,7 @@ const defaultRouteParams: RouteParams = {
     status: undefined,
     email: undefined,
     role: undefined,
+    roleId: undefined,
     loginTime: undefined,
   },
   currentOperation: undefined,

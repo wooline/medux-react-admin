@@ -5,7 +5,7 @@ import ajax from 'common/request';
 
 export class API extends CommonResourceAPI {
   public searchList(request: ListSearch): Promise<{list: ListItem[]; listSummary: ListSummary}> {
-    return ajax('get', '/api/role', request);
+    return ajax('get', '/api/role', this._filterEmpty(request));
   }
   public deleteList(ids: string[]): Promise<void> {
     return ajax('delete', '/api/role', {}, {ids});

@@ -1,4 +1,4 @@
-import {createForm, filterEmpty, getFormDecorators} from 'common/utils';
+import {createForm, getFormDecorators} from 'common/utils';
 
 import {FormComponentProps} from 'antd/lib/form';
 import {Input} from 'antd';
@@ -25,7 +25,7 @@ class Component extends React.PureComponent<StoreProps & FormComponentProps & Di
         values.pageCurrent = 1;
         values.sorterField = undefined;
         values.sorterOrder = undefined;
-        dispatch(actions.adminRole.searchList(filterEmpty(values), 'current', undefined, disableRoute));
+        dispatch(actions.adminRole.searchList(values, 'current', undefined, disableRoute));
       }
     });
   };

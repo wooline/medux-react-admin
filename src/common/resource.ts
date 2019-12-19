@@ -14,6 +14,25 @@ export class CommonResourceAPI implements ResourceAPI {
   getDetailItem(id: string) {
     return Promise.resolve({id: '1'});
   }
+  protected _filterEmpty<T extends {[key: string]: any}>(params: T): T {
+    return Object.keys(params).reduce((pre, cur) => {
+      let value = params[cur];
+      const ntype = typeof value;
+      if (ntype === 'string') {
+        value = value.trim();
+      }
+      if (Array.isArray(value) && value.length === 0) {
+        pre[cur] = undefined;
+        return pre;
+      }
+      if (ntype === 'number' || ntype === 'boolean' || value) {
+        pre[cur] = value;
+      } else {
+        pre[cur] = undefined;
+      }
+      return pre;
+    }, {}) as T;
+  }
   protected _pickFields<T, K extends keyof T>(source: T, fields: K[]): Pick<T, K> {
     return fields.reduce((prev, cur) => {
       prev[cur] = source[cur];
