@@ -169,7 +169,8 @@ class Component extends React.Component<StoreProps & DispatchProp, State> {
       if (matchCache[key]) {
         reg = matchCache[key];
       } else {
-        reg = matchCache[key] = pathToRegexp(key);
+        const arr = key.split(/[?#]/);
+        reg = matchCache[key] = pathToRegexp(arr[0]);
       }
       return reg.test(pathname);
     },

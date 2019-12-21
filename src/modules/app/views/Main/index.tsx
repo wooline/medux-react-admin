@@ -23,14 +23,14 @@ const AdminLayout = loadView('adminLayout', 'Main');
 const ArticleLayout = loadView('articleLayout', 'Main');
 
 interface StoreProps {
-  projectConfig?: ProjectConfig;
-  curUser?: CurUser;
+  projectConfigLoaded: boolean;
+  curUserLoaded: boolean;
 }
 
 class Component extends React.PureComponent<StoreProps & DispatchProp> {
   public render() {
-    const {projectConfig, curUser} = this.props;
-    if (projectConfig && curUser) {
+    const {projectConfigLoaded, curUserLoaded} = this.props;
+    if (projectConfigLoaded && curUserLoaded) {
       return (
         <ConfigProvider locale={zhCN}>
           <Switch>
@@ -62,8 +62,8 @@ class Component extends React.PureComponent<StoreProps & DispatchProp> {
 const mapStateToProps: (state: RootState) => StoreProps = state => {
   const app = state.app!;
   return {
-    projectConfig: app.projectConfig,
-    curUser: state.app!.curUser,
+    projectConfigLoaded: !!app.projectConfig,
+    curUserLoaded: !!state.app!.curUser,
   };
 };
 

@@ -1,4 +1,4 @@
-let {username = '', password = '', info} = request.body;
+let {username = '', password = '123456', info} = request.body;
 username = username.toString();
 password = password.toString();
 info = info || {};
@@ -62,6 +62,7 @@ users[username] = {
   username: username,
   password: password,
   hasLogin: true,
+  article: 0,
   avatar: '/client/imgs/u1.jpg',
   loginTime: Date.now(),
   createdTime: Date.now(),

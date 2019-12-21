@@ -1,4 +1,4 @@
-import {ListItem, ListSearch, ListSummary} from 'entity/member';
+import {ListItem, ListSearch, ListSummary, UpdateItem} from 'entity/member';
 
 import {CommonResourceAPI} from 'common/resource';
 import ajax from 'common/request';
@@ -8,7 +8,7 @@ const apiServer: any = {};
 export class API extends CommonResourceAPI {
   public searchList(request: ListSearch): Promise<{list: ListItem[]; listSummary: ListSummary}> {
     const {role, ...args} = request;
-    args.roleId = request.role?.id;
+    args.roleId = role?.id;
     return ajax('get', '/api/member', this._filterEmpty(args));
   }
   public deleteList(ids: string[]): Promise<any> {
@@ -19,6 +19,11 @@ export class API extends CommonResourceAPI {
   }
   public getDetailItem(id: string): Promise<any> {
     return ajax('get', '/api/member/:id', {id});
+  }
+  public createItem(item: UpdateItem): Promise<void> {
+    const {username, role, ...info} = item;
+    info.roleId = role?.id!;
+    return ajax('post', '/api/member', {}, {username, info});
   }
 }
 

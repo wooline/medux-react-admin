@@ -13,7 +13,7 @@ interface Item {
 }
 // type Value = Item | string;
 
-interface Props<Resource> {
+export interface Props<Resource> {
   limit?: number | [number, number];
   tagMode?: boolean;
   allowClear?: boolean;
@@ -60,8 +60,8 @@ class Component<Resource extends {id: string} = Item> extends React.PureComponen
         }
         let items: {term: string; list: Resource[]; listSummary: BaseListSummary};
         if (result) {
-          if (pageCurrent > 1) {
-            items = {...result, list: [...this.state.items!.list, ...result.list], term};
+          if (pageCurrent > 1 && this.state.items) {
+            items = {...result, list: [...this.state.items.list, ...result.list], term};
           } else {
             items = {...result, term};
           }
@@ -72,6 +72,7 @@ class Component<Resource extends {id: string} = Item> extends React.PureComponen
       });
   };
   onSearch = (str: string = '') => {
+    console.log('search', str);
     if (!this.state.fetching || this.state.items) {
       this.setState({items: undefined, fetching: true});
     }
@@ -87,7 +88,7 @@ class Component<Resource extends {id: string} = Item> extends React.PureComponen
         selected = optionToValue(value);
       }
     }
-
+    //this.setState({items: undefined, fetching: false});
     this.props.onChange && this.props.onChange(selected);
   };
   onPopupScroll = (e: React.UIEvent<HTMLDivElement>) => {
@@ -136,7 +137,6 @@ class Component<Resource extends {id: string} = Item> extends React.PureComponen
     return (
       <Select
         dropdownClassName={fetching ? styles.fetching : ''}
-        suffixIcon={fetching && <Spin size="small" />}
         labelInValue={true}
         showArrow={true}
         showSearch={true}

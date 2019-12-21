@@ -17,15 +17,15 @@ const AdminMember = loadView('adminMember', 'Main');
 const AdminRole = loadView('adminRole', 'Main');
 
 interface StoreProps {
-  curUser: CurUser;
+  hasLogin: boolean;
   siderCollapsed: boolean;
 }
 
 class Component extends React.PureComponent<StoreProps> {
   public render() {
-    const {siderCollapsed, curUser} = this.props;
+    const {siderCollapsed, hasLogin} = this.props;
     return (
-      this.props.curUser.hasLogin && (
+      hasLogin && (
         <Layout className={styles.root}>
           <Layout.Sider className="g-scrollBar" trigger={null} collapsible collapsed={siderCollapsed}>
             <Flag />
@@ -54,7 +54,7 @@ class Component extends React.PureComponent<StoreProps> {
 
 const mapStateToProps: (state: RootState) => StoreProps = state => {
   return {
-    curUser: state.app!.curUser!,
+    hasLogin: state.app!.curUser!.hasLogin,
     siderCollapsed: !!state.adminLayout!.siderCollapsed,
   };
 };

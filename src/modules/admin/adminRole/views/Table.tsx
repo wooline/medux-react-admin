@@ -5,11 +5,11 @@ import MTable, {ColumnProps} from 'components/MTable';
 import React from 'react';
 import {connect} from 'react-redux';
 
-const newItem: UpdateItem = {
-  id: '',
-  roleName: '',
-  remark: '',
-  purviews: [],
+const newItem: Partial<UpdateItem> = {
+  id: undefined,
+  roleName: undefined,
+  remark: undefined,
+  purviews: undefined,
 };
 interface StoreProps {
   listSearch?: ListSearch;

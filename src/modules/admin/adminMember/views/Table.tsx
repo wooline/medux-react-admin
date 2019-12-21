@@ -5,16 +5,16 @@ import MTable, {ColumnProps} from 'components/MTable';
 import React from 'react';
 import {connect} from 'react-redux';
 
-const newItem: UpdateItem = {
-  id: '',
-  username: '',
-  nickname: '',
-  gender: Gender.未知,
+const newItem: Partial<UpdateItem> = {
+  id: undefined,
+  username: undefined,
+  nickname: undefined,
+  gender: undefined,
   role: undefined,
-  roleId: '',
-  roleName: '',
-  status: Status.启用,
-  email: '',
+  roleId: undefined,
+  roleName: undefined,
+  status: undefined,
+  email: undefined,
 };
 interface StoreProps {
   selectedRows?: ListItem[];

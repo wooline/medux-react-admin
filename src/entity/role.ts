@@ -56,7 +56,7 @@ export const menuData: MenuItem[] = [
     icon: 'pay-circle',
     keys: '/admin/finance',
     children: [
-      {name: '-商户银行帐变明细', keys: '/admin/finance/wallet1'},
+      {name: '-商户银行帐变明细', keys: '/admin/finance/wallet1?bbb=3'},
       {name: '-用户充值明细表', keys: '/admin/finance/wallet2'},
       {name: '-审核提款列表', keys: '/admin/finance/wallet3'},
       {name: '-充提任务管理', keys: '/admin/finance/wallet4'},
