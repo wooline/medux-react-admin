@@ -37,6 +37,10 @@ export interface ListItem extends BaseListItem {
   createdTime: number;
   email: string;
 }
+export interface ItemDetail extends ListItem {
+  score: number;
+  account: number;
+}
 export interface ListSummary extends BaseListSummary {}
 
 export type UpdateItem = OmitSelf<ListItem, 'article' | 'loginTime' | 'createdTime'>;

@@ -138,8 +138,10 @@ const mapStateToProps: (state: RootState) => StoreProps = state => {
   };
 };
 const mapPropsToFields = (props: StoreProps) => {
+  const {dataSource} = props;
   return {
-    ...props.dataSource,
+    ...dataSource,
+    role: dataSource?.roleId && {id: dataSource?.roleId, name: dataSource?.roleName},
   };
 };
 export default connect(mapStateToProps)(createForm(Component, mapPropsToFields));

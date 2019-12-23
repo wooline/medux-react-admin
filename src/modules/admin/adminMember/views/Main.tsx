@@ -21,14 +21,14 @@ class Component extends React.PureComponent<StoreProps & DispatchProp> {
         <h1>{pageNames[location.pathname]}</h1>
         <Search />
         <Table />
-        <Modal visible={currentOperation === 'detail'} onCancel={this.onHideCurrent} footer={null} title="角色详情" width={900}>
+        <Modal visible={currentOperation === 'detail'} onCancel={this.onHideCurrent} footer={null} title="用户详情" width={900}>
           <Detail />
         </Modal>
         <Modal
           visible={currentOperation === 'edit' || currentOperation === 'create'}
           onCancel={this.onHideCurrent}
           footer={null}
-          title={currentOperation === 'edit' ? '修改角色' : '新建角色'}
+          title={currentOperation === 'edit' ? '修改用户信息' : '新建用户信息'}
           width={600}
         >
           <Editor />

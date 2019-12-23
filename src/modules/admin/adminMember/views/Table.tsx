@@ -94,7 +94,7 @@ class Component extends React.PureComponent<StoreProps & DispatchProp> {
           <Divider type="vertical" />
           <a onClick={() => this.onShowDetail(record)}>{record.status === Status.启用 ? '禁用' : '启用'}</a>
           <Divider type="vertical" />
-          <a onClick={() => this.onShowDetail(record)}>修改</a>
+          <a onClick={() => this.onEdit(record)}>修改</a>
           <br />
           <a onClick={() => this.onShowDetail(record)}>重置密码</a>
         </>
@@ -103,6 +103,9 @@ class Component extends React.PureComponent<StoreProps & DispatchProp> {
   ];
   onCreate = () => {
     this.props.dispatch(actions.adminMember.execCurrentItem('create', newItem));
+  };
+  onEdit = (item: ListItem) => {
+    this.props.dispatch(actions.adminMember.execCurrentItem('edit', item));
   };
   onShowDetail = (item: ListItem) => {
     this.props.dispatch(actions.adminMember.execCurrentItem('detail', item.id));

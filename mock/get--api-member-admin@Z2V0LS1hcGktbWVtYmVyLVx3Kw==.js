@@ -13,5 +13,5 @@ if (!item) {
   return result;
 }
 result.statusCode = 200;
-result.response = item;
+result.response = {...item, score: Math.round(Math.random() * 100), account: Math.round(Math.random() * 100)};
 return result;

@@ -1,5 +1,5 @@
 import {Button, Descriptions, Icon} from 'antd';
-import {DGender, DStatus, ListItem} from 'entity/member';
+import {DGender, DStatus, ItemDetail} from 'entity/member';
 
 import DateTime from 'components/DateTime';
 import React from 'react';
@@ -11,7 +11,7 @@ const DescriptionsItem = Descriptions.Item;
 
 interface StoreProps {
   primaryMode?: boolean;
-  dataSource?: ListItem;
+  dataSource?: ItemDetail;
 }
 
 export const formItemLayout = {
@@ -55,6 +55,9 @@ class Component extends React.PureComponent<StoreProps & DispatchProp> {
             <DescriptionsItem label="登录时间">
               <DateTime date={dataSource.loginTime} />
             </DescriptionsItem>
+            <DescriptionsItem label="积分">{dataSource.score}</DescriptionsItem>
+            <DescriptionsItem label="账户">{dataSource.account}</DescriptionsItem>
+            <DescriptionsItem label="等级">4</DescriptionsItem>
           </Descriptions>
           <div className="g-actions">
             <Button type="primary" onClick={this.onHide}>
