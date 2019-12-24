@@ -52,7 +52,7 @@ class Component extends React.PureComponent<StoreProps & FormComponentProps & Di
 }
 
 const mapStateToProps: (state: RootState) => StoreProps = state => {
-  return {listSearch: state.adminRole!.preRouteParams?.listSearch};
+  return {listSearch: state.adminRole!.routeParams?.listSearch};
 };
 const mapPropsToFields = (props: StoreProps) => {
   return {

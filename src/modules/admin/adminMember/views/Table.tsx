@@ -1,4 +1,4 @@
-import {Button, Divider} from 'antd';
+import {Button, Divider, Popconfirm} from 'antd';
 import {DGender, DStatus, Gender, ListItem, ListSearch, ListSummary, Status, UpdateItem} from 'entity/member';
 import MTable, {ColumnProps} from 'components/MTable';
 
@@ -12,7 +12,6 @@ const newItem: Partial<UpdateItem> = {
   gender: undefined,
   role: undefined,
   roleId: undefined,
-  roleName: undefined,
   status: undefined,
   email: undefined,
 };
@@ -86,17 +85,19 @@ class Component extends React.PureComponent<StoreProps & DispatchProp> {
     {
       title: '操作',
       dataIndex: 'fixed',
-      width: '160px',
+      width: '200px',
       className: 'actions',
       render: (id: string, record) => (
         <>
           <a onClick={() => this.onShowDetail(record)}>详细</a>
           <Divider type="vertical" />
-          <a onClick={() => this.onShowDetail(record)}>{record.status === Status.启用 ? '禁用' : '启用'}</a>
+          <a onClick={() => this.onChangeStatus(record.status === Status.启用 ? Status.禁用 : Status.启用, [record.id])}>{record.status === Status.启用 ? '禁用' : '启用'}</a>
           <Divider type="vertical" />
           <a onClick={() => this.onEdit(record)}>修改</a>
-          <br />
-          <a onClick={() => this.onShowDetail(record)}>重置密码</a>
+          <Divider type="vertical" />
+          <Popconfirm placement="topRight" title="您确定要删除该条数据吗？" onConfirm={() => this.onDeleteList([record.id])}>
+            <a>删除</a>
+          </Popconfirm>
         </>
       ),
     },
@@ -115,6 +116,9 @@ class Component extends React.PureComponent<StoreProps & DispatchProp> {
   };
   onDeleteList = (ids?: string[]) => {
     this.props.dispatch(actions.adminMember.deleteList(ids));
+  };
+  onChangeStatus = (status: Status, ids?: string[]) => {
+    this.props.dispatch(actions.adminMember.changeListStatus({ids, status}));
   };
   onClearSelect = () => {
     this.props.dispatch(actions.adminMember.putSelectedRows([]));
@@ -161,6 +165,10 @@ class Component extends React.PureComponent<StoreProps & DispatchProp> {
     onClick: (item: {key: string}) => {
       if (item.key === 'delete') {
         this.onDeleteList();
+      } else if (item.key === 'enable') {
+        this.onChangeStatus(Status.启用);
+      } else if (item.key === 'disable') {
+        this.onChangeStatus(Status.禁用);
       }
     },
   };
@@ -201,7 +209,7 @@ class Component extends React.PureComponent<StoreProps & DispatchProp> {
 const mapStateToProps: (state: RootState) => StoreProps = state => {
   const thisModule = state.adminMember!;
   const {list, listSummary, selectedRows} = thisModule;
-  return {list, listSummary, selectedRows, listSearch: thisModule.preRouteParams?.listSearch};
+  return {list, listSummary, selectedRows, listSearch: thisModule.routeParams?.listSearch};
 };
 
 export default connect(mapStateToProps)(Component);

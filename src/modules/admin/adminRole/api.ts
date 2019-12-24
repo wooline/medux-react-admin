@@ -11,7 +11,7 @@ export class API extends CommonResourceAPI {
     return ajax('delete', '/api/role', {}, {ids});
   }
   public updateItem(item: UpdateItem): Promise<void> {
-    return ajax('put', '/api/role', {}, item);
+    return ajax('put', '/api/role/:id', {id: item.id}, item);
   }
   public createItem(item: UpdateItem): Promise<void> {
     return ajax('post', '/api/role', {}, item);

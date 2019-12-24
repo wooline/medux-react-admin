@@ -11,11 +11,11 @@ export class API extends CommonResourceAPI {
     args.roleId = role?.id;
     return ajax('get', '/api/member', this._filterEmpty(args));
   }
-  public deleteList(ids: string[]): Promise<any> {
-    return apiServer.v1.device.deldevice.call({deviceid: ids});
+  public deleteList(ids: string[]): Promise<void> {
+    return ajax('delete', '/api/member', {}, {ids});
   }
-  public changeListStatus(ids: string[], agree: boolean, auditingreason: string = ''): Promise<any> {
-    return apiServer.v1.device.auditingdevice.call({deviceid: ids, agree, auditingreason});
+  public changeListStatus(ids: string[], status: string): Promise<any> {
+    return ajax('put', '/api/member', {}, {ids, status});
   }
   public getDetailItem(id: string): Promise<any> {
     return ajax('get', '/api/member/:id', {id});
@@ -24,6 +24,11 @@ export class API extends CommonResourceAPI {
     const {username, role, ...info} = item;
     info.roleId = role?.id!;
     return ajax('post', '/api/member', {}, {username, info});
+  }
+  public updateItem(item: UpdateItem): Promise<void> {
+    const {id, username, role, ...info} = item;
+    info.roleId = role?.id!;
+    return ajax('put', '/api/member/:id', {id: item.id}, {id, info});
   }
 }
 

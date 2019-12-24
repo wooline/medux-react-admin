@@ -84,11 +84,11 @@ export class CommonResourceHandlers<
       }
     } else {
       //展示
-      itemView = itemView || this.state.preRouteParams?.itemView || 'detail';
+      itemView = itemView || this.state.routeParams!.itemView || 'detail';
       const _itemKey = Date.now().toString();
       if (typeof currentItem === 'string') {
         if (disableRoute) {
-          await this.dispatch(this.actions.PreRouteParams({...this.state.routeParams, itemId: currentItem, itemView, _itemKey, currentOperation}));
+          await this.dispatch(this.actions.RouteParams({...this.state.routeParams, itemId: currentItem, itemView, _itemKey, currentOperation}));
         } else {
           const routeData = this.rootState.route.data;
           const detailView = `${this.moduleName}.Detail`;
@@ -144,7 +144,11 @@ export class CommonResourceHandlers<
     );
   }
   @effect()
-  public async changeListStatus({ids, status, remark}: {ids: string[]; status: any; remark?: string}) {
+  public async changeListStatus({ids, status, remark}: {ids?: string[]; status: any; remark?: string}) {
+    ids = ids || this.state.selectedRows!.map(item => item.id);
+    if (!ids.length) {
+      return;
+    }
     await this.api.changeListStatus!(ids, status, remark);
     message.success('操作成功');
     await this.dispatch(this.actions.searchList());
@@ -172,7 +176,7 @@ export class CommonResourceHandlers<
     if (extend === 'default') {
       listSearch = {...this.defaultRouteParams.listSearch, ...listSearchOptional};
     } else if (extend === 'current') {
-      listSearch = {...this.state.preRouteParams!.listSearch, ...listSearchOptional};
+      listSearch = {...this.state.routeParams!.listSearch, ...listSearchOptional};
     } else {
       const defaultSearch = this.defaultRouteParams.listSearch;
       const noneSearch = Object.keys(defaultSearch).reduce((prev, cur) => {
@@ -185,15 +189,15 @@ export class CommonResourceHandlers<
       };
     }
     const _listKey = Date.now().toString();
-    listView = listView || this.state.routeParams?.listView || 'list';
+    listView = listView || this.state.routeParams!.listView || 'list';
     if (clearList) {
       this.updateState({list: undefined});
     }
     if (disableRoute) {
-      //不使用路由需要手动触发Action PreRouteParams
-      await this.dispatch(this.actions.PreRouteParams({...this.state.routeParams, listView, listSearch, _listKey}));
+      //不使用路由需要手动触发Action RouteParams
+      await this.dispatch(this.actions.RouteParams({...this.state.routeParams, listView, listSearch, _listKey}));
     } else {
-      //路由变换时会自动触发Action PreRouteParams
+      //路由变换时会自动触发Action RouteParams
       historyActions.push({extend: this.rootState.route.data, params: {[this.moduleName]: {listSearch, _listKey}}});
     }
   }
@@ -218,14 +222,14 @@ export class CommonResourceHandlers<
     this.dispatch(this.actions.putCurrentItem(currentOperation || 'detail', currentItem, itemId, itemView, _itemKey));
   }
   @effect(null)
-  protected async [`this/${ActionTypes.MInit},this/${ActionTypes.MPreRouteParams}`]() {
-    //const oPreRouteParams: Resource['RouteParams'] = this.beforeRootState[this.moduleName]?.preRouteParams || {};
-    const preRouteParams: Resource['RouteParams'] = this.state.preRouteParams! || {};
-    const routeParams: Resource['RouteParams'] | undefined = this.state.routeParams;
-    const {listView, listSearch, _listKey, itemView, itemId, _itemKey, currentOperation = 'detail'} = preRouteParams;
+  protected async [`this/${ActionTypes.MInit},this/${ActionTypes.MRouteParams}`](args: any) {
+    const preRouteParams: Resource['RouteParams'] = this.beforeState?.routeParams! || {};
+    //const preRouteParams: Resource['RouteParams'] = this.state.preRouteParams! || {};
+    const routeParams: Resource['RouteParams'] = this.state.routeParams! || {};
+    const {listView, listSearch, _listKey, itemView, itemId, _itemKey, currentOperation = 'detail'} = routeParams;
     if (!this.listLoading) {
       if (listView) {
-        if (!routeParams || routeParams._listKey !== _listKey || !simpleEqual(routeParams.listSearch, listSearch)) {
+        if (preRouteParams._listKey !== _listKey || !simpleEqual(preRouteParams.listSearch, listSearch)) {
           await this.dispatch(this.callThisAction(this.fetchList, listSearch, _listKey));
         }
       }
@@ -233,10 +237,10 @@ export class CommonResourceHandlers<
 
     if (!this.itemLoading) {
       if (itemView) {
-        if (!routeParams || routeParams._itemKey !== _itemKey || routeParams.itemId !== itemId) {
+        if (preRouteParams._itemKey !== _itemKey || preRouteParams.itemId !== itemId) {
           await this.dispatch(this.callThisAction(this.fetchItem, currentOperation, itemId, itemView, _itemKey));
         }
-      } else if (routeParams?.itemView) {
+      } else if (routeParams.itemView) {
         this.dispatch(this.actions.putCurrentItem());
       }
     }

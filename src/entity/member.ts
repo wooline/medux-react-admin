@@ -43,7 +43,16 @@ export interface ItemDetail extends ListItem {
 }
 export interface ListSummary extends BaseListSummary {}
 
-export type UpdateItem = OmitSelf<ListItem, 'article' | 'loginTime' | 'createdTime'>;
+export interface UpdateItem {
+  id: string;
+  username: string;
+  nickname: string;
+  gender: Gender;
+  role: {id: string} | undefined;
+  roleId: string;
+  status: Status;
+  email: string;
+}
 export interface RouteParams extends CommonResourceRouteParams {
   listSearch: ListSearch;
 }

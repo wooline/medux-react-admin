@@ -11,8 +11,13 @@ const result = {
   },
 };
 const users = database.data.users;
-
-const {nickname = username, gender = 'unknow', rolId = '4', roleName = '普通会员', status = 'enable', email = ''} = info;
+const roles = database.data.roles;
+let {nickname = username, gender = 'unknow', roleId = '4', status = 'enable', email = ''} = info;
+nickname = nickname.toString();
+gender = gender.toString();
+roleId = roleId.toString();
+status = status.toString();
+email = email.toString();
 
 if (users[username]) {
   result.response = {
@@ -32,9 +37,9 @@ if (password.length > 20 || password.length < 5) {
   };
   return result;
 }
-if (nickname.length > 20 || nickname.length < 5) {
+if (nickname.length > 20 || nickname.length < 2) {
   result.response = {
-    message: '呢称必须为5-20位！',
+    message: '呢称必须为2-20位！',
   };
   return result;
 }
@@ -51,12 +56,19 @@ if (!['enable', 'disable'].includes(status)) {
   };
   return result;
 }
-if (email.length > 20) {
+if (email.length > 50) {
   result.response = {
     message: 'Email不合法',
   };
   return result;
 }
+if (!roles[roleId]) {
+  result.response = {
+    message: '所选角色不合法',
+  };
+  return result;
+}
+roles[roleId].owner++;
 users[username] = {
   id: username,
   username: username,
@@ -68,8 +80,8 @@ users[username] = {
   createdTime: Date.now(),
   nickname,
   gender,
-  rolId,
-  roleName,
+  roleId,
+  roleName: roles[roleId].roleName,
   status,
   email,
 };

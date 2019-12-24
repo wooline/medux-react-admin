@@ -1,5 +1,5 @@
 import {Alert, Button, Form, Input, Select} from 'antd';
-import {DGender, DStatus, UpdateItem} from 'entity/member';
+import {DGender, DStatus, ItemDetail, UpdateItem} from 'entity/member';
 import {createForm, getFormDecorators} from 'common/utils';
 
 import {CustomError} from 'entity/common';
@@ -22,7 +22,7 @@ export const formItemLayout = {
 
 interface StoreProps {
   currentOperation?: 'detail' | 'edit' | 'create';
-  dataSource?: UpdateItem;
+  dataSource?: ItemDetail;
 }
 
 interface State {
@@ -52,6 +52,7 @@ class Component extends React.PureComponent<StoreProps & FormComponentProps & Di
   handleSubmit = (error: CustomError) => {
     if (error instanceof CustomError) {
       this.setState({formError: error.message});
+      message.error(error.message!);
     }
   };
   private onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -73,21 +74,25 @@ class Component extends React.PureComponent<StoreProps & FormComponentProps & Di
     });
   };
   public render() {
-    const {form, dataSource} = this.props;
+    const {form, dataSource, currentOperation} = this.props;
     const {formError = ''} = this.state;
     if (dataSource) {
-      const formDecorators = getFormDecorators<UpdateItem>(form, {
-        username: {rules: [{required: true, message: '请输入用户名'}]},
-        nickname: {rules: [{required: true, message: '请输入呢称'}]},
-        role: {rules: [{required: true, message: '请选择角色'}]},
-        gender: {rules: [{required: true, message: '请选择性别'}]},
-        email: {rules: [{required: true, message: '请输入Email'}]},
-        status: {rules: [{required: true, message: '请选择用户状态'}]},
-      });
+      const formDecorators = getFormDecorators<UpdateItem>(
+        form,
+        {
+          username: {rules: [{required: true, message: '请输入用户名'}]},
+          nickname: {rules: [{required: true, message: '请输入呢称'}]},
+          role: {rules: [{required: true, message: '请选择角色'}]},
+          gender: {rules: [{required: true, message: '请选择性别'}]},
+          email: {rules: [{required: true, message: '请输入Email'}]},
+          status: {rules: [{required: true, message: '请选择用户状态'}]},
+        },
+        mapPropsToFields(this.props)
+      );
 
       return (
         <Form className="g-editorForm" layout="horizontal" {...formItemLayout} onSubmit={this.onSubmit}>
-          <FormItem label="用户名">{formDecorators.username(<Input autoComplete="off" allowClear={true} placeholder="请输入用户名" />)}</FormItem>
+          <FormItem label="用户名">{formDecorators.username(<Input disabled={currentOperation === 'edit'} autoComplete="off" allowClear={true} placeholder="请输入用户名" />)}</FormItem>
           <FormItem label="呢称">{formDecorators.nickname(<Input autoComplete="off" allowClear={true} placeholder="请输入呢称" />)}</FormItem>
           <FormItem label="角色">{formDecorators.role(<RoleSelector />)}</FormItem>
           <FormItem label="性别">

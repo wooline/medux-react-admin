@@ -84,10 +84,14 @@ class Component extends React.PureComponent<StoreProps & FormComponentProps & Di
     const {form, dataSource} = this.props;
     const {purviewsError = ''} = this.state;
     if (dataSource) {
-      const formDecorators = getFormDecorators<UpdateItem>(form, {
-        roleName: {rules: [{required: true, message: '请输入角色名称'}]},
-        purviews: {rules: [{validator: this.validatePurview, message: '请至少配置一项权限'}]},
-      });
+      const formDecorators = getFormDecorators<UpdateItem>(
+        form,
+        {
+          roleName: {rules: [{required: true, message: '请输入角色名称'}]},
+          purviews: {rules: [{validator: this.validatePurview, message: '请至少配置一项权限'}]},
+        },
+        mapPropsToFields(this.props)
+      );
 
       return (
         <Form className={styles.root} layout="horizontal" {...formItemLayout} onSubmit={this.onSubmit}>

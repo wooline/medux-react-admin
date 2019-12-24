@@ -142,10 +142,23 @@ function createUsers() {
       createdTime: timestamp,
       email: 'revvc@sina.com.cn',
     },
+    member: {
+      id: 'member',
+      username: 'member',
+      nickname: '小明',
+      gender: 'female',
+      article: 0,
+      roleId: '4',
+      roleName: '普通会员',
+      status: 'enable',
+      loginTime: timestamp,
+      createdTime: timestamp,
+      email: 'xiaomin@qq.com',
+    },
   });
   mockjs
     .mock({
-      'list|27': [
+      'list|26': [
         {
           'id|+1': 1,
           username: '@last',
@@ -247,7 +260,7 @@ function createRoles() {
       id: '4',
       roleName: '普通会员',
       purviews: ['article.list', 'article.detail'],
-      owner: 1,
+      owner: 26,
       fixed: true,
       remark: '系统内置，不可修改',
       createdTime: timestamp,

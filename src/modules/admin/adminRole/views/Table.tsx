@@ -186,7 +186,7 @@ class Component extends React.PureComponent<StoreProps & DispatchProp> {
 const mapStateToProps: (state: RootState) => StoreProps = state => {
   const thisModule = state.adminRole!;
   const {list, listSummary, selectedRows} = thisModule;
-  return {list, listSummary, selectedRows, listSearch: thisModule.preRouteParams?.listSearch};
+  return {list, listSummary, selectedRows, listSearch: thisModule.routeParams?.listSearch};
 };
 
 export default connect(mapStateToProps)(Component);
