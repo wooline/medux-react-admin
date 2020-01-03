@@ -1,6 +1,7 @@
 import {ActionTypes, BaseModelHandlers, BaseModelState, RouteData, effect, reducer} from '@medux/react-web-router';
 import {BaseListItem, BaseListSearch, BaseListSummary, CommonResource} from 'entity/common';
-import {Optional, simpleEqual} from 'common/utils';
+
+import {simpleEqual} from 'common/utils';
 
 export interface ResourceAPI {
   searchList?: (listSearch: BaseListSearch) => Promise<{list: any[]; listSummary: BaseListSummary}>;
@@ -166,7 +167,7 @@ export class CommonResourceHandlers<
   }
   @effect(null)
   public async searchList(
-    listSearchOptional: Optional<Resource['ListSearch']> = {},
+    listSearchOptional: Partial<Resource['ListSearch']> = {},
     extend: 'default' | 'current' | 'none' = 'current',
     listView?: string,
     disableRoute?: boolean,
