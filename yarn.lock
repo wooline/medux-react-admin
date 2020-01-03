@@ -1765,17 +1765,17 @@
     npmlog "^4.1.2"
     write-file-atomic "^2.3.0"
 
-"@medux/core@^0.2.23":
-  version "0.2.23"
-  resolved "https://registry.yarnpkg.com/@medux/core/-/core-0.2.23.tgz#58fa6405b8c3268ffa34a6507ad1ad53225e1b73"
-  integrity sha512-ALwszBV9Is6jzJRVHtOI4Zuvs28B6ZjLc53TU9HqmFYgOg03J3xvSWuhAVrTohJdJEaskFi/rQAEFQm0XBheOw==
+"@medux/core@^0.2.24":
+  version "0.2.24"
+  resolved "https://registry.yarnpkg.com/@medux/core/-/core-0.2.24.tgz#0f8908cf1231a9383d47a22bb228348359a09466"
+  integrity sha512-XeoYDNziLLJOgSIAs3r/mOP9P7lOs3nCXkScMPfWgiQCf69eSo2Fhps0AjXTSvjmzCo4BpXDgkMou0kF+zA1nA==
   dependencies:
     redux "~4.0.4"
 
-"@medux/dev-pkg@~0.2.22":
-  version "0.2.22"
-  resolved "https://registry.yarnpkg.com/@medux/dev-pkg/-/dev-pkg-0.2.22.tgz#d3cbc0afac78bf31eec9d2346ac27abde1070819"
-  integrity sha512-b4x2LCeYsaB3F4AQ2r4nlY7kvDv91KL7KcgwMD5h6koAMN9+IGSjnatwglhHSo3uIc2AlTT+mjVFKgSX8KPXjA==
+"@medux/dev-pkg@~0.2.24":
+  version "0.2.24"
+  resolved "https://registry.yarnpkg.com/@medux/dev-pkg/-/dev-pkg-0.2.24.tgz#511344ceb1364d82150c476763686ed0efeae820"
+  integrity sha512-WOkVp2nQmW469ucBrpl9GIFeAKVk9TbLWQD5ydASeYqNNDa+OHPUUw9lVCrS25w+4xC9YmW8rN7u8luUIlnf0Q==
   dependencies:
     "@babel/cli" "~7.7.0"
     "@babel/plugin-proposal-class-properties" "~7.7.0"
@@ -1798,6 +1798,7 @@
     babel-plugin-module-resolver "~3.2.0"
     babel-polyfill "~6.26.0"
     chalk "~3.0.0"
+    cookie-parser "~1.4.4"
     copyfiles "~2.1.1"
     core-js "~3.4.1"
     cross-env "~6.0.3"
@@ -1842,45 +1843,45 @@
     webpack-manifest-plugin "~2.2.0"
     yargs "~15.0.2"
 
-"@medux/dev-utils@~0.2.22":
-  version "0.2.22"
-  resolved "https://registry.yarnpkg.com/@medux/dev-utils/-/dev-utils-0.2.22.tgz#f0f32da7424e873218ece705072e9f6bb01422f8"
-  integrity sha512-6RgxFRMbe9Nd/taS0HwVJFcw4j1sH8q6yadHqUzbhqNkV1MY50A546oejIfpPbHDxnumbI+08LjN6CgYMJ1m0w==
+"@medux/dev-utils@~0.2.24":
+  version "0.2.24"
+  resolved "https://registry.yarnpkg.com/@medux/dev-utils/-/dev-utils-0.2.24.tgz#f73df3012fff71b49255ffccf542f683bca0a6eb"
+  integrity sha512-TVaZ69WNwkIhsNnXgV/X4bGoxEmDsFbu78CT3SfVPMZ7jXN63GTEur3fGWVB2vUDif6ur5G724MMqdVLPDhZlQ==
 
-"@medux/react-web-router@~0.2.23":
-  version "0.2.23"
-  resolved "https://registry.yarnpkg.com/@medux/react-web-router/-/react-web-router-0.2.23.tgz#ecc261475f2edbab6d31c406a36c5631f8e8c8cb"
-  integrity sha512-Dng1ZS69CFYiTKLrGXTtrhn5OaQsZHdjs6KFMr2Bb85glKkZL1tXRuf4YAtAiF/Ausx0/IeEEVcKR2p93Rn4HQ==
+"@medux/react-web-router@~0.2.24":
+  version "0.2.24"
+  resolved "https://registry.yarnpkg.com/@medux/react-web-router/-/react-web-router-0.2.24.tgz#ca8b9688e160998a7d6d1e41f4b01cef8db03b7f"
+  integrity sha512-atM/kJ+HGwpCJ1rtAj2l4eMuiH3y2GPEMIoYYA1bbgTu8GMQiIwXUlibHtf4ZrrTKwP71zZzeJPpjCqtAsKCLQ==
   dependencies:
-    "@medux/react" "^0.2.23"
-    "@medux/route-plan-a" "^0.2.23"
-    "@medux/web" "^0.2.23"
+    "@medux/react" "^0.2.24"
+    "@medux/route-plan-a" "^0.2.24"
+    "@medux/web" "^0.2.24"
     "@types/react-router-dom" "~5.1.2"
     react-router-dom "~5.1.2"
 
-"@medux/react@^0.2.23":
-  version "0.2.23"
-  resolved "https://registry.yarnpkg.com/@medux/react/-/react-0.2.23.tgz#36d19fcf85547aae5eded2fe9bbfcb7ab04029b3"
-  integrity sha512-Hglmibqsun3s/4U0vT02DQneETxlD4oWlBb4fyo2lm3+1itGE37Em2fC9jQO6Pzm1JzoJq8+HMM3jtCOcR8CfQ==
+"@medux/react@^0.2.24":
+  version "0.2.24"
+  resolved "https://registry.yarnpkg.com/@medux/react/-/react-0.2.24.tgz#9f48a4f026a93be7755bbfd8866b93f7602778cc"
+  integrity sha512-mD9+uUQdDGZJfxoeLR+xVN5srpwk/6iXM030zYQrSgT79n++s3HlOZEp7QWAuiq9BV7PuFnRmWXLilMmFQhOag==
   dependencies:
-    "@medux/core" "^0.2.23"
+    "@medux/core" "^0.2.24"
     "@types/react-redux" "~7.1.5"
     react-redux "~7.1.3"
 
-"@medux/route-plan-a@^0.2.23":
-  version "0.2.23"
-  resolved "https://registry.yarnpkg.com/@medux/route-plan-a/-/route-plan-a-0.2.23.tgz#840effce0035520d1496e6214dcd9141b8bc5c15"
-  integrity sha512-tRWb6HteS/a+p35UjwXfyXid1SUAbRTbouLtAKkxeqg7laoNCVDztpX98TRkkpOdZ7zeiZVTSc9le70J0w9J2A==
+"@medux/route-plan-a@^0.2.24":
+  version "0.2.24"
+  resolved "https://registry.yarnpkg.com/@medux/route-plan-a/-/route-plan-a-0.2.24.tgz#920c2d4d51d70abf09e53fdb37cbd9c97317aba1"
+  integrity sha512-1Rr6Mdtpm+IjVcIf+EDAjyraPPzpncbpE3imklHa0AZ4+zRxslxGUb4c8WVUNvXkB05VvtlqjODTeFBfsOwhxA==
   dependencies:
-    "@medux/web" "^0.2.23"
+    "@medux/web" "^0.2.24"
     deep-extend "~0.6.0"
 
-"@medux/web@^0.2.23":
-  version "0.2.23"
-  resolved "https://registry.yarnpkg.com/@medux/web/-/web-0.2.23.tgz#4c4521d60495714d6f5376fd4c6e1e36e11f5ae4"
-  integrity sha512-U72tYROOjOU0JHpgz+9fB9xoUWFPXA2hPTuMLUAoJhoaBji+t4xKjMbYYE5/MfDPvBG05BIUJXirPdKgieKWuA==
+"@medux/web@^0.2.24":
+  version "0.2.24"
+  resolved "https://registry.yarnpkg.com/@medux/web/-/web-0.2.24.tgz#66ac65448d3c0df286b400f60ac7e24fa7d7b8ba"
+  integrity sha512-MbkIPLktJHWA0c4ImvYLwODTitst2UXteDBrXeCB5doiUajHNVVe3rxtHdi9N9k+0S4H+y+dpHTcRT5Q9pSi+Q==
   dependencies:
-    "@medux/core" "^0.2.23"
+    "@medux/core" "^0.2.24"
     "@types/history" "~4.7.2"
     history "~4.10.1"
 
@@ -2101,7 +2102,7 @@
   resolved "https://registry.yarnpkg.com/@types/json-schema/-/json-schema-7.0.3.tgz#bdfd69d61e464dcc81b25159c270d75a73c1a636"
   integrity sha512-Il2DtDVRGDcqjDtE+rF8iqg1CArehSK84HZJCT7AMITlyXRBpuPhqGLDQMowraqqu1coEaimg4ZOqggt6L6L+A==
 
-"@types/lodash@^4.14.149":
+"@types/lodash@~4.14.149":
   version "4.14.149"
   resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.149.tgz#1342d63d948c6062838fbf961012f74d4e638440"
   integrity sha512-ijGqzZt/b7BfzcK9vTrS6MFljQRPn5BFWOx8oE0GYxribu6uV+aA9zZuXI1zc/etK9E8nrgdoF2+LgUw7+9tJQ==
