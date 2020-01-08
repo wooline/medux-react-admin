@@ -36,7 +36,7 @@ class Component extends React.PureComponent<StoreProps & DispatchProp> {
     {
       title: '呢称',
       dataIndex: 'nickname',
-      width: '10%',
+      width: '9%',
     },
     {
       title: '角色',
@@ -51,7 +51,7 @@ class Component extends React.PureComponent<StoreProps & DispatchProp> {
       render: (gender: string) => DGender.keyToName[gender],
     },
     {
-      title: '发表文章',
+      title: '文章',
       dataIndex: 'article',
       align: 'center',
       sorter: true,

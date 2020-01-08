@@ -55,6 +55,7 @@ class Component extends React.PureComponent<StoreProps & DispatchProp> {
       dataIndex: 'owner',
       align: 'center',
       width: '10%',
+      render: (val: number, record) => <a onClick={() => this.onShowMembers(record)}>{val}</a>,
     },
     {
       title: '创建时间',
@@ -91,6 +92,9 @@ class Component extends React.PureComponent<StoreProps & DispatchProp> {
       ),
     },
   ];
+  onShowMembers = (item: ListItem) => {
+    this.props.dispatch(actions.adminMember.searchList({role: {id: item.id, name: item.roleName}}, 'none'));
+  };
   onCreate = () => {
     this.props.dispatch(actions.adminRole.execCurrentItem('create', newItem));
   };

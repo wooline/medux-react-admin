@@ -1,5 +1,6 @@
 import {BaseListItem, BaseListSearch, BaseListSummary, CommonResource, CommonResourceRouteParams} from './common';
-import {OmitSelf, enumOptions} from 'common/utils';
+
+import {enumOptions} from 'common/utils';
 
 export enum Gender {
   '男' = 'male',
@@ -19,7 +20,7 @@ export interface ListSearch extends BaseListSearch {
   username?: string;
   nickname?: string;
   email?: string;
-  role?: {id: string};
+  role?: {id: string; name: string};
   roleId?: string;
   loginTime?: [number, number];
   status?: Status;

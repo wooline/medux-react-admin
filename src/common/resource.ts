@@ -56,9 +56,25 @@ export class CommonResourceHandlers<
 > extends BaseModelHandlers<State, RootState> {
   protected api: ResourceAPI = {};
   protected defaultRouteParams: Resource['RouteParams'] = {} as any;
+  protected listPaths: string[] = [];
+  protected itemPaths: string[] = [];
   protected listLoading = false;
   protected itemLoading = false;
 
+  protected getListPaths(): string[] {
+    if (this.listPaths.length) {
+      return this.listPaths;
+    } else {
+      return ['app.Main', 'adminLayout.Main', this.moduleName + '.List'];
+    }
+  }
+  protected getItemPaths(): string[] {
+    if (this.itemPaths.length) {
+      return this.itemPaths;
+    } else {
+      return ['app.Main', 'adminLayout.Main', this.moduleName + '.List', this.moduleName + '.Detail'];
+    }
+  }
   @reducer
   public putSearchList(list: Resource['ListItem'][], listSummary: Resource['ListSummary'], listSearch: Resource['ListSearch'], _listKey: string = ''): State {
     return {...this.state, routeParams: {...this.state.routeParams, listSearch, _listKey}, list, listSummary, listLoading: undefined};
@@ -71,6 +87,7 @@ export class CommonResourceHandlers<
   @effect(null)
   public async execCurrentItem(currentOperation?: Resource['Operation'], currentItem?: any, itemView?: string, disableRoute?: boolean) {
     currentItem = currentItem || this.state.currentItem;
+    const listView = this.state.routeParams?.listView || 'list';
     if (!currentOperation) {
       //关闭
       this.dispatch(this.actions.putCurrentItem());
@@ -79,23 +96,20 @@ export class CommonResourceHandlers<
       if (routeData.paths[routeData.paths.length - 1] === detailView) {
         historyActions.push({
           extend: routeData,
-          params: {[this.moduleName]: {itemId: '', itemView: '', _itemKey: '', currentOperation: undefined}},
-          paths: routeData.paths.slice(0, routeData.paths.length - 1),
+          params: {[this.moduleName]: {itemId: '', itemView: '', _itemKey: '', currentOperation: undefined, listView}},
+          paths: this.getListPaths(),
         });
       }
     } else {
       //展示
-      itemView = itemView || this.state.routeParams!.itemView || 'detail';
+      itemView = itemView || this.state.routeParams?.itemView || 'detail';
       const _itemKey = Date.now().toString();
       if (typeof currentItem === 'string') {
         if (disableRoute) {
-          await this.dispatch(this.actions.RouteParams({...this.state.routeParams, itemId: currentItem, itemView, _itemKey, currentOperation}));
+          await this.dispatch(this.actions.RouteParams({...this.state.routeParams, itemId: currentItem, itemView, _itemKey, currentOperation, listView}));
         } else {
           const routeData = this.rootState.route.data;
-          const detailView = `${this.moduleName}.Detail`;
-          const viewPaths = routeData.paths.filter(view => view !== detailView);
-          viewPaths.push(detailView);
-          historyActions.push({extend: routeData, params: {[this.moduleName]: {itemId: currentItem, itemView, _itemKey, currentOperation}}, paths: viewPaths});
+          historyActions.push({extend: routeData, params: {[this.moduleName]: {itemId: currentItem, itemView, _itemKey, currentOperation, listView}}, paths: this.getItemPaths()});
         }
       } else {
         this.dispatch(this.actions.putCurrentItem(currentOperation, currentItem, currentItem.id, itemView, _itemKey));
@@ -190,7 +204,7 @@ export class CommonResourceHandlers<
       };
     }
     const _listKey = Date.now().toString();
-    listView = listView || this.state.routeParams!.listView || 'list';
+    listView = listView || this.state.routeParams?.listView || 'list';
     if (clearList) {
       this.updateState({list: undefined});
     }
@@ -199,7 +213,7 @@ export class CommonResourceHandlers<
       await this.dispatch(this.actions.RouteParams({...this.state.routeParams, listView, listSearch, _listKey}));
     } else {
       //路由变换时会自动触发Action RouteParams
-      historyActions.push({extend: this.rootState.route.data, params: {[this.moduleName]: {listSearch, _listKey}}});
+      historyActions.push({extend: this.rootState.route.data, paths: this.getListPaths(), params: {[this.moduleName]: {listView, listSearch, _listKey}}});
     }
   }
   @effect()
