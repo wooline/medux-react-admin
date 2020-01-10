@@ -20,7 +20,7 @@ interface Props<Resource = any, Value = any> {
   resourceNameField?: string;
   resourceToValue?: (record: Resource) => Value;
   valueToResource?: (Value: Value) => Resource;
-  resource: React.ComponentType<{limit?: number | [number, number]; value?: Resource[]; onChange?: (items: Resource[]) => void}>;
+  resource: React.ReactElement<{limit?: number | [number, number]; value?: Resource[]; onChange?: (items: Resource[]) => void}>;
 }
 interface State<Resource = any, Value = any> {
   value: Value[];
@@ -139,7 +139,7 @@ class Component<Resource extends Item = Item, Value extends Item = Item> extends
           onCancel={this.onCloseModal}
           onOk={this.onOk}
         >
-          <this.props.resource limit={limit} onChange={this.onSelect} value={items} />
+          {React.cloneElement(this.props.resource, {limit, onChange: this.onSelect, value: items})}
         </Modal>
       </div>
     );

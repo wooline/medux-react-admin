@@ -18,9 +18,9 @@ const result = {
     'content-type': 'application/json; charset=utf-8',
   },
 };
-
-let resourceList = Object.keys(database.data.roles).map(id => {
-  return database.data.roles[id];
+const rolesData = database.data.roles;
+let resourceList = Object.keys(rolesData).map(id => {
+  return rolesData[id];
 });
 
 if (typeof request.query.term === 'string') {

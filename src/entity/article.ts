@@ -4,18 +4,49 @@ import {enumOptions} from 'common/utils';
 
 export enum Status {
   '待审核' = 'pending',
-  '已审核' = 'resolved',
-  '已拒绝' = 'rejected',
+  '审核通过' = 'resolved',
+  '审核拒绝' = 'rejected',
 }
-
+export const DStatus = enumOptions(Status);
 export interface ListItem extends BaseListItem {
   title: string;
   cover: string;
-  authorName: string;
-  authorId: string;
-  editors: string[];
+  photosAmount: number;
+  author: {id: string; name: string};
+  editors: Array<{id: string; name: string}>;
   status: Status;
-  loginTime: number;
   createdTime: number;
-  email: string;
+}
+export interface ListSearch extends BaseListSearch {
+  title?: string;
+  author?: string;
+  editor?: {id: string; name: string};
+  editorId?: string;
+  createdTime?: [number, number];
+  status?: Status;
+}
+export interface ItemDetail extends ListItem {
+  content: string;
+  photos: string[];
+}
+export interface ListSummary extends BaseListSummary {}
+
+export interface UpdateItem {
+  id: string;
+  title: string;
+  cover: string;
+  content: string;
+  photos: string[];
+  editors: Array<{id: string; name: string}>;
+  editorIds: string[];
+}
+export interface RouteParams extends CommonResourceRouteParams {
+  listSearch: ListSearch;
+}
+export interface Resource extends CommonResource {
+  RouteParams: RouteParams;
+  ListSearch: ListSearch;
+  ListItem: ListItem;
+  ListSummary: ListSummary;
+  UpdateItem: UpdateItem;
 }

@@ -1,4 +1,4 @@
-import {ListItem, ListSearch, ListSummary, purviewNames} from 'entity/role';
+import {DStatus, ListItem, ListSearch, ListSummary} from 'entity/member';
 import MTable, {ColumnProps} from 'components/MTable';
 
 import React from 'react';
@@ -19,43 +19,37 @@ interface OwnProps {
 class Component extends React.PureComponent<StoreProps & DispatchProp & OwnProps> {
   columns: ColumnProps<ListItem>[] = [
     {
-      title: '创建时间',
-      dataIndex: 'createdTime',
-      width: '16%',
+      title: '用户名',
+      dataIndex: 'username',
+      width: '11%',
+    },
+    {
+      title: '呢称',
+      dataIndex: 'nickname',
+      width: '11%',
+    },
+    {
+      title: '角色',
+      dataIndex: 'roleName',
+      width: '12%',
+    },
+    {
+      title: 'Email',
+      dataIndex: 'email',
+      ellipsis: true,
+    },
+    {
+      title: '最后登录',
+      dataIndex: 'loginTime',
+      width: '18%',
       sorter: true,
       timestamp: true,
     },
     {
-      title: '角色名称',
-      dataIndex: 'roleName',
-      width: '15%',
-    },
-    {
-      title: '拥有权限',
-      dataIndex: 'purviews',
-      ellipsis: true,
-      render: (items: string[] = []) => {
-        const resources = items.reduce((pre, cur) => {
-          pre[cur.split('.')[0]] = true;
-          return pre;
-        }, {});
-        return Object.keys(resources)
-          .map(item => purviewNames[item] + '模块')
-          .join('，');
-      },
-    },
-    {
-      title: '人数',
-      dataIndex: 'owner',
-      align: 'center',
-      width: '10%',
-    },
-    {
-      title: '备注',
-      dataIndex: 'remark',
-      ellipsis: true,
-      width: '14%',
-      render: (text: string) => text,
+      title: '状态',
+      dataIndex: 'status',
+      width: '6%',
+      render: (status: string) => <span className={'status-' + status}>{DStatus.keyToName[status]}</span>,
     },
     {
       title: '操作',
@@ -63,11 +57,11 @@ class Component extends React.PureComponent<StoreProps & DispatchProp & OwnProps
       width: '9%',
       align: 'center',
       className: 'actions',
-      render: (id: string, record) => record.purviews && <a onClick={() => this.onShowDetail(record)}>详细</a>,
+      render: (id: string, record) => <a onClick={() => this.onShowDetail(record)}>详细</a>,
     },
   ];
   onShowDetail = (item: ListItem) => {
-    this.props.dispatch(actions.adminRole.execCurrentItem('detail', item));
+    this.props.dispatch(actions.adminMember.execCurrentItem('detail', item, undefined, true));
   };
   onClearSelect = () => {
     this.props.onSelectdChange && this.props.onSelectdChange([]);
@@ -97,7 +91,7 @@ class Component extends React.PureComponent<StoreProps & DispatchProp & OwnProps
   onChange = (pagination: {current: number; pageSize: number}, filter: any, sorter: {field: string; order: any}) => {
     const {current: pageCurrent, pageSize} = pagination;
     this.props.dispatch(
-      actions.adminRole.searchList(
+      actions.adminMember.searchList(
         {
           pageCurrent,
           pageSize,
@@ -133,13 +127,10 @@ class Component extends React.PureComponent<StoreProps & DispatchProp & OwnProps
       </div>
     );
   }
-  componentDidMount() {
-    this.props.dispatch(actions.adminRole.searchList({}, 'default', undefined, true, true));
-  }
 }
 
 const mapStateToProps: (state: RootState) => StoreProps = state => {
-  const thisModule = state.adminRole!;
+  const thisModule = state.adminMember!;
   const {list, listSummary} = thisModule;
   return {list, listSummary, listSearch: thisModule.routeParams?.listSearch};
 };

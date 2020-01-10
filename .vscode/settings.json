@@ -20,9 +20,10 @@
     "editor.formatOnSave": false
   },
   "editor.codeActionsOnSave": {
+    "source.organizeImports": false,
     "source.fixAll.eslint": true
-  }
-  // "css.validate": false,
-  // "less.validate": false,
-  // "scss.validate": false
+  },
+  "css.validate": false,
+  "less.validate": false,
+  "scss.validate": false
 }

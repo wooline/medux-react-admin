@@ -55,7 +55,7 @@ export const menuData: MenuItem[] = [
     name: '文章管理',
     icon: 'pay-circle',
     keys: '/admin/finance',
-    children: [{name: '文章列表', keys: '/admin/finance/wallet1?bbb=3'}],
+    children: [{name: '文章列表', keys: ['/admin/article/list', '/admin/article/list/detail/:id'], link: '/admin/article/list#q=%7B"adminArticle"%3A%7B"_listKey"%3A"${listKey}"%7D%7D'}],
   },
 ];
 export interface ListSearch extends BaseListSearch {

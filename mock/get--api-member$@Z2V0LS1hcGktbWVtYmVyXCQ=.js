@@ -21,9 +21,9 @@ const result = {
     'content-type': 'application/json; charset=utf-8',
   },
 };
-
-let resourceList = Object.keys(database.data.users).map(id => {
-  return database.data.users[id];
+const usersData = database.data.users;
+let resourceList = Object.keys(usersData).map(id => {
+  return usersData[id];
 });
 
 if (username) {

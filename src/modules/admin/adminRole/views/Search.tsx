@@ -13,15 +13,18 @@ interface StoreProps {
 }
 
 interface OwnProps {
+  fixedFields?: Partial<ListSearch>;
+  defaultSearch?: Partial<ListSearch>;
   disableRoute?: boolean;
 }
 class Component extends React.PureComponent<StoreProps & FormComponentProps & DispatchProp & OwnProps> {
   private onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.stopPropagation();
     event.preventDefault();
-    const {form, dispatch, disableRoute} = this.props;
+    const {form, dispatch, disableRoute, fixedFields = {}} = this.props;
     form.validateFields((errors, values: ListSearch) => {
       if (!errors) {
+        Object.assign(values, fixedFields);
         values.pageCurrent = 1;
         values.sorterField = undefined;
         values.sorterOrder = undefined;
@@ -30,10 +33,10 @@ class Component extends React.PureComponent<StoreProps & FormComponentProps & Di
     });
   };
   private onReset = () => {
-    this.props.dispatch(actions.adminRole.searchList({}, 'default', undefined, this.props.disableRoute));
+    this.props.dispatch(actions.adminRole.searchList(this.props.defaultSearch || {}, 'default', undefined, this.props.disableRoute));
   };
   public render() {
-    const {form} = this.props;
+    const {fixedFields, form} = this.props;
     const formDecorators = getFormDecorators<ListSearch>(form);
     const items = [
       {label: '角色名称', item: formDecorators.roleName(<Input autoComplete="off" allowClear={true} placeholder="请输入角色名称" />)},
@@ -45,7 +48,7 @@ class Component extends React.PureComponent<StoreProps & FormComponentProps & Di
     ];
     return (
       <div className="g-search">
-        <SearchForm onReset={this.onReset} onSubmit={this.onSubmit} items={items}></SearchForm>
+        <SearchForm disableFields={fixedFields && Object.keys(fixedFields)} onReset={this.onReset} onSubmit={this.onSubmit} items={items}></SearchForm>
       </div>
     );
   }

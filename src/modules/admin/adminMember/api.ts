@@ -3,8 +3,6 @@ import {ListItem, ListSearch, ListSummary, UpdateItem} from 'entity/member';
 import {CommonResourceAPI} from 'common/resource';
 import ajax from 'common/request';
 
-const apiServer: any = {};
-
 export class API extends CommonResourceAPI {
   public searchList(request: ListSearch): Promise<{list: ListItem[]; listSummary: ListSummary}> {
     const {role, ...args} = request;

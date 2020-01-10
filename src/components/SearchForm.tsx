@@ -5,7 +5,8 @@ import React from 'react';
 const FormItem = Form.Item;
 
 interface Props {
-  items: {label: string; item: React.ReactNode; col?: number}[];
+  items: {label: string; field?: string; item: React.ReactNode; col?: number}[];
+  disableFields?: string[];
   senior?: number;
   cols?: number;
   expand?: boolean;
@@ -30,7 +31,14 @@ class Component extends React.PureComponent<Props, State> {
   };
 
   public render() {
-    const {onSubmit, onReset, items, cols = 4} = this.props;
+    const {onSubmit, onReset, disableFields, cols = 4} = this.props;
+    const disableFieldsMap: {[filed: string]: boolean} = disableFields
+      ? disableFields.reduce((prev, cur) => {
+          prev[cur] = true;
+          return prev;
+        }, {})
+      : {};
+    const items = !disableFields ? this.props.items : this.props.items.filter(item => !item.field || !disableFieldsMap[item.field]);
     const {senior = items.length} = this.props;
     const {expand} = this.state;
     const shrink = expand ? items.length : senior;

@@ -47,8 +47,8 @@ export interface BaseListItem {
   id: string;
 }
 export interface BaseListSearch {
-  pageCurrent: number;
-  pageSize: number;
+  pageCurrent?: number;
+  pageSize?: number;
   term?: string;
   sorterOrder?: 'ascend' | 'descend';
   sorterField?: string;

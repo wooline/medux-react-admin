@@ -1,5 +1,5 @@
 import {Button, Divider, Popconfirm} from 'antd';
-import {DGender, DStatus, ListItem, ListSearch, ListSummary, Status, UpdateItem} from 'entity/member';
+import {DStatus, ListItem, ListSearch, ListSummary, Status, UpdateItem} from 'entity/article';
 import MTable, {ColumnProps} from 'components/MTable';
 
 import React from 'react';
@@ -7,13 +7,12 @@ import {connect} from 'react-redux';
 
 const newItem: Partial<UpdateItem> = {
   id: undefined,
-  username: undefined,
-  nickname: undefined,
-  gender: undefined,
-  role: undefined,
-  roleId: undefined,
-  status: undefined,
-  email: undefined,
+  title: undefined,
+  cover: undefined,
+  content: undefined,
+  photos: undefined,
+  editors: undefined,
+  editorIds: undefined,
 };
 interface StoreProps {
   selectedRows?: ListItem[];
@@ -29,57 +28,34 @@ class Component extends React.PureComponent<StoreProps & DispatchProp> {
   state: State = {};
   private columns: ColumnProps<ListItem>[] = [
     {
-      title: '用户名',
-      dataIndex: 'username',
-      width: '10%',
-    },
-    {
-      title: '呢称',
-      dataIndex: 'nickname',
-      width: '9%',
-    },
-    {
-      title: '角色',
-      dataIndex: 'roleName',
-      width: '10%',
-    },
-    {
-      title: '性别',
-      dataIndex: 'gender',
-      align: 'center',
-      width: '6%',
-      render: (gender: string) => DGender.keyToName[gender],
-    },
-    {
-      title: '文章',
-      dataIndex: 'article',
-      align: 'center',
-      sorter: true,
-      width: '8%',
-    },
-    {
-      title: 'Email',
-      dataIndex: 'email',
+      title: '标题',
+      dataIndex: 'title',
       ellipsis: true,
     },
     {
-      title: '注册时间',
-      dataIndex: 'createdTime',
-      width: '11%',
-      sorter: true,
-      timestamp: true,
+      title: '作者',
+      dataIndex: 'author',
+      width: '9%',
+      render: (author: {id: string; name: string}) => <a>{author.name}</a>,
     },
     {
-      title: '最后登录',
-      dataIndex: 'loginTime',
+      title: '责任编辑',
+      dataIndex: 'editors',
       width: '11%',
+      className: 'g-items',
+      render: (editors: {id: string; name: string}[]) => editors.map(editor => <a key={editor.id}>{editor.name}</a>),
+    },
+    {
+      title: '发表时间',
+      dataIndex: 'createdTime',
+      width: '16%',
       sorter: true,
       timestamp: true,
     },
     {
       title: '状态',
       dataIndex: 'status',
-      width: '6%',
+      width: '8%',
       render: (status: string) => <span className={'status-' + status}>{DStatus.keyToName[status]}</span>,
     },
     {
@@ -91,7 +67,7 @@ class Component extends React.PureComponent<StoreProps & DispatchProp> {
         <>
           <a onClick={() => this.onShowDetail(record)}>详细</a>
           <Divider type="vertical" />
-          <a onClick={() => this.onChangeStatus(record.status === Status.启用 ? Status.禁用 : Status.启用, [record.id])}>{record.status === Status.启用 ? '禁用' : '启用'}</a>
+          <a>审核</a>
           <Divider type="vertical" />
           <a onClick={() => this.onEdit(record)}>修改</a>
           <Divider type="vertical" />
@@ -103,25 +79,25 @@ class Component extends React.PureComponent<StoreProps & DispatchProp> {
     },
   ];
   onCreate = () => {
-    this.props.dispatch(actions.adminMember.execCurrentItem('create', newItem));
+    this.props.dispatch(actions.adminArticle.execCurrentItem('create', newItem));
   };
   onEdit = (item: ListItem) => {
-    this.props.dispatch(actions.adminMember.execCurrentItem('edit', item));
+    this.props.dispatch(actions.adminArticle.execCurrentItem('edit', item));
   };
   onShowDetail = (item: ListItem) => {
-    this.props.dispatch(actions.adminMember.execCurrentItem('detail', item.id));
+    this.props.dispatch(actions.adminArticle.execCurrentItem('detail', item.id));
   };
   onShowEditor = (item: ListItem) => {
-    this.props.dispatch(actions.adminMember.execCurrentItem('edit', item));
+    this.props.dispatch(actions.adminArticle.execCurrentItem('edit', item));
   };
   onDeleteList = (ids?: string[]) => {
-    this.props.dispatch(actions.adminMember.deleteList(ids));
+    this.props.dispatch(actions.adminArticle.deleteList(ids));
   };
   onChangeStatus = (status: Status, ids?: string[]) => {
-    this.props.dispatch(actions.adminMember.changeListStatus({ids, status}));
+    this.props.dispatch(actions.adminArticle.changeListStatus({ids, status}));
   };
   onClearSelect = () => {
-    this.props.dispatch(actions.adminMember.putSelectedRows([]));
+    this.props.dispatch(actions.adminArticle.putSelectedRows([]));
   };
   onRowSelect = (record: ListItem) => {
     const {selectedRows = []} = this.props;
@@ -129,7 +105,7 @@ class Component extends React.PureComponent<StoreProps & DispatchProp> {
     if (rows.length === selectedRows.length) {
       rows.push(record);
     }
-    this.props.dispatch(actions.adminMember.putSelectedRows(rows));
+    this.props.dispatch(actions.adminArticle.putSelectedRows(rows));
   };
   onAllSelect = (checked: boolean, selectRows: ListItem[], changeRows: ListItem[]) => {
     const {selectedRows = []} = this.props;
@@ -143,12 +119,12 @@ class Component extends React.PureComponent<StoreProps & DispatchProp> {
       }, {});
       rows = selectedRows.filter(item => !changeRowsKeys[item.id]);
     }
-    this.props.dispatch(actions.adminMember.putSelectedRows(rows));
+    this.props.dispatch(actions.adminArticle.putSelectedRows(rows));
   };
   onChange = (pagination: {current: number; pageSize: number}, filter: any, sorter: {field: string; order: any}) => {
     const {current: pageCurrent, pageSize} = pagination;
     this.props.dispatch(
-      actions.adminMember.searchList({
+      actions.adminArticle.searchList({
         pageCurrent,
         pageSize,
         sorterField: sorter.order && sorter.field,
@@ -159,16 +135,16 @@ class Component extends React.PureComponent<StoreProps & DispatchProp> {
   batchActions = {
     actions: [
       {key: 'delete', label: '批量删除', confirm: true},
-      {key: 'enable', label: '批量启用', confirm: true},
-      {key: 'disable', label: '批量禁用', confirm: true},
+      {key: 'enable', label: '批量审核通过', confirm: true},
+      {key: 'disable', label: '批量审核拒绝', confirm: true},
     ],
     onClick: (item: {key: string}) => {
       if (item.key === 'delete') {
         this.onDeleteList();
       } else if (item.key === 'enable') {
-        this.onChangeStatus(Status.启用);
+        this.onChangeStatus(Status.审核通过);
       } else if (item.key === 'disable') {
-        this.onChangeStatus(Status.禁用);
+        this.onChangeStatus(Status.审核拒绝);
       }
     },
   };
@@ -202,12 +178,12 @@ class Component extends React.PureComponent<StoreProps & DispatchProp> {
     );
   }
   componentWillUnmount() {
-    this.props.dispatch(actions.adminMember.putSelectedRows());
+    this.props.dispatch(actions.adminArticle.putSelectedRows());
   }
 }
 
 const mapStateToProps: (state: RootState) => StoreProps = state => {
-  const thisModule = state.adminMember!;
+  const thisModule = state.adminArticle!;
   const {list, listSummary, selectedRows} = thisModule;
   return {list, listSummary, selectedRows, listSearch: thisModule.routeParams?.listSearch};
 };

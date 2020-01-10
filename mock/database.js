@@ -104,7 +104,7 @@ function createUsers() {
       password: '123456',
       hasLogin: true,
       gender: 'unknow',
-      article: 0,
+      article: 2,
       roleId: '1',
       roleName: '超级管理员',
       status: 'enable',
@@ -120,7 +120,7 @@ function createUsers() {
       password: '123456',
       hasLogin: true,
       gender: 'unknow',
-      article: 0,
+      article: 1,
       roleId: '2',
       roleName: '普通管理员',
       status: 'enable',
@@ -142,6 +142,19 @@ function createUsers() {
       createdTime: timestamp,
       email: 'revvc@sina.com.cn',
     },
+    editor2: {
+      id: 'editor2',
+      username: 'editor2',
+      nickname: '张小明',
+      gender: 'female',
+      article: 0,
+      roleId: '3',
+      roleName: '文章编辑',
+      status: 'enable',
+      loginTime: timestamp,
+      createdTime: timestamp,
+      email: '5564@sina.com.cn',
+    },
     member: {
       id: 'member',
       username: 'member',
@@ -158,7 +171,7 @@ function createUsers() {
   });
   mockjs
     .mock({
-      'list|26': [
+      'list|25': [
         {
           'id|+1': 1,
           username: '@last',
@@ -292,6 +305,47 @@ function createRoles() {
   return list;
 }
 
+function createArticles() {
+  const list = createMap({
+    1: {
+      id: '1',
+      title: '美丽的西双版纳',
+      cover: '/afdsfs.png',
+      photos: ['/afdsfs.png'],
+      content: mockjs.Random.cparagraph(1, 3),
+      author: {id: 'superadmin', name: '张三'},
+      editors: [{id: 'editor', name: '莉莉'}],
+      createdTime: timestamp,
+      status: 'resolved',
+    },
+    2: {
+      id: '2',
+      title: '张家界五日游',
+      cover: '/afdsfs.png',
+      photos: ['/afdsfs.png'],
+      content: mockjs.Random.cparagraph(1, 3),
+      author: {id: 'superadmin', name: '张三'},
+      editors: [{id: 'editor2', name: '张小明'}],
+      createdTime: timestamp,
+      status: 'resolved',
+    },
+    3: {
+      id: '3',
+      title: '走遍美利坚合众国',
+      cover: '/afdsfs.png',
+      photos: ['/afdsfs.png'],
+      content: mockjs.Random.cparagraph(1, 3),
+      author: {id: 'admin', name: '李四'},
+      editors: [
+        {id: 'editor', name: '莉莉'},
+        {id: 'editor2', name: '张小明'},
+      ],
+      createdTime: timestamp,
+      status: 'resolved',
+    },
+  });
+  return list;
+}
 const data = {
   config: {
     version: Date.now(),
@@ -314,6 +368,7 @@ const data = {
   },
   roles: createRoles(),
   users: createUsers(),
+  articles: createArticles(),
 };
 
 const database = {

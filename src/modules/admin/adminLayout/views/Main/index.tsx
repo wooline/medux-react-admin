@@ -13,8 +13,9 @@ import styles from './index.m.less';
 
 const {Content, Footer} = Layout;
 const AdminHome = loadView('adminHome', 'Main');
-const AdminMember = loadView('adminMember', 'Main');
-const AdminRole = loadView('adminRole', 'Main');
+const AdminMember = loadView('adminMember', 'List');
+const AdminArticle = loadView('adminArticle', 'List');
+const AdminRole = loadView('adminRole', 'List');
 
 interface StoreProps {
   hasLogin: boolean;
@@ -42,6 +43,7 @@ class Component extends React.PureComponent<StoreProps> {
                 <Route exact path="/admin/home" component={AdminHome} />
                 <Route exact path="/admin/role/:listView" component={AdminRole} />
                 <Route path="/admin/member/:listView" component={AdminMember} />
+                <Route path="/admin/article/:listView" component={AdminArticle} />
                 <Route component={NotFound} />
               </Switch>
             </Content>

@@ -1,6 +1,7 @@
 import {ModelHandlers, initModelState} from './model';
 
-import Main from './views/Main';
+import List from './views/List';
+import Selector from './views/Selector';
 import {exportModule} from '@medux/react-web-router';
 
-export default exportModule('adminMember', initModelState, ModelHandlers, {Main});
+export default exportModule('adminMember', initModelState, ModelHandlers, {List, Selector});

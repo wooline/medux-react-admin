@@ -38,6 +38,10 @@ class MTable<T> extends React.PureComponent<Props<T>> {
     if (nextProps.dataSource !== prevState.dataSource) {
       return {...prevState, reviewSelectedMode: false, dataSource: nextProps.dataSource};
     }
+    const {selectedRows = []} = nextProps.rowSelection || {};
+    if (prevState.reviewSelectedMode && selectedRows.length === 0) {
+      return {...prevState, reviewSelectedMode: false};
+    }
     return null;
   }
   state: State = {};
@@ -121,7 +125,6 @@ class MTable<T> extends React.PureComponent<Props<T>> {
   };
   onClearSelected = () => {
     const {rowSelection = {}} = this.props;
-    this.setState({reviewSelectedMode: false});
     rowSelection.onClear && rowSelection.onClear();
   };
   render() {
@@ -141,6 +144,7 @@ class MTable<T> extends React.PureComponent<Props<T>> {
       }
     }
     const selectedCount = selectedRows.length;
+
     let batchMenu: React.ReactNode = null;
 
     if (batchActions) {
