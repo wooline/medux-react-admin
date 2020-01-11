@@ -83,7 +83,7 @@ export const routeConfig: RouteConfig = {
         {
           '/admin/home': 'adminHome.Main',
           '/admin/role/:listView': [
-            'adminRole.list',
+            'adminRole.List',
             {
               '/admin/role/:listView/:itemView/:itemId': 'adminRole.Detail',
             },
