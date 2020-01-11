@@ -27,7 +27,7 @@ let resourceList = Object.keys(usersData).map(id => {
 });
 
 if (username) {
-  resourceList = resourceList.filter(item => item.username.includes(username));
+  resourceList = resourceList.filter(item => item.username === username);
 }
 if (nickname) {
   resourceList = resourceList.filter(item => item.nickname.includes(nickname));

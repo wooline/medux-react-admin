@@ -36,14 +36,19 @@ class Component extends React.PureComponent<StoreProps & DispatchProp> {
       title: '作者',
       dataIndex: 'author',
       width: '9%',
-      render: (author: {id: string; name: string}) => <a>{author.name}</a>,
+      render: (author: {id: string; name: string}) => <a onClick={() => this.onShowMembers(author.id)}>{author.name}</a>,
     },
     {
       title: '责任编辑',
       dataIndex: 'editors',
       width: '11%',
       className: 'g-items',
-      render: (editors: {id: string; name: string}[]) => editors.map(editor => <a key={editor.id}>{editor.name}</a>),
+      render: (editors: {id: string; name: string}[]) =>
+        editors.map(editor => (
+          <a key={editor.id} onClick={() => this.onShowMembers(editor.id)}>
+            {editor.name}
+          </a>
+        )),
     },
     {
       title: '发表时间',
@@ -98,6 +103,9 @@ class Component extends React.PureComponent<StoreProps & DispatchProp> {
   };
   onClearSelect = () => {
     this.props.dispatch(actions.adminArticle.putSelectedRows([]));
+  };
+  onShowMembers = (username: string) => {
+    this.props.dispatch(actions.adminMember.searchList({username}, 'none'));
   };
   onRowSelect = (record: ListItem) => {
     const {selectedRows = []} = this.props;

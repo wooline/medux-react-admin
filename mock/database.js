@@ -264,7 +264,7 @@ function createRoles() {
       id: '3',
       roleName: '文章编辑',
       purviews: ['article.create', 'article.delete', 'article.update', 'article.list', 'article.detail', 'article.review'],
-      owner: 1,
+      owner: 2,
       fixed: true,
       remark: '系统内置，不可修改',
       createdTime: timestamp,
