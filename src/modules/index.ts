@@ -16,6 +16,7 @@ const defaultRouteParams: {[K in moduleNames]: any} = {
   articleAbout: null,
   articleService: null,
 };
+
 setRouteConfig({defaultRouteParams});
 
 export enum moduleNames {
