@@ -29,7 +29,7 @@ export interface ListItem extends BaseListItem {
   username: string;
   nickname: string;
   gender: Gender;
-  article: number;
+  post: number;
   role: {id: string} | undefined;
   roleId: string;
   roleName: string;

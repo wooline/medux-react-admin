@@ -1,5 +1,6 @@
 import Detail from './Detail';
 import Editor from './Editor';
+import {ItemDetail} from 'entity/role';
 import {Modal} from 'antd';
 import React from 'react';
 import Search from './Search';
@@ -8,6 +9,7 @@ import {connect} from 'react-redux';
 
 interface StoreProps {
   currentOperation?: 'detail' | 'edit' | 'create';
+  currentItem?: ItemDetail;
 }
 
 class Component extends React.PureComponent<StoreProps & DispatchProp> {
@@ -15,24 +17,29 @@ class Component extends React.PureComponent<StoreProps & DispatchProp> {
     this.props.dispatch(actions.adminRole.execCurrentItem());
   };
   public render() {
-    const {currentOperation} = this.props;
+    const {currentOperation, currentItem} = this.props;
+
     return (
       <div className="g-adminPage">
-        <h1>{pageNames[location.pathname]}</h1>
+        <h1>角色列表</h1>
         <Search />
         <Table />
-        <Modal visible={currentOperation === 'detail'} onCancel={this.onHideCurrent} footer={null} title="角色详情" width={900}>
-          <Detail />
-        </Modal>
-        <Modal
-          visible={currentOperation === 'edit' || currentOperation === 'create'}
-          onCancel={this.onHideCurrent}
-          footer={null}
-          title={currentOperation === 'edit' ? '修改角色' : '新建角色'}
-          width={900}
-        >
-          <Editor />
-        </Modal>
+        {currentOperation === 'detail' && currentItem && (
+          <Modal wrapClassName="g-noBorderHeader" visible={currentOperation === 'detail'} onCancel={this.onHideCurrent} footer={null} title="角色详情" width={900}>
+            <Detail />
+          </Modal>
+        )}
+        {(currentOperation === 'edit' || currentOperation === 'create') && currentItem && (
+          <Modal
+            visible={currentOperation === 'edit' || currentOperation === 'create'}
+            onCancel={this.onHideCurrent}
+            footer={null}
+            title={currentOperation === 'edit' ? '修改角色' : '新建角色'}
+            width={900}
+          >
+            <Editor />
+          </Modal>
+        )}
       </div>
     );
   }
@@ -41,6 +48,7 @@ class Component extends React.PureComponent<StoreProps & DispatchProp> {
 const mapStateToProps: (state: RootState) => StoreProps = state => {
   const thisModule = state.adminRole!;
   return {
+    currentItem: thisModule.currentItem,
     currentOperation: thisModule.routeParams!.currentOperation,
   };
 };

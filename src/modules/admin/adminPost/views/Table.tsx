@@ -1,5 +1,5 @@
 import {Button, Divider, Popconfirm} from 'antd';
-import {DStatus, ListItem, ListSearch, ListSummary, Status, UpdateItem} from 'entity/article';
+import {DStatus, ListItem, ListSearch, ListSummary, Status, UpdateItem} from 'entity/post';
 import MTable, {ColumnProps} from 'components/MTable';
 
 import React from 'react';
@@ -8,13 +8,12 @@ import {connect} from 'react-redux';
 const newItem: Partial<UpdateItem> = {
   id: undefined,
   title: undefined,
-  cover: undefined,
   content: undefined,
-  photos: undefined,
   editors: undefined,
   editorIds: undefined,
 };
 interface StoreProps {
+  userid: string;
   selectedRows?: ListItem[];
   listSearch?: ListSearch;
   list?: ListItem[];
@@ -73,36 +72,38 @@ class Component extends React.PureComponent<StoreProps & DispatchProp> {
           <a onClick={() => this.onShowDetail(record)}>详细</a>
           <Divider type="vertical" />
           <a>审核</a>
-          <Divider type="vertical" />
-          <a onClick={() => this.onEdit(record)}>修改</a>
-          <Divider type="vertical" />
+          <Divider className={record.author.id !== this.props.userid ? 'disable' : ''} type="vertical" />
+          <a className={record.author.id !== this.props.userid ? 'disable' : ''} onClick={() => this.onEdit(record)}>
+            修改
+          </a>
+          <Divider className={record.author.id !== this.props.userid ? 'disable' : ''} type="vertical" />
           <Popconfirm placement="topRight" title="您确定要删除该条数据吗？" onConfirm={() => this.onDeleteList([record.id])}>
-            <a>删除</a>
+            <a className={record.author.id !== this.props.userid ? 'disable' : ''}>删除</a>
           </Popconfirm>
         </>
       ),
     },
   ];
   onCreate = () => {
-    this.props.dispatch(actions.adminArticle.execCurrentItem('create', newItem));
+    this.props.dispatch(actions.adminPost.execCurrentItem('create', newItem));
   };
   onEdit = (item: ListItem) => {
-    this.props.dispatch(actions.adminArticle.execCurrentItem('edit', item));
+    this.props.dispatch(actions.adminPost.execCurrentItem('edit', item));
   };
   onShowDetail = (item: ListItem) => {
-    this.props.dispatch(actions.adminArticle.execCurrentItem('detail', item.id));
+    this.props.dispatch(actions.adminPost.execCurrentItem('detail', item.id));
   };
   onShowEditor = (item: ListItem) => {
-    this.props.dispatch(actions.adminArticle.execCurrentItem('edit', item));
+    this.props.dispatch(actions.adminPost.execCurrentItem('edit', item));
   };
   onDeleteList = (ids?: string[]) => {
-    this.props.dispatch(actions.adminArticle.deleteList(ids));
+    this.props.dispatch(actions.adminPost.deleteList(ids));
   };
   onChangeStatus = (status: Status, ids?: string[]) => {
-    this.props.dispatch(actions.adminArticle.changeListStatus({ids, status}));
+    this.props.dispatch(actions.adminPost.changeListStatus({ids, status}));
   };
   onClearSelect = () => {
-    this.props.dispatch(actions.adminArticle.putSelectedRows([]));
+    this.props.dispatch(actions.adminPost.putSelectedRows([]));
   };
   onShowMembers = (username: string) => {
     this.props.dispatch(actions.adminMember.searchList({username}, 'none'));
@@ -113,7 +114,7 @@ class Component extends React.PureComponent<StoreProps & DispatchProp> {
     if (rows.length === selectedRows.length) {
       rows.push(record);
     }
-    this.props.dispatch(actions.adminArticle.putSelectedRows(rows));
+    this.props.dispatch(actions.adminPost.putSelectedRows(rows));
   };
   onAllSelect = (checked: boolean, selectRows: ListItem[], changeRows: ListItem[]) => {
     const {selectedRows = []} = this.props;
@@ -127,12 +128,12 @@ class Component extends React.PureComponent<StoreProps & DispatchProp> {
       }, {});
       rows = selectedRows.filter(item => !changeRowsKeys[item.id]);
     }
-    this.props.dispatch(actions.adminArticle.putSelectedRows(rows));
+    this.props.dispatch(actions.adminPost.putSelectedRows(rows));
   };
   onChange = (pagination: {current: number; pageSize: number}, filter: any, sorter: {field: string; order: any}) => {
     const {current: pageCurrent, pageSize} = pagination;
     this.props.dispatch(
-      actions.adminArticle.searchList({
+      actions.adminPost.searchList({
         pageCurrent,
         pageSize,
         sorterField: sorter.order && sorter.field,
@@ -186,14 +187,15 @@ class Component extends React.PureComponent<StoreProps & DispatchProp> {
     );
   }
   componentWillUnmount() {
-    this.props.dispatch(actions.adminArticle.putSelectedRows());
+    this.props.dispatch(actions.adminPost.putSelectedRows());
   }
 }
 
 const mapStateToProps: (state: RootState) => StoreProps = state => {
-  const thisModule = state.adminArticle!;
+  const userid = state.app!.curUser!.id;
+  const thisModule = state.adminPost!;
   const {list, listSummary, selectedRows} = thisModule;
-  return {list, listSummary, selectedRows, listSearch: thisModule.routeParams?.listSearch};
+  return {userid, list, listSummary, selectedRows, listSearch: thisModule.routeParams?.listSearch};
 };
 
 export default connect(mapStateToProps)(Component);

@@ -10,13 +10,13 @@ export const purviewNames: {[key: string]: string} = {
   'user.list': '列表',
   'user.detail': '详情',
   'user.review': '审核',
-  article: '文章',
-  'article.create': '新增',
-  'article.delete': '删除',
-  'article.update': '修改',
-  'article.list': '列表',
-  'article.detail': '详情',
-  'article.review': '审核',
+  post: '信息',
+  'post.create': '新增',
+  'post.delete': '删除',
+  'post.update': '修改',
+  'post.list': '列表',
+  'post.detail': '详情',
+  'post.review': '审核',
 };
 
 export interface Purview {
@@ -24,7 +24,7 @@ export interface Purview {
 }
 export const purviewData: Purview = {
   user: ['list', 'create', 'update', 'delete', 'detail', 'review'],
-  article: ['list', 'create', 'update', 'delete', 'detail', 'review'],
+  post: ['list', 'create', 'update', 'delete', 'detail', 'review'],
 };
 export interface MenuItem {
   name: string;
@@ -52,10 +52,10 @@ export const menuData: MenuItem[] = [
     ],
   },
   {
-    name: '文章管理',
+    name: '信息管理',
     icon: 'pay-circle',
     keys: '/admin/finance',
-    children: [{name: '文章列表', keys: ['/admin/article/list', '/admin/article/list/detail/:id'], link: '/admin/article/list#q=%7B"adminArticle"%3A%7B"_listKey"%3A"${listKey}"%7D%7D'}],
+    children: [{name: '信息列表', keys: ['/admin/post/list', '/admin/post/list/detail/:id'], link: '/admin/post/list#q=%7B"adminPost"%3A%7B"_listKey"%3A"${listKey}"%7D%7D'}],
   },
 ];
 export interface ListSearch extends BaseListSearch {
@@ -72,6 +72,7 @@ export interface ListItem extends BaseListItem {
   fixed?: boolean;
 }
 
+export interface ItemDetail extends ListItem {}
 export interface UpdateItem {
   id: string;
   roleName: string;

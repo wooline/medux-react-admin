@@ -1,4 +1,4 @@
-import {DStatus, ListSearch} from 'entity/article';
+import {DStatus, ListSearch} from 'entity/post';
 import {Input, Select} from 'antd';
 import {createForm, getFormDecorators} from 'common/utils';
 
@@ -34,12 +34,12 @@ class Component extends React.PureComponent<StoreProps & FormComponentProps & Di
         values.pageCurrent = 1;
         values.sorterField = undefined;
         values.sorterOrder = undefined;
-        dispatch(actions.adminArticle.searchList(values, 'current', undefined, disableRoute));
+        dispatch(actions.adminPost.searchList(values, 'current', undefined, disableRoute));
       }
     });
   };
   private onReset = () => {
-    this.props.dispatch(actions.adminArticle.searchList(this.props.defaultSearch || {}, 'default', undefined, this.props.disableRoute));
+    this.props.dispatch(actions.adminPost.searchList(this.props.defaultSearch || {}, 'default', undefined, this.props.disableRoute));
   };
   public render() {
     const {fixedFields, form} = this.props;
@@ -50,7 +50,7 @@ class Component extends React.PureComponent<StoreProps & FormComponentProps & Di
       {
         label: '状态',
         item: formDecorators.status!(
-          <Select allowClear={true} placeholder="请选择文章状态">
+          <Select allowClear={true} placeholder="请选择信息状态">
             {DStatus.options.map(option => (
               <Option key={option.key} value={option.key}>
                 {option.name}
@@ -67,7 +67,7 @@ class Component extends React.PureComponent<StoreProps & FormComponentProps & Di
             placeholder="请选择责任编辑"
             resourceNameField="nickname"
             allowClear={true}
-            resource={<MemberSelector fixedSearchField={{status: MemberStaus.启用, role: {id: '3', name: '文章编辑'}}} />}
+            resource={<MemberSelector fixedSearchField={{status: MemberStaus.启用, role: {id: '3', name: '信息编辑'}}} />}
           />
         ),
       },
@@ -82,7 +82,7 @@ class Component extends React.PureComponent<StoreProps & FormComponentProps & Di
 }
 
 const mapStateToProps: (state: RootState) => StoreProps = state => {
-  return {listSearch: state.adminArticle!.routeParams?.listSearch};
+  return {listSearch: state.adminPost!.routeParams?.listSearch};
 };
 const mapPropsToFields = (props: StoreProps) => {
   return {

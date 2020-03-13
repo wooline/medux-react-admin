@@ -1,11 +1,11 @@
 import {Button, Form, Icon, Input} from 'antd';
-import {createForm, getFormDecorators} from 'common/utils';
+import {ItemDetail, UpdateItem} from 'entity/role';
 
 import {FormComponentProps} from 'antd/lib/form';
 import PurviewEditor from 'components/PurviewEditor';
 import React from 'react';
-import {UpdateItem} from 'entity/role';
 import {connect} from 'react-redux';
+import {getFormDecorators} from 'common/utils';
 import styles from './index.m.less';
 
 const FormItem = Form.Item;
@@ -21,24 +21,14 @@ export const formItemLayout = {
 
 interface StoreProps {
   currentOperation?: 'detail' | 'edit' | 'create';
-  dataSource?: UpdateItem;
+  currentItem?: ItemDetail;
 }
 
 interface State {
   purviewsError?: string;
 }
 
-class Component extends React.PureComponent<StoreProps & FormComponentProps & DispatchProp, State> {
-  static getDerivedStateFromProps(nextProps: StoreProps, prevState: State): State | null {
-    if (!nextProps.currentOperation) {
-      return {
-        ...prevState,
-        purviewsError: '',
-      };
-    }
-    return null;
-  }
-
+class Component extends React.PureComponent<StoreProps & DispatchProp & FormComponentProps, State> {
   state: State = {};
 
   validatePurview = (rule: {message: string}, value: string[] | undefined, callback: (err?: string) => void) => {
@@ -67,7 +57,7 @@ class Component extends React.PureComponent<StoreProps & FormComponentProps & Di
     const {validateFields, getFieldError} = this.props.form;
     validateFields((errors, values: UpdateItem) => {
       if (!errors) {
-        const id = this.props.dataSource!.id;
+        const id = this.props.currentItem!.id;
         if (id) {
           this.props.dispatch(actions.adminRole.updateItem({...values, id}));
         } else {
@@ -81,9 +71,9 @@ class Component extends React.PureComponent<StoreProps & FormComponentProps & Di
     });
   };
   public render() {
-    const {form, dataSource} = this.props;
+    const {form, currentItem} = this.props;
     const {purviewsError = ''} = this.state;
-    if (dataSource) {
+    if (currentItem) {
       const formDecorators = getFormDecorators<UpdateItem>(
         form,
         {
@@ -123,16 +113,18 @@ class Component extends React.PureComponent<StoreProps & FormComponentProps & Di
   }
 }
 
+const mapPropsToFields = (props: StoreProps) => {
+  return {
+    ...props.currentItem,
+  };
+};
+
 const mapStateToProps: (state: RootState) => StoreProps = state => {
   const thisModule = state.adminRole!;
   return {
+    currentItem: thisModule.currentItem,
     currentOperation: thisModule.routeParams!.currentOperation,
-    dataSource: thisModule.currentItem,
   };
 };
-const mapPropsToFields = (props: StoreProps) => {
-  return {
-    ...props.dataSource,
-  };
-};
-export default connect(mapStateToProps)(createForm(Component, mapPropsToFields));
+
+export default connect(mapStateToProps)(Form.create()(Component));

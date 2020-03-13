@@ -1,4 +1,4 @@
-import {RouteParams} from 'entity/article';
+import {RouteParams} from 'entity/post';
 // 定义本模块的路由参数类型
 
 const defaultRouteParams: RouteParams = {

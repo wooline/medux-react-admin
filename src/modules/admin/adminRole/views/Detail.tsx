@@ -1,10 +1,9 @@
 import {Button, Descriptions, Icon} from 'antd';
 
 import DateTime from 'components/DateTime';
-import {ListItem} from 'entity/role';
+import {ItemDetail} from 'entity/role';
 import React from 'react';
 import {connect} from 'react-redux';
-import {createForm} from 'common/utils';
 import {purviewNames} from 'entity/role';
 import styles from './index.m.less';
 
@@ -12,7 +11,7 @@ const DescriptionsItem = Descriptions.Item;
 
 interface StoreProps {
   primaryMode?: boolean;
-  dataSource?: ListItem;
+  currentItem?: ItemDetail;
 }
 
 export const formItemLayout = {
@@ -34,13 +33,13 @@ class Component extends React.PureComponent<StoreProps & DispatchProp> {
     this.props.dispatch(actions.adminRole.execCurrentItem('edit'));
   };
   onDelete = async () => {
-    await this.props.dispatch(actions.adminRole.deleteList([this.props.dataSource!.id]));
+    await this.props.dispatch(actions.adminRole.deleteList([this.props.currentItem!.id]));
     this.onHide();
   };
   public render() {
-    const {dataSource, primaryMode} = this.props;
-    if (dataSource) {
-      const purviews: {[key: string]: boolean} = dataSource.purviews.reduce((pre, cur) => {
+    const {currentItem, primaryMode} = this.props;
+    if (currentItem) {
+      const purviews: {[key: string]: boolean} = currentItem.purviews.reduce((pre, cur) => {
         pre[cur] = true;
         return pre;
       }, {});
@@ -64,12 +63,12 @@ class Component extends React.PureComponent<StoreProps & DispatchProp> {
       return (
         <div className={styles.root}>
           <Descriptions bordered column={1}>
-            <DescriptionsItem label="角色名称">{dataSource.roleName}</DescriptionsItem>
-            <DescriptionsItem label="当前人数">{dataSource.owner}</DescriptionsItem>
+            <DescriptionsItem label="角色名称">{currentItem.roleName}</DescriptionsItem>
+            <DescriptionsItem label="当前人数">{currentItem.owner}</DescriptionsItem>
             <DescriptionsItem label="创建时间">
-              <DateTime date={dataSource.createdTime} />
+              <DateTime date={currentItem.createdTime} />
             </DescriptionsItem>
-            <DescriptionsItem label="备注说明">{dataSource.remark}</DescriptionsItem>
+            <DescriptionsItem label="备注说明">{currentItem.remark}</DescriptionsItem>
           </Descriptions>
           <div className="purviews">
             <h4>
@@ -89,10 +88,10 @@ class Component extends React.PureComponent<StoreProps & DispatchProp> {
             </Button>
             {primaryMode && (
               <>
-                <Button className={dataSource.fixed ? 'disable' : ''} icon="edit" onClick={this.onEdit}>
+                <Button className={currentItem.fixed ? 'disable' : ''} icon="edit" onClick={this.onEdit}>
                   修改
                 </Button>
-                <Button className={dataSource.fixed ? 'disable' : ''} icon="delete" type="danger" onClick={this.onDelete}>
+                <Button className={currentItem.fixed ? 'disable' : ''} icon="delete" type="danger" onClick={this.onDelete}>
                   删除
                 </Button>
               </>
@@ -109,12 +108,8 @@ const mapStateToProps: (state: RootState) => StoreProps = state => {
   const thisModule = state.adminRole!;
   return {
     primaryMode: !!state.route.data.views.adminRole,
-    dataSource: thisModule.currentItem,
+    currentItem: thisModule.currentItem,
   };
 };
-const mapPropsToFields = (props: StoreProps) => {
-  return {
-    ...props.dataSource,
-  };
-};
-export default connect(mapStateToProps)(createForm(Component, mapPropsToFields));
+
+export default connect(mapStateToProps)(Component);

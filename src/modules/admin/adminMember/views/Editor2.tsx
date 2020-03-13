@@ -1,11 +1,11 @@
 import {Alert, Button, Form, Input, Select} from 'antd';
 import {DGender, DStatus, ItemDetail, UpdateItem} from 'entity/member';
+import {createForm, getFormDecorators} from 'common/utils';
 
 import {CustomError} from 'entity/common';
 import {FormComponentProps} from 'antd/lib/form';
 import React from 'react';
 import {connect} from 'react-redux';
-import {getFormDecorators} from 'common/utils';
 
 const RoleSelector = loadView('adminRole', 'Selector');
 
@@ -22,14 +22,24 @@ export const formItemLayout = {
 
 interface StoreProps {
   currentOperation?: 'detail' | 'edit' | 'create';
-  currentItem?: ItemDetail;
+  dataSource?: ItemDetail;
 }
 
 interface State {
   formError?: string;
 }
 
-class Component extends React.PureComponent<StoreProps & DispatchProp & FormComponentProps, State> {
+class Component extends React.PureComponent<StoreProps & FormComponentProps & DispatchProp, State> {
+  static getDerivedStateFromProps(nextProps: StoreProps, prevState: State): State | null {
+    if (!nextProps.currentOperation) {
+      return {
+        ...prevState,
+        formError: '',
+      };
+    }
+    return null;
+  }
+
   state: State = {};
 
   onHide = () => {
@@ -50,7 +60,7 @@ class Component extends React.PureComponent<StoreProps & DispatchProp & FormComp
     const {validateFields, getFieldError} = this.props.form;
     validateFields((errors, values: UpdateItem) => {
       if (!errors) {
-        const id = this.props.currentItem!.id;
+        const id = this.props.dataSource!.id;
         if (id) {
           this.props.dispatch(actions.adminMember.updateItem({...values, id}, this.handleSubmit));
         } else {
@@ -63,11 +73,16 @@ class Component extends React.PureComponent<StoreProps & DispatchProp & FormComp
       }
     });
   };
-
+  shouldComponentUpdate(nextProps: any, nextState: any) {
+    if (nextProps.currentOperation === 'detail') {
+      return false;
+    }
+    return nextProps.currentOperation !== this.props.currentOperation || nextProps.dataSource !== this.props.dataSource || nextState.formError !== this.state.formError;
+  }
   public render() {
-    const {form, currentItem, currentOperation} = this.props;
+    const {form, dataSource, currentOperation} = this.props;
     const {formError = ''} = this.state;
-    if (currentItem) {
+    if (dataSource) {
       const formDecorators = getFormDecorators<UpdateItem>(
         form,
         {
@@ -126,19 +141,18 @@ class Component extends React.PureComponent<StoreProps & DispatchProp & FormComp
   }
 }
 
-const mapPropsToFields = (props: StoreProps) => {
-  const {currentItem} = props;
-  return {
-    ...currentItem,
-    role: currentItem?.roleId && {id: currentItem?.roleId, name: currentItem?.roleName},
-  };
-};
 const mapStateToProps: (state: RootState) => StoreProps = state => {
   const thisModule = state.adminMember!;
   return {
-    currentItem: thisModule.currentItem,
     currentOperation: thisModule.routeParams!.currentOperation,
+    dataSource: thisModule.currentItem,
   };
 };
-
-export default connect(mapStateToProps)(Form.create()(Component));
+const mapPropsToFields = (props: StoreProps) => {
+  const {dataSource} = props;
+  return {
+    ...dataSource,
+    role: dataSource?.roleId && {id: dataSource?.roleId, name: dataSource?.roleName},
+  };
+};
+export default connect(mapStateToProps)(createForm(Component, mapPropsToFields));

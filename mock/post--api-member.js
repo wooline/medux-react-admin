@@ -74,7 +74,7 @@ users[username] = {
   username: username,
   password: password,
   hasLogin: true,
-  article: 0,
+  post: 0,
   avatar: '/client/imgs/u1.jpg',
   loginTime: Date.now(),
   createdTime: Date.now(),

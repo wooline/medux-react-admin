@@ -20,10 +20,10 @@ const result = {
     'content-type': 'application/json; charset=utf-8',
   },
 };
-const articlesData = database.data.articles;
+const postsData = database.data.posts;
 
-let resourceList = Object.keys(articlesData).map(id => {
-  return articlesData[id];
+let resourceList = Object.keys(postsData).map(id => {
+  return postsData[id];
 });
 
 if (title) {

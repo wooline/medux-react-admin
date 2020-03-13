@@ -1,6 +1,7 @@
 import {ListItem, ListSearch} from 'entity/member';
 
 import Detail from './Detail';
+import {ItemDetail} from 'entity/member';
 import {Modal} from 'antd';
 import React from 'react';
 import Search from './Search';
@@ -8,6 +9,7 @@ import SelectorTable from './SelectorTable';
 import {connect} from 'react-redux';
 
 interface StoreProps {
+  currentItem?: ItemDetail;
   currentOperation?: 'detail' | 'edit' | 'create';
 }
 interface OwnProps {
@@ -23,14 +25,16 @@ class Component extends React.PureComponent<StoreProps & DispatchProp & OwnProps
     this.props.dispatch(actions.adminMember.execCurrentItem());
   };
   public render() {
-    const {currentOperation, fixedSearchField, defaultSearch = fixedSearchField, onChange, limit, value} = this.props;
+    const {currentOperation, fixedSearchField, defaultSearch = fixedSearchField, onChange, limit, value, currentItem} = this.props;
     return (
       <div className="g-selector">
         <Search disableRoute={true} fixedFields={fixedSearchField} defaultSearch={defaultSearch} />
         <SelectorTable onSelectdChange={onChange} selectedRows={value} selectLimit={limit} />
-        <Modal visible={currentOperation === 'detail'} onCancel={this.onHideCurrent} footer={null} title="用户详情" width={900}>
-          <Detail />
-        </Modal>
+        {currentOperation === 'detail' && currentItem && (
+          <Modal wrapClassName="g-noBorderHeader" visible={true} onCancel={this.onHideCurrent} footer={null} title="用户详情" width={900}>
+            <Detail />
+          </Modal>
+        )}
       </div>
     );
   }
@@ -39,6 +43,7 @@ class Component extends React.PureComponent<StoreProps & DispatchProp & OwnProps
 const mapStateToProps: (state: RootState) => StoreProps = state => {
   const thisModule = state.adminMember!;
   return {
+    currentItem: thisModule.currentItem,
     currentOperation: thisModule.routeParams?.currentOperation,
   };
 };

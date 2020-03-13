@@ -1,7 +1,7 @@
 import {LoadView as BaseLoadView, RootState as BaseState, RouteConfig, exportActions, getBrowserHistory, setRouteConfig} from '@medux/react-web-router';
 
-import adminArticleParams from 'modules/admin/adminArticle/meta';
 import adminMemberParams from 'modules/admin/adminMember/meta';
+import adminPostParams from 'modules/admin/adminPost/meta';
 import adminRoleParams from 'modules/admin/adminRole/meta';
 
 const defaultRouteParams: {[K in moduleNames]: any} = {
@@ -10,7 +10,7 @@ const defaultRouteParams: {[K in moduleNames]: any} = {
   adminHome: null,
   adminRole: adminRoleParams,
   adminMember: adminMemberParams,
-  adminArticle: adminArticleParams,
+  adminPost: adminPostParams,
   articleLayout: null,
   articleHome: null,
   articleAbout: null,
@@ -25,7 +25,7 @@ export enum moduleNames {
   adminRole = 'adminRole',
   adminHome = 'adminHome',
   adminMember = 'adminMember',
-  adminArticle = 'adminArticle',
+  adminPost = 'adminPost',
   articleLayout = 'articleLayout',
   articleHome = 'articleHome',
   articleAbout = 'articleAbout',
@@ -49,8 +49,8 @@ export const moduleGetter = {
   adminMember: () => {
     return import(/* webpackChunkName: "adminMember" */ 'modules/admin/adminMember');
   },
-  adminArticle: () => {
-    return import(/* webpackChunkName: "adminArticle" */ 'modules/admin/adminArticle');
+  adminPost: () => {
+    return import(/* webpackChunkName: "adminPost" */ 'modules/admin/adminPost');
   },
   articleLayout: () => {
     return import(/* webpackChunkName: "articleLayout" */ 'modules/article/articleLayout');
@@ -95,10 +95,10 @@ export const routeConfig: RouteConfig = {
               '/admin/member/:listView/:itemView/:itemId': 'adminMember.Detail',
             },
           ],
-          '/admin/article/:listView': [
-            'adminArticle.List',
+          '/admin/post/:listView': [
+            'adminPost.List',
             {
-              '/admin/article/:listView/:itemView/:itemId': 'adminArticle.Detail',
+              '/admin/post/:listView/:itemView/:itemId': 'adminPost.Detail',
             },
           ],
         },
@@ -124,5 +124,5 @@ export const pageNames = {
   '/admin/home': '管理中心',
   '/admin/role/list': '角色列表',
   '/admin/member/list': '用户列表',
-  '/admin/article/list': '文章列表',
+  '/admin/post/list': '信息列表',
 };

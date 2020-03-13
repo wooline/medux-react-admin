@@ -10,8 +10,6 @@ export enum Status {
 export const DStatus = enumOptions(Status);
 export interface ListItem extends BaseListItem {
   title: string;
-  cover: string;
-  photosAmount: number;
   author: {id: string; name: string};
   editors: Array<{id: string; name: string}>;
   status: Status;
@@ -27,16 +25,13 @@ export interface ListSearch extends BaseListSearch {
 }
 export interface ItemDetail extends ListItem {
   content: string;
-  photos: string[];
 }
 export interface ListSummary extends BaseListSummary {}
 
 export interface UpdateItem {
   id: string;
   title: string;
-  cover: string;
   content: string;
-  photos: string[];
   editors: Array<{id: string; name: string}>;
   editorIds: string[];
 }

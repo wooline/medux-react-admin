@@ -81,7 +81,7 @@ export class CommonResourceHandlers<
   }
   @reducer
   public putCurrentItem(currentOperation?: Resource['Operation'], currentItem?: any, itemId: string = '', itemView: string = '', _itemKey: string = ''): State {
-    currentItem = currentItem || this.state.currentItem;
+    //currentItem = currentItem || this.state.currentItem;
     return {...this.state, routeParams: {...this.state.routeParams, itemView, currentOperation, itemId, _itemKey}, currentItem, itemLoading: undefined};
   }
   @effect(null)
@@ -108,8 +108,9 @@ export class CommonResourceHandlers<
         if (disableRoute) {
           await this.dispatch(this.actions.RouteParams({...this.state.routeParams, itemId: currentItem, itemView, _itemKey, currentOperation, listView}));
         } else {
-          const routeData = this.rootState.route.data;
-          historyActions.push({extend: routeData, params: {[this.moduleName]: {itemId: currentItem, itemView, _itemKey, currentOperation, listView}}, paths: this.getItemPaths()});
+          //const routeData = this.rootState.route.data;
+          //extend: routeData,
+          historyActions.push({params: {[this.moduleName]: {itemId: currentItem, itemView, _itemKey, currentOperation, listView}}, paths: this.getItemPaths()});
         }
       } else {
         this.dispatch(this.actions.putCurrentItem(currentOperation, currentItem, currentItem.id, itemView, _itemKey));
@@ -213,7 +214,8 @@ export class CommonResourceHandlers<
       await this.dispatch(this.actions.RouteParams({...this.state.routeParams, listView, listSearch, _listKey}));
     } else {
       //路由变换时会自动触发Action RouteParams
-      historyActions.push({extend: this.rootState.route.data, paths: this.getListPaths(), params: {[this.moduleName]: {listView, listSearch, _listKey}}});
+      // extend: this.rootState.route.data,
+      historyActions.push({paths: this.getListPaths(), params: {[this.moduleName]: {listView, listSearch, _listKey}}});
     }
   }
   @effect()

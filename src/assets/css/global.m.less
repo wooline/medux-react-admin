@@ -22,7 +22,7 @@
   }
   :local(.items) {
     > * {
-      margin: 0 4px;
+      margin-right: 5px;
     }
   }
   :local(.btns) {
@@ -131,6 +131,14 @@
       .ant-alert-icon {
         top: 8px;
       }
+    }
+  }
+  :local(.noBorderHeader) {
+    .ant-modal-header {
+      border-bottom: none;
+    }
+    .ant-modal-body {
+      padding-top: 5px;
     }
   }
   :local(.table) {

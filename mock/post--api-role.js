@@ -30,7 +30,7 @@ if (purviews.length === 0 || purviews.some(purview => !database.data.config.purv
   };
   return result;
 }
-const id = Date.now();
+const id = Date.now().toString();
 roles[id] = {
   id,
   createdTime: Date.now(),

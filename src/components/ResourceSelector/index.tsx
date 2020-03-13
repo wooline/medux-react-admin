@@ -36,7 +36,7 @@ function getLimitTips(limit: number | [number, number]): string {
     return `可选择 ${limit === 0 ? '多项' : limit} 项`;
   } else {
     const [min, max] = limit;
-    return `可选择${min}-${max === 0 ? '多项' : 'max'}项`;
+    return `可选择${min}-${max === 0 ? '多项' : max}项`;
   }
 }
 
@@ -126,21 +126,23 @@ class Component<Resource extends Item = Item, Value extends Item = Item> extends
     return (
       <div>
         {React.cloneElement(children, {value: inputValue, placeholder, allowClear, onClick: this.onClick, onChange: this.onInputChange})}
-        <Modal
-          className={styles.root}
-          visible={showModal}
-          title={
-            <>
-              {title}
-              <span>* {getLimitTips(limit)}</span>
-            </>
-          }
-          width={width}
-          onCancel={this.onCloseModal}
-          onOk={this.onOk}
-        >
-          {React.cloneElement(this.props.resource, {limit, onChange: this.onSelect, value: items})}
-        </Modal>
+        {showModal && (
+          <Modal
+            className={styles.root}
+            visible={true}
+            title={
+              <>
+                {title}
+                <span>* {getLimitTips(limit)}</span>
+              </>
+            }
+            width={width}
+            onCancel={this.onCloseModal}
+            onOk={this.onOk}
+          >
+            {React.cloneElement(this.props.resource, {limit, onChange: this.onSelect, value: items})}
+          </Modal>
+        )}
       </div>
     );
   }

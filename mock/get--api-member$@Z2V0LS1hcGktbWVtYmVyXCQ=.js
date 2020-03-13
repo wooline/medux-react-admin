@@ -44,14 +44,14 @@ if (roleId) {
 if (loginTime.length === 2) {
   resourceList = resourceList.filter(item => item.loginTime > loginTime[0] && item.loginTime < loginTime[1]);
 }
-if (sorterField === 'article') {
+if (sorterField === 'post') {
   if (sorterOrder === 'ascend') {
     resourceList.sort((a, b) => {
-      return a.article - b.article;
+      return a.post - b.post;
     });
   } else if (sorterOrder === 'descend') {
     resourceList.sort((a, b) => {
-      return b.article - a.article;
+      return b.post - a.post;
     });
   }
 }

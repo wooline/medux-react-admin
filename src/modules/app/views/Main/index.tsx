@@ -52,10 +52,10 @@ class Component extends React.PureComponent<StoreProps & DispatchProp> {
     }
   }
   public componentDidMount() {
-    document.title = `${pageNames[location.pathname] || pageNames['/']}`;
+    document.title = `${pageNames[location.pathname] || document.title || pageNames['/']}`;
   }
   public componentDidUpdate() {
-    document.title = `${pageNames[location.pathname] || pageNames['/']}`;
+    document.title = `${pageNames[location.pathname] || document.title || pageNames['/']}`;
   }
 }
 

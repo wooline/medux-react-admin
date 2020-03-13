@@ -51,11 +51,12 @@ class Component extends React.PureComponent<StoreProps & DispatchProp> {
       render: (gender: string) => DGender.keyToName[gender],
     },
     {
-      title: '文章',
-      dataIndex: 'article',
+      title: '信息',
+      dataIndex: 'post',
       align: 'center',
       sorter: true,
       width: '8%',
+      render: (postNum, record) => <a onClick={() => this.onShowPosts(record.id)}>{postNum}</a>,
     },
     {
       title: 'Email',
@@ -107,6 +108,9 @@ class Component extends React.PureComponent<StoreProps & DispatchProp> {
   };
   onEdit = (item: ListItem) => {
     this.props.dispatch(actions.adminMember.execCurrentItem('edit', item));
+  };
+  onShowPosts = (author: string) => {
+    this.props.dispatch(actions.adminPost.searchList({author}, 'none'));
   };
   onShowDetail = (item: ListItem) => {
     this.props.dispatch(actions.adminMember.execCurrentItem('detail', item.id));

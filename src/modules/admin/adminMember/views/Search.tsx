@@ -22,6 +22,7 @@ interface OwnProps {
 }
 class Component extends React.PureComponent<StoreProps & FormComponentProps & DispatchProp & OwnProps> {
   private onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.stopPropagation();
     event.preventDefault();
     const {form, dispatch, disableRoute, fixedFields = {}} = this.props;
     form.validateFields((errors, values: ListSearch) => {
