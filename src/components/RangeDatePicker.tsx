@@ -8,7 +8,7 @@ export interface Props {
   className?: string;
   allowClear?: boolean;
   style?: React.CSSProperties;
-  disabledDate?: (currentDate: moment.Moment | undefined) => boolean;
+  disabledDate?: (currentDate: moment.Moment | null) => boolean;
   value?: [number, number];
   onChange?: (value?: [number, number]) => void;
 }
