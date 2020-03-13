@@ -59,7 +59,7 @@ class Component extends React.PureComponent<StoreProps & DispatchProp> {
           items.push(key, ...actions);
         }
       });
-
+      const disabled = currentItem.fixed ? 'disable' : '';
       return (
         <div className={styles.root}>
           <Descriptions bordered column={1}>
@@ -88,10 +88,10 @@ class Component extends React.PureComponent<StoreProps & DispatchProp> {
             </Button>
             {primaryMode && (
               <>
-                <Button className={currentItem.fixed ? 'disable' : ''} icon="edit" onClick={this.onEdit}>
+                <Button className={disabled} icon="edit" onClick={this.onEdit}>
                   修改
                 </Button>
-                <Button className={currentItem.fixed ? 'disable' : ''} icon="delete" type="danger" onClick={this.onDelete}>
+                <Button className={disabled} icon="delete" type="danger" onClick={this.onDelete}>
                   删除
                 </Button>
               </>

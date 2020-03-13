@@ -12,19 +12,18 @@ const result = {
   },
 };
 
-if (parseInt(id) < 5) {
-  result.response = {
-    message: '目标不允许修改！',
-  };
-  return result;
-}
-
 const roles = database.data.roles;
 const curItem = roles[id];
 
 if (!curItem) {
   result.response = {
     message: '目标不存在！',
+  };
+  return result;
+}
+if (curItem.fixed) {
+  result.response = {
+    message: '目标不允许修改！',
   };
   return result;
 }

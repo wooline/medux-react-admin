@@ -88,19 +88,26 @@ class Component extends React.PureComponent<StoreProps & DispatchProp> {
       dataIndex: 'fixed',
       width: '200px',
       className: 'actions',
-      render: (id: string, record) => (
-        <>
-          <a onClick={() => this.onShowDetail(record)}>详细</a>
-          <Divider type="vertical" />
-          <a onClick={() => this.onChangeStatus(record.status === Status.启用 ? Status.禁用 : Status.启用, [record.id])}>{record.status === Status.启用 ? '禁用' : '启用'}</a>
-          <Divider type="vertical" />
-          <a onClick={() => this.onEdit(record)}>修改</a>
-          <Divider type="vertical" />
-          <Popconfirm placement="topRight" title="您确定要删除该条数据吗？" onConfirm={() => this.onDeleteList([record.id])}>
-            <a>删除</a>
-          </Popconfirm>
-        </>
-      ),
+      render: (fixed: string, record) => {
+        const disabled = fixed ? 'disable' : '';
+        return (
+          <>
+            <a onClick={() => this.onShowDetail(record)}>详细</a>
+            <Divider className={disabled} type="vertical" />
+            <a className={disabled} onClick={() => this.onChangeStatus(record.status === Status.启用 ? Status.禁用 : Status.启用, [record.id])}>
+              {record.status === Status.启用 ? '禁用' : '启用'}
+            </a>
+            <Divider className={disabled} type="vertical" />
+            <a className={disabled} onClick={() => this.onEdit(record)}>
+              修改
+            </a>
+            <Divider className={disabled} type="vertical" />
+            <Popconfirm placement="topRight" title="您确定要删除该条数据吗？" onConfirm={() => this.onDeleteList([record.id])}>
+              <a className={disabled}>删除</a>
+            </Popconfirm>
+          </>
+        );
+      },
     },
   ];
   onCreate = () => {
@@ -197,6 +204,7 @@ class Component extends React.PureComponent<StoreProps & DispatchProp> {
             onClear: this.onClearSelect,
             onSelect: this.onRowSelect,
             onSelectAll: this.onAllSelect,
+            getCheckboxProps: record => ({disabled: !!record.fixed}),
           }}
           columns={this.columns}
           dataSource={list}

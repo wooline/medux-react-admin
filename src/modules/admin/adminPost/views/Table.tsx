@@ -1,4 +1,4 @@
-import {Button, Divider, Popconfirm} from 'antd';
+import {Button, Divider, Dropdown, Icon, Menu, Popconfirm} from 'antd';
 import {DStatus, ListItem, ListSearch, ListSummary, Status, UpdateItem} from 'entity/post';
 import MTable, {ColumnProps} from 'components/MTable';
 
@@ -23,8 +23,10 @@ interface StoreProps {
 interface State {
   confirmModal?: {context: React.ReactNode; callback: Function};
 }
+
 class Component extends React.PureComponent<StoreProps & DispatchProp> {
   state: State = {};
+
   private columns: ColumnProps<ListItem>[] = [
     {
       title: '标题',
@@ -65,23 +67,42 @@ class Component extends React.PureComponent<StoreProps & DispatchProp> {
     {
       title: '操作',
       dataIndex: 'fixed',
-      width: '200px',
+      width: '215px',
       className: 'actions',
-      render: (id: string, record) => (
-        <>
-          <a onClick={() => this.onShowDetail(record)}>详细</a>
-          <Divider type="vertical" />
-          <a>审核</a>
-          <Divider className={record.author.id !== this.props.userid ? 'disable' : ''} type="vertical" />
-          <a className={record.author.id !== this.props.userid ? 'disable' : ''} onClick={() => this.onEdit(record)}>
-            修改
-          </a>
-          <Divider className={record.author.id !== this.props.userid ? 'disable' : ''} type="vertical" />
-          <Popconfirm placement="topRight" title="您确定要删除该条数据吗？" onConfirm={() => this.onDeleteList([record.id])}>
-            <a className={record.author.id !== this.props.userid ? 'disable' : ''}>删除</a>
-          </Popconfirm>
-        </>
-      ),
+      render: (fixed: string, record) => {
+        const disabled = fixed ? 'disable' : '';
+
+        return (
+          <>
+            <a onClick={() => this.onShowDetail(record)}>详细</a>
+            <Divider className={disabled} type="vertical" />
+            <a className={disabled} onClick={() => this.onEdit(record)}>
+              修改
+            </a>
+            <Divider className={disabled} type="vertical" />
+            <Popconfirm placement="topRight" title="您确定要删除该条数据吗？" onConfirm={() => this.onDeleteList([record.id])}>
+              <a className={disabled}>删除</a>
+            </Popconfirm>
+            <Divider className={disabled} type="vertical" />
+            <Dropdown
+              overlay={
+                <Menu>
+                  <Menu.Item>
+                    <a onClick={() => this.onChangeStatus(Status.审核通过, [record.id])}>审核通过</a>
+                  </Menu.Item>
+                  <Menu.Item>
+                    <a onClick={() => this.onChangeStatus(Status.审核拒绝, [record.id])}>审核拒绝</a>
+                  </Menu.Item>
+                </Menu>
+              }
+            >
+              <a className={disabled} onClick={e => e.preventDefault()}>
+                审核 <Icon type="down" />
+              </a>
+            </Dropdown>
+          </>
+        );
+      },
     },
   ];
   onCreate = () => {
@@ -178,6 +199,7 @@ class Component extends React.PureComponent<StoreProps & DispatchProp> {
             onClear: this.onClearSelect,
             onSelect: this.onRowSelect,
             onSelectAll: this.onAllSelect,
+            getCheckboxProps: record => ({disabled: !!record.fixed}),
           }}
           columns={this.columns}
           dataSource={list}

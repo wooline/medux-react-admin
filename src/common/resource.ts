@@ -108,8 +108,7 @@ export class CommonResourceHandlers<
         if (disableRoute) {
           await this.dispatch(this.actions.RouteParams({...this.state.routeParams, itemId: currentItem, itemView, _itemKey, currentOperation, listView}));
         } else {
-          //const routeData = this.rootState.route.data;
-          //extend: routeData,
+          // extend: this.rootState.route.data,
           historyActions.push({params: {[this.moduleName]: {itemId: currentItem, itemView, _itemKey, currentOperation, listView}}, paths: this.getItemPaths()});
         }
       } else {
@@ -214,7 +213,7 @@ export class CommonResourceHandlers<
       await this.dispatch(this.actions.RouteParams({...this.state.routeParams, listView, listSearch, _listKey}));
     } else {
       //路由变换时会自动触发Action RouteParams
-      // extend: this.rootState.route.data,
+      //extend: this.rootState.route.data,
       historyActions.push({paths: this.getListPaths(), params: {[this.moduleName]: {listView, listSearch, _listKey}}});
     }
   }

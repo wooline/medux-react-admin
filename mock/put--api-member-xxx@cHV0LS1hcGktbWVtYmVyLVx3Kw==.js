@@ -10,13 +10,6 @@ const result = {
   },
 };
 
-if (id === 'superadmin' || id === 'admin' || id === 'editor' || id === 'member') {
-  result.response = {
-    message: '目标不允许修改！',
-  };
-  return result;
-}
-
 const users = database.data.users;
 const roles = database.data.roles;
 const curItem = users[id];
@@ -26,7 +19,12 @@ if (!curItem) {
   };
   return result;
 }
-
+if (curItem.fixed) {
+  result.response = {
+    message: '目标不允许修改！',
+  };
+  return result;
+}
 let {nickname = '', gender = 'unknow', roleId = '4', status = 'enable', email = ''} = info;
 nickname = nickname.toString();
 gender = gender.toString();

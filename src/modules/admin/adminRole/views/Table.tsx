@@ -77,19 +77,22 @@ class Component extends React.PureComponent<StoreProps & DispatchProp> {
       width: '13%',
       align: 'center',
       className: 'actions',
-      render: (id: string, record) => (
-        <>
-          <a onClick={() => this.onShowDetail(record)}>详细</a>
-          <Divider className={record.fixed ? 'disable' : ''} type="vertical" />
-          <a onClick={() => this.onShowEditor(record)} className={record.fixed ? 'disable' : ''}>
-            修改
-          </a>
-          <Divider className={record.fixed ? 'disable' : ''} type="vertical" />
-          <Popconfirm placement="topRight" title="您确定要删除该条数据吗？" onConfirm={() => this.onDeleteList([record.id])}>
-            <a className={record.fixed ? 'disable' : ''}>删除</a>
-          </Popconfirm>
-        </>
-      ),
+      render: (fixed: string, record) => {
+        const disabled = fixed ? 'disable' : '';
+        return (
+          <>
+            <a onClick={() => this.onShowDetail(record)}>详细</a>
+            <Divider className={disabled} type="vertical" />
+            <a onClick={() => this.onShowEditor(record)} className={disabled}>
+              修改
+            </a>
+            <Divider className={disabled} type="vertical" />
+            <Popconfirm placement="topRight" title="您确定要删除该条数据吗？" onConfirm={() => this.onDeleteList([record.id])}>
+              <a className={disabled}>删除</a>
+            </Popconfirm>
+          </>
+        );
+      },
     },
   ];
   onShowMembers = (item: ListItem) => {

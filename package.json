@@ -14,7 +14,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "node ./check-user && lint-staged"
+      "pre-commit": "lint-staged"
     }
   },
   "lint-staged": {
@@ -31,7 +31,7 @@
     "node": ">=9.0.0"
   },
   "browserslist": [
-    "chrome >= 49"
+    "chrome >= 70"
   ],
   "baseConf": {
     "siteName": "SPA Demo",

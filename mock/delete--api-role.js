@@ -18,7 +18,7 @@ if (ids.length === 0) {
 }
 
 ids.forEach(id => {
-  if (roles[id]) {
+  if (roles[id] && !roles[id].fixed) {
     delete roles[id];
   }
 });

@@ -14,6 +14,7 @@ export interface ListItem extends BaseListItem {
   editors: Array<{id: string; name: string}>;
   status: Status;
   createdTime: number;
+  fixed?: boolean;
 }
 export interface ListSearch extends BaseListSearch {
   title?: string;

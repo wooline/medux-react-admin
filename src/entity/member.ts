@@ -37,6 +37,7 @@ export interface ListItem extends BaseListItem {
   loginTime: number;
   createdTime: number;
   email: string;
+  fixed?: boolean;
 }
 export interface ItemDetail extends ListItem {
   score: number;

@@ -18,15 +18,9 @@ if (ids.length === 0) {
   };
   return result;
 }
-if (ids.some(id => ['superadmin', 'admin', 'editor', 'member'].includes(id))) {
-  result.response = {
-    message: '目标不允许删除！',
-  };
-  return result;
-}
 
 ids.forEach(id => {
-  if (users[id]) {
+  if (users[id] && !users[id].fixed) {
     const roleId = users[id].roleId;
     delete users[id];
     roles[roleId].owner--;

@@ -34,6 +34,7 @@ class Component extends React.PureComponent<StoreProps & DispatchProp> {
   public render() {
     const {currentItem, primaryMode, userid} = this.props;
     if (currentItem) {
+      const disabled = currentItem.fixed ? 'disable' : '';
       return (
         <div className={styles.root}>
           <Descriptions bordered column={2}>
@@ -62,10 +63,10 @@ class Component extends React.PureComponent<StoreProps & DispatchProp> {
             </Button>
             {primaryMode && (
               <>
-                <Button className={currentItem.author.id !== userid ? 'disable' : ''} icon="edit" onClick={this.onEdit}>
+                <Button className={disabled} icon="edit" onClick={this.onEdit}>
                   修改
                 </Button>
-                <Button className={currentItem.author.id !== userid ? 'disable' : ''} icon="delete" type="danger" onClick={this.onDelete}>
+                <Button className={disabled} icon="delete" type="danger" onClick={this.onDelete}>
                   删除
                 </Button>
               </>

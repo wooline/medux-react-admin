@@ -112,6 +112,7 @@ function createUsers() {
       createdTime: timestamp,
       email: 'wooline@qq.com',
       avatar: '/client/imgs/u1.jpg',
+      fixed: true,
     },
     admin: {
       id: 'admin',
@@ -128,11 +129,14 @@ function createUsers() {
       createdTime: timestamp,
       email: 'abcde@qq.com',
       avatar: '/client/imgs/u1.jpg',
+      fixed: true,
     },
     editor: {
       id: 'editor',
       username: 'editor',
       nickname: '莉莉',
+      password: '123456',
+      hasLogin: true,
       gender: 'female',
       post: 0,
       roleId: '3',
@@ -141,11 +145,14 @@ function createUsers() {
       loginTime: timestamp,
       createdTime: timestamp,
       email: 'revvc@sina.com.cn',
+      fixed: true,
     },
     editor2: {
       id: 'editor2',
       username: 'editor2',
       nickname: '张小明',
+      password: '123456',
+      hasLogin: true,
       gender: 'female',
       post: 0,
       roleId: '3',
@@ -154,19 +161,23 @@ function createUsers() {
       loginTime: timestamp,
       createdTime: timestamp,
       email: '5564@sina.com.cn',
+      fixed: true,
     },
     member: {
       id: 'member',
       username: 'member',
       nickname: '小明',
+      password: '123456',
+      hasLogin: true,
       gender: 'female',
-      post: 0,
+      post: 2,
       roleId: '4',
       roleName: '普通会员',
       status: 'enable',
       loginTime: timestamp,
       createdTime: timestamp,
       email: 'xiaomin@qq.com',
+      fixed: true,
     },
   });
   mockjs
@@ -296,12 +307,13 @@ function createPosts() {
   const list = createMap({
     1: {
       id: '1',
-      title: '美丽的西双版纳',
+      title: '转让二手电脑一台',
       content: mockjs.Random.cparagraph(1, 3),
       author: {id: 'superadmin', name: '张三'},
       editors: [{id: 'editor', name: '莉莉'}],
       createdTime: timestamp,
       status: 'resolved',
+      fixed: true,
     },
     2: {
       id: '2',
@@ -311,6 +323,7 @@ function createPosts() {
       editors: [{id: 'editor2', name: '张小明'}],
       createdTime: timestamp,
       status: 'resolved',
+      fixed: true,
     },
     3: {
       id: '3',
@@ -323,8 +336,31 @@ function createPosts() {
       ],
       createdTime: timestamp,
       status: 'resolved',
+      fixed: true,
+    },
+    4: {
+      id: '4',
+      title: '中后台产品以效率为第一优先级',
+      content: mockjs.Random.cparagraph(1, 3),
+      author: {id: 'member', name: '小明'},
+      editors: [
+        {id: 'editor', name: '莉莉'},
+        {id: 'editor2', name: '张小明'},
+      ],
+      createdTime: timestamp,
+      status: 'resolved',
+      fixed: true,
     },
   });
+  list[5] = {
+    id: '5',
+    title: '感谢在此期间每一位提供反馈、建议以及贡献的人',
+    content: mockjs.Random.cparagraph(1, 3),
+    author: {id: 'member', name: '小明'},
+    editors: [{id: 'editor2', name: '张小明'}],
+    createdTime: timestamp,
+    status: 'resolved',
+  };
   return list;
 }
 const data = {

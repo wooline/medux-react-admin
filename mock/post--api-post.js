@@ -13,7 +13,7 @@ const result = {
 
 const users = database.data.users;
 
-if (title.length > 20 || title.length < 2) {
+if (title.length > 30 || title.length < 2) {
   result.response = {
     message: '标题必须为2-20个字符！',
   };

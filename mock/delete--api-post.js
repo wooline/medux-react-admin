@@ -1,8 +1,8 @@
-let {ids, status = ''} = request.body;
+let {ids} = request.body;
 ids = Array.isArray(ids) ? ids : [];
-status = status.toString();
 
 const users = database.data.users;
+const posts = database.data.posts;
 
 const result = {
   statusCode: 422,
@@ -19,16 +19,11 @@ if (ids.length === 0) {
   return result;
 }
 
-if (!['enable', 'disable'].includes(status)) {
-  result.response = {
-    message: '状态不合法！',
-  };
-  return result;
-}
 ids.forEach(id => {
-  const curItem = users[id];
-  if (curItem && !curItem.fixed) {
-    curItem.status = status;
+  if (posts[id] && !posts[id].fixed) {
+    const uid = posts[id].author.id;
+    delete posts[id];
+    users[uid].post--;
   }
 });
 
