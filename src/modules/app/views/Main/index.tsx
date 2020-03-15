@@ -3,12 +3,10 @@ import 'moment/locale/zh-cn';
 import {Redirect, Route, Switch} from 'react-router-dom';
 
 import {ConfigProvider} from 'antd';
-import {CurUser} from 'entity/session';
 import GlobalLoading from '../GlobalLoading';
 import LoginPage from '../LoginPage';
 import LoginPop from '../LoginPop';
 import NotFound from 'components/NotFound';
-import {ProjectConfig} from 'entity/common';
 import React from 'react';
 import RegisterPage from '../RegisterPage';
 import RegisterPop from '../RegisterPop';
