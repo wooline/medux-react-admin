@@ -8,7 +8,7 @@ import React from 'react';
 import SearchForm from 'components/SearchForm';
 import {connect} from 'react-redux';
 
-const RoleSelector = loadView('adminRole', 'Selector');
+const RoleSelector = loadView('adminRole', 'Selector', {forwardRef: true});
 
 const Option = Select.Option;
 
