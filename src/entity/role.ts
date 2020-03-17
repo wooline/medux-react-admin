@@ -1,4 +1,4 @@
-import {BaseListItem, BaseListSearch, BaseListSummary, CommonResource, CommonResourceRouteParams} from './common';
+import {BaseListItem, BaseListSearch, BaseListSummary, CommonResource, CommonResourceRouteParams} from './index';
 
 export const purviewNames: {[key: string]: string} = {
   role: '角色',

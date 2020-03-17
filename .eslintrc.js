@@ -11,7 +11,7 @@ module.exports = {
     'plugin:prettier/recommended', //转eslint
     'prettier/react',
   ],
-  plugins: ['@typescript-eslint/eslint-plugin'],
+  plugins: [,'react-hooks','@typescript-eslint/eslint-plugin'],
   parserOptions: {
     ecmaVersion: 2018,
     sourceType: 'module',
@@ -21,6 +21,9 @@ module.exports = {
   },
   rules: {
     'sort-imports': 'error',
+    'react/prop-types':'off',
+    "react-hooks/rules-of-hooks": "error", // 检查 Hook 的规则
+    "react-hooks/exhaustive-deps": "warn" ,// 检查 effect 的依赖
     '@typescript-eslint/no-use-before-define':'off',
     '@typescript-eslint/no-inferrable-types':'off',
     '@typescript-eslint/no-unused-vars': 'off',
@@ -29,7 +32,7 @@ module.exports = {
     '@typescript-eslint/no-explicit-any': 'off',
     '@typescript-eslint/no-parameter-properties': 'off',
     '@typescript-eslint/no-non-null-assertion': 'off',
-    '@typescript-eslint/explicit-member-accessibility': 'off'
+    '@typescript-eslint/explicit-member-accessibility': 'off',
   },
   settings: {
     react: {

@@ -1,8 +1,9 @@
 import {ActionTypes, BaseModelHandlers, BaseModelState, LoadingState, effect, errorAction, reducer} from '@medux/react-web-router';
-import {CommonErrorCode, CustomError, ProjectConfig} from 'entity/common';
+import {CommonErrorCode, CustomError} from 'common';
 import {CurUser, LoginRequest, Notices, RegisterRequest, guest} from 'entity/session';
 
 import {HandledError} from 'common';
+import {ProjectConfig} from 'entity';
 import api from './api';
 
 // 定义本模块的State类型

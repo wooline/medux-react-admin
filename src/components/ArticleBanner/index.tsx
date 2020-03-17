@@ -1,30 +1,28 @@
-import {Icon} from 'antd';
 import React from 'react';
+import {RightOutlined} from '@ant-design/icons';
 import styles from './index.m.less';
 
-interface StoreProps {
+interface Props {
   title: string;
   content: string;
   bg: string;
   onConsult: () => void;
 }
 
-class Component extends React.PureComponent<StoreProps> {
-  public render() {
-    const {title, content, onConsult, bg} = this.props;
-    return (
-      <div className={styles.root}>
-        <img src={bg} />
-        <div className="g-doc">
-          <h2>{title}</h2>
-          <p>{content}</p>
-          <span className="primaryBtn" onClick={onConsult}>
-            马上咨询 <Icon type="right" />
-          </span>
-        </div>
+const Component: React.FC<Props> = props => {
+  const {title, content, onConsult, bg} = props;
+  return (
+    <div className={styles.root}>
+      <img src={bg} />
+      <div className="g-doc">
+        <h2>{title}</h2>
+        <p>{content}</p>
+        <span className="primaryBtn" onClick={onConsult}>
+          马上咨询 <RightOutlined />
+        </span>
       </div>
-    );
-  }
-}
+    </div>
+  );
+};
 
-export default Component;
+export default React.memo(Component);

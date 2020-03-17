@@ -7,22 +7,19 @@ interface StoreProps {
   globalLoading: LoadingState;
 }
 
-class Component extends React.PureComponent<StoreProps> {
-  render() {
-    const {globalLoading} = this.props;
-    return globalLoading === LoadingState.Start || globalLoading === LoadingState.Depth ? (
-      <div className={styles.root + ' ' + globalLoading}>
-        <div className="loadingIcon">
-          <Spin />
-        </div>
+const Component: React.FC<StoreProps> = ({globalLoading}) => {
+  return globalLoading === LoadingState.Start || globalLoading === LoadingState.Depth ? (
+    <div className={styles.root + ' ' + globalLoading}>
+      <div className="loadingIcon">
+        <Spin />
       </div>
-    ) : null;
-  }
-}
+    </div>
+  ) : null;
+};
 
 const mapStateToProps: (state: RootState) => StoreProps = state => {
   return {
     globalLoading: state.app!.loading.global,
   };
 };
-export default connect(mapStateToProps)(Component);
+export default connect(mapStateToProps)(React.memo(Component));

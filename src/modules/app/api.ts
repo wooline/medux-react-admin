@@ -1,6 +1,6 @@
 import {CurUser, LoginRequest, Notices, RegisterRequest, guest} from 'entity/session';
 
-import {ProjectConfig} from 'entity/common';
+import {ProjectConfig} from 'entity';
 import ajax from 'common/request';
 
 function setCookie(name: string, value: string, expiredays: number) {

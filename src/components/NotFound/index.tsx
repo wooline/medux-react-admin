@@ -1,9 +1,9 @@
 import React from 'react';
 
-const NotFound: React.FunctionComponent<{}> = () => (
+const Component: React.FC<{}> = () => (
   <div>
     <h1>Not Found</h1>
   </div>
 );
 
-export default NotFound;
+export default Component;

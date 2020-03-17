@@ -20,7 +20,6 @@ export interface LoginRequest {
 export interface RegisterRequest {
   username: string;
   password: string;
-  phone: string;
 }
 export interface Notices {
   count: number;

@@ -6,7 +6,7 @@ interface Props extends RouteProps {
   component: ComponentType<any>;
 }
 
-const Component = (props: Props) => {
+const Component: React.FC<Props> = props => {
   const {auth, component: TargetComponent, ...rest} = props;
   const {path} = rest;
   const toRender = (routeProps: RouteComponentProps<any>) => {
@@ -15,4 +15,4 @@ const Component = (props: Props) => {
   return <Route {...rest} render={toRender} />;
 };
 
-export default Component;
+export default React.memo(Component);

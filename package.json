@@ -4,7 +4,7 @@
   "description": "",
   "scripts": {
     "stylelint": "stylelint \"./src/**/*.less\"",
-    "eslint": "eslint \"./src/**/*.ts\"",
+    "eslint": "eslint \"./src/**/*.{ts,tsx}\"",
     "types-check": "tsc",
     "lint": "npm run eslint && npm run stylelint && npm run types-check",
     "start": "npm run lint && cross-env NODE_ENV=development SITE=local node build/start.js",
@@ -53,7 +53,7 @@
   "dependencies": {
     "@medux/react-web-router": "~0.2.26",
     "@types/lodash": "~4.14.149",
-    "antd": "~3.26.13",
+    "antd": "~4.0.2",
     "cookie-parser": "~1.4.4",
     "lodash": "~4.17.15",
     "path-to-regexp": "~6.1.0",
@@ -70,6 +70,7 @@
     "less-loader": "~5.0.0",
     "postcss-less": "~3.1.4",
     "sass-resources-loader": "~2.0.1",
-    "typescript": "~3.8.3"
+    "typescript": "~3.8.3",
+    "eslint-plugin-react-hooks": "~2.5.0"
   }
 }

@@ -17,7 +17,7 @@ import zhCN from 'antd/es/locale/zh_CN';
 
 moment.locale('zh-cn');
 
-const AdminLayout = loadView('adminLayout', 'Main');
+//const AdminLayout = loadView('adminLayout', 'Main');
 const ArticleLayout = loadView('articleLayout', 'Main');
 
 interface StoreProps {
@@ -25,37 +25,32 @@ interface StoreProps {
   curUserLoaded: boolean;
 }
 
-class Component extends React.PureComponent<StoreProps & DispatchProp> {
-  public render() {
-    const {projectConfigLoaded, curUserLoaded} = this.props;
-    if (projectConfigLoaded && curUserLoaded) {
-      return (
-        <ConfigProvider locale={zhCN}>
-          <Switch>
-            <Redirect exact path="/" to="/admin/" />
-            <Route exact path="/login" component={LoginPage} />
-            <Route exact path="/register" component={RegisterPage} />
-            <Route path="/admin" component={AdminLayout} />
-            <Route path="/article" component={ArticleLayout} />
-            <Route component={NotFound} />
-          </Switch>
-          <GlobalLoading />
-          <RegisterPop />
-          <RegistrationAgreement />
-          <LoginPop />
-        </ConfigProvider>
-      );
-    } else {
-      return null;
-    }
+const Component: React.FC<StoreProps & DispatchProp> = ({projectConfigLoaded, curUserLoaded}) => {
+  const title = `${pageNames[location.pathname] || document.title || pageNames['/']}`;
+  React.useEffect(() => {
+    document.title = title;
+  }, [title]);
+  if (projectConfigLoaded && curUserLoaded) {
+    return (
+      <ConfigProvider locale={zhCN}>
+        <Switch>
+          <Redirect exact path="/" to="/admin/" />
+          <Route exact path="/login" component={LoginPage} />
+          <Route exact path="/register" component={RegisterPage} />
+          {/* <Route path="/admin" component={AdminLayout} /> */}
+          <Route path="/article" component={ArticleLayout} />
+          <Route component={NotFound} />
+        </Switch>
+        <GlobalLoading />
+        <RegisterPop />
+        <RegistrationAgreement />
+        <LoginPop />
+      </ConfigProvider>
+    );
+  } else {
+    return null;
   }
-  public componentDidMount() {
-    document.title = `${pageNames[location.pathname] || document.title || pageNames['/']}`;
-  }
-  public componentDidUpdate() {
-    document.title = `${pageNames[location.pathname] || document.title || pageNames['/']}`;
-  }
-}
+};
 
 const mapStateToProps: (state: RootState) => StoreProps = state => {
   const app = state.app!;
@@ -65,4 +60,4 @@ const mapStateToProps: (state: RootState) => StoreProps = state => {
   };
 };
 
-export default connect(mapStateToProps)(Component);
+export default connect(mapStateToProps)(React.memo(Component));

@@ -4,14 +4,12 @@ import RegisterForm from '../RegisterForm';
 
 interface StoreProps {}
 
-class Component extends React.PureComponent<StoreProps> {
-  public render() {
-    return (
-      <FormLayout>
-        <RegisterForm />
-      </FormLayout>
-    );
-  }
-}
+const Component: React.FC = () => {
+  return (
+    <FormLayout>
+      <RegisterForm />
+    </FormLayout>
+  );
+};
 
-export default Component;
+export default React.memo(Component);

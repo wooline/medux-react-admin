@@ -2,16 +2,12 @@ import FormLayout from '../../components/FormLayout';
 import LoginForm from '../LoginForm';
 import React from 'react';
 
-interface StoreProps {}
+const Component: React.FC = () => {
+  return (
+    <FormLayout>
+      <LoginForm />
+    </FormLayout>
+  );
+};
 
-class Component extends React.PureComponent<StoreProps> {
-  public render() {
-    return (
-      <FormLayout>
-        <LoginForm />
-      </FormLayout>
-    );
-  }
-}
-
-export default Component;
+export default React.memo(Component);

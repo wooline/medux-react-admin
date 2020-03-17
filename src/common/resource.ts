@@ -1,5 +1,5 @@
 import {ActionTypes, BaseModelHandlers, BaseModelState, RouteData, effect, reducer} from '@medux/react-web-router';
-import {BaseListItem, BaseListSearch, BaseListSummary, CommonResource} from 'entity/common';
+import {BaseListItem, BaseListSearch, BaseListSummary, CommonResource} from 'entity';
 
 import {simpleEqual} from 'common/utils';
 

@@ -1,35 +1,35 @@
 import {LoadView as BaseLoadView, RootState as BaseState, RouteConfig, exportActions, getBrowserHistory, setRouteConfig} from '@medux/react-web-router';
 
-import adminMemberParams from 'modules/admin/adminMember/meta';
-import adminPostParams from 'modules/admin/adminPost/meta';
-import adminRoleParams from 'modules/admin/adminRole/meta';
+// import adminMemberParams from 'modules/admin/adminMember/meta';
+// import adminPostParams from 'modules/admin/adminPost/meta';
+// import adminRoleParams from 'modules/admin/adminRole/meta';
 
 const defaultRouteParams: {[K in moduleNames]: any} = {
   app: null,
-  adminLayout: null,
-  adminHome: null,
-  adminRole: adminRoleParams,
-  adminMember: adminMemberParams,
-  adminPost: adminPostParams,
+  // adminLayout: null,
+  // adminHome: null,
+  // adminRole: adminRoleParams,
+  // adminMember: adminMemberParams,
+  // adminPost: adminPostParams,
   articleLayout: null,
   articleHome: null,
-  articleAbout: null,
-  articleService: null,
+  // articleAbout: null,
+  // articleService: null,
 };
 
 setRouteConfig({defaultRouteParams});
 
 export enum moduleNames {
   app = 'app',
-  adminLayout = 'adminLayout',
-  adminRole = 'adminRole',
-  adminHome = 'adminHome',
-  adminMember = 'adminMember',
-  adminPost = 'adminPost',
+  // adminLayout = 'adminLayout',
+  // adminRole = 'adminRole',
+  // adminHome = 'adminHome',
+  // adminMember = 'adminMember',
+  // adminPost = 'adminPost',
   articleLayout = 'articleLayout',
   articleHome = 'articleHome',
-  articleAbout = 'articleAbout',
-  articleService = 'articleService',
+  // articleAbout = 'articleAbout',
+  // articleService = 'articleService',
 }
 
 // 定义模块的加载方案，同步或者异步均可
@@ -37,33 +37,33 @@ export const moduleGetter = {
   app: () => {
     return import(/* webpackChunkName: "app" */ 'modules/app');
   },
-  adminLayout: () => {
-    return import(/* webpackChunkName: "adminLayout" */ 'modules/admin/adminLayout');
-  },
-  adminHome: () => {
-    return import(/* webpackChunkName: "adminHome" */ 'modules/admin/adminHome');
-  },
-  adminRole: () => {
-    return import(/* webpackChunkName: "adminRole" */ 'modules/admin/adminRole');
-  },
-  adminMember: () => {
-    return import(/* webpackChunkName: "adminMember" */ 'modules/admin/adminMember');
-  },
-  adminPost: () => {
-    return import(/* webpackChunkName: "adminPost" */ 'modules/admin/adminPost');
-  },
+  // adminLayout: () => {
+  //   return import(/* webpackChunkName: "adminLayout" */ 'modules/admin/adminLayout');
+  // },
+  // adminHome: () => {
+  //   return import(/* webpackChunkName: "adminHome" */ 'modules/admin/adminHome');
+  // },
+  // adminRole: () => {
+  //   return import(/* webpackChunkName: "adminRole" */ 'modules/admin/adminRole');
+  // },
+  // adminMember: () => {
+  //   return import(/* webpackChunkName: "adminMember" */ 'modules/admin/adminMember');
+  // },
+  // adminPost: () => {
+  //   return import(/* webpackChunkName: "adminPost" */ 'modules/admin/adminPost');
+  // },
   articleLayout: () => {
     return import(/* webpackChunkName: "articleLayout" */ 'modules/article/articleLayout');
   },
   articleHome: () => {
     return import(/* webpackChunkName: "articleHome" */ 'modules/article/articleHome');
   },
-  articleAbout: () => {
-    return import(/* webpackChunkName: "articleAbout" */ 'modules/article/articleAbout');
-  },
-  articleService: () => {
-    return import(/* webpackChunkName: "articleService" */ 'modules/article/articleService');
-  },
+  // articleAbout: () => {
+  //   return import(/* webpackChunkName: "articleAbout" */ 'modules/article/articleAbout');
+  // },
+  // articleService: () => {
+  //   return import(/* webpackChunkName: "articleService" */ 'modules/article/articleService');
+  // },
 };
 export const actions = exportActions(moduleGetter);
 
