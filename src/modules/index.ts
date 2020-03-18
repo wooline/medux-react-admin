@@ -13,8 +13,8 @@ const defaultRouteParams: {[K in moduleNames]: any} = {
   // adminPost: adminPostParams,
   articleLayout: null,
   articleHome: null,
-  // articleAbout: null,
-  // articleService: null,
+  articleAbout: null,
+  articleService: null,
 };
 
 setRouteConfig({defaultRouteParams});
@@ -28,8 +28,8 @@ export enum moduleNames {
   // adminPost = 'adminPost',
   articleLayout = 'articleLayout',
   articleHome = 'articleHome',
-  // articleAbout = 'articleAbout',
-  // articleService = 'articleService',
+  articleAbout = 'articleAbout',
+  articleService = 'articleService',
 }
 
 // 定义模块的加载方案，同步或者异步均可
@@ -58,12 +58,12 @@ export const moduleGetter = {
   articleHome: () => {
     return import(/* webpackChunkName: "articleHome" */ 'modules/article/articleHome');
   },
-  // articleAbout: () => {
-  //   return import(/* webpackChunkName: "articleAbout" */ 'modules/article/articleAbout');
-  // },
-  // articleService: () => {
-  //   return import(/* webpackChunkName: "articleService" */ 'modules/article/articleService');
-  // },
+  articleAbout: () => {
+    return import(/* webpackChunkName: "articleAbout" */ 'modules/article/articleAbout');
+  },
+  articleService: () => {
+    return import(/* webpackChunkName: "articleService" */ 'modules/article/articleService');
+  },
 };
 export const actions = exportActions(moduleGetter);
 

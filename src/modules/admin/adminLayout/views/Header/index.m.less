@@ -1,0 +1,42 @@
+:global {
+  :local(.root) {
+    display: flex;
+    height: 50px;
+    line-height: 50px;
+    justify-content: space-between;
+    padding: 0 30px;
+
+    .toggleSider {
+      font-size: 20px;
+    }
+    > .main {
+      display: flex;
+      align-items: center;
+      > * {
+        margin-right: 20px;
+      }
+    }
+    > .side {
+      align-items: center;
+      display: flex;
+      > * {
+        margin-left: 20px;
+      }
+    }
+    .account {
+      cursor: pointer;
+      .avatar {
+        margin-right: 5px;
+      }
+    }
+    .noticeIcon {
+      cursor: pointer;
+      display: block;
+      padding-right: 10px;
+      margin-right: 18px;
+      .anticon {
+        font-size: 16px;
+      }
+    }
+  }
+}

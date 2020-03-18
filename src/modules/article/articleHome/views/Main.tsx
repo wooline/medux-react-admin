@@ -9,12 +9,11 @@ import Special from './Special';
 import banner from './imgs/banner.jpg';
 import {connect} from 'react-redux';
 import useAnchorPage from 'hooks/useAnchorPage';
+import useConsult from 'hooks/useConsult';
 
 const Component: React.FC<DispatchProp & RouteComponentProps> = ({dispatch, location, history}) => {
   useAnchorPage(location.hash, history);
-  const onConsult = useCallback(() => {
-    dispatch(actions.articleLayout.showConsult());
-  }, [dispatch]);
+  const onConsult = useConsult(dispatch);
   return (
     <>
       <ArticleBanner

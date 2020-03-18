@@ -1,4 +1,4 @@
-import {useCallback, useEffect, useRef} from 'react';
+import {useCallback} from 'react';
 export default function useEventCallback(isPop: boolean, dispatch: (action: any) => void) {
   const handleUserHome = useCallback(() => {
     isPop && dispatch(actions.app.closesLoginOrRegisterPop());
