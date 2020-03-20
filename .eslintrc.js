@@ -22,6 +22,7 @@ module.exports = {
   rules: {
     'sort-imports': 'error',
     'react/prop-types':'off',
+    'react/display-name': 'off',
     "react-hooks/rules-of-hooks": "error", // 检查 Hook 的规则
     "react-hooks/exhaustive-deps": "warn" ,// 检查 effect 的依赖
     '@typescript-eslint/no-use-before-define':'off',

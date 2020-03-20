@@ -1,8 +1,9 @@
-import {Avatar, Badge, Dropdown, Icon, Menu} from 'antd';
-import {Link, NavLink} from 'react-router-dom';
+import {Avatar, Badge, Dropdown, Menu} from 'antd';
+import {BellOutlined, CloseCircleOutlined, LogoutOutlined, MenuFoldOutlined, MenuUnfoldOutlined, QuestionCircleOutlined, SettingOutlined, UserOutlined} from '@ant-design/icons';
 import React, {useCallback, useMemo} from 'react';
 
 import {CurUser} from 'entity/session';
+import {Link} from 'react-router-dom';
 import {connect} from 'react-redux';
 import styles from './index.m.less';
 
@@ -32,17 +33,17 @@ const Component: React.FC<StoreProps & DispatchProp> = ({dispatch, siderCollapse
     () => (
       <Menu className="adminLayout-header-menu" selectedKeys={[]} onClick={onMenuItemClick}>
         <Menu.Item disabled>
-          <Icon type="user" /> 个人中心
+          <UserOutlined /> 个人中心
         </Menu.Item>
         <Menu.Item disabled>
-          <Icon type="setting" /> 设置
+          <SettingOutlined /> 设置
         </Menu.Item>
         <Menu.Item key="triggerError">
-          <Icon type="close-circle" /> 触发报错
+          <CloseCircleOutlined /> 触发报错
         </Menu.Item>
         <Menu.Divider />
         <Menu.Item key="logout">
-          <Icon type="logout" /> 退出登录
+          <LogoutOutlined /> 退出登录
         </Menu.Item>
       </Menu>
     ),
@@ -51,14 +52,14 @@ const Component: React.FC<StoreProps & DispatchProp> = ({dispatch, siderCollapse
   return (
     <div className={styles.root}>
       <div className="main">
-        <Icon className="toggleSider" type={siderCollapsed ? 'menu-unfold' : 'menu-fold'} onClick={toggleSider} />
+        {siderCollapsed ? <MenuUnfoldOutlined className="toggleSider" onClick={toggleSider} /> : <MenuFoldOutlined className="toggleSider" onClick={toggleSider} />}
         <Link to={metaKeys.ArticleHomePathname}>
-          <Icon type="question-circle-o" /> 帮助指南
+          <QuestionCircleOutlined /> 帮助指南
         </Link>
       </div>
       <div className="side">
         <Badge count={notices} className="noticeIcon">
-          <Icon type="bell" />
+          <BellOutlined />
         </Badge>
         <Dropdown overlay={menu}>
           <span className="account">

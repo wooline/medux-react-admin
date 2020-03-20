@@ -50,7 +50,7 @@ const Component: React.FC<StoreProps & DispatchProp> = ({curUser, isPop, dispatc
       <h2 className="title">用户登录</h2>
 
       {curUser.hasLogin && !curUser.expired ? (
-        <div className="hasLogin">
+        <Form form={form} className="hasLogin">
           <p>
             亲爱的{' '}
             <span className="link" onClick={handleUserHome}>
@@ -61,14 +61,14 @@ const Component: React.FC<StoreProps & DispatchProp> = ({curUser, isPop, dispatc
           <Button size="large" type="primary" onClick={handleLogout} className="submit">
             退出当前登录
           </Button>
-        </div>
+        </Form>
       ) : (
         <Form form={form} onFinish={onFinish as any} initialValues={initialValues}>
           <Form.Item {...fromDecorators.username}>
-            <Input size="large" prefix={<UserOutlined />} placeholder="用户名" />
+            <Input size="large" allowClear={true} prefix={<UserOutlined />} placeholder="用户名" />
           </Form.Item>
           <Form.Item {...fromDecorators.password}>
-            <Input size="large" prefix={<LockOutlined />} type="password" placeholder="密码" />
+            <Input size="large" allowClear={true} prefix={<LockOutlined />} type="password" placeholder="密码" />
           </Form.Item>
           <Form.Item style={{marginBottom: 0}}>
             <Form.Item {...fromDecorators.keep} noStyle>

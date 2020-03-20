@@ -135,6 +135,10 @@ export class ModelHandlers extends BaseModelHandlers<State, RootState> {
       }
     };
     window.onerror = (message: any, url: any, line: any, column: any, error: any) => {
+      if (!error) {
+        console.log(message);
+        return;
+      }
       if (error.code !== CommonErrorCode.handled && !error.dispatched) {
         error.dispatched = true;
         this.dispatch(errorAction(error));

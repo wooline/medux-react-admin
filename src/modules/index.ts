@@ -2,13 +2,13 @@ import {LoadView as BaseLoadView, RootState as BaseState, RouteConfig, exportAct
 
 // import adminMemberParams from 'modules/admin/adminMember/meta';
 // import adminPostParams from 'modules/admin/adminPost/meta';
-// import adminRoleParams from 'modules/admin/adminRole/meta';
+import adminRoleParams from 'modules/admin/adminRole/meta';
 
 const defaultRouteParams: {[K in moduleNames]: any} = {
   app: null,
-  // adminLayout: null,
-  // adminHome: null,
-  // adminRole: adminRoleParams,
+  adminLayout: null,
+  adminHome: null,
+  adminRole: adminRoleParams,
   // adminMember: adminMemberParams,
   // adminPost: adminPostParams,
   articleLayout: null,
@@ -21,9 +21,9 @@ setRouteConfig({defaultRouteParams});
 
 export enum moduleNames {
   app = 'app',
-  // adminLayout = 'adminLayout',
-  // adminRole = 'adminRole',
-  // adminHome = 'adminHome',
+  adminLayout = 'adminLayout',
+  adminHome = 'adminHome',
+  adminRole = 'adminRole',
   // adminMember = 'adminMember',
   // adminPost = 'adminPost',
   articleLayout = 'articleLayout',
@@ -37,15 +37,15 @@ export const moduleGetter = {
   app: () => {
     return import(/* webpackChunkName: "app" */ 'modules/app');
   },
-  // adminLayout: () => {
-  //   return import(/* webpackChunkName: "adminLayout" */ 'modules/admin/adminLayout');
-  // },
-  // adminHome: () => {
-  //   return import(/* webpackChunkName: "adminHome" */ 'modules/admin/adminHome');
-  // },
-  // adminRole: () => {
-  //   return import(/* webpackChunkName: "adminRole" */ 'modules/admin/adminRole');
-  // },
+  adminLayout: () => {
+    return import(/* webpackChunkName: "adminLayout" */ 'modules/admin/adminLayout');
+  },
+  adminHome: () => {
+    return import(/* webpackChunkName: "adminHome" */ 'modules/admin/adminHome');
+  },
+  adminRole: () => {
+    return import(/* webpackChunkName: "adminRole" */ 'modules/admin/adminRole');
+  },
   // adminMember: () => {
   //   return import(/* webpackChunkName: "adminMember" */ 'modules/admin/adminMember');
   // },

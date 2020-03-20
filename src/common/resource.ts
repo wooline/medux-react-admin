@@ -1,6 +1,7 @@
 import {ActionTypes, BaseModelHandlers, BaseModelState, RouteData, effect, reducer} from '@medux/react-web-router';
 import {BaseListItem, BaseListSearch, BaseListSummary, CommonResource} from 'entity';
 
+import {Actions} from '@medux/core/types/module';
 import {simpleEqual} from 'common/utils';
 
 export interface ResourceAPI {
@@ -50,12 +51,13 @@ export interface CommonResourceState<Resource extends CommonResource> extends Ba
 }
 
 export class CommonResourceHandlers<
-  Resource extends CommonResource,
-  State extends CommonResourceState<Resource>,
-  RootState extends {route: {location: {pathname: string; search: string; hash: string}; data: RouteData}}
+  Resource extends CommonResource = CommonResource,
+  State extends CommonResourceState<Resource> = CommonResourceState<Resource>,
+  RootState extends {route: {location: {pathname: string; search: string; hash: string}; data: RouteData}} = {route: {location: {pathname: string; search: string; hash: string}; data: RouteData}}
 > extends BaseModelHandlers<State, RootState> {
   protected api: ResourceAPI = {};
   protected defaultRouteParams: Resource['RouteParams'] = {} as any;
+  protected newItem: Resource['CreateItem'] = {};
   protected listPaths: string[] = [];
   protected itemPaths: string[] = [];
   protected listLoading = false;
@@ -86,7 +88,7 @@ export class CommonResourceHandlers<
   }
   @effect(null)
   public async execCurrentItem(currentOperation?: Resource['Operation'], currentItem?: any, itemView?: string, disableRoute?: boolean) {
-    currentItem = currentItem || this.state.currentItem;
+    currentItem = currentOperation === 'create' ? this.newItem : currentItem || this.state.currentItem;
     const listView = this.state.routeParams?.listView || 'list';
     if (!currentOperation) {
       //关闭
@@ -262,3 +264,4 @@ export class CommonResourceHandlers<
     }
   }
 }
+export type CommonResourceActions = Actions<CommonResourceHandlers>;

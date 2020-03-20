@@ -17,7 +17,7 @@ import zhCN from 'antd/es/locale/zh_CN';
 
 moment.locale('zh-cn');
 
-//const AdminLayout = loadView('adminLayout', 'Main');
+const AdminLayout = loadView('adminLayout', 'Main');
 const ArticleLayout = loadView('articleLayout', 'Main');
 
 interface StoreProps {
@@ -37,7 +37,7 @@ const Component: React.FC<StoreProps & DispatchProp> = ({projectConfigLoaded, cu
           <Redirect exact path="/" to="/admin/" />
           <Route exact path="/login" component={LoginPage} />
           <Route exact path="/register" component={RegisterPage} />
-          {/* <Route path="/admin" component={AdminLayout} /> */}
+          <Route path="/admin" component={AdminLayout} />
           <Route path="/article" component={ArticleLayout} />
           <Route component={NotFound} />
         </Switch>

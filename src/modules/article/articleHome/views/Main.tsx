@@ -1,8 +1,7 @@
-import React, {useCallback} from 'react';
-
 import Activities from './Activities';
 import Anchor from 'components/Anchor';
 import ArticleBanner from 'components/ArticleBanner';
+import React from 'react';
 import Recommend from './Recommend';
 import {RouteComponentProps} from 'react-router';
 import Special from './Special';

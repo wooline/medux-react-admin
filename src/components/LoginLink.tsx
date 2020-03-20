@@ -8,13 +8,13 @@ interface Props {
   children?: ReactNode;
 }
 
-const Component: React.FC<Props> = props => {
+const Component: React.FC<Props> = ({className, register, children}) => {
   const onClick = useCallback(() => {
     sessionStorage.setItem(metaKeys.LoginRedirectSessionStorageKey, location.pathname + location.search + location.hash);
   }, []);
   return (
-    <Link className={props.className} to={props.register ? metaKeys.RegisterPathname : metaKeys.LoginPathname} onClick={onClick}>
-      {props.children}
+    <Link className={className} to={register ? metaKeys.RegisterPathname : metaKeys.LoginPathname} onClick={onClick}>
+      {children}
     </Link>
   );
 };

@@ -1,6 +1,7 @@
-import {Icon, Popover} from 'antd';
+import {CloseCircleOutlined, PlusCircleOutlined} from '@ant-design/icons';
 import React, {useCallback} from 'react';
 
+import {Popover} from 'antd';
 import {TabNav} from 'entity';
 import TabNavEditor from '../TabNavEditor';
 import {connect} from 'react-redux';
@@ -45,9 +46,9 @@ const Component: React.FC<StoreProps & DispatchProp> = ({dispatch, tabNavs, tabN
       {tabNavs.map(item => (
         <div key={item.id} className={item.id === tabNavCurId ? 'cur' : ''}>
           <Popover
-            content={<TabNavEditor />}
+            content={!!tabNavEditor && tabNavEditor.id === item.id ? <TabNavEditor /> : <div style={{width: 190, height: 135}}></div>}
             trigger="click"
-            visible={Boolean(tabNavEditor && tabNavEditor.id === item.id)}
+            visible={!!tabNavEditor && tabNavEditor.id === item.id}
             onVisibleChange={visible => {
               if (visible) {
                 onClickItem(item);
@@ -59,12 +60,17 @@ const Component: React.FC<StoreProps & DispatchProp> = ({dispatch, tabNavs, tabN
             <span className="trigger">trigger</span>
           </Popover>
           <span className="title">{item.title}</span>
-          <Icon className="action" type="close-circle" onClick={() => onDelItem(item)} />
+          <CloseCircleOutlined className="action" onClick={() => onDelItem(item)} />
         </div>
       ))}
-      <Popover onVisibleChange={onSwitchCreator} visible={Boolean(tabNavEditor && !tabNavEditor.id)} content={<TabNavEditor />} trigger="click">
+      <Popover
+        onVisibleChange={onSwitchCreator}
+        visible={!!tabNavEditor && !tabNavEditor.id}
+        content={!!tabNavEditor && !tabNavEditor.id ? <TabNavEditor /> : <div style={{width: 190, height: 135}}></div>}
+        trigger="click"
+      >
         <div style={{flex: 'none'}}>
-          <Icon type="plus-circle-o" /> 收藏
+          <PlusCircleOutlined /> 收藏
         </div>
       </Popover>
     </div>

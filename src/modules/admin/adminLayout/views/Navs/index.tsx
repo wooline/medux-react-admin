@@ -1,6 +1,7 @@
-import {Icon, Menu} from 'antd';
+import {DashboardOutlined, ProfileOutlined, TeamOutlined} from '@ant-design/icons';
 
 import ListKeyLink from 'components/ListKeyLink';
+import {Menu} from 'antd';
 import {MenuItem} from 'entity/role';
 import {PickOptional} from 'common';
 import React from 'react';
@@ -8,6 +9,11 @@ import {connect} from 'react-redux';
 import {pathToRegexp} from 'path-to-regexp';
 import styles from './index.m.less';
 
+const Icons = {
+  dashboard: DashboardOutlined,
+  user: TeamOutlined,
+  post: ProfileOutlined,
+};
 const {SubMenu} = Menu;
 const matchCache: {[path: string]: RegExp} = {};
 
@@ -68,7 +74,8 @@ function getIcon(icon: string | undefined) {
     return <img src={icon} alt="icon" className="icon sider-menu-item-img" />;
   }
   if (typeof icon === 'string') {
-    return <Icon type={icon} />;
+    const Icon = Icons[icon] || DashboardOutlined;
+    return <Icon />;
   }
   return icon;
 }
