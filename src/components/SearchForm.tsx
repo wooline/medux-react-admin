@@ -5,12 +5,12 @@ import React, {useCallback, useMemo, useState} from 'react';
 import {FromItem} from 'common/utils';
 import useEventCallback from 'hooks/useEventCallback';
 
-interface Props<FromData> {
-  items: FromItem<Extract<keyof FromData, string>>[];
-  onFinish: (values: FromData) => void;
-  values?: Partial<FromData>;
-  fields?: Partial<FromData>;
-  fixedFields?: Partial<FromData>;
+interface Props<FormData> {
+  items: FromItem<Extract<keyof FormData, string>>[];
+  onFinish: (values: FormData) => void;
+  values?: Partial<FormData>;
+  fields?: Partial<FormData>;
+  fixedFields?: Partial<FormData>;
   senior?: number;
   cols?: number;
   expand?: boolean;

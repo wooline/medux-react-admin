@@ -12,16 +12,16 @@ interface StoreProps {
   curItem?: TabNav;
 }
 
-interface FromData {
+interface FormData {
   title: string;
 }
-const formDecorators = getFormDecorators<FromData>({
+const formDecorators = getFormDecorators<FormData>({
   title: {rules: [{required: true, message: '请输入书签名'}]},
 });
 
 const Component: React.FC<StoreProps & DispatchProp> = ({curItem = defCurItem, dispatch}) => {
   const onFinish = useEventCallback(
-    (values: FromData) => {
+    (values: FormData) => {
       const {title} = values;
       dispatch(actions.adminLayout.updateTabNav({...curItem, title}));
     },

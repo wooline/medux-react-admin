@@ -8,9 +8,12 @@ import {getFormDecorators} from 'common/utils';
 import styles from './index.m.less';
 import useLoginLink from 'hooks/useLoginLink';
 
-type FromData = Required<LoginRequest>;
+type FormData = Required<LoginRequest>;
 
-const initialValues: Partial<FromData> = {
+const userOutlined = <UserOutlined />;
+const lockOutlined = <LockOutlined />;
+
+const initialValues: Partial<FormData> = {
   username: '',
   password: '',
   keep: false,
@@ -21,7 +24,7 @@ interface StoreProps {
   isPop: boolean;
 }
 
-const fromDecorators = getFormDecorators<FromData>({
+const fromDecorators = getFormDecorators<FormData>({
   username: {rules: [{required: true, message: '请输入用户名!', whitespace: true}]},
   password: {rules: [{required: true, message: '请输入密码!', whitespace: true}]},
   keep: {valuePropName: 'checked'},
@@ -31,7 +34,7 @@ const Component: React.FC<StoreProps & DispatchProp> = ({curUser, isPop, dispatc
   const [form] = Form.useForm();
   const {handleUserHome, handleLogout, handleRegister} = useLoginLink(isPop, dispatch);
   const onFinish = useCallback(
-    (values: FromData) => {
+    (values: FormData) => {
       const result: Promise<void> = dispatch(actions.app.login(values)) as any;
       result.catch(err => {
         form.setFields([{name: 'password', errors: [err.message]}]);
@@ -65,10 +68,10 @@ const Component: React.FC<StoreProps & DispatchProp> = ({curUser, isPop, dispatc
       ) : (
         <Form form={form} onFinish={onFinish as any} initialValues={initialValues}>
           <Form.Item {...fromDecorators.username}>
-            <Input size="large" allowClear={true} prefix={<UserOutlined />} placeholder="用户名" />
+            <Input size="large" allowClear={true} prefix={userOutlined} placeholder="用户名" />
           </Form.Item>
           <Form.Item {...fromDecorators.password}>
-            <Input size="large" allowClear={true} prefix={<LockOutlined />} type="password" placeholder="密码" />
+            <Input size="large" allowClear={true} prefix={lockOutlined} type="password" placeholder="密码" />
           </Form.Item>
           <Form.Item style={{marginBottom: 0}}>
             <Form.Item {...fromDecorators.keep} noStyle>

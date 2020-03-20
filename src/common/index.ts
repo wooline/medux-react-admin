@@ -1,4 +1,4 @@
-//import {message as antdMessage} from 'antd';
+import {message as antdMessage} from 'antd';
 export enum CommonErrorCode {
   unknown = 'unknown',
   notFound = 'notFound',
@@ -20,7 +20,7 @@ export class CustomError<Detail = any> {
     '301': CommonErrorCode.redirect,
     '302': CommonErrorCode.redirect,
   };
-  public constructor(public code: string, public message?: string, public detail?: Detail) {
+  public constructor(public code: string, public message: string, public detail?: Detail) {
     if (parseFloat(code)) {
       this.code = this.httpCode[code];
     }
@@ -66,10 +66,10 @@ export const metaKeys = {
 };
 export const message = {
   success: (content: string) => {
-    //antdMessage.success(content);
+    antdMessage.success(content);
   },
   error: (content: string) => {
     const initLoading = document.getElementById('g-init-loading');
-    //antdMessage.error(content, initLoading ? 9999999 : 3);
+    antdMessage.error(content, initLoading ? 9999999 : 3);
   },
 };

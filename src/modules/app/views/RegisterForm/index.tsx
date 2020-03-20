@@ -8,6 +8,20 @@ import {connect} from 'react-redux';
 import styles from './index.m.less';
 import useLoginLink from 'hooks/useLoginLink';
 
+const userOutlined = <UserOutlined />;
+const lockOutlined = <LockOutlined />;
+const lockOutlined2 = <LockOutlined />;
+
+interface FormData extends Required<RegisterRequest> {
+  confirm: string;
+  agreement: boolean;
+}
+const initialValues: FormData = {
+  username: '',
+  password: '',
+  confirm: '',
+  agreement: false,
+};
 const agreementChecked = (rule: any, value: string) => {
   if (!value) {
     return Promise.reject('您必须同意注册协议!');
@@ -15,7 +29,6 @@ const agreementChecked = (rule: any, value: string) => {
     return Promise.resolve();
   }
 };
-
 const fromDecorators = getFormDecorators<FormData>({
   username: {rules: [{required: true, message: '请输入用户名!'}]},
   password: {rules: [{required: true, message: '请输入密码!'}]},
@@ -35,16 +48,6 @@ const fromDecorators = getFormDecorators<FormData>({
   },
   agreement: {valuePropName: 'checked', rules: [{validator: agreementChecked}]},
 });
-interface FormData extends Required<RegisterRequest> {
-  confirm: string;
-  agreement: boolean;
-}
-const initialValues: FormData = {
-  username: '',
-  password: '',
-  confirm: '',
-  agreement: false,
-};
 
 interface StoreProps {
   curUser: CurUser;
@@ -94,13 +97,13 @@ const Component: React.FC<StoreProps & DispatchProp> = ({curUser, isPop, dispatc
       ) : (
         <Form form={form} onFinish={onFinish as any} initialValues={initialValues}>
           <Form.Item {...fromDecorators.username}>
-            <Input size="large" prefix={<UserOutlined />} placeholder="用户名" />
+            <Input size="large" prefix={userOutlined} placeholder="用户名" />
           </Form.Item>
           <Form.Item {...fromDecorators.password}>
-            <Input size="large" prefix={<LockOutlined />} type="password" placeholder="密码" />
+            <Input size="large" prefix={lockOutlined} type="password" placeholder="密码" />
           </Form.Item>
           <Form.Item {...fromDecorators.confirm}>
-            <Input size="large" prefix={<LockOutlined />} type="password" placeholder="确认密码" />
+            <Input size="large" prefix={lockOutlined2} type="password" placeholder="确认密码" />
           </Form.Item>
           <Form.Item>
             <Form.Item {...fromDecorators.agreement} noStyle>

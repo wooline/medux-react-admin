@@ -104,7 +104,7 @@ const Component: React.FC<StoreProps & DispatchProp> = ({dispatch, listSearch, s
   ];
   const onShowMembers = useCallback(
     (item: ListItem) => {
-      dispatch(actions.adminMember.searchList({role: {id: item.id, name: item.roleName}}, 'none'));
+      //dispatch(actions.adminMember.searchList({role: {id: item.id, name: item.roleName}}, 'none'));
     },
     [dispatch]
   );

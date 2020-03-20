@@ -1,7 +1,7 @@
 import React, {useCallback} from 'react';
 
 import Detail from './Detail';
-//import Editor from './Editor';
+import Editor from './Editor';
 import {ItemDetail} from 'entity/role';
 import {Modal} from 'antd';
 import Search from './Search';
@@ -23,22 +23,16 @@ const Component: React.FC<StoreProps & DispatchProp> = ({dispatch, currentOperat
       <h1>角色列表</h1>
       <Search />
       <Table />
-      {currentOperation === 'detail' && currentItem && (
+      {currentItem && currentOperation === 'detail' && (
         <Modal wrapClassName="g-noBorderHeader" visible={true} onCancel={onHideCurrent} footer={null} title="角色详情" width={900}>
           <Detail />
         </Modal>
       )}
-      {/* {(currentOperation === 'edit' || currentOperation === 'create') && currentItem && (
-          <Modal
-            visible={currentOperation === 'edit' || currentOperation === 'create'}
-            onCancel={this.onHideCurrent}
-            footer={null}
-            title={currentOperation === 'edit' ? '修改角色' : '新建角色'}
-            width={900}
-          >
-            <Editor />
-          </Modal>
-        )} */}
+      {currentItem && (currentOperation === 'edit' || currentOperation === 'create') && (
+        <Modal visible={currentOperation === 'edit' || currentOperation === 'create'} onCancel={onHideCurrent} footer={null} title={currentOperation === 'edit' ? '修改角色' : '新建角色'} width={900}>
+          <Editor />
+        </Modal>
+      )}
     </div>
   );
 };

@@ -63,9 +63,22 @@ export interface FromItem<D> {
   rules?: Rule[];
   col?: number;
 }
-export type FromItemList<FromData> = FromItem<Extract<keyof FromData, string>>[];
+export type FromItemList<FormData> = FromItem<Extract<keyof FormData, string>>[];
 
 export function getFormDecorators<FormData>(items: {[key in keyof FormData]: FormDecorator<keyof FormData>}): {[key in keyof FormData]: FormDecorator<keyof FormData> & {name: string}} {
+  // return new Proxy(
+  //   {},
+  //   {
+  //     get: (target: {}, key: string) => {
+  //       const item = items[key] || {};
+  //       item['name'] = key;
+  //       return item;
+  //     },
+  //     set: () => {
+  //       return true;
+  //     },
+  //   }
+  // ) as any;
   for (const key in items) {
     if (items.hasOwnProperty(key)) {
       const item = items[key]!;
@@ -74,43 +87,13 @@ export function getFormDecorators<FormData>(items: {[key in keyof FormData]: For
   }
   return items as any;
 }
-// export function getFormDecorators<FormData, Items extends {[key: string]: FormDecorator}>(
-//   initialValues: FormData,
-//   items: Items
-// ): {[key in Extract<keyof typeof items, keyof FormData>]: FormDecorator & {name: string}} {
-//   for (const key in items) {
-//     if (items.hasOwnProperty(key)) {
-//       const item = items[key]!;
-//       item['name'] = key;
-//     }
-//   }
-//   return items as any;
-// }
+
 export function pick<T extends {[key: string]: any}, K extends keyof T>(obj: T, keys: K[]): Pick<T, K> {
   return keys.reduce((prev, cur) => {
     prev[cur] = obj[cur];
     return prev;
   }, {} as any);
 }
-
-// export function getFormDecorators<D>(form: WrappedFormUtils, fields: {[key in keyof D]?: GetFieldDecoratorOptions} = {}, initValues: {[key in keyof D]?: any} = {}) {
-//   const decorators = new Proxy(
-//     {},
-//     {
-//       get: (target: {}, key: string) => {
-//         const item = fields[key] || {};
-//         if (initValues[key]) {
-//           item.initialValue = initValues[key];
-//         }
-//         return form.getFieldDecorator(key, item);
-//       },
-//       set: () => {
-//         return true;
-//       },
-//     }
-//   );
-//   return decorators as {[K in keyof typeof fields]-?: (node: React.ReactNode) => React.ReactNode};
-// }
 
 export function arrayToMap<T>(arr: T[], key: string = 'id'): {[key: string]: T} {
   return arr.reduce((pre, cur) => {
