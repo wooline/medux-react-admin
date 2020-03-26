@@ -8,35 +8,21 @@ export default function<ListItem extends BaseListItem>(
   dispatch: (action: any) => void,
   resourceActions: CommonResourceActions,
   listSearch: BaseListSearch,
+  defaultSearch?: BaseListSearch,
   selectedRows?: ListItem[],
-  getCheckboxProps?: (record: ListItem) => {disabled: boolean}
+  onSelectdChange?: (items: ListItem[]) => void,
+  selectLimit?: number | [number, number]
 ) {
   const sorterStr = [listSearch?.sorterField, listSearch?.sorterOrder].join('');
-  const onCreate = useCallback(() => {
-    dispatch(resourceActions.openCurrentItem('create'));
-  }, [dispatch, resourceActions]);
-
   const onShowDetail = useCallback(
     (item: ListItem | string) => {
-      dispatch(resourceActions.openCurrentItem('detail', item));
-    },
-    [dispatch, resourceActions]
-  );
-  const onShowEditor = useCallback(
-    (item: ListItem | string) => {
-      dispatch(resourceActions.openCurrentItem('edit', item));
-    },
-    [dispatch, resourceActions]
-  );
-  const onDeleteList = useCallback(
-    (ids?: string[]) => {
-      dispatch(resourceActions.deleteList(ids));
+      dispatch(resourceActions.openCurrentItem('summary', item));
     },
     [dispatch, resourceActions]
   );
   const onClearSelect = useCallback(() => {
-    dispatch(resourceActions.putSelectedRows([]));
-  }, [dispatch, resourceActions]);
+    onSelectdChange && onSelectdChange([]);
+  }, [onSelectdChange]);
 
   const onRowSelect = useEventCallback(
     (record: ListItem) => {
@@ -45,9 +31,9 @@ export default function<ListItem extends BaseListItem>(
       if (rows.length === selRows.length) {
         rows.push(record);
       }
-      dispatch(resourceActions.putSelectedRows(rows));
+      onSelectdChange && onSelectdChange(rows);
     },
-    [dispatch, resourceActions, selectedRows]
+    [onSelectdChange, selectedRows]
   );
   const onAllSelect = useEventCallback(
     (checked: boolean, curRows: ListItem[], changeRows: ListItem[]) => {
@@ -63,9 +49,9 @@ export default function<ListItem extends BaseListItem>(
         }, {});
         rows = selRows.filter(item => !changeRowsKeys[item.id]);
       }
-      dispatch(resourceActions.putSelectedRows(rows));
+      onSelectdChange && onSelectdChange(rows);
     },
-    [dispatch, resourceActions, selectedRows]
+    [onSelectdChange, selectedRows]
   );
 
   const onChange = useCallback(
@@ -90,26 +76,20 @@ export default function<ListItem extends BaseListItem>(
     },
     [dispatch, resourceActions, sorterStr]
   );
-  const onChangeStatus = useEventCallback(
-    (status: string, ids?: string[]) => {
-      dispatch(resourceActions.changeListStatus({ids, status}));
-    },
-    [dispatch, resourceActions]
-  );
+
   const rowSelection = useMemo(
     () => ({
       selectedRows,
+      selectLimit,
       onClear: onClearSelect,
       onSelect: onRowSelect,
       onSelectAll: onAllSelect,
-      getCheckboxProps,
     }),
-    [onAllSelect, onClearSelect, onRowSelect, selectedRows, getCheckboxProps]
+    [onAllSelect, onClearSelect, onRowSelect, selectedRows, selectLimit]
   );
   useEffect(() => {
-    return () => {
-      dispatch(resourceActions.putSelectedRows());
-    };
-  }, [dispatch, resourceActions]);
-  return {onChange, onAllSelect, onRowSelect, onClearSelect, onDeleteList, onShowEditor, onChangeStatus, onShowDetail, onCreate, rowSelection};
+    dispatch(resourceActions.resetListSearch(defaultSearch, 'selector'));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  return {onChange, onAllSelect, onRowSelect, onClearSelect, onShowDetail, rowSelection};
 }

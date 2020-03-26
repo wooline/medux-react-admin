@@ -1,6 +1,6 @@
 import {Button, Descriptions} from 'antd';
 import {CaretDownOutlined, DeleteOutlined, FormOutlined} from '@ant-design/icons';
-import React, {useMemo, useState} from 'react';
+import React, {useMemo} from 'react';
 
 import DateTime from 'components/DateTime';
 import {ItemDetail} from 'entity/role';
@@ -12,11 +12,11 @@ import useDetail from 'hooks/useDetail';
 const DescriptionsItem = Descriptions.Item;
 const formOutlined = <FormOutlined />;
 const deleteOutlined = <DeleteOutlined />;
-interface StoreProps {
-  currentItem: ItemDetail;
-  primaryMode?: boolean;
-}
 
+interface OwnProps {
+  primaryMode: boolean;
+  currentItem: ItemDetail;
+}
 export const formItemLayout = {
   labelCol: {
     span: 6,
@@ -29,7 +29,7 @@ export const ModalSubmitLayout = {
   wrapperCol: {span: 15, offset: 6},
 };
 
-const Component: React.FC<StoreProps & DispatchProp> = ({dispatch, primaryMode, currentItem}) => {
+const Component: React.FC<OwnProps & DispatchProp> = ({dispatch, primaryMode, currentItem}) => {
   const {onHide, onEdit, onDelete} = useDetail(dispatch, actions.adminRole, currentItem);
 
   const {purvieList, disabled} = useMemo(() => {
@@ -97,12 +97,4 @@ const Component: React.FC<StoreProps & DispatchProp> = ({dispatch, primaryMode, 
   );
 };
 
-const mapStateToProps: (state: RootState) => StoreProps = state => {
-  const thisModule = state.adminRole!;
-  return {
-    primaryMode: !!state.route.data.views.adminRole,
-    currentItem: thisModule.currentItem,
-  };
-};
-
-export default connect(mapStateToProps)(React.memo(Component));
+export default connect()(React.memo(Component));

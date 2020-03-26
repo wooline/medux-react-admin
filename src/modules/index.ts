@@ -1,7 +1,7 @@
 import {LoadView as BaseLoadView, RootState as BaseState, RouteConfig, exportActions, getBrowserHistory, setRouteConfig} from '@medux/react-web-router';
 
-// import adminMemberParams from 'modules/admin/adminMember/meta';
-// import adminPostParams from 'modules/admin/adminPost/meta';
+import adminMemberParams from 'modules/admin/adminMember/meta';
+import adminPostParams from 'modules/admin/adminPost/meta';
 import adminRoleParams from 'modules/admin/adminRole/meta';
 
 const defaultRouteParams: {[K in moduleNames]: any} = {
@@ -9,8 +9,8 @@ const defaultRouteParams: {[K in moduleNames]: any} = {
   adminLayout: null,
   adminHome: null,
   adminRole: adminRoleParams,
-  // adminMember: adminMemberParams,
-  // adminPost: adminPostParams,
+  adminMember: adminMemberParams,
+  adminPost: adminPostParams,
   articleLayout: null,
   articleHome: null,
   articleAbout: null,
@@ -24,8 +24,8 @@ export enum moduleNames {
   adminLayout = 'adminLayout',
   adminHome = 'adminHome',
   adminRole = 'adminRole',
-  // adminMember = 'adminMember',
-  // adminPost = 'adminPost',
+  adminMember = 'adminMember',
+  adminPost = 'adminPost',
   articleLayout = 'articleLayout',
   articleHome = 'articleHome',
   articleAbout = 'articleAbout',
@@ -46,12 +46,12 @@ export const moduleGetter = {
   adminRole: () => {
     return import(/* webpackChunkName: "adminRole" */ 'modules/admin/adminRole');
   },
-  // adminMember: () => {
-  //   return import(/* webpackChunkName: "adminMember" */ 'modules/admin/adminMember');
-  // },
-  // adminPost: () => {
-  //   return import(/* webpackChunkName: "adminPost" */ 'modules/admin/adminPost');
-  // },
+  adminMember: () => {
+    return import(/* webpackChunkName: "adminMember" */ 'modules/admin/adminMember');
+  },
+  adminPost: () => {
+    return import(/* webpackChunkName: "adminPost" */ 'modules/admin/adminPost');
+  },
   articleLayout: () => {
     return import(/* webpackChunkName: "articleLayout" */ 'modules/article/articleLayout');
   },

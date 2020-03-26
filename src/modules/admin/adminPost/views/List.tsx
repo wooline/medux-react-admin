@@ -1,4 +1,4 @@
-import {ItemDetail, ListSearch} from 'entity/role';
+import {ItemDetail, ListSearch} from 'entity/post';
 import React, {useCallback} from 'react';
 
 import Detail from './Detail';
@@ -16,21 +16,21 @@ interface StoreProps {
 
 const Component: React.FC<StoreProps & DispatchProp> = ({dispatch, listSearch, currentItem, itemView}) => {
   const onHideCurrent = useCallback(() => {
-    dispatch(actions.adminRole.closeCurrentItem());
+    dispatch(actions.adminPost.closeCurrentItem());
   }, [dispatch]);
 
   return (
     <div className="g-adminPage">
-      <h1>角色列表</h1>
+      <h1>信息列表</h1>
       <Search listSearch={listSearch} />
       <Table />
       {currentItem && itemView === 'detail' && (
-        <Modal wrapClassName="g-noBorderHeader" visible={true} onCancel={onHideCurrent} footer={null} title="角色详情" width={900}>
+        <Modal wrapClassName="g-noBorderHeader" visible={true} onCancel={onHideCurrent} footer={null} title="信息详细" width={900}>
           <Detail primaryMode={true} currentItem={currentItem} />
         </Modal>
       )}
       {currentItem && (itemView === 'edit' || itemView === 'create') && (
-        <Modal visible={true} onCancel={onHideCurrent} footer={null} title={itemView === 'edit' ? '修改角色' : '新建角色'} width={900}>
+        <Modal visible={true} onCancel={onHideCurrent} footer={null} title={itemView === 'edit' ? '修改信息' : '发布信息'} width={600}>
           <Editor currentItem={currentItem} />
         </Modal>
       )}
@@ -39,7 +39,7 @@ const Component: React.FC<StoreProps & DispatchProp> = ({dispatch, listSearch, c
 };
 
 const mapStateToProps: (state: RootState) => StoreProps = state => {
-  const thisModule = state.adminRole!;
+  const thisModule = state.adminPost!;
   return {
     currentItem: thisModule.currentItem,
     listSearch: thisModule.routeParams!.listSearch,
@@ -47,4 +47,4 @@ const mapStateToProps: (state: RootState) => StoreProps = state => {
   };
 };
 
-export default connect(mapStateToProps)(React.memo(Component));
+export default connect(mapStateToProps)(Component);

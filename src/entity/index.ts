@@ -17,21 +17,25 @@ export interface BaseListSearch {
 }
 
 export type ListSearchFormData<F> = Required<Omit<F, keyof BaseListSearch>>;
-export interface CommonResourceRouteParams {
-  listView: string;
-  listSearch: any;
+
+export type ListView = 'list' | 'selector' | '';
+export type ItemView = 'detail' | 'edit' | 'create' | 'summary' | '';
+export interface CommonResourceRouteParams<L = never, I = never> {
+  listView: ListView | L;
+  listSearch: BaseListSearch;
   _listKey: string;
-  itemView: string;
+  itemView: ItemView | I;
   itemId: string;
   _itemKey: string;
-  currentOperation?: 'detail' | 'edit' | 'create';
 }
-export interface CommonResource {
+
+export interface CommonResource<L = never, I = never> {
   RouteParams: CommonResourceRouteParams;
   ListSearch: BaseListSearch;
   ListItem: BaseListItem;
   ListSummary: BaseListSummary;
-  Operation: 'detail' | 'edit' | 'create';
+  ListView: ListView | L;
+  ItemView: ItemView | I;
   CreateItem: any;
   UpdateItem: any;
 }

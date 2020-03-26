@@ -1,4 +1,4 @@
-import {ItemDetail, ListSearch} from 'entity/role';
+import {ItemDetail, ListSearch} from 'entity/member';
 import React, {useCallback} from 'react';
 
 import Detail from './Detail';
@@ -16,21 +16,21 @@ interface StoreProps {
 
 const Component: React.FC<StoreProps & DispatchProp> = ({dispatch, listSearch, currentItem, itemView}) => {
   const onHideCurrent = useCallback(() => {
-    dispatch(actions.adminRole.closeCurrentItem());
+    dispatch(actions.adminMember.closeCurrentItem());
   }, [dispatch]);
 
   return (
     <div className="g-adminPage">
-      <h1>角色列表</h1>
+      <h1>用户列表</h1>
       <Search listSearch={listSearch} />
       <Table />
       {currentItem && itemView === 'detail' && (
-        <Modal wrapClassName="g-noBorderHeader" visible={true} onCancel={onHideCurrent} footer={null} title="角色详情" width={900}>
+        <Modal wrapClassName="g-noBorderHeader" visible={true} onCancel={onHideCurrent} footer={null} title="用户详情" width={900}>
           <Detail primaryMode={true} currentItem={currentItem} />
         </Modal>
       )}
       {currentItem && (itemView === 'edit' || itemView === 'create') && (
-        <Modal visible={true} onCancel={onHideCurrent} footer={null} title={itemView === 'edit' ? '修改角色' : '新建角色'} width={900}>
+        <Modal visible={true} onCancel={onHideCurrent} footer={null} title={itemView === 'edit' ? '修改用户信息' : '新建用户信息'} width={600}>
           <Editor currentItem={currentItem} />
         </Modal>
       )}
@@ -39,7 +39,7 @@ const Component: React.FC<StoreProps & DispatchProp> = ({dispatch, listSearch, c
 };
 
 const mapStateToProps: (state: RootState) => StoreProps = state => {
-  const thisModule = state.adminRole!;
+  const thisModule = state.adminMember!;
   return {
     currentItem: thisModule.currentItem,
     listSearch: thisModule.routeParams!.listSearch,

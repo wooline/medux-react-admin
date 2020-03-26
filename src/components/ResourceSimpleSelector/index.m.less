@@ -1,0 +1,16 @@
+:global {
+  :local(.fetching) {
+    background: @light-bg-color;
+    &::before {
+      content: '';
+      opacity: 0.5;
+      display: block;
+      width: 16px;
+      height: 16px;
+      background: url(~assets/imgs/loading.gif) no-repeat;
+      position: absolute;
+      right: 20px;
+      top: 5px;
+    }
+  }
+}

@@ -9,7 +9,6 @@ interface Props<FormData> {
   items: FromItem<Extract<keyof FormData, string>>[];
   onFinish: (values: FormData) => void;
   values?: Partial<FormData>;
-  fields?: Partial<FormData>;
   fixedFields?: Partial<FormData>;
   senior?: number;
   cols?: number;
@@ -23,7 +22,7 @@ function Component<T>(props: Props<T>) {
     return !!props.expand;
   });
   const list = useMemo(() => {
-    return fixedFields ? items.filter(item => fixedFields[item.name!] !== undefined) : items;
+    return fixedFields ? items.filter(item => fixedFields[item.name!] === undefined) : items;
   }, [fixedFields, items]);
   const {senior = list.length} = props;
   const shrink = expand ? list.length : senior;
@@ -62,7 +61,7 @@ function Component<T>(props: Props<T>) {
   return (
     <div className="g-search">
       <Form layout="inline" onFinish={onFinishHandler as any} fields={fields}>
-        {items.map((item, index) => (
+        {list.map((item, index) => (
           <Form.Item
             name={item.name}
             rules={item.rules}
@@ -82,7 +81,7 @@ function Component<T>(props: Props<T>) {
             搜索
           </Button>
           <Button onClick={onReset}>重置</Button>
-          {items.length > senior && (
+          {list.length > senior && (
             <a className="expand" onClick={toggle}>
               {expand ? '收起' : '展开'} {expand ? <UpOutlined /> : <DownOutlined />}
             </a>

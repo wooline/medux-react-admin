@@ -12,8 +12,8 @@ import styles from './index.m.less';
 
 const {Content} = Layout;
 const AdminHome = loadView('adminHome', 'Main');
-// const AdminMember = loadView('adminMember', 'List');
-// const AdminPost = loadView('adminPost', 'List');
+const AdminMember = loadView('adminMember', 'List');
+const AdminPost = loadView('adminPost', 'List');
 const AdminRole = loadView('adminRole', 'List');
 
 interface StoreProps {
@@ -37,9 +37,9 @@ const Component: React.FC<StoreProps> = ({siderCollapsed, hasLogin}) => {
           <Switch>
             <Redirect exact path="/admin" to="/admin/home" />
             <Route exact path="/admin/home" component={AdminHome} />
-            <Route exact path="/admin/role/:listView" component={AdminRole} />
-            {/* <Route path="/admin/member/:listView" component={AdminMember} />
-                <Route path="/admin/post/:listView" component={AdminPost} /> */}
+            <Route path="/admin/role/:listView" component={AdminRole} />
+            <Route path="/admin/member/:listView" component={AdminMember} />
+            <Route path="/admin/post/:listView" component={AdminPost} />
             <Route component={NotFound} />
           </Switch>
         </Content>

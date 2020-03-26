@@ -46,7 +46,9 @@
         },
         "xfwd": true,
         "secure": false,
-        "changeOrigin": true
+        "changeOrigin": true,
+        "timeout": 3000,
+        "proxyTimeout": 3000
       }
     }
   },

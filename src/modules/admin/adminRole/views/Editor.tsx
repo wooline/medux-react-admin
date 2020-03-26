@@ -8,6 +8,9 @@ import PurviewEditor from 'components/PurviewEditor';
 import {connect} from 'react-redux';
 import {getFormDecorators} from 'common/utils';
 import styles from './index.m.less';
+import useEventCallback from 'hooks/useEventCallback';
+
+type FormData = Omit<UpdateItem, 'id'>;
 
 const FormItem = Form.Item;
 
@@ -27,62 +30,47 @@ const purviewsLayout = {
     span: 25,
   },
 };
-type FormData = UpdateItem;
 
-const validatePurview = (rule: {message: string}, value: string[] | undefined) => {
-  if (!value || !value.length) {
-    return Promise.reject(rule.message);
-  } else {
-    return Promise.resolve();
-  }
-};
-
-interface StoreProps {
-  currentOperation?: 'detail' | 'edit' | 'create';
+interface OwnProps {
   currentItem: ItemDetail;
-}
-
-interface State {
-  purviewsError?: string;
 }
 
 const fromDecorators = getFormDecorators<FormData>({
   roleName: {rules: [{required: true, message: '请输入角色名称'}]},
-  //purviews: {rules: [{validator: this.validatePurview, message: '请至少配置一项权限'}]},
   purviews: {rules: [{required: true, message: '请至少配置一项权限', type: 'array'}]},
   remark: {},
-  id: {},
 });
 
-const Component: React.FC<StoreProps & DispatchProp> = ({dispatch, currentOperation, currentItem}) => {
-  // onPurviewChange = (arr?: string[]) => {
-  //   if (arr && arr.length) {
-  //     this.setState({purviewsError: ''});
-  //   }
-  // };
+const Component: React.FC<OwnProps & DispatchProp> = ({dispatch, currentItem}) => {
   const [form] = Form.useForm();
   const initialValues: FormData = currentItem;
-  const handleSubmit = (error: CustomError) => {
-    if (error instanceof CustomError) {
-      form.setFields([{name: 'purviews', errors: [error.message]}]);
-      message.error(error.message!);
-    }
-  };
+  const handleSubmit = useCallback(
+    (error: CustomError) => {
+      if (error instanceof CustomError) {
+        form.setFields([{name: 'purviews', errors: [error.message]}]);
+        message.error(error.message!);
+      }
+    },
+    [form]
+  );
   const onHide = useCallback(() => {
-    dispatch(actions.adminRole.execCurrentItem());
+    dispatch(actions.adminRole.closeCurrentItem());
   }, [dispatch]);
   const onReset = useCallback(() => {
     form.resetFields();
   }, [form]);
 
-  const onFinish = (values: FormData) => {
-    const id = currentItem!.id;
-    if (id) {
-      dispatch(actions.adminRole.updateItem({...values, id}, handleSubmit));
-    } else {
-      dispatch(actions.adminRole.createItem({...values, id}, handleSubmit));
-    }
-  };
+  const id = currentItem.id;
+  const onFinish = useEventCallback(
+    (values: FormData) => {
+      if (id) {
+        dispatch(actions.adminRole.updateItem({...values, id}, handleSubmit));
+      } else {
+        dispatch(actions.adminRole.createItem({...values, id}, handleSubmit));
+      }
+    },
+    [dispatch, handleSubmit, id]
+  );
 
   return (
     <Form className={styles.root} layout="horizontal" form={form} {...formItemLayout} onFinish={onFinish as any} initialValues={initialValues}>
@@ -117,12 +105,4 @@ const Component: React.FC<StoreProps & DispatchProp> = ({dispatch, currentOperat
   );
 };
 
-const mapStateToProps: (state: RootState) => StoreProps = state => {
-  const thisModule = state.adminRole!;
-  return {
-    currentItem: thisModule.currentItem,
-    currentOperation: thisModule.routeParams!.currentOperation,
-  };
-};
-
-export default connect(mapStateToProps)(React.memo(Component));
+export default connect()(React.memo(Component));
