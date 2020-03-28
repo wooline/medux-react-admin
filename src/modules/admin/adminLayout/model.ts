@@ -12,12 +12,7 @@ function getTabNavId(url: string): string {
   const [pathname, search] = url.split(/\?/);
   let id = pathname;
   if (search) {
-    id +=
-      '?' +
-      search
-        .split('&')
-        .sort()
-        .join('&');
+    id += '?' + search.split('&').sort().join('&');
   }
   return id;
 }
@@ -80,7 +75,7 @@ export class ModelHandlers extends BaseModelHandlers<State, RootState> {
       newItem.id = getTabNavId(newItem.url);
     }
     if (tabNavsMap[newItem.id]) {
-      tabNavs = tabNavs.map(tab => (tab.id === newItem.id ? newItem : tab));
+      tabNavs = tabNavs.map((tab) => (tab.id === newItem.id ? newItem : tab));
     } else {
       tabNavs = [...tabNavs, newItem];
     }
@@ -92,7 +87,7 @@ export class ModelHandlers extends BaseModelHandlers<State, RootState> {
   public delTabNav(id: string): State {
     const item = this.state.tabNavsMap[id];
     if (item) {
-      const tabNavs = this.state.tabNavs.filter(tab => tab.id !== id);
+      const tabNavs = this.state.tabNavs.filter((tab) => tab.id !== id);
       const tabNavsMap = {...this.state.tabNavsMap, [id]: undefined} as any;
       localStorage.setItem(metaKeys.FavoritesUrlStorageKey, JSON.stringify(tabNavs));
       return {...this.state, tabNavs, tabNavsMap};

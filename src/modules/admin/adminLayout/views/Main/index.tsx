@@ -48,7 +48,7 @@ const Component: React.FC<StoreProps> = ({siderCollapsed, hasLogin}) => {
   ) : null;
 };
 
-const mapStateToProps: (state: RootState) => StoreProps = state => {
+const mapStateToProps: (state: RootState) => StoreProps = (state) => {
   return {
     hasLogin: state.app!.curUser!.hasLogin,
     siderCollapsed: !!state.adminLayout!.siderCollapsed,

@@ -6,7 +6,7 @@ import {purviewNames} from 'entity/role';
 import useEventCallback from 'hooks/useEventCallback';
 
 const options: {[key: string]: string[]} = {};
-Object.keys(purviewNames).forEach(item => {
+Object.keys(purviewNames).forEach((item) => {
   const [resource, action] = item.split('.');
   if (!action) {
     options[resource] = [];
@@ -25,7 +25,7 @@ const Component: React.FC<Props> = ({value = [], onChange}) => {
       if (onChange) {
         const {checked, name = ''} = e.target;
         if (!checked) {
-          const arr = value.filter(item => item !== name);
+          const arr = value.filter((item) => item !== name);
           onChange(arr.length ? arr.sort() : undefined);
         } else {
           onChange([...value, name].sort());
@@ -39,7 +39,7 @@ const Component: React.FC<Props> = ({value = [], onChange}) => {
       if (onChange) {
         const {checked, name = ''} = e.target;
         if (!checked) {
-          const arr = value.filter(item => item.split('.')[0] !== name);
+          const arr = value.filter((item) => item.split('.')[0] !== name);
           onChange(arr.length ? arr.sort() : undefined);
         } else {
           onChange(Array.from(new Set([...value, ...options[name]])).sort());
@@ -63,7 +63,7 @@ const Component: React.FC<Props> = ({value = [], onChange}) => {
   }, {});
   return (
     <dl>
-      {Object.keys(purviewNames).map(item => {
+      {Object.keys(purviewNames).map((item) => {
         const [, action] = item.split('.');
         return action ? (
           <dd key={item}>

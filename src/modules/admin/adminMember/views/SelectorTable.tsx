@@ -74,7 +74,7 @@ const Component: React.FC<StoreProps & OwnProps & DispatchProp> = ({dispatch, on
   );
 };
 
-const mapStateToProps: (state: RootState) => StoreProps = state => {
+const mapStateToProps: (state: RootState) => StoreProps = (state) => {
   const thisModule = state.adminMember!;
   const {list, listSummary} = thisModule;
   return {list, listSummary, listSearch: thisModule.routeParams?.listSearch!};

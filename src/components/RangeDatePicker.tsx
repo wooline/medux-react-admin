@@ -13,7 +13,7 @@ export interface Props {
   onChange?: (value?: [number, number]) => void;
 }
 
-const Component: React.FC<Props> = props => {
+const Component: React.FC<Props> = (props) => {
   const {value, onChange, disabledDate, allowClear = true, className, style} = props;
   const handleChange = useEventCallback(
     (dates: any) => {
@@ -34,24 +34,9 @@ const Component: React.FC<Props> = props => {
       本周: [moment().startOf('week'), moment().endOf('week')],
       本月: [moment().startOf('month'), moment().endOf('month')],
       今年: [moment().startOf('year'), moment().endOf('year')],
-      近周: [
-        moment()
-          .subtract(1, 'week')
-          .startOf('day'),
-        today,
-      ],
-      近月: [
-        moment()
-          .subtract(1, 'month')
-          .startOf('day'),
-        today,
-      ],
-      近年: [
-        moment()
-          .subtract(1, 'year')
-          .startOf('day'),
-        today,
-      ],
+      近周: [moment().subtract(1, 'week').startOf('day'), today],
+      近月: [moment().subtract(1, 'month').startOf('day'), today],
+      近年: [moment().subtract(1, 'year').startOf('day'), today],
     };
   }, []);
   const values: [any, any] = useMemo(() => {

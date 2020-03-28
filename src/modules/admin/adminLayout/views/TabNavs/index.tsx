@@ -43,13 +43,13 @@ const Component: React.FC<StoreProps & DispatchProp> = ({dispatch, tabNavs, tabN
 
   return (
     <div className={styles.root}>
-      {tabNavs.map(item => (
+      {tabNavs.map((item) => (
         <div key={item.id} className={item.id === tabNavCurId ? 'cur' : ''}>
           <Popover
             content={!!tabNavEditor && tabNavEditor.id === item.id ? <TabNavEditor /> : <div style={{width: 190, height: 135}}></div>}
             trigger="click"
             visible={!!tabNavEditor && tabNavEditor.id === item.id}
-            onVisibleChange={visible => {
+            onVisibleChange={(visible) => {
               if (visible) {
                 onClickItem(item);
               } else {
@@ -77,7 +77,7 @@ const Component: React.FC<StoreProps & DispatchProp> = ({dispatch, tabNavs, tabN
   );
 };
 
-const mapStateToProps: (state: RootState) => StoreProps = state => {
+const mapStateToProps: (state: RootState) => StoreProps = (state) => {
   const adminLayout = state.adminLayout!;
   return {
     tabNavs: adminLayout.tabNavs,

@@ -22,7 +22,7 @@ function Component<T>(props: Props<T>) {
     return !!props.expand;
   });
   const list = useMemo(() => {
-    return fixedFields ? items.filter(item => fixedFields[item.name!] === undefined) : items;
+    return fixedFields ? items.filter((item) => fixedFields[item.name!] === undefined) : items;
   }, [fixedFields, items]);
   const {senior = list.length} = props;
   const shrink = expand ? list.length : senior;
@@ -31,7 +31,7 @@ function Component<T>(props: Props<T>) {
     const colWith = parseFloat((100 / cols).toFixed(2));
     const arr: number[] = [];
     let cur = 0;
-    list.forEach(item => {
+    list.forEach((item) => {
       const label = Math.ceil(item.label!.replace(/[^\x00-\xff]/g, 'aa').length / 2);
       const col = item.col || 1;
       if (cur + col > cols) {
@@ -46,7 +46,7 @@ function Component<T>(props: Props<T>) {
     return {colWith, arr};
   }, [cols, list]);
   const fields = useMemo(() => {
-    return values ? Object.keys(values).map(name => ({name, value: values[name]})) : [];
+    return values ? Object.keys(values).map((name) => ({name, value: values[name]})) : [];
   }, [values]);
   const onFinishHandler = useEventCallback(
     (values: T) => {
@@ -56,7 +56,7 @@ function Component<T>(props: Props<T>) {
     [fixedFields, onFinish]
   );
   const toggle = useCallback(() => {
-    setExpand(expand => !expand);
+    setExpand((expand) => !expand);
   }, []);
   return (
     <div className="g-search">

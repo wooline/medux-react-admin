@@ -54,7 +54,7 @@ const Component: React.FC<StoreProps & DispatchProp> = ({curUser, dispatch}) => 
   );
 };
 
-const mapStateToProps: (state: RootState) => StoreProps = state => {
+const mapStateToProps: (state: RootState) => StoreProps = (state) => {
   const app = state.app!;
   return {
     curUser: app.curUser!,

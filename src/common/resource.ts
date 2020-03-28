@@ -1,7 +1,6 @@
-import {ActionTypes, BaseModelHandlers, BaseModelState, RouteData, effect, reducer} from '@medux/react-web-router';
+import {ActionTypes, Actions, BaseModelHandlers, BaseModelState, RouteData, effect, reducer} from '@medux/react-web-router';
 import {BaseListItem, BaseListSearch, BaseListSummary, CommonResource} from 'entity';
 
-import {Actions} from '@medux/core/types/module';
 import {simpleEqual} from 'common/utils';
 
 export interface ResourceAPI {
@@ -149,13 +148,13 @@ export abstract class CommonResourceHandlers<
   @effect()
   public async createItem(data: Resource['CreateItem'], callback?: (res: any) => void) {
     return this.config.api.createItem!(data).then(
-      res => {
+      (res) => {
         this.dispatch(this.actions.closeCurrentItem());
         message.success('创建成功');
         this.dispatch(this.actions.latestListSearch());
         callback && callback(res);
       },
-      err => {
+      (err) => {
         if (callback) {
           return callback(err);
         } else {
@@ -167,13 +166,13 @@ export abstract class CommonResourceHandlers<
   @effect()
   public async updateItem(data: Resource['UpdateItem'], callback?: (res: any) => void) {
     return this.config.api.updateItem!(data).then(
-      res => {
+      (res) => {
         this.dispatch(this.actions.closeCurrentItem());
         message.success('修改成功');
         this.dispatch(this.actions.refreshListSearch());
         callback && callback(res);
       },
-      err => {
+      (err) => {
         if (callback) {
           return callback(err);
         } else {
@@ -184,7 +183,7 @@ export abstract class CommonResourceHandlers<
   }
   @effect()
   public async changeListStatus({ids, status, remark}: {ids?: string[]; status: any; remark?: string}) {
-    ids = ids || this.state.selectedRows!.map(item => item.id);
+    ids = ids || this.state.selectedRows!.map((item) => item.id);
     if (!ids.length) {
       return;
     }
@@ -194,7 +193,7 @@ export abstract class CommonResourceHandlers<
   }
   @effect()
   public async deleteList(ids?: string[]) {
-    ids = ids || this.state.selectedRows!.map(item => item.id);
+    ids = ids || this.state.selectedRows!.map((item) => item.id);
     if (!ids.length) {
       return;
     }
@@ -257,7 +256,7 @@ export abstract class CommonResourceHandlers<
   @effect()
   protected async fetchList(listSearch: Resource['ListSearch'], listView: string, _listKey: string) {
     this.listLoading = true;
-    const {list, listSummary} = await this.config.api.searchList!(listSearch).catch(e => {
+    const {list, listSummary} = await this.config.api.searchList!(listSearch).catch((e) => {
       this.listLoading = false;
       throw e;
     });
@@ -267,7 +266,7 @@ export abstract class CommonResourceHandlers<
   @effect()
   protected async fetchItem(itemId: string, itemView: string, _itemKey: string) {
     this.itemLoading = true;
-    const currentItem = await this.config.api.getDetailItem!(itemId).catch(e => {
+    const currentItem = await this.config.api.getDetailItem!(itemId).catch((e) => {
       this.itemLoading = false;
       throw e;
     });

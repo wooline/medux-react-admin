@@ -52,7 +52,7 @@ const Component: React.FC<StoreProps & DispatchProp> = ({projectConfigLoaded, cu
   }
 };
 
-const mapStateToProps: (state: RootState) => StoreProps = state => {
+const mapStateToProps: (state: RootState) => StoreProps = (state) => {
   const app = state.app!;
   return {
     projectConfigLoaded: !!app.projectConfig,

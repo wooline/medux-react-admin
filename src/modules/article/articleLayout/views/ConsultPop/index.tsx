@@ -23,7 +23,7 @@ const Component: React.FC<StoreProps & DispatchProp> = ({showPop, dispatch}) => 
   );
 };
 
-const mapStateToProps: (state: RootState) => StoreProps = state => {
+const mapStateToProps: (state: RootState) => StoreProps = (state) => {
   return {
     showPop: state.articleLayout!.showConsult,
   };

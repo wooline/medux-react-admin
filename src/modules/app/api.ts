@@ -10,7 +10,7 @@ function setCookie(name: string, value: string, expiredays: number) {
 }
 export class API {
   public getCurUser(): Promise<CurUser> {
-    return ajax<CurUser>('get', '/api/session').catch(err => {
+    return ajax<CurUser>('get', '/api/session').catch((err) => {
       return guest;
     });
   }

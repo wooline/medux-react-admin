@@ -17,10 +17,10 @@ const scrollToAnchor = (flag: string) => {
   }, 100);
 };
 
-export default function(hash: string, history: {listen: (handler: (location: any) => void) => () => void}) {
+export default function (hash: string, history: {listen: (handler: (location: any) => void) => () => void}) {
   useEffect(() => {
     scrollToAnchor(hash);
-    const unlisten = history.listen(location => {
+    const unlisten = history.listen((location) => {
       scrollToAnchor(location.hash);
     });
     return () => {

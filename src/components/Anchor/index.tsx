@@ -7,7 +7,7 @@ interface Props {
   navs: string[][];
 }
 
-const Component: React.FC<Props> = props => {
+const Component: React.FC<Props> = (props) => {
   return (
     <Anchor className={styles.root}>
       {props.navs.map((item, idx) => (

@@ -38,7 +38,7 @@ const Component: React.FC<OwnProps & DispatchProp> = ({dispatch, primaryMode, cu
       return pre;
     }, {});
     const options: {[key: string]: string[]} = {};
-    Object.keys(purviewNames).forEach(item => {
+    Object.keys(purviewNames).forEach((item) => {
       const [resource, action] = item.split('.');
       if (!action) {
         options[resource] = [];
@@ -47,13 +47,13 @@ const Component: React.FC<OwnProps & DispatchProp> = ({dispatch, primaryMode, cu
       }
     });
     const items: string[] = [];
-    Object.keys(options).forEach(key => {
+    Object.keys(options).forEach((key) => {
       const actions = options[key];
       if (actions.length) {
         items.push(key, ...actions);
       }
     });
-    const purvieList = items.map(item => {
+    const purvieList = items.map((item) => {
       const [resource, action] = item.split('.');
       return action ? <dd key={item}>{purviewNames[item]}</dd> : <dt key={item}>{purviewNames[resource]}</dt>;
     });

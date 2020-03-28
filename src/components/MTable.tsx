@@ -39,8 +39,8 @@ const formatColumns = (columns: ColumnProps<any>[], noID: number, sorterField?: 
   };
 
   return columns
-    .filter(col => !col.disable)
-    .map(col => {
+    .filter((col) => !col.disable)
+    .map((col) => {
       /**排序状态受控 */
       if (col.sorter && typeof col.sorter === 'boolean' && !col.sortOrder) {
         col = {...col};
@@ -83,7 +83,7 @@ function Component<T extends object>(props: Props<T>) {
   const {selectLimit = 0, selectedRows} = rowSelection || {};
   const limitMax = typeof selectLimit === 'number' ? selectLimit : selectLimit[1];
   const selectedCount = (selectedRows || []).length;
-  const selectedRowKeys = useMemo(() => (selectedRows || []).map(item => item[rowKey as string] || item['id']), [rowKey, selectedRows]);
+  const selectedRowKeys = useMemo(() => (selectedRows || []).map((item) => item[rowKey as string] || item['id']), [rowKey, selectedRows]);
   if (rowSelection) {
     rowSelection.columnWidth = 60;
     rowSelection.type = limitMax === 1 ? 'radio' : 'checkbox';
@@ -111,7 +111,7 @@ function Component<T extends object>(props: Props<T>) {
   const onBatchAction = useEventCallback(
     (key: string, selectedRowCount: number) => {
       const {actions, onClick} = batchActions!;
-      const target = actions.find(item => item.key === key);
+      const target = actions.find((item) => item.key === key);
       if (target!.confirm) {
         setShowConfirmModal(true);
         setConfirmModal({
@@ -148,7 +148,7 @@ function Component<T extends object>(props: Props<T>) {
           <Dropdown
             overlay={
               <Menu onClick={onMultBatchAction}>
-                {batchActions.actions.map(action => (
+                {batchActions.actions.map((action) => (
                   <Menu.Item key={action.key}>{action.label}</Menu.Item>
                 ))}
               </Menu>

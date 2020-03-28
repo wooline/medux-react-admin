@@ -37,7 +37,7 @@ const Component: React.FC<OwnProps & DispatchProp> = ({dispatch, primaryMode, cu
         </DescriptionsItem>
         <DescriptionsItem label="作者">{<a onClick={() => onShowMembers(currentItem.author.id)}>{currentItem.author.name}</a>}</DescriptionsItem>
         <DescriptionsItem className="g-items" label="责任编辑">
-          {currentItem.editors.map(editor => (
+          {currentItem.editors.map((editor) => (
             <a key={editor.id} onClick={() => onShowMembers(editor.id)}>
               {editor.name}
             </a>

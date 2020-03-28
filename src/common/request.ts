@@ -4,7 +4,7 @@ import {CustomError} from 'common';
 
 const request = axios.create();
 
-request.interceptors.request.use(request => {
+request.interceptors.request.use((request) => {
   return request;
 });
 
@@ -23,7 +23,7 @@ request.interceptors.response.use(
 );
 
 export default function ajax<T>(method: Method, url: string, params: {[key: string]: any} = {}, data: {[key: string]: any} = {}): Promise<T> {
-  url = url.replace(/:\w+/g, flag => {
+  url = url.replace(/:\w+/g, (flag) => {
     const key = flag.substr(1);
     if (params[key]) {
       const val: string = params[key];
@@ -33,7 +33,7 @@ export default function ajax<T>(method: Method, url: string, params: {[key: stri
       return '';
     }
   });
-  Object.keys(initEnv.apiServerPath).some(key => {
+  Object.keys(initEnv.apiServerPath).some((key) => {
     const reg = new RegExp(key);
     if (reg.test(url)) {
       url = url.replace(reg, initEnv.apiServerPath[key]);
@@ -43,5 +43,5 @@ export default function ajax<T>(method: Method, url: string, params: {[key: stri
     }
   });
 
-  return request.request({method, url, params, data}).then(response => response.data);
+  return request.request({method, url, params, data}).then((response) => response.data);
 }

@@ -3,6 +3,7 @@ import React, {useCallback} from 'react';
 
 import Detail from './Detail';
 import Editor from './Editor';
+import {ItemView} from 'entity';
 import {Modal} from 'antd';
 import Search from './Search';
 import Table from './Table';
@@ -10,7 +11,7 @@ import {connect} from 'react-redux';
 
 interface StoreProps {
   listSearch: ListSearch;
-  itemView: 'detail' | 'edit' | 'create' | '';
+  itemView: ItemView;
   currentItem?: ItemDetail;
 }
 
@@ -38,7 +39,7 @@ const Component: React.FC<StoreProps & DispatchProp> = ({dispatch, listSearch, c
   );
 };
 
-const mapStateToProps: (state: RootState) => StoreProps = state => {
+const mapStateToProps: (state: RootState) => StoreProps = (state) => {
   const thisModule = state.adminRole!;
   return {
     currentItem: thisModule.currentItem,

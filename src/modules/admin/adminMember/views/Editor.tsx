@@ -85,7 +85,7 @@ const Component: React.FC<OwnProps & DispatchProp> = ({dispatch, currentItem}) =
       </FormItem>
       <FormItem label="性别" {...fromDecorators.gender}>
         <Select allowClear={true} placeholder="请选择用户性别">
-          {DGender.options.map(option => (
+          {DGender.options.map((option) => (
             <Select.Option key={option.key} value={option.key}>
               {option.name}
             </Select.Option>
@@ -97,7 +97,7 @@ const Component: React.FC<OwnProps & DispatchProp> = ({dispatch, currentItem}) =
       </FormItem>
       <FormItem label="状态" {...fromDecorators.status}>
         <Select allowClear={true} placeholder="请选择用户状态">
-          {DStatus.options.map(option => (
+          {DStatus.options.map((option) => (
             <Select.Option key={option.key} value={option.key}>
               {option.name}
             </Select.Option>

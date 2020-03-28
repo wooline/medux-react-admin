@@ -4,7 +4,7 @@ import {useCallback, useEffect, useMemo} from 'react';
 import {CommonResourceActions} from 'common/resource';
 import useEventCallback from './useEventCallback';
 
-export default function<ListItem extends BaseListItem>(
+export default function <ListItem extends BaseListItem>(
   dispatch: (action: any) => void,
   resourceActions: CommonResourceActions,
   listSearch: BaseListSearch,
@@ -27,7 +27,7 @@ export default function<ListItem extends BaseListItem>(
   const onRowSelect = useEventCallback(
     (record: ListItem) => {
       const selRows = selectedRows || [];
-      const rows = selRows.filter(item => item.id !== record.id);
+      const rows = selRows.filter((item) => item.id !== record.id);
       if (rows.length === selRows.length) {
         rows.push(record);
       }
@@ -47,7 +47,7 @@ export default function<ListItem extends BaseListItem>(
           pre[cur.id] = true;
           return pre;
         }, {});
-        rows = selRows.filter(item => !changeRowsKeys[item.id]);
+        rows = selRows.filter((item) => !changeRowsKeys[item.id]);
       }
       onSelectdChange && onSelectdChange(rows);
     },

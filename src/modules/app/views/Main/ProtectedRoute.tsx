@@ -6,7 +6,7 @@ interface Props extends RouteProps {
   component: ComponentType<any>;
 }
 
-const Component: React.FC<Props> = props => {
+const Component: React.FC<Props> = (props) => {
   const {auth, component: TargetComponent, ...rest} = props;
   const {path} = rest;
   const toRender = (routeProps: RouteComponentProps<any>) => {

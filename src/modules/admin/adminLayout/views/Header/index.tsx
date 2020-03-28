@@ -72,7 +72,7 @@ const Component: React.FC<StoreProps & DispatchProp> = ({dispatch, siderCollapse
   );
 };
 
-const mapStateToProps: (state: RootState) => StoreProps = state => {
+const mapStateToProps: (state: RootState) => StoreProps = (state) => {
   return {
     notices: state.app!.notices.count,
     curUser: state.app!.curUser!,

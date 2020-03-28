@@ -52,7 +52,7 @@ const Component: React.FC<StoreProps & DispatchProp> = ({curItem = defCurItem, d
   );
 };
 
-const mapStateToProps: (state: RootState) => StoreProps = state => {
+const mapStateToProps: (state: RootState) => StoreProps = (state) => {
   return {
     curItem: state.adminLayout!.tabNavEditor,
   };

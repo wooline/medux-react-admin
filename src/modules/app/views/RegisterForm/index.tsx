@@ -61,7 +61,7 @@ const Component: React.FC<StoreProps & DispatchProp> = ({curUser, isPop, dispatc
     (values: FormData) => {
       const data = pick(values, ['username', 'password']);
       const result: Promise<void> = dispatch(actions.app.register(data)) as any;
-      result.catch(err => {
+      result.catch((err) => {
         form.setFields([{name: 'username', errors: [err.message]}]);
       });
     },
@@ -128,7 +128,7 @@ const Component: React.FC<StoreProps & DispatchProp> = ({curUser, isPop, dispatc
   );
 };
 
-const mapStateToProps: (state: RootState) => StoreProps = state => {
+const mapStateToProps: (state: RootState) => StoreProps = (state) => {
   return {
     curUser: state.app!.curUser!,
     isPop: state.app!.showLoginOrRegisterPop === 'register',

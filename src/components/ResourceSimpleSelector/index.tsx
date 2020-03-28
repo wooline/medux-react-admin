@@ -11,7 +11,6 @@ interface Item {
   id: string;
   name: string;
 }
-// type Value = Item | string;
 
 export interface Props<Resource> {
   limit?: number | [number, number];
@@ -44,7 +43,7 @@ class Component<Resource extends {id: string} = Item> extends React.PureComponen
   state: State<Resource> = {
     fetching: false,
   };
-  defOptionToValue: (option: {value: string | number; label: React.ReactNode}) => Item = option => {
+  defOptionToValue: (option: {value: string | number; label: React.ReactNode}) => Item = (option) => {
     return {id: option.value.toString(), name: option.label?.toString() || option.value.toString()};
   };
   fetch = (term: string, pageCurrent: number = 1) => {
@@ -56,7 +55,7 @@ class Component<Resource extends {id: string} = Item> extends React.PureComponen
       .catch(() => {
         return null;
       })
-      .then(result => {
+      .then((result) => {
         if (fetchId !== this.lastFetchId) {
           return;
         }
@@ -74,21 +73,22 @@ class Component<Resource extends {id: string} = Item> extends React.PureComponen
       });
   };
   onSearch = (str: string) => {
-    console.log('search', str);
     if (!this.state.fetching || this.state.items) {
       this.setState({items: undefined, fetching: true});
     }
     this.fetch(str);
   };
   onFocus = () => {
-    this.onSearch('');
+    if (!this.state.items) {
+      this.onSearch('');
+    }
   };
   onChange = (value?: LabeledValue | LabeledValue[]) => {
     const optionToValue = this.props.optionToValue || this.defOptionToValue;
     let selected: Item | Item[] | undefined;
     if (value) {
       if (Array.isArray(value)) {
-        selected = value.map(item => optionToValue(item));
+        selected = value.map((item) => optionToValue(item));
       } else {
         selected = optionToValue(value);
       }
@@ -97,8 +97,7 @@ class Component<Resource extends {id: string} = Item> extends React.PureComponen
     this.props.onChange && this.props.onChange(selected);
   };
   onPopupScroll = (e: React.UIEvent<HTMLDivElement>) => {
-    const {target} = e;
-    this.popupScroll(target as HTMLDivElement);
+    this.popupScroll(e.target as HTMLDivElement);
   };
   popupScroll = (target: HTMLDivElement) => {
     const {items, fetching} = this.state;
@@ -123,7 +122,7 @@ class Component<Resource extends {id: string} = Item> extends React.PureComponen
       mode = tagMode ? 'tags' : 'multiple';
     }
     if (Array.isArray(value)) {
-      selected = value.map(item => {
+      selected = value.map((item) => {
         if (typeof item === 'string') {
           return {key: item, label: item, value: item};
         } else {
@@ -137,7 +136,7 @@ class Component<Resource extends {id: string} = Item> extends React.PureComponen
         selected = {key: value.id, label: value.name, value: value.id};
       }
     }
-    const renderOption: (item: Resource) => React.ReactNode = typeof optionRender === 'string' ? item => item[optionRender] : optionRender;
+    const renderOption: (item: Resource) => React.ReactNode = typeof optionRender === 'string' ? (item) => item[optionRender] : optionRender;
     return (
       <Select<LabeledValue | LabeledValue[]>
         dropdownClassName={fetching ? styles.fetching : ''}
@@ -158,7 +157,7 @@ class Component<Resource extends {id: string} = Item> extends React.PureComponen
       >
         {items && items.list.length && (
           <OptGroup label={'结果共' + items.listSummary.totalItems + '条'}>
-            {items.list.map(item => (
+            {items.list.map((item) => (
               <Option value={item.id} key={item.id}>
                 {renderOption(item)}
               </Option>

@@ -44,7 +44,7 @@ const Component: React.FC<StoreProps & DispatchProp> = ({dispatch, listSearch, s
         width: '11%',
         className: 'g-items',
         render: (editors: {id: string; name: string}[]) =>
-          editors.map(editor => (
+          editors.map((editor) => (
             <a key={editor.id} onClick={() => onShowMembers(editor.id)}>
               {editor.name}
             </a>
@@ -95,7 +95,7 @@ const Component: React.FC<StoreProps & DispatchProp> = ({dispatch, listSearch, s
                   </Menu>
                 }
               >
-                <a className={disabled} onClick={e => e.preventDefault()}>
+                <a className={disabled} onClick={(e) => e.preventDefault()}>
                   审核 <DownOutlined />
                 </a>
               </Dropdown>
@@ -152,7 +152,7 @@ const Component: React.FC<StoreProps & DispatchProp> = ({dispatch, listSearch, s
   );
 };
 
-const mapStateToProps: (state: RootState) => StoreProps = state => {
+const mapStateToProps: (state: RootState) => StoreProps = (state) => {
   const thisModule = state.adminPost!;
   const {list, listSummary, selectedRows} = thisModule;
   return {list, listSummary, selectedRows, listSearch: thisModule.routeParams?.listSearch!};

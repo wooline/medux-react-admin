@@ -36,7 +36,7 @@ const Component: React.FC<StoreProps & DispatchProp> = ({curUser, isPop, dispatc
   const onFinish = useCallback(
     (values: FormData) => {
       const result: Promise<void> = dispatch(actions.app.login(values)) as any;
-      result.catch(err => {
+      result.catch((err) => {
         form.setFields([{name: 'password', errors: [err.message]}]);
       });
     },
@@ -90,7 +90,7 @@ const Component: React.FC<StoreProps & DispatchProp> = ({curUser, isPop, dispatc
   );
 };
 
-const mapStateToProps: (state: RootState) => StoreProps = state => {
+const mapStateToProps: (state: RootState) => StoreProps = (state) => {
   return {
     curUser: state.app!.curUser!,
     isPop: state.app!.showLoginOrRegisterPop === 'login',

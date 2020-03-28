@@ -40,7 +40,7 @@ const Component: React.FC<StoreProps & OwnProps & DispatchProp> = ({dispatch, li
   );
 };
 
-const mapStateToProps: (state: RootState) => StoreProps = state => {
+const mapStateToProps: (state: RootState) => StoreProps = (state) => {
   const thisModule = state.adminMember!;
   return {
     currentItem: thisModule.currentItem,

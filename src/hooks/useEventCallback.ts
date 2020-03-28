@@ -1,5 +1,5 @@
 import {useCallback, useEffect, useRef} from 'react';
-export default function<A extends any[]>(fn: (...args: A) => void, dependencies: any[]) {
+export default function <A extends any[]>(fn: (...args: A) => void, dependencies: any[]) {
   const ref = useRef((...args: A) => {
     console.log(new Error('Cannot call an event handler while rendering.'));
   });

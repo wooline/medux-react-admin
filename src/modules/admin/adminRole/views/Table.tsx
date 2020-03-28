@@ -49,7 +49,7 @@ const Component: React.FC<StoreProps & DispatchProp> = ({dispatch, listSearch, s
             return pre;
           }, {});
           return Object.keys(resources)
-            .map(item => purviewNames[item] + '模块')
+            .map((item) => purviewNames[item] + '模块')
             .join('，');
         },
       },
@@ -139,7 +139,7 @@ const Component: React.FC<StoreProps & DispatchProp> = ({dispatch, listSearch, s
   );
 };
 
-const mapStateToProps: (state: RootState) => StoreProps = state => {
+const mapStateToProps: (state: RootState) => StoreProps = (state) => {
   const thisModule = state.adminRole!;
   const {list, listSummary, selectedRows} = thisModule;
   return {list, listSummary, selectedRows, listSearch: thisModule.routeParams?.listSearch!};

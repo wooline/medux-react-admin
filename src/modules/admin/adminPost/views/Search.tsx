@@ -31,7 +31,7 @@ const formItems: FromItemList<FormData> = [
     label: '状态',
     formItem: (
       <Select allowClear={true} placeholder="请选择信息状态">
-        {DStatus.options.map(option => (
+        {DStatus.options.map((option) => (
           <Option key={option.key} value={option.key}>
             {option.name}
           </Option>

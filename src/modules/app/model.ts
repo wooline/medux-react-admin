@@ -30,7 +30,7 @@ export const initModelState: State = {
 export class ModelHandlers extends BaseModelHandlers<State, RootState> {
   private noticesTimer: number = 0;
   private getNotice() {
-    api.getNotices().then(notices => {
+    api.getNotices().then((notices) => {
       this.updateState({notices});
     });
   }

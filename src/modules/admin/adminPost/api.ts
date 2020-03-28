@@ -20,13 +20,13 @@ export class API extends CommonResourceAPI {
   }
   public createItem(item: UpdateItem): Promise<void> {
     const {editors, ...info} = item;
-    info.editorIds = editors.map(editor => editor.id);
+    info.editorIds = editors.map((editor) => editor.id);
     return ajax('post', '/api/post', {}, info);
   }
   public updateItem(item: UpdateItem): Promise<void> {
     const {editors, ...info} = item;
     const id = item.id;
-    info.editorIds = editors.map(editor => editor.id);
+    info.editorIds = editors.map((editor) => editor.id);
     return ajax('put', '/api/post/:id', {id}, info);
   }
 }

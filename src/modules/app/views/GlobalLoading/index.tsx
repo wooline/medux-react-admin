@@ -17,7 +17,7 @@ const Component: React.FC<StoreProps> = ({globalLoading}) => {
   ) : null;
 };
 
-const mapStateToProps: (state: RootState) => StoreProps = state => {
+const mapStateToProps: (state: RootState) => StoreProps = (state) => {
   return {
     globalLoading: state.app!.loading.global,
   };

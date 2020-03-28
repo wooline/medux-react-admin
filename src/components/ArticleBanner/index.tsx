@@ -9,7 +9,7 @@ interface Props {
   onConsult: () => void;
 }
 
-const Component: React.FC<Props> = props => {
+const Component: React.FC<Props> = (props) => {
   const {title, content, onConsult, bg} = props;
   return (
     <div className={styles.root}>

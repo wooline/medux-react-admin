@@ -21,7 +21,7 @@ if (initEnv.production) {
 }
 
 ((data: {[key: string]: any}) => {
-  Object.keys(data).forEach(key => {
+  Object.keys(data).forEach((key) => {
     window[key] = data[key];
   });
 })({metaKeys, loadView});

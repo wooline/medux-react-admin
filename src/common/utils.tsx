@@ -15,9 +15,7 @@ export function extract<T, K extends keyof T, U extends K[], P extends ExtractAr
 }
 
 export function uniqueKey(): string {
-  return Math.random()
-    .toString(16)
-    .substr(2);
+  return Math.random().toString(16).substr(2);
 }
 
 export function simpleEqual(obj1: any, obj2: any): boolean {
@@ -106,7 +104,7 @@ export function enumOptions<T extends {[key: string]: any}>(data: T) {
   const options: {key: string; name: string}[] = [];
   const nameToKey: {[key in keyof T]: T[key]} = {} as any;
   const keyToName: {[key in T[keyof T]]: string} = {} as any;
-  Object.keys(data).forEach(name => {
+  Object.keys(data).forEach((name) => {
     options.push({name, key: data[name]});
     (nameToKey as any)[name] = data[name];
     keyToName[data[name]] = name;
