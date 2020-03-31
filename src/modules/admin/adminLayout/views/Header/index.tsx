@@ -3,7 +3,7 @@ import {BellOutlined, CloseCircleOutlined, LogoutOutlined, MenuFoldOutlined, Men
 import React, {useCallback, useMemo} from 'react';
 
 import {CurUser} from 'entity/session';
-import {Link} from 'react-router-dom';
+import {Link} from '@medux/react-web-router';
 import {connect} from 'react-redux';
 import styles from './index.m.less';
 
@@ -53,7 +53,7 @@ const Component: React.FC<StoreProps & DispatchProp> = ({dispatch, siderCollapse
     <div className={styles.root}>
       <div className="main">
         {siderCollapsed ? <MenuUnfoldOutlined className="toggleSider" onClick={toggleSider} /> : <MenuFoldOutlined className="toggleSider" onClick={toggleSider} />}
-        <Link to={metaKeys.ArticleHomePathname}>
+        <Link href={metaKeys.ArticleHomePathname}>
           <QuestionCircleOutlined /> 帮助指南
         </Link>
       </div>

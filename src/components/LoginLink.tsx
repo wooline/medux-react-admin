@@ -1,6 +1,6 @@
 import React, {ReactNode, useCallback} from 'react';
 
-import {Link} from 'react-router-dom';
+import {Link} from '@medux/react-web-router';
 
 interface Props {
   className?: string;
@@ -13,7 +13,7 @@ const Component: React.FC<Props> = ({className, register, children}) => {
     sessionStorage.setItem(metaKeys.LoginRedirectSessionStorageKey, location.pathname + location.search + location.hash);
   }, []);
   return (
-    <Link className={className} to={register ? metaKeys.RegisterPathname : metaKeys.LoginPathname} onClick={onClick}>
+    <Link className={className} href={register ? metaKeys.RegisterPathname : metaKeys.LoginPathname} onClick={onClick}>
       {children}
     </Link>
   );

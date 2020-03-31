@@ -53,7 +53,7 @@
     }
   },
   "dependencies": {
-    "@medux/react-web-router": "~0.2.27",
+    "@medux/react-web-router": "~0.2.33",
     "@types/lodash": "~4.14.149",
     "antd": "~4.0.4",
     "lodash": "~4.17.15",

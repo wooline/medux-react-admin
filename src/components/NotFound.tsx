@@ -6,4 +6,4 @@ const Component: React.FC<{}> = () => (
   </div>
 );
 
-export default Component;
+export default React.memo(Component);

@@ -57,8 +57,8 @@ export default function <ListItem extends BaseListItem>(
   const onChange = useCallback(
     (pagination: {current: number; pageSize: number}, filter: any, sorter: {field: string; order: 'ascend' | 'descend' | undefined}) => {
       const {current, pageSize} = pagination;
-      const sorterField = sorter.order && sorter.field;
-      const sorterOrder = sorter.order;
+      const sorterField = (sorter.order && sorter.field) || undefined;
+      const sorterOrder = sorter.order || undefined;
       const currentSorter = [sorterField, sorterOrder].join('');
       const pageCurrent = currentSorter !== sorterStr ? 1 : current;
 

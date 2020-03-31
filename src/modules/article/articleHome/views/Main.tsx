@@ -3,15 +3,17 @@ import Anchor from 'components/Anchor';
 import ArticleBanner from 'components/ArticleBanner';
 import React from 'react';
 import Recommend from './Recommend';
-import {RouteComponentProps} from 'react-router';
 import Special from './Special';
 import banner from './imgs/banner.jpg';
 import {connect} from 'react-redux';
 import useAnchorPage from 'hooks/useAnchorPage';
 import useConsult from 'hooks/useConsult';
 
-const Component: React.FC<DispatchProp & RouteComponentProps> = ({dispatch, location, history}) => {
-  useAnchorPage(location.hash, history);
+interface StoreProps {
+  hash: string;
+}
+const Component: React.FC<StoreProps & DispatchProp> = ({dispatch, hash}) => {
+  useAnchorPage(hash, historyActions);
   const onConsult = useConsult(dispatch);
   return (
     <>
@@ -35,4 +37,10 @@ const Component: React.FC<DispatchProp & RouteComponentProps> = ({dispatch, loca
   );
 };
 
-export default connect()(React.memo(Component));
+const mapStateToProps: (state: RootState) => StoreProps = (state) => {
+  return {
+    hash: state.route.location.hash,
+  };
+};
+
+export default connect(mapStateToProps)(React.memo(Component));

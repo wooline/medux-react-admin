@@ -1,4 +1,4 @@
-import {Link} from 'react-router-dom';
+import {Link} from '@medux/react-web-router';
 import QRcode from 'assets/imgs/qr-code.jpg';
 import React from 'react';
 import styles from './index.m.less';
@@ -10,46 +10,46 @@ const Component: React.FC = () => {
         <dl>
           <dt>Medux框架系列</dt>
           <dd>
-            <Link to="/">medux/core</Link>
+            <Link href="/">medux/core</Link>
           </dd>
           <dd>
-            <Link to="/">medux/web</Link>
+            <Link href="/">medux/web</Link>
           </dd>
           <dd>
-            <Link to="/">medux/react</Link>
+            <Link href="/">medux/react</Link>
           </dd>
         </dl>
         <dl>
           <dt>资源推荐</dt>
           <dd>
-            <Link to="/">Ant Design</Link>
+            <Link href="/">Ant Design</Link>
           </dd>
           <dd>
-            <Link to="/">Ant Design Pro</Link>
+            <Link href="/">Ant Design Pro</Link>
           </dd>
           <dd>
-            <Link to="/">Typescript</Link>
+            <Link href="/">Typescript</Link>
           </dd>
         </dl>
         <dl>
           <dt>意见反馈</dt>
           <dd>
-            <Link to="/">Bug报告</Link>
+            <Link href="/">Bug报告</Link>
           </dd>
           <dd>
-            <Link to="/">在线留言反馈</Link>
+            <Link href="/">在线留言反馈</Link>
           </dd>
           <dd>
-            <Link to="/">新手入门手册</Link>
+            <Link href="/">新手入门手册</Link>
           </dd>
         </dl>
         <dl>
           <dt>联系我们</dt>
           <dd>
-            <Link to="/">wooline@qq.com</Link>
+            <Link href="/">wooline@qq.com</Link>
           </dd>
           <dd>
-            <Link to="/">QQ群号929696953</Link>
+            <Link href="/">QQ群号929696953</Link>
           </dd>
         </dl>
         <dl>

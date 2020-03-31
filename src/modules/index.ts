@@ -1,10 +1,12 @@
-import {LoadView as BaseLoadView, RootState as BaseState, RouteConfig, exportActions, getBrowserHistory, setRouteConfig} from '@medux/react-web-router';
+import * as reactWebRouter from '@medux/react-web-router';
+
+import {RouteConfig, exportActions} from '@medux/react-web-router';
 
 import adminMemberParams from 'modules/admin/adminMember/meta';
 import adminPostParams from 'modules/admin/adminPost/meta';
 import adminRoleParams from 'modules/admin/adminRole/meta';
 
-const defaultRouteParams: {[K in moduleNames]: any} = {
+export const defaultRouteParams: {[K in moduleNames]: any} = {
   app: null,
   adminLayout: null,
   adminHome: null,
@@ -16,8 +18,6 @@ const defaultRouteParams: {[K in moduleNames]: any} = {
   articleAbout: null,
   articleService: null,
 };
-
-setRouteConfig({defaultRouteParams});
 
 export enum moduleNames {
   app = 'app',
@@ -67,18 +67,22 @@ export const moduleGetter = {
 };
 export const actions = exportActions(moduleGetter);
 
-export type RootState = BaseState<typeof moduleGetter>;
+export type RootState = reactWebRouter.RootState<typeof moduleGetter>;
 
-export type LoadView = BaseLoadView<typeof moduleGetter>;
+export type RouteViews = reactWebRouter.RouteViews<typeof moduleGetter>;
 
-export const {historyActions, toUrl} = getBrowserHistory<RootState['route']['data']['params']>();
+export type LoadView = reactWebRouter.LoadView<typeof moduleGetter>;
+
+export type BrowserRouter = reactWebRouter.BrowserRouter<RootState['route']['data']['params']>;
 
 export const routeConfig: RouteConfig = {
+  '/$': '@./admin/home',
   '/': [
     'app.Main',
     {
       '/login': 'app.LoginPage',
       '/register': 'app.Register',
+      '/admin$': '@./admin/home',
       '/admin': [
         'adminLayout.Main',
         {
@@ -103,6 +107,7 @@ export const routeConfig: RouteConfig = {
           ],
         },
       ],
+      '/article$': '@./article/home',
       '/article': [
         'articleLayout.Main',
         {
