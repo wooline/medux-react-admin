@@ -1,7 +1,7 @@
-import {Select, Spin} from 'antd';
-
-import {BaseListSummary} from 'entity/common';
+import {BaseListSummary} from 'entity';
+import {LabeledValue} from 'antd/lib/select';
 import React from 'react';
+import {Select} from 'antd';
 import debounce from 'lodash/debounce';
 import styles from './index.m.less';
 
@@ -11,7 +11,6 @@ interface Item {
   id: string;
   name: string;
 }
-// type Value = Item | string;
 
 export interface Props<Resource> {
   limit?: number | [number, number];
@@ -19,8 +18,8 @@ export interface Props<Resource> {
   allowClear?: boolean;
   placeholder?: string;
   pageSize?: number;
-  value?: string | Item | (Item | string)[];
-  optionToValue?: (option: {key: string; label: React.ReactNode}) => Item;
+  value?: Item | Item[];
+  optionToValue?: (option: {value: string | number; label: React.ReactNode}) => Item;
   onChange?: (value?: Item | Item[]) => void;
   optionRender?: string | ((item: Resource) => React.ReactNode);
   fetch: (str: string, pageSize: number, pageCurrent: number) => Promise<{list: Resource[]; listSummary: BaseListSummary}>;
@@ -30,6 +29,8 @@ interface State<Resource> {
   items?: {term: string; list: Resource[]; listSummary: BaseListSummary};
   fetching: boolean;
 }
+
+const style = {width: '100%'};
 
 class Component<Resource extends {id: string} = Item> extends React.PureComponent<Props<Resource>, State<Resource>> {
   private lastFetchId = 0;
@@ -42,8 +43,8 @@ class Component<Resource extends {id: string} = Item> extends React.PureComponen
   state: State<Resource> = {
     fetching: false,
   };
-  defOptionToValue: (option: {key: string; label: React.ReactNode}) => Item = option => {
-    return {id: option.key, name: option.label?.toString() || option.key};
+  defOptionToValue: (option: {value: string | number; label: React.ReactNode}) => Item = (option) => {
+    return {id: option.value.toString(), name: option.label?.toString() || option.value.toString()};
   };
   fetch = (term: string, pageCurrent: number = 1) => {
     this.lastFetchId += 1;
@@ -54,7 +55,7 @@ class Component<Resource extends {id: string} = Item> extends React.PureComponen
       .catch(() => {
         return null;
       })
-      .then(result => {
+      .then((result) => {
         if (fetchId !== this.lastFetchId) {
           return;
         }
@@ -71,19 +72,23 @@ class Component<Resource extends {id: string} = Item> extends React.PureComponen
         }
       });
   };
-  onSearch = (str: string = '') => {
-    console.log('search', str);
+  onSearch = (str: string) => {
     if (!this.state.fetching || this.state.items) {
       this.setState({items: undefined, fetching: true});
     }
     this.fetch(str);
   };
-  onChange = (value?: {key: string; label: any} | {key: string; label: any}[]) => {
+  onFocus = () => {
+    if (!this.state.items) {
+      this.onSearch('');
+    }
+  };
+  onChange = (value?: LabeledValue | LabeledValue[]) => {
     const optionToValue = this.props.optionToValue || this.defOptionToValue;
     let selected: Item | Item[] | undefined;
     if (value) {
       if (Array.isArray(value)) {
-        selected = value.map(item => optionToValue(item));
+        selected = value.map((item) => optionToValue(item));
       } else {
         selected = optionToValue(value);
       }
@@ -92,8 +97,7 @@ class Component<Resource extends {id: string} = Item> extends React.PureComponen
     this.props.onChange && this.props.onChange(selected);
   };
   onPopupScroll = (e: React.UIEvent<HTMLDivElement>) => {
-    const {target} = e;
-    this.popupScroll(target as HTMLDivElement);
+    this.popupScroll(e.target as HTMLDivElement);
   };
   popupScroll = (target: HTMLDivElement) => {
     const {items, fetching} = this.state;
@@ -110,52 +114,53 @@ class Component<Resource extends {id: string} = Item> extends React.PureComponen
   };
   getPopupContainer = (triggerNode: HTMLElement) => triggerNode.parentElement!;
   public render() {
-    //limit === 1 ? 'default' : 'multiple'
     const {allowClear = true, placeholder = '请选择', limit = 1, tagMode, optionRender = 'name', value} = this.props;
     const {items, fetching} = this.state;
-    let selected: {key: string; label: string} | {key: string; label: string}[] | undefined;
-    let mode: 'default' | 'multiple' | 'tags' = 'default';
+    let selected: LabeledValue | LabeledValue[] | undefined;
+    let mode: undefined | 'multiple' | 'tags' = undefined;
     if (limit !== 1) {
       mode = tagMode ? 'tags' : 'multiple';
     }
     if (Array.isArray(value)) {
-      selected = value.map(item => {
+      selected = value.map((item) => {
         if (typeof item === 'string') {
-          return {key: item, label: item};
+          return {key: item, label: item, value: item};
         } else {
-          return {key: item.id, label: item.name};
+          return {key: item.id, label: item.name, value: item.id};
         }
       });
     } else if (value) {
       if (typeof value === 'string') {
-        selected = {key: value, label: value};
+        selected = {key: value, label: value, value: value};
       } else {
-        selected = {key: value.id, label: value.name};
+        selected = {key: value.id, label: value.name, value: value.id};
       }
     }
-    const renderOption: (item: Resource) => React.ReactNode = typeof optionRender === 'string' ? item => item[optionRender] : optionRender;
+    const renderOption: (item: Resource) => React.ReactNode = typeof optionRender === 'string' ? (item) => item[optionRender] : optionRender;
     return (
-      <Select
+      <Select<LabeledValue | LabeledValue[]>
         dropdownClassName={fetching ? styles.fetching : ''}
         labelInValue={true}
         showArrow={true}
         showSearch={true}
         mode={mode}
         getPopupContainer={this.getPopupContainer}
-        onFocus={this.onSearch}
+        onFocus={this.onFocus}
         value={selected}
         allowClear={allowClear}
         placeholder={placeholder}
         filterOption={false}
         onSearch={this.onSearch}
         onChange={this.onChange}
-        style={{width: '100%'}}
+        style={style}
         onPopupScroll={this.onPopupScroll}
       >
         {items && items.list.length && (
           <OptGroup label={'结果共' + items.listSummary.totalItems + '条'}>
-            {items.list.map(item => (
-              <Option key={item.id}>{renderOption(item)}</Option>
+            {items.list.map((item) => (
+              <Option value={item.id} key={item.id}>
+                {renderOption(item)}
+              </Option>
             ))}
           </OptGroup>
         )}

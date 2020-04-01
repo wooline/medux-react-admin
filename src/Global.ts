@@ -1,11 +1,9 @@
 // 将某些常用变量提升至global，对全局变量有洁癖者可忽略此文件
 import './Prepose';
 
-import {actions, historyActions, moduleNames, pageNames, toUrl} from './modules';
-import {message, metaKeys} from './common/utils';
+import {actions, moduleNames, pageNames} from './modules';
+import {message, metaKeys} from './common';
 
-type HistoryActions = typeof historyActions;
-type ToUrl = typeof toUrl;
 type Actions = typeof actions;
 type MetaKeys = typeof metaKeys;
 
@@ -13,11 +11,13 @@ type EnumModuleNames = typeof moduleNames;
 type Message = typeof message;
 
 declare global {
+  type BrowserRouter = import('./modules').BrowserRouter;
   type RootState = import('./modules').RootState;
+  type RouteViews = import('./modules').RouteViews;
   type LoadView = import('./modules').LoadView;
   type RouteData = RootState['route']['data'];
   type BaseRouteData = import('@medux/react-web-router').RouteData;
-  type CommonErrorCode = import('./entity/common').CommonErrorCode;
+  type CommonErrorCode = import('./common').CommonErrorCode;
   type DispatchProp = import('react-redux').DispatchProp;
   const pageNames: {[key: string]: string};
   const message: Message;
@@ -32,13 +32,15 @@ declare global {
   const actions: Actions;
   const moduleNames: EnumModuleNames;
   const metaKeys: MetaKeys;
-  const historyActions: HistoryActions;
-  const toUrl: ToUrl;
+  //BrowserRouter变量放在./index.ts中
+  const historyActions: BrowserRouter['historyActions'];
+  const toUrl: BrowserRouter['toUrl'];
+  const transformRoute: BrowserRouter['transformRoute'];
   const global: any;
 }
 
 ((data: {[key: string]: any}) => {
-  Object.keys(data).forEach(key => {
+  Object.keys(data).forEach((key) => {
     window[key] = data[key];
   });
-})({actions, moduleNames, toUrl, historyActions, message, pageNames});
+})({actions, moduleNames, message, pageNames});

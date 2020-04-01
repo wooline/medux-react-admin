@@ -1,16 +1,20 @@
-import {Button, Form, Icon, Input} from 'antd';
+import {Button, Form, Input} from 'antd';
 import {ItemDetail, UpdateItem} from 'entity/role';
+import React, {useCallback} from 'react';
 
-import {FormComponentProps} from 'antd/lib/form';
+import {CaretDownOutlined} from '@ant-design/icons';
+import {CustomError} from 'common';
 import PurviewEditor from 'components/PurviewEditor';
-import React from 'react';
 import {connect} from 'react-redux';
 import {getFormDecorators} from 'common/utils';
 import styles from './index.m.less';
+import useEventCallback from 'hooks/useEventCallback';
+
+type FormData = Omit<UpdateItem, 'id'>;
 
 const FormItem = Form.Item;
 
-export const formItemLayout = {
+const formItemLayout = {
   labelCol: {
     span: 6,
   },
@@ -18,113 +22,87 @@ export const formItemLayout = {
     span: 18,
   },
 };
+const purviewsLayout = {
+  labelCol: {
+    span: 0,
+  },
+  wrapperCol: {
+    span: 25,
+  },
+};
 
-interface StoreProps {
-  currentOperation?: 'detail' | 'edit' | 'create';
-  currentItem?: ItemDetail;
+interface OwnProps {
+  currentItem: ItemDetail;
 }
 
-interface State {
-  purviewsError?: string;
-}
+const fromDecorators = getFormDecorators<FormData>({
+  roleName: {rules: [{required: true, message: '请输入角色名称'}]},
+  purviews: {rules: [{required: true, message: '请至少配置一项权限', type: 'array'}]},
+  remark: {},
+});
 
-class Component extends React.PureComponent<StoreProps & DispatchProp & FormComponentProps, State> {
-  state: State = {};
-
-  validatePurview = (rule: {message: string}, value: string[] | undefined, callback: (err?: string) => void) => {
-    if (!value || !value.length) {
-      this.setState({purviewsError: rule.message});
-      callback(rule.message);
-    } else {
-      callback();
-    }
-  };
-  onPurviewChange = (arr?: string[]) => {
-    if (arr && arr.length) {
-      this.setState({purviewsError: ''});
-    }
-  };
-  onHide = () => {
-    this.props.dispatch(actions.adminRole.execCurrentItem());
-  };
-  onReset = () => {
-    this.setState({purviewsError: ''});
-    this.props.form.resetFields();
-  };
-
-  private onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const {validateFields, getFieldError} = this.props.form;
-    validateFields((errors, values: UpdateItem) => {
-      if (!errors) {
-        const id = this.props.currentItem!.id;
-        if (id) {
-          this.props.dispatch(actions.adminRole.updateItem({...values, id}));
-        } else {
-          this.props.dispatch(actions.adminRole.createItem({...values, id}));
-        }
-      } else {
-        const errorField = Object.keys(errors)[0];
-        const errMsg = getFieldError(errorField)!.join(', ');
-        message.error(errMsg);
+const Component: React.FC<OwnProps & DispatchProp> = ({dispatch, currentItem}) => {
+  const [form] = Form.useForm();
+  const initialValues: FormData = currentItem;
+  const handleSubmit = useCallback(
+    (error: CustomError) => {
+      if (error instanceof CustomError) {
+        form.setFields([{name: 'purviews', errors: [error.message]}]);
+        message.error(error.message!);
       }
-    });
-  };
-  public render() {
-    const {form, currentItem} = this.props;
-    const {purviewsError = ''} = this.state;
-    if (currentItem) {
-      const formDecorators = getFormDecorators<UpdateItem>(
-        form,
-        {
-          roleName: {rules: [{required: true, message: '请输入角色名称'}]},
-          purviews: {rules: [{validator: this.validatePurview, message: '请至少配置一项权限'}]},
-        },
-        mapPropsToFields(this.props)
-      );
+    },
+    [form]
+  );
+  const onHide = useCallback(() => {
+    dispatch(actions.adminRole.closeCurrentItem());
+  }, [dispatch]);
+  const onReset = useCallback(() => {
+    form.resetFields();
+  }, [form]);
 
-      return (
-        <Form className={styles.root} layout="horizontal" {...formItemLayout} onSubmit={this.onSubmit}>
-          <div>
-            <FormItem label="角色名称">{formDecorators.roleName(<Input autoComplete="off" allowClear={true} placeholder="请输入角色名称" />)}</FormItem>
-            <FormItem label="备注">{formDecorators.remark(<Input.TextArea autoComplete="off" allowClear={true} placeholder="请输入备注" />)}</FormItem>
-          </div>
-          <div className="purviews">
-            <h4>
-              <Icon type="caret-down" style={{marginRight: 5}} />
-              权限设置
-            </h4>
-            {formDecorators.purviews(<PurviewEditor onChange={this.onPurviewChange} />)}
-          </div>
-          <div className={'purviewsError' + (purviewsError ? ' show' : '')}>* {purviewsError}</div>
-          <div className="g-actions">
-            <Button type="primary" htmlType="submit">
-              提交
-            </Button>
-            <Button type="dashed" onClick={this.onReset}>
-              重置
-            </Button>
-            <Button onClick={this.onHide}>取消</Button>
-          </div>
-        </Form>
-      );
-    }
-    return null;
-  }
-}
+  const id = currentItem.id;
+  const onFinish = useEventCallback(
+    (values: FormData) => {
+      if (id) {
+        dispatch(actions.adminRole.updateItem({...values, id}, handleSubmit));
+      } else {
+        dispatch(actions.adminRole.createItem({...values, id}, handleSubmit));
+      }
+    },
+    [dispatch, handleSubmit, id]
+  );
 
-const mapPropsToFields = (props: StoreProps) => {
-  return {
-    ...props.currentItem,
-  };
+  return (
+    <Form className={styles.root} layout="horizontal" form={form} {...formItemLayout} onFinish={onFinish as any} initialValues={initialValues}>
+      <div>
+        <FormItem label="角色名称" {...fromDecorators.roleName}>
+          <Input autoComplete="off" allowClear={true} placeholder="请输入角色名称" />
+        </FormItem>
+        <FormItem label="备注" {...fromDecorators.remark}>
+          <Input.TextArea autoComplete="off" allowClear={true} placeholder="请输入备注" />
+        </FormItem>
+      </div>
+
+      <FormItem className="purviews" {...purviewsLayout}>
+        <h4>
+          <CaretDownOutlined style={{marginRight: 5}} />
+          权限设置
+        </h4>
+        <FormItem {...fromDecorators.purviews} noStyle {...purviewsLayout}>
+          <PurviewEditor />
+        </FormItem>
+      </FormItem>
+      <div className="g-actions">
+        <Button type="primary" htmlType="submit">
+          提交
+        </Button>
+        <Button type="dashed" onClick={onReset}>
+          重置
+        </Button>
+        <Button onClick={onHide}>取消</Button>
+      </div>
+    </Form>
+  );
 };
 
-const mapStateToProps: (state: RootState) => StoreProps = state => {
-  const thisModule = state.adminRole!;
-  return {
-    currentItem: thisModule.currentItem,
-    currentOperation: thisModule.routeParams!.currentOperation,
-  };
-};
-
-export default connect(mapStateToProps)(Form.create()(Component));
+export default connect()(React.memo(Component));

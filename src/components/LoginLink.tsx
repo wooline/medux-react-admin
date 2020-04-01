@@ -1,22 +1,22 @@
-import {Link} from 'react-router-dom';
-import React from 'react';
+import React, {ReactNode, useCallback} from 'react';
+
+import {Link} from '@medux/react-web-router';
 
 interface Props {
   className?: string;
   register?: boolean;
+  children?: ReactNode;
 }
 
-class Component extends React.PureComponent<Props> {
-  onClick = () => {
+const Component: React.FC<Props> = ({className, register, children}) => {
+  const onClick = useCallback(() => {
     sessionStorage.setItem(metaKeys.LoginRedirectSessionStorageKey, location.pathname + location.search + location.hash);
-  };
-  public render() {
-    return (
-      <Link className={this.props.className} to={this.props.register ? metaKeys.RegisterPathname : metaKeys.LoginPathname} onClick={this.onClick}>
-        {this.props.children}
-      </Link>
-    );
-  }
-}
+  }, []);
+  return (
+    <Link className={className} href={register ? metaKeys.RegisterPathname : metaKeys.LoginPathname} onClick={onClick}>
+      {children}
+    </Link>
+  );
+};
 
-export default Component;
+export default React.memo(Component);

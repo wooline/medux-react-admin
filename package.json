@@ -4,7 +4,7 @@
   "description": "",
   "scripts": {
     "stylelint": "stylelint \"./src/**/*.less\"",
-    "eslint": "eslint \"./src/**/*.ts\"",
+    "eslint": "eslint \"./src/**/*.{ts,tsx}\"",
     "types-check": "tsc",
     "lint": "npm run eslint && npm run stylelint && npm run types-check",
     "start": "npm run lint && cross-env NODE_ENV=development SITE=local node build/start.js",
@@ -46,22 +46,23 @@
         },
         "xfwd": true,
         "secure": false,
-        "changeOrigin": true
+        "changeOrigin": true,
+        "timeout": 3000,
+        "proxyTimeout": 3000
       }
     }
   },
   "dependencies": {
-    "@medux/react-web-router": "~0.2.26",
+    "@medux/react-web-router": "~0.2.33",
     "@types/lodash": "~4.14.149",
-    "antd": "~3.26.13",
-    "cookie-parser": "~1.4.4",
+    "antd": "~4.0.4",
     "lodash": "~4.17.15",
     "path-to-regexp": "~6.1.0",
-    "react": "~16.12.0",
-    "react-dom": "~16.12.0"
+    "react": "~16.13.0",
+    "react-dom": "~16.13.0"
   },
   "devDependencies": {
-    "@medux/dev-pkg": "~0.2.26",
+    "@medux/dev-pkg": "~0.2.27",
     "@medux/dev-utils": "~0.2.24",
     "@types/react": "~16.9.23",
     "@types/react-dom": "~16.9.5",

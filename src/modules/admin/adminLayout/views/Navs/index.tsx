@@ -1,18 +1,24 @@
-import {Icon, Menu} from 'antd';
+import {DashboardOutlined, ProfileOutlined, TeamOutlined} from '@ant-design/icons';
 
 import ListKeyLink from 'components/ListKeyLink';
+import {Menu} from 'antd';
 import {MenuItem} from 'entity/role';
-import {PickOptional} from 'common/utils';
+import {PickOptional} from 'common';
 import React from 'react';
 import {connect} from 'react-redux';
 import {pathToRegexp} from 'path-to-regexp';
 import styles from './index.m.less';
 
+const Icons = {
+  dashboard: DashboardOutlined,
+  user: TeamOutlined,
+  post: ProfileOutlined,
+};
 const {SubMenu} = Menu;
 const matchCache: {[path: string]: RegExp} = {};
 
 function getSelectedMenuKeys(linksKeys: {[key: string]: string[]}, pathname: string, match: (pathname: string, key: string) => boolean, alias: {[key: string]: string}, lastedOpenKeys: string[]) {
-  const selectedKeys = Object.keys(linksKeys).filter(key => match(pathname, key));
+  const selectedKeys = Object.keys(linksKeys).filter((key) => match(pathname, key));
   if (selectedKeys.length) {
     const selected = alias[selectedKeys[0]] || selectedKeys[0];
     const openKeys = lastedOpenKeys.length ? Array.from(new Set([...lastedOpenKeys, ...linksKeys[selected]])) : linksKeys[selected];
@@ -37,12 +43,12 @@ function mapMenuData(menus: MenuItem[]): {links: {[key: string]: string[]}; fold
       maps[path].push(parent, ...maps[parent]);
     }
     if (item.children && item.children.length) {
-      item.children.forEach(subItem => checkData(subItem, path));
+      item.children.forEach((subItem) => checkData(subItem, path));
       folders.push(path);
     } else {
       links.push(path);
       if (keys.length) {
-        keys.forEach(key => {
+        keys.forEach((key) => {
           alias[key] = path;
           maps[key] = maps[path];
           links.push(key);
@@ -50,7 +56,7 @@ function mapMenuData(menus: MenuItem[]): {links: {[key: string]: string[]}; fold
       }
     }
   };
-  menus.forEach(subItem => checkData(subItem));
+  menus.forEach((subItem) => checkData(subItem));
   return {
     alias,
     links: links.reduce((pre, cur) => {
@@ -68,13 +74,14 @@ function getIcon(icon: string | undefined) {
     return <img src={icon} alt="icon" className="icon sider-menu-item-img" />;
   }
   if (typeof icon === 'string') {
-    return <Icon type={icon} />;
+    const Icon = Icons[icon] || DashboardOutlined;
+    return <Icon />;
   }
   return icon;
 }
 function filterDisable(data: MenuItem[]): MenuItem[] {
   return data
-    .map(item => {
+    .map((item) => {
       if (item.disable) {
         return null;
       }
@@ -91,7 +98,7 @@ function filterDisable(data: MenuItem[]): MenuItem[] {
 }
 
 function generateMenu(menusData: MenuItem[], folderHandler: (item: {key: string}) => void) {
-  return menusData.map(item => {
+  return menusData.map((item) => {
     const keys = typeof item.keys === 'string' ? [item.keys] : [...item.keys];
     const path = keys.shift() as string;
     const link = item.link || path;
@@ -253,7 +260,7 @@ class Component extends React.Component<StoreProps & DispatchProp, State> {
   }
 }
 
-const mapStateToProps: (state: RootState) => StoreProps = state => {
+const mapStateToProps: (state: RootState) => StoreProps = (state) => {
   return {
     dataSource: state.adminLayout!.menuData || [],
     siderCollapsed: !!state.adminLayout!.siderCollapsed,

@@ -1,16 +1,18 @@
 import {ListItem, ListSearch} from 'entity/member';
+import React, {useCallback} from 'react';
 
 import Detail from './Detail';
 import {ItemDetail} from 'entity/member';
+import {ItemView} from 'entity';
 import {Modal} from 'antd';
-import React from 'react';
 import Search from './Search';
 import SelectorTable from './SelectorTable';
 import {connect} from 'react-redux';
 
 interface StoreProps {
+  listSearch: ListSearch;
+  itemView: ItemView;
   currentItem?: ItemDetail;
-  currentOperation?: 'detail' | 'edit' | 'create';
 }
 interface OwnProps {
   fixedSearchField?: Partial<ListSearch>;
@@ -20,32 +22,31 @@ interface OwnProps {
   onChange?: (items: ListItem[]) => void;
 }
 
-class Component extends React.PureComponent<StoreProps & DispatchProp & OwnProps> {
-  onHideCurrent = () => {
-    this.props.dispatch(actions.adminMember.execCurrentItem());
-  };
-  public render() {
-    const {currentOperation, fixedSearchField, defaultSearch = fixedSearchField, onChange, limit, value, currentItem} = this.props;
-    return (
-      <div className="g-selector">
-        <Search disableRoute={true} fixedFields={fixedSearchField} defaultSearch={defaultSearch} />
-        <SelectorTable onSelectdChange={onChange} selectedRows={value} selectLimit={limit} />
-        {currentOperation === 'detail' && currentItem && (
-          <Modal wrapClassName="g-noBorderHeader" visible={true} onCancel={this.onHideCurrent} footer={null} title="用户详情" width={900}>
-            <Detail />
-          </Modal>
-        )}
-      </div>
-    );
-  }
-}
+const Component: React.FC<StoreProps & OwnProps & DispatchProp> = ({dispatch, listSearch, currentItem, itemView, fixedSearchField, defaultSearch = fixedSearchField, limit, value, onChange}) => {
+  const onHideCurrent = useCallback(() => {
+    dispatch(actions.adminMember.closeCurrentItem());
+  }, [dispatch]);
 
-const mapStateToProps: (state: RootState) => StoreProps = state => {
+  return (
+    <div className="g-selector">
+      <Search listSearch={listSearch} fixedFields={fixedSearchField} defaultSearch={defaultSearch} />
+      <SelectorTable onSelectdChange={onChange} selectedRows={value} selectLimit={limit} defaultSearch={defaultSearch} />
+      {currentItem && itemView === 'summary' && (
+        <Modal wrapClassName="g-noBorderHeader" visible={true} onCancel={onHideCurrent} footer={null} title="用户详情" width={900}>
+          <Detail primaryMode={false} currentItem={currentItem} />
+        </Modal>
+      )}
+    </div>
+  );
+};
+
+const mapStateToProps: (state: RootState) => StoreProps = (state) => {
   const thisModule = state.adminMember!;
   return {
     currentItem: thisModule.currentItem,
-    currentOperation: thisModule.routeParams?.currentOperation,
+    listSearch: thisModule.routeParams!.listSearch,
+    itemView: thisModule.routeParams!.itemView,
   };
 };
 
-export default connect(mapStateToProps)(Component);
+export default connect(mapStateToProps)(React.memo(Component));

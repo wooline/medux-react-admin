@@ -1,20 +1,18 @@
-import {Link} from 'react-router-dom';
+import {Link} from '@medux/react-web-router';
 import Logo from 'assets/imgs/logo.svg';
 import React from 'react';
 import styles from './index.m.less';
 
-class Component extends React.PureComponent {
-  public render() {
-    return (
-      <div className={styles.root}>
-        <Link to={metaKeys.UserHomePathname} className="panel g-clearfix">
-          <img className="logo" width="50" src={Logo} alt="通用管理后台" />
-          <h1>通用管理后台</h1>
-          <span className="ver">V1.2.3</span>
-        </Link>
-      </div>
-    );
-  }
-}
+const Component: React.FC = () => {
+  return (
+    <div className={styles.root}>
+      <Link href={metaKeys.UserHomePathname} className="panel g-clearfix">
+        <img className="logo" width="50" src={Logo} alt="通用管理后台" />
+        <h1>通用管理后台</h1>
+        <span className="ver">V1.2.3</span>
+      </Link>
+    </div>
+  );
+};
 
-export default Component;
+export default React.memo(Component);

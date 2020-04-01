@@ -1,8 +1,8 @@
+import React, {useCallback} from 'react';
 import ResourceSimpleSelector, {Props as ResourceSimpleSelectorProps} from 'components/ResourceSimpleSelector';
 
 import {ListItem} from 'entity/role';
-import {OmitSelf} from 'common/utils';
-import React from 'react';
+import {OmitSelf} from 'common';
 import api from '../api';
 
 export interface Item {
@@ -11,15 +11,12 @@ export interface Item {
 }
 type OwnProps = OmitSelf<ResourceSimpleSelectorProps<ListItem>, 'fetch'>;
 
-class Component extends React.PureComponent<OwnProps> {
-  fetch(term: string, pageSize: number, pageCurrent: number) {
+const Component: React.FC<OwnProps> = ({placeholder = '请选择角色', optionRender = 'roleName', ...props}) => {
+  const fetch = useCallback((term: string, pageSize: number, pageCurrent: number) => {
     return api.searchList({term, pageSize, pageCurrent});
-  }
+  }, []);
 
-  public render() {
-    const {placeholder = '请选择角色', optionRender = 'roleName', ...props} = this.props;
-    return <ResourceSimpleSelector<ListItem> {...props} placeholder={placeholder} optionRender={optionRender} fetch={this.fetch} />;
-  }
-}
+  return <ResourceSimpleSelector<ListItem> {...props} placeholder={placeholder} optionRender={optionRender} fetch={fetch} />;
+};
 
-export default Component;
+export default React.memo(Component);

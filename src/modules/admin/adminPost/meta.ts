@@ -14,7 +14,6 @@ const defaultRouteParams: RouteParams = {
     status: undefined,
     createdTime: undefined,
   },
-  currentOperation: undefined,
   listView: '',
   _listKey: '',
   itemId: '',

@@ -1,65 +1,46 @@
-import {createForm, getFormDecorators} from 'common/utils';
-
-import {FormComponentProps} from 'antd/lib/form';
+import {FromItemList} from 'common/utils';
 import {Input} from 'antd';
 import {ListSearch} from 'entity/role';
+import {ListSearchFormData} from 'entity';
 import PurviewSelector from 'components/PurviewSelector';
 import React from 'react';
 import SearchForm from 'components/SearchForm';
 import {connect} from 'react-redux';
+import useEventCallback from 'hooks/useEventCallback';
 
-interface StoreProps {
-  listSearch?: ListSearch;
-}
+type FormData = ListSearchFormData<ListSearch>;
 
 interface OwnProps {
-  fixedFields?: Partial<ListSearch>;
-  defaultSearch?: Partial<ListSearch>;
-  disableRoute?: boolean;
+  listSearch: ListSearch;
+  defaultSearch?: ListSearch;
+  fixedFields?: Partial<FormData>;
 }
-class Component extends React.PureComponent<StoreProps & FormComponentProps & DispatchProp & OwnProps> {
-  private onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.stopPropagation();
-    event.preventDefault();
-    const {form, dispatch, disableRoute, fixedFields = {}} = this.props;
-    form.validateFields((errors, values: ListSearch) => {
-      if (!errors) {
-        Object.assign(values, fixedFields);
-        values.pageCurrent = 1;
-        values.sorterField = undefined;
-        values.sorterOrder = undefined;
-        dispatch(actions.adminRole.searchList(values, 'current', undefined, disableRoute));
-      }
-    });
-  };
-  private onReset = () => {
-    this.props.dispatch(actions.adminRole.searchList(this.props.defaultSearch || {}, 'default', undefined, this.props.disableRoute));
-  };
-  public render() {
-    const {fixedFields, form} = this.props;
-    const formDecorators = getFormDecorators<ListSearch>(form);
-    const items = [
-      {label: '角色名称', item: formDecorators.roleName(<Input autoComplete="off" allowClear={true} placeholder="请输入角色名称" />)},
-      {
-        label: '用户权限',
-        col: 2,
-        item: formDecorators.purviews(<PurviewSelector mode="multiple" />),
-      },
-    ];
-    return (
-      <div className="g-search">
-        <SearchForm disableFields={fixedFields && Object.keys(fixedFields)} onReset={this.onReset} onSubmit={this.onSubmit} items={items}></SearchForm>
-      </div>
-    );
-  }
-}
+const formItems: FromItemList<FormData> = [
+  {name: 'roleName', label: '角色名称', formItem: <Input autoComplete="off" allowClear={true} placeholder="请输入角色名称" />},
+  {
+    name: 'purviews',
+    label: '用户权限',
+    col: 2,
+    formItem: <PurviewSelector mode="multiple" />,
+  },
+];
 
-const mapStateToProps: (state: RootState) => StoreProps = state => {
-  return {listSearch: state.adminRole!.routeParams?.listSearch};
+const Component: React.FC<OwnProps & DispatchProp> = ({dispatch, listSearch, defaultSearch, fixedFields}) => {
+  const onFinish = useEventCallback(
+    (values: FormData) => {
+      dispatch(actions.adminRole.doListSearch({...values}));
+    },
+    [dispatch]
+  );
+  const onReset = useEventCallback(() => {
+    dispatch(actions.adminRole.resetListSearch(defaultSearch));
+  }, [defaultSearch, dispatch]);
+
+  return (
+    <div className="g-search">
+      <SearchForm<FormData> values={listSearch} fixedFields={fixedFields} onReset={onReset} onFinish={onFinish} items={formItems}></SearchForm>
+    </div>
+  );
 };
-const mapPropsToFields = (props: StoreProps) => {
-  return {
-    ...props.listSearch,
-  };
-};
-export default connect(mapStateToProps)(createForm(Component, mapPropsToFields));
+
+export default connect()(React.memo(Component));

@@ -1,4 +1,4 @@
-import {BaseListItem, BaseListSearch, BaseListSummary, CommonResource, CommonResourceRouteParams} from './common';
+import {BaseListItem, BaseListSearch, BaseListSummary, CommonResource, CommonResourceRouteParams} from './index';
 
 import {enumOptions} from 'common/utils';
 

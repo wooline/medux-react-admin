@@ -6,9 +6,10 @@ import defaultRouteParams from './meta';
 
 export interface State extends CommonResourceState<Resource> {}
 
-export const initModelState: State = {};
+export const initModelState: State = {routeParams: defaultRouteParams};
 
 export class ModelHandlers extends CommonResourceHandlers<Resource, State, RootState> {
-  protected defaultRouteParams = defaultRouteParams;
-  protected api = api;
+  constructor(moduleName: string, store: any) {
+    super({defaultRouteParams, api}, moduleName, store);
+  }
 }

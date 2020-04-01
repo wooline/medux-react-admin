@@ -3,20 +3,18 @@ import React from 'react';
 import styles from './index.m.less';
 
 const Link = Anchor.Link;
-interface StoreProps {
+interface Props {
   navs: string[][];
 }
 
-class Component extends React.PureComponent<StoreProps> {
-  public render() {
-    return (
-      <Anchor className={styles.root}>
-        {this.props.navs.map((item, idx) => (
-          <Link key={idx} href={`#${item[1]}`} title={item[0]} />
-        ))}
-      </Anchor>
-    );
-  }
-}
+const Component: React.FC<Props> = (props) => {
+  return (
+    <Anchor className={styles.root}>
+      {props.navs.map((item, idx) => (
+        <Link key={idx} href={`#${item[1]}`} title={item[0]} />
+      ))}
+    </Anchor>
+  );
+};
 
-export default Component;
+export default React.memo(Component);

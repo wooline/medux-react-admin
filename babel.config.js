@@ -20,7 +20,7 @@ module.exports = {
         alias: pathsConfig.alias,
       },
     ],
-    ['import', {libraryName: 'antd', style: true}],
+    ['import', {libraryName: 'antd', libraryDirectory: 'es', style: true}],
     '@babel/plugin-syntax-dynamic-import',
     ['@babel/plugin-proposal-decorators', {legacy: false, decoratorsBeforeExport: true}],
     ['@babel/plugin-proposal-class-properties', {loose: true}],

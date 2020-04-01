@@ -7,7 +7,7 @@ const {Option, OptGroup} = Select;
 
 function generateOptions() {
   const options: {[key: string]: string[]} = {};
-  Object.keys(purviewNames).forEach(item => {
+  Object.keys(purviewNames).forEach((item) => {
     const [resource, action] = item.split('.');
     if (!action) {
       options[resource] = [];
@@ -20,29 +20,28 @@ function generateOptions() {
 
 const options = generateOptions();
 
-class Component extends React.PureComponent<SelectProps> {
-  filterOption = (input: string, option: React.ReactElement) => {
-    const text = option.props.children;
-    if (typeof text === 'string') {
-      return text.toLowerCase().indexOf(input.toLowerCase()) >= 0;
-    }
-    return false;
-  };
-  public render() {
-    return (
-      <Select allowClear={true} placeholder="请选择用户权限" {...this.props} autoClearSearchValue={false} filterOption={this.filterOption}>
-        {Object.keys(options).map(group => (
-          <OptGroup key={group} label={purviewNames[group]}>
-            {options[group].map(option => (
-              <Option key={option} value={option}>
-                {purviewNames[group] + ' > ' + purviewNames[option]}
-              </Option>
-            ))}
-          </OptGroup>
-        ))}
-      </Select>
-    );
+const filterOption = (input: string, option: React.ReactElement) => {
+  const text = option.props.children;
+  if (typeof text === 'string') {
+    return text.toLowerCase().indexOf(input.toLowerCase()) >= 0;
   }
-}
+  return false;
+};
 
-export default Component;
+const Component: React.FC<SelectProps<string[]>> = (props) => {
+  return (
+    <Select allowClear={true} placeholder="请选择用户权限" {...props} autoClearSearchValue={false} filterOption={filterOption as any}>
+      {Object.keys(options).map((group) => (
+        <OptGroup key={group} label={purviewNames[group]}>
+          {options[group].map((option) => (
+            <Option key={option} value={option}>
+              {purviewNames[group] + ' > ' + purviewNames[option]}
+            </Option>
+          ))}
+        </OptGroup>
+      ))}
+    </Select>
+  );
+};
+
+export default React.memo(Component);

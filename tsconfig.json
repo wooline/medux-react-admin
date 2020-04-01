@@ -4,7 +4,7 @@
     "rootDir": "src",
     "outDir": "dist",
     "target": "esnext",
-    "module": "commonjs",
+    "module": "esnext",
     "moduleResolution": "node",
     "declaration": false,
     "isolatedModules": true,

@@ -16,6 +16,9 @@ export class API extends CommonResourceAPI {
   public createItem(item: UpdateItem): Promise<void> {
     return ajax('post', '/api/role', {}, item);
   }
+  public getDetailItem(id: string): Promise<ListItem> {
+    return ajax('get', '/api/role/:id', {id});
+  }
 }
 
 export default new API();

@@ -1,12 +1,12 @@
-import {Icon} from 'antd';
 // 某些全局变量必须前置引入
 import React from 'react';
+import {SyncOutlined} from '@ant-design/icons';
 import {loadView as baseLoadView} from '@medux/react-web-router';
-import {metaKeys} from './common/utils';
+import {metaKeys} from './common';
 
 const DefLoading = () => (
   <div className="g-viewLoader">
-    <Icon type="sync" spin />
+    <SyncOutlined spin />
   </div>
 );
 const loadView = (moduleName: string, viewName: never, options?: any, loading: React.ComponentType<any> = DefLoading) => baseLoadView(moduleName, viewName, options, loading);
@@ -21,7 +21,7 @@ if (initEnv.production) {
 }
 
 ((data: {[key: string]: any}) => {
-  Object.keys(data).forEach(key => {
+  Object.keys(data).forEach((key) => {
     window[key] = data[key];
   });
 })({metaKeys, loadView});

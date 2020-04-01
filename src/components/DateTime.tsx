@@ -6,11 +6,8 @@ const dateFormat = 'YYYY-MM-DD HH:mm:ss';
 interface Props {
   date: string | number;
 }
-class Component extends React.PureComponent<Props> {
-  public render() {
-    const {date} = this.props;
-    return <>{date ? moment(date).format(dateFormat) : ''}</>;
-  }
-}
+const Component: React.FC<Props> = ({date}) => {
+  return <>{date ? moment(date).format(dateFormat) : ''}</>;
+};
 
-export default Component;
+export default React.memo(Component);

@@ -1,8 +1,9 @@
 import {ActionTypes, BaseModelHandlers, BaseModelState, LoadingState, effect, errorAction, reducer} from '@medux/react-web-router';
-import {CommonErrorCode, CustomError, ProjectConfig} from 'entity/common';
+import {CommonErrorCode, CustomError} from 'common';
 import {CurUser, LoginRequest, Notices, RegisterRequest, guest} from 'entity/session';
 
 import {HandledError} from 'common';
+import {ProjectConfig} from 'entity';
 import api from './api';
 
 // 定义本模块的State类型
@@ -29,7 +30,7 @@ export const initModelState: State = {
 export class ModelHandlers extends BaseModelHandlers<State, RootState> {
   private noticesTimer: number = 0;
   private getNotice() {
-    api.getNotices().then(notices => {
+    api.getNotices().then((notices) => {
       this.updateState({notices});
     });
   }
@@ -134,6 +135,10 @@ export class ModelHandlers extends BaseModelHandlers<State, RootState> {
       }
     };
     window.onerror = (message: any, url: any, line: any, column: any, error: any) => {
+      if (!error) {
+        console.log(message);
+        return;
+      }
       if (error.code !== CommonErrorCode.handled && !error.dispatched) {
         error.dispatched = true;
         this.dispatch(errorAction(error));

@@ -11,7 +11,6 @@ const defaultRouteParams: RouteParams = {
     roleName: undefined,
     purviews: undefined,
   },
-  currentOperation: undefined,
   listView: '',
   _listKey: '',
   itemId: '',

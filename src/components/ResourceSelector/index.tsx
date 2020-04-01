@@ -29,7 +29,7 @@ interface State<Resource = any, Value = any> {
 }
 
 function equalValue(a: Item[], b: Item[]): boolean {
-  return a.map(item => item.id).join(',') === b.map(item => item.id).join(',');
+  return a.map((item) => item.id).join(',') === b.map((item) => item.id).join(',');
 }
 function getLimitTips(limit: number | [number, number]): string {
   if (typeof limit === 'number') {
@@ -107,7 +107,7 @@ class Component<Resource extends Item = Item, Value extends Item = Item> extends
     } else {
       if (max === 1) {
         const cur = this.state.items && this.state.items[0];
-        this.setState({items: cur ? items.filter(item => item.id !== cur.id).slice(0, 1) : items.slice(0, 1)}, this.onOk);
+        this.setState({items: cur ? items.filter((item) => item.id !== cur.id).slice(0, 1) : items.slice(0, 1)}, this.onOk);
       } else {
         message.error(`您最多只能选择${max}项`);
       }
@@ -121,7 +121,7 @@ class Component<Resource extends Item = Item, Value extends Item = Item> extends
     let inputValue: string[] = [];
     if (!children) {
       children = <Input readOnly autoComplete="off" />;
-      inputValue = value.map(item => item.name || item.id);
+      inputValue = value.map((item) => item.name || item.id);
     }
     return (
       <div>
