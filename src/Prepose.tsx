@@ -9,7 +9,9 @@ const DefLoading = () => (
     <SyncOutlined spin />
   </div>
 );
-const loadView = (moduleName: string, viewName: never, options?: any, loading: React.ComponentType<any> = DefLoading) => baseLoadView(moduleName, viewName, options, loading);
+const DefError = () => <div className="g-viewLoader">error</div>;
+const loadView = (moduleName: string, viewName: never, options?: any, loading: React.ComponentType<any> = DefLoading, error: React.ComponentType<any> = DefError) =>
+  baseLoadView(moduleName, viewName, options, loading, error);
 
 if (initEnv.production) {
   (window as any).console = {

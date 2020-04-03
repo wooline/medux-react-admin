@@ -14,8 +14,8 @@ const userOutlined = <UserOutlined />;
 const lockOutlined = <LockOutlined />;
 
 const initialValues: Partial<FormData> = {
-  username: '',
-  password: '',
+  username: 'admin',
+  password: '123456',
   keep: false,
 };
 

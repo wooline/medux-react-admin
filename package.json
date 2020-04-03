@@ -53,7 +53,7 @@
     }
   },
   "dependencies": {
-    "@medux/react-web-router": "~0.2.33",
+    "@medux/react-web-router": "~0.2.36",
     "@types/lodash": "~4.14.149",
     "antd": "~4.0.4",
     "lodash": "~4.17.15",
@@ -63,14 +63,17 @@
   },
   "devDependencies": {
     "@medux/dev-pkg": "~0.2.27",
-    "@medux/dev-utils": "~0.2.24",
+    "@medux/dev-utils": "~0.2.35",
+    "@pmmmwh/react-refresh-webpack-plugin": "~0.2.0",
     "@types/react": "~16.9.23",
     "@types/react-dom": "~16.9.5",
     "babel-plugin-import": "~1.13.0",
+    "react-refresh":"~0.8.1",
     "less": "~3.10.1",
     "less-loader": "~5.0.0",
     "postcss-less": "~3.1.4",
     "sass-resources-loader": "~2.0.1",
-    "typescript": "~3.8.3"
+    "typescript": "~3.8.3",
+    "webpack-hot-middleware":"~2.25.0"
   }
 }

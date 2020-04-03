@@ -19,6 +19,7 @@ declare global {
   type BaseRouteData = import('@medux/react-web-router').RouteData;
   type CommonErrorCode = import('./common').CommonErrorCode;
   type DispatchProp = import('react-redux').DispatchProp;
+  const module: any;
   const pageNames: {[key: string]: string};
   const message: Message;
   //初始环境变量放在index.html中, 以防止被 webpack 打包

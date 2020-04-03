@@ -1,5 +1,17 @@
 :global {
   :local(.root) {
-    background: transparent;
+    .panel {
+      background: transparent;
+      border: none;
+      display: flex;
+      padding: 0;
+      justify-content: space-between;
+      > article {
+        width: 49%;
+        background: #fff;
+        padding: 20px;
+        border: 1px solid @light-bd-color;
+      }
+    }
   }
 }

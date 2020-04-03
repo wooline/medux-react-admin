@@ -5,11 +5,11 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const HtmlReplaceWebpackPlugin = require('html-replace-webpack-plugin');
+const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
 const pathsConfig = require('./path.conifg');
 const prodModel = process.env.NODE_ENV == 'production';
 const {clientGlobal, clientPublicPath} = require(path.join(pathsConfig.envPath, './env'));
 const lessVars = require(path.join(pathsConfig.srcPath, 'assets/css/antd-vars.js'));
-
 const fileName = '[name].[hash:8]';
 
 clientGlobal.production = prodModel;
@@ -41,7 +41,7 @@ const getLocalIdent = (context, localIdentName, localName) => {
   return generateScopedName(localName, context.resourcePath);
 };
 
-const cssLoader = enableCssModule => {
+const cssLoader = (enableCssModule) => {
   return [
     prodModel
       ? {
@@ -88,7 +88,7 @@ const clientConfig = {
     chunkFilename: `client/js/${fileName}.chunk.js`,
     publicPath: clientPublicPath,
     // Point sourcemap entries to original disk location (format as URL on Windows)
-    devtoolModuleFilenameTemplate: info => path.relative(pathsConfig.srcPath, info.absoluteResourcePath).replace(/\\/g, '/'),
+    devtoolModuleFilenameTemplate: (info) => path.relative(pathsConfig.srcPath, info.absoluteResourcePath).replace(/\\/g, '/'),
   },
   resolve: {
     extensions: ['.js', '.json', '.ts', '.tsx'],
@@ -133,10 +133,12 @@ const clientConfig = {
       {
         test: /\.(tsx|ts)?$/,
         include: pathsConfig.moduleSearch,
-        loader: 'babel-loader',
-        options: {
-          cacheDirectory: true,
-        },
+        use: [
+          {
+            loader: require.resolve('@medux/dev-utils/dist/webpack-loader/module-hot-loader'),
+          },
+          'babel-loader?cacheDirectory=true',
+        ],
       },
       {
         test: /\.less$/,
@@ -192,6 +194,7 @@ const clientConfig = {
         filename: `client/css/${fileName}.css`,
       }),
     new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
+    !prodModel && new ReactRefreshWebpackPlugin({disableRefreshCheck: true}),
     !prodModel && new webpack.HotModuleReplacementPlugin(),
     new webpack.ProgressPlugin(),
   ].filter(Boolean),

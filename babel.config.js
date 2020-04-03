@@ -1,4 +1,5 @@
 const pathsConfig = require('./build/path.conifg');
+const prodModel = process.env.NODE_ENV == 'production';
 
 module.exports = {
   presets: [
@@ -33,6 +34,7 @@ module.exports = {
         useESModules: true,
       },
     ],
+    !prodModel && 'react-refresh/babel',
   ].filter(Boolean),
   ignore: ['**/*.d.ts'],
 };

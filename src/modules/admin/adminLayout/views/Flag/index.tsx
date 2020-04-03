@@ -9,7 +9,7 @@ const Component: React.FC = () => {
       <Link href={metaKeys.UserHomePathname} className="panel g-clearfix">
         <img className="logo" width="50" src={Logo} alt="通用管理后台" />
         <h1>通用管理后台</h1>
-        <span className="ver">V1.2.3</span>
+        <span className="ver">V1.0.0</span>
       </Link>
     </div>
   );

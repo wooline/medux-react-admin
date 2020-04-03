@@ -18,7 +18,7 @@ function clearConsole() {
 const compiler = webpack(webpackConfig);
 
 const devServer = new WebpackDevServer(compiler, devServerConfig);
-devServer.listen(port, '0.0.0.0', error => {
+devServer.listen(port, '0.0.0.0', (error) => {
   if (error) {
     console.error(error);
     process.exit(1);
@@ -27,7 +27,7 @@ devServer.listen(port, '0.0.0.0', error => {
   console.info(chalk`...starting {red development server} on {green ${server}/} \n`);
   return null;
 });
-['SIGINT', 'SIGTERM'].forEach(sig => {
+['SIGINT', 'SIGTERM'].forEach((sig) => {
   process.on(sig, () => {
     devServer.close();
     process.exit();

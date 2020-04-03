@@ -26,7 +26,7 @@ interface StoreProps {
 }
 
 const Component: React.FC<StoreProps & DispatchProp> = ({routeViews, projectConfigLoaded, curUserLoaded}) => {
-  const title = `${pageNames[location.pathname] || document.title || pageNames['/']}`;
+  const title = `@Medux-${pageNames[location.pathname] || document.title || pageNames['/']}`;
   React.useEffect(() => {
     document.title = title;
   }, [title]);

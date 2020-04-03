@@ -81,7 +81,7 @@ export const routeConfig: RouteConfig = {
     'app.Main',
     {
       '/login': 'app.LoginPage',
-      '/register': 'app.Register',
+      '/register': 'app.RegisterPage',
       '/admin$': '@./admin/home',
       '/admin': [
         'adminLayout.Main',

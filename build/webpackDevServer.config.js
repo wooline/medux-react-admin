@@ -25,7 +25,7 @@ const config = {
     ignored: /node_modules/,
   },
   proxy,
-  before: app => {
+  before: (app) => {
     app.use(bodyParser.urlencoded({extended: true}));
     app.use(bodyParser.json());
     app.use(cookieParser());
