@@ -1,14 +1,19 @@
+import 'antd/es/date-picker/style/index';
+
 import React, {useMemo} from 'react';
 
-import {DatePicker} from 'antd';
-import moment from 'moment';
+import dayjs from 'dayjs';
+import dayjsGenerateConfig from 'rc-picker/lib/generate/dayjs';
+import generatePicker from 'antd/es/date-picker/generatePicker';
 import useEventCallback from 'hooks/useEventCallback';
+
+const DatePicker = generatePicker<dayjs.Dayjs>(dayjsGenerateConfig);
 
 export interface Props {
   className?: string;
   allowClear?: boolean;
   style?: React.CSSProperties;
-  disabledDate?: (currentDate: moment.Moment | null) => boolean;
+  disabledDate?: (currentDate: dayjs.Dayjs | null) => boolean;
   value?: [number, number];
   onChange?: (value?: [number, number]) => void;
 }
@@ -28,21 +33,21 @@ const Component: React.FC<Props> = (props) => {
     [onChange]
   );
   const ranges = useMemo<{[key: string]: [any, any]}>(() => {
-    const today = moment().endOf('day');
+    const today = dayjs().endOf('day');
     return {
-      今天: [moment().startOf('day'), moment().endOf('day')],
-      本周: [moment().startOf('week'), moment().endOf('week')],
-      本月: [moment().startOf('month'), moment().endOf('month')],
-      今年: [moment().startOf('year'), moment().endOf('year')],
-      近周: [moment().subtract(1, 'week').startOf('day'), today],
-      近月: [moment().subtract(1, 'month').startOf('day'), today],
-      近年: [moment().subtract(1, 'year').startOf('day'), today],
+      今天: [dayjs().startOf('day'), dayjs().endOf('day')],
+      本周: [dayjs().startOf('week'), dayjs().endOf('week')],
+      本月: [dayjs().startOf('month'), dayjs().endOf('month')],
+      今年: [dayjs().startOf('year'), dayjs().endOf('year')],
+      近周: [dayjs().subtract(1, 'week').startOf('day'), today],
+      近月: [dayjs().subtract(1, 'month').startOf('day'), today],
+      近年: [dayjs().subtract(1, 'year').startOf('day'), today],
     };
   }, []);
   const values: [any, any] = useMemo(() => {
     const tvalue = value || [0, 0];
-    const start = tvalue[0] ? moment(tvalue[0]) : undefined;
-    const end = tvalue[1] ? moment(tvalue[1]) : undefined;
+    const start = tvalue[0] ? dayjs(tvalue[0]) : undefined;
+    const end = tvalue[1] ? dayjs(tvalue[1]) : undefined;
     return [start, end];
   }, [value]);
 
