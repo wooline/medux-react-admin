@@ -3,13 +3,13 @@
   "version": "2.0.0",
   "description": "",
   "scripts": {
-    "stylelint": "stylelint --cache \"./src/**/*.less\"",
-    "eslint": "eslint --cache \"./src/**/*.{ts,tsx}\"",
+    "stylelint": "stylelint \"./src/**/*.less\"",
+    "eslint": "eslint \"./src/**/*.{ts,tsx}\"",
     "types-check": "tsc",
     "lint": "npm run eslint && npm run stylelint && npm run types-check",
-    "start": "cross-env NODE_ENV=development SITE=local node build/start.js",
-    "build": "cross-env NODE_ENV=production SITE=local node build/build.js",
-    "prod": "cross-env NODE_ENV=production node build/build.js",
+    "start": "npm run types-check && cross-env NODE_ENV=development SITE=local node build/start.js",
+    "build": "npm run types-check && cross-env NODE_ENV=production SITE=local node build/build.js",
+    "prod": "npm run types-check && cross-env NODE_ENV=production node build/build.js",
     "analyzer": "cross-env NODE_ENV=production SITE=analyzer node build/build.js"
   },
   "husky": {
@@ -85,6 +85,7 @@
     "@medux/react-web-router": "~0.2.37",
     "@types/lodash": "~4.14.149",
     "antd": "~4.0.4",
+    "antd-dayjs-webpack-plugin":"1.0.0",
     "lodash": "~4.17.15",
     "path-to-regexp": "~6.1.0",
     "react": "~16.13.0",

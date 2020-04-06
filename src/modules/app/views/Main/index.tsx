@@ -1,4 +1,4 @@
-import 'moment/locale/zh-cn';
+import 'dayjs/locale/zh-cn';
 
 import {ConfigProvider} from 'antd';
 import GlobalLoading from '../GlobalLoading';

@@ -1,5 +1,5 @@
 import React from 'react';
-import moment from 'moment';
+import dayjs from 'dayjs';
 
 const dateFormat = 'YYYY-MM-DD HH:mm:ss';
 
@@ -7,7 +7,7 @@ interface Props {
   date: string | number;
 }
 const Component: React.FC<Props> = ({date}) => {
-  return <>{date ? moment(date).format(dateFormat) : ''}</>;
+  return <>{date ? dayjs(date).format(dateFormat) : ''}</>;
 };
 
 export default React.memo(Component);

@@ -4,6 +4,7 @@ const TerserJSPlugin = require('terser-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const StylelintPlugin = require('stylelint-webpack-plugin');
 const HardSourceWebpackPlugin = require('hard-source-webpack-plugin');
+const AntdDayjsWebpackPlugin = require('antd-dayjs-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -204,11 +205,12 @@ const clientConfig = {
         ignoreOrder: true,
         filename: `client/css/${fileName}.css`,
       }),
-    new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
+    //new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
+    new AntdDayjsWebpackPlugin(),
+    new StylelintPlugin({files: 'src/**/*.less', cache: true}),
     !prodModel && new ReactRefreshWebpackPlugin({disableRefreshCheck: true}),
     !prodModel && new webpack.HotModuleReplacementPlugin(),
     env === 'analyzer' && new BundleAnalyzerPlugin({generateStatsFile: true}),
-    new StylelintPlugin({files: 'src/**/*.less', cache: true}),
     //new HardSourceWebpackPlugin(),
     new webpack.ProgressPlugin(),
   ].filter(Boolean),
