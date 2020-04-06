@@ -5,3 +5,5 @@ conf/locConf.js
 *.log
 .DS_Store
 .history
+.stylelintcache
+.eslintcache

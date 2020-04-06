@@ -1,13 +1,17 @@
 const path = require('path');
 const webpack = require('webpack');
 const TerserJSPlugin = require('terser-webpack-plugin');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const StylelintPlugin = require('stylelint-webpack-plugin');
+const HardSourceWebpackPlugin = require('hard-source-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const HtmlReplaceWebpackPlugin = require('html-replace-webpack-plugin');
 const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
+const {vendors} = require('../package.json');
 const pathsConfig = require('./path.conifg');
-const prodModel = process.env.NODE_ENV == 'production';
+const {env, prodModel} = pathsConfig;
 const {clientGlobal, clientPublicPath} = require(path.join(pathsConfig.envPath, './env'));
 const lessVars = require(path.join(pathsConfig.srcPath, 'assets/css/antd-vars.js'));
 const fileName = '[name].[hash:8]';
@@ -100,19 +104,26 @@ const clientConfig = {
   optimization: prodModel
     ? {
         splitChunks: {
+          chunks: 'all',
           cacheGroups: {
             styles: {
               name: 'styles',
               test: /[\\/]node_modules[\\/].+\.(css|less)$/,
-              chunks: 'all',
               enforce: true,
             },
             css: {
               name: 'css',
               test: /[\\/]src[\\/].+\.(css|less)$/,
-              chunks: 'all',
               enforce: true,
             },
+            ...Object.keys(vendors).reduce((prev, cur) => {
+              prev[cur] = {
+                name: cur,
+                test: new RegExp('[\\\\/]node_modules[\\\\/](' + vendors[cur].join('|') + ')'),
+                priority: 1,
+              };
+              return prev;
+            }, {}),
           },
         },
         minimizer: [new TerserJSPlugin({}), new OptimizeCSSAssetsPlugin({})],
@@ -134,10 +145,9 @@ const clientConfig = {
         test: /\.(tsx|ts)?$/,
         include: pathsConfig.moduleSearch,
         use: [
-          {
-            loader: require.resolve('@medux/dev-utils/dist/webpack-loader/module-hot-loader'),
-          },
-          'babel-loader?cacheDirectory=true',
+          {loader: require.resolve('@medux/dev-utils/dist/webpack-loader/module-hot-loader')},
+          {loader: 'babel-loader', options: {cacheDirectory: true}},
+          {loader: 'eslint-loader', options: {cache: true}},
         ],
       },
       {
@@ -191,11 +201,15 @@ const clientConfig = {
     new HtmlReplaceWebpackPlugin(htmlReplace),
     prodModel &&
       new MiniCssExtractPlugin({
+        ignoreOrder: true,
         filename: `client/css/${fileName}.css`,
       }),
     new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
     !prodModel && new ReactRefreshWebpackPlugin({disableRefreshCheck: true}),
     !prodModel && new webpack.HotModuleReplacementPlugin(),
+    env === 'analyzer' && new BundleAnalyzerPlugin({generateStatsFile: true}),
+    new StylelintPlugin({files: 'src/**/*.less', cache: true}),
+    //new HardSourceWebpackPlugin(),
     new webpack.ProgressPlugin(),
   ].filter(Boolean),
 };

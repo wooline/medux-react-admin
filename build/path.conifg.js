@@ -15,4 +15,4 @@ const moduleSearch = [srcPath];
 const moduleAlias = {
   conf: envPath,
 };
-module.exports = {rootPath, srcPath, apiPath, configPath, publicPath, distPath, mockPath, moduleAlias, moduleSearch, envPath, envPublicPath};
+module.exports = {env, prodModel, rootPath, srcPath, apiPath, configPath, publicPath, distPath, mockPath, moduleAlias, moduleSearch, envPath, envPublicPath};
