@@ -1,4 +1,4 @@
-import {ActionTypes, Actions, BaseModelHandlers, BaseModelState, RouteData, effect, reducer} from '@medux/react-web-router';
+import {Actions, BaseModelHandlers, BaseModelState, RouteData, effect, reducer} from '@medux/react-web-router';
 import {BaseListItem, BaseListSearch, BaseListSummary, CommonResource} from 'entity';
 
 import {simpleEqual} from 'common/utils';
@@ -274,8 +274,8 @@ export abstract class CommonResourceHandlers<
     this.dispatch(this.actions.putCurrentItem(currentItem, itemId, itemView, _itemKey));
   }
   @effect(null)
-  protected async [`this/${ActionTypes.MInit},this/${ActionTypes.MRouteParams}`](args: any) {
-    const preRouteParams: Resource['RouteParams'] = this.beforeState?.routeParams! || {};
+  protected async ['this.Init,this.RouteParams'](args: any) {
+    const preRouteParams: Resource['RouteParams'] = this.prevState?.routeParams! || {};
     //const preRouteParams: Resource['RouteParams'] = this.state.preRouteParams! || {};
     const routeParams: Resource['RouteParams'] = this.state.routeParams! || {};
     const {listView, listSearch, _listKey, itemView, itemId, _itemKey} = routeParams;

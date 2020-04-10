@@ -1151,10 +1151,10 @@
     "@types/yargs" "^15.0.0"
     chalk "^3.0.0"
 
-"@medux/core@^0.2.37":
-  version "0.2.37"
-  resolved "https://registry.yarnpkg.com/@medux/core/-/core-0.2.37.tgz#e8b3bc0a9d3fb895583586bac9f13c892be5c5bc"
-  integrity sha512-JnNa73tiKymiGrkO5uv5w5ZwMEFGUB7EZ6HmUL/WIbNpWAB0TWIx3yvTO3PkMObRSyu76Fw+FvfpFL/SBypbhQ==
+"@medux/core@^0.2.38":
+  version "0.2.38"
+  resolved "https://registry.yarnpkg.com/@medux/core/-/core-0.2.38.tgz#b4f1eb09e3e93fba9c62be82f8be878c45a43622"
+  integrity sha512-KNMPVXdwFsTRKUw049Jtvqyhm8JczrwzPdaRv7rhCB30SXyt1SRN8syzwyD0RnTgHXo85SIA1ltjoH+XoHTJkA==
   dependencies:
     redux "~4.0.5"
 
@@ -1233,47 +1233,47 @@
     webpack-manifest-plugin "~2.2.0"
     yargs "~15.3.1"
 
-"@medux/dev-utils@~0.2.37":
-  version "0.2.37"
-  resolved "https://registry.yarnpkg.com/@medux/dev-utils/-/dev-utils-0.2.37.tgz#3bda20df17b51cf6839b85473e55c57addc51254"
-  integrity sha512-sET606lpsDu0tv9UpDAWNtFKLFuuqt9RblorifK9ytU2zFJImCRFvqDFNwFVUX+yBT8zknh1ad1TBv5QNUm24w==
+"@medux/dev-utils@~0.2.38":
+  version "0.2.38"
+  resolved "https://registry.yarnpkg.com/@medux/dev-utils/-/dev-utils-0.2.38.tgz#30c3dae4dbbc34d36f41df3248ce9645550d76f6"
+  integrity sha512-2QPVf+82OIiG13SEzeQ94JRpPoQmf1DS+YRLKSAgagEQPUIUJNGDo1X6kKzbI+XCfI1T6fyi0suzDWRtammpZg==
   dependencies:
-    "@medux/core" "^0.2.37"
+    "@medux/core" "^0.2.38"
 
-"@medux/react-web-router@~0.2.37":
-  version "0.2.37"
-  resolved "https://registry.yarnpkg.com/@medux/react-web-router/-/react-web-router-0.2.37.tgz#3f4c113601abc410114945edf7206ab9da0caa29"
-  integrity sha512-Gbzsy5EHJnrI/yZUwlba3/ANB+KEeExQt7MhTbdvRr78h/BaZroUF8FakLhs7LVeAyMiVkOAmqD6IRpegCn/Tg==
+"@medux/react-web-router@~0.2.38":
+  version "0.2.38"
+  resolved "https://registry.yarnpkg.com/@medux/react-web-router/-/react-web-router-0.2.38.tgz#4d917c737e0c436b90eaf134a40e2cb24eb09bee"
+  integrity sha512-JV9UEe9ctf+EwigFp9W9205GtKzyfd33sCkK0/giIj4YA1voIhjel2QgFLvvkRf7smYxtMiPJ6B9eEenTvZSPA==
   dependencies:
-    "@medux/core" "^0.2.37"
-    "@medux/react" "^0.2.37"
-    "@medux/route-plan-a" "^0.2.37"
-    "@medux/web" "^0.2.37"
+    "@medux/core" "^0.2.38"
+    "@medux/react" "^0.2.38"
+    "@medux/route-plan-a" "^0.2.38"
+    "@medux/web" "^0.2.38"
 
-"@medux/react@^0.2.37":
-  version "0.2.37"
-  resolved "https://registry.yarnpkg.com/@medux/react/-/react-0.2.37.tgz#2f5e74fba8e31f06f36ea3de4dfdd1119e4153f8"
-  integrity sha512-j4275qjRL511mn94psgi/wNbRKi3i5hxd/sVpluMEl5WIU5SjKlJcoyL6vw1wrBs2/Tah9oIEVsE/pa8PsA7ow==
+"@medux/react@^0.2.38":
+  version "0.2.38"
+  resolved "https://registry.yarnpkg.com/@medux/react/-/react-0.2.38.tgz#a4c87091ac1e957883e1fe6bc3aef4ea7dd9786e"
+  integrity sha512-s97oxPi/D6C4pmbkYP5F7gxny2RbDcf2sRCVzHS2BZAGDdreYj61edSWbWO0m0INun1awwImYl/sdtCBOYZA3g==
   dependencies:
-    "@medux/core" "^0.2.37"
+    "@medux/core" "^0.2.38"
     "@types/react-redux" "~7.1.7"
     react-redux "~7.2.0"
 
-"@medux/route-plan-a@^0.2.37":
-  version "0.2.37"
-  resolved "https://registry.yarnpkg.com/@medux/route-plan-a/-/route-plan-a-0.2.37.tgz#a5fb4bfe0ea7414d231ee5eab2a44f42c9e76420"
-  integrity sha512-rkdOzFagyY4/32apFNN32INHiGfevRys8X6WGU2ynUqTwZ3/Nz6LiLDHjnFCSoHxr4mb9mkEyZMR/zWPxFh2jw==
+"@medux/route-plan-a@^0.2.38":
+  version "0.2.38"
+  resolved "https://registry.yarnpkg.com/@medux/route-plan-a/-/route-plan-a-0.2.38.tgz#a39e5e0535a662111e8a97651807b00a620e58af"
+  integrity sha512-KkK6RqHrx3f9TsrNFWMWBW0nN1E5Xj2XfIJZmH8fg54gVdtfFZckDMDKZvT7i/SftNbnBilDP9M+15Hjoujf3Q==
   dependencies:
-    "@medux/core" "^0.2.37"
+    "@medux/core" "^0.2.38"
     deep-extend "~0.6.0"
 
-"@medux/web@^0.2.37":
-  version "0.2.37"
-  resolved "https://registry.yarnpkg.com/@medux/web/-/web-0.2.37.tgz#dbb3a4b44a332f8d5fda2f17f9acc180de5e9542"
-  integrity sha512-zuWJD7N19c80FjcMDpeXQydN2vSH4wjMeDp9eb7cOgjkaPmjo35vu/YXjXhCxXCQd5bxXIGdY9fx9vTHKuJUGQ==
+"@medux/web@^0.2.38":
+  version "0.2.38"
+  resolved "https://registry.yarnpkg.com/@medux/web/-/web-0.2.38.tgz#722e9e833c64d67f1bb2efeb2341d56b05f8e20f"
+  integrity sha512-VB0aw4wdjoQroVboNVfgy5YrOLRl2I4r5G4nNWWeT/crCRqXcKBwD48HNifoWP6FeCd1SPqykgAr1RPKwu8Xzg==
   dependencies:
-    "@medux/core" "^0.2.37"
-    "@medux/route-plan-a" "^0.2.37"
+    "@medux/core" "^0.2.38"
+    "@medux/route-plan-a" "^0.2.38"
     "@types/history" "~4.7.2"
     history "~4.10.1"
 

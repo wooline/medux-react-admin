@@ -128,7 +128,7 @@ export class ModelHandlers extends BaseModelHandlers<State, RootState> {
     }
   }
   @effect(null)
-  protected async [`this/${ActionTypes.MInit}`]() {
+  protected async ['this.Init']() {
     window.onunhandledrejection = (e: {reason: any}) => {
       if (e.reason && e.reason.code !== CommonErrorCode.handled) {
         this.dispatch(errorAction(e.reason));

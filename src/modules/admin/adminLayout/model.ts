@@ -108,7 +108,7 @@ export class ModelHandlers extends BaseModelHandlers<State, RootState> {
     this.updateState({tabNavEditor: undefined});
   }
   @effect(null)
-  protected async [`this/${ActionTypes.MInit}, ${ActionTypes.RouteChange}`]() {
+  protected async ['this.Init, medux.RouteChange']() {
     if (this.rootState.route.data.views.adminLayout && !this.rootState.app!.curUser!.hasLogin) {
       throw new UnauthorizedError(true);
     }
