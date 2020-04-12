@@ -38,12 +38,6 @@ const Component: React.FC<StoreProps & DispatchProp> = ({routeViews, projectConf
           {routeViews.app?.RegisterPage && <RegisterPage />}
           {routeViews.adminLayout?.Main && <AdminLayout />}
           {routeViews.articleLayout?.Main && <ArticleLayout />}
-          {/* <Redirect exact path="/" to="/admin/" />
-          <Route exact path="/login" component={LoginPage} />
-          <Route exact path="/register" component={RegisterPage} />
-          <Route path="/admin" component={AdminLayout} />
-          <Route path="/article" component={ArticleLayout} />
-          <Route component={NotFound} /> */}
         </Switch>
         <GlobalLoading />
         <RegisterPop />

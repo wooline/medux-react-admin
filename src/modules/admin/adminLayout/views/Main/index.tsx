@@ -40,14 +40,6 @@ const Component: React.FC<StoreProps> = ({routeViews, siderCollapsed, hasLogin})
             {routeViews.adminMember?.List && <AdminMember />}
             {routeViews.adminPost?.List && <AdminPost />}
           </Switch>
-          {/*
-            <Redirect exact path="/admin" to="/admin/home" />
-
-            <Route path="/admin/role/:listView" component={AdminRole} />
-            <Route path="/admin/member/:listView" component={AdminMember} />
-            <Route path="/admin/post/:listView" component={AdminPost} />
-            <Route component={NotFound} />
-          </Switch> */}
         </Content>
       </Layout>
     </Layout>
