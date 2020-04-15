@@ -189,6 +189,10 @@ const clientConfig = {
           name: `client/media/${fileName}.[ext]`,
         },
       },
+      {
+        test: /\.md$/,
+        loader: 'raw-loader',
+      },
     ],
   },
   plugins: [
@@ -208,7 +212,7 @@ const clientConfig = {
     new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
     //new AntdDayjsWebpackPlugin(),
     new StylelintPlugin({files: 'src/**/*.less', cache: true}),
-    !prodModel && new ReactRefreshWebpackPlugin({disableRefreshCheck: true}),
+    !prodModel && new ReactRefreshWebpackPlugin({disableRefreshCheck: true, overlay: false}),
     !prodModel && new webpack.HotModuleReplacementPlugin(),
     env === 'analyzer' && new BundleAnalyzerPlugin({generateStatsFile: true}),
     //new HardSourceWebpackPlugin(),

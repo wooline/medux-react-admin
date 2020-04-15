@@ -230,4 +230,49 @@
       }
     }
   }
+  :local(.markdown) {
+    h2,
+    h3 {
+      margin-top: 0.5em;
+    }
+    code {
+      background-color: rgba(27, 31, 35, 0.05);
+      border-radius: 3px;
+      font-style: italic;
+    }
+    a,
+    strong,
+    code {
+      padding: 0.2em;
+    }
+    ul {
+      padding-inline-start: 2em;
+      padding-bottom: 0.5em;
+    }
+    blockquote {
+      padding: 0 1em;
+      color: #6a737d;
+      border-left: 0.25em solid #dfe2e5;
+      :last-child {
+        margin-bottom: 0;
+      }
+    }
+    pre {
+      padding: 16px;
+      overflow: auto;
+      font-size: 85%;
+      line-height: 1.45;
+      background-color: #f6f8fa;
+      border-radius: 3px;
+      word-break: normal;
+      word-wrap: normal;
+      margin-bottom: 1em;
+
+      code {
+        padding: 0;
+        background-color: transparent;
+        border-radius: 0;
+      }
+    }
+  }
 }

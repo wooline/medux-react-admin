@@ -1,6 +1,4 @@
 import 'Global';
-import 'assets/css/global.m.less';
-import 'assets/css/override.less';
 
 import {defaultRouteParams, moduleGetter, routeConfig} from 'modules';
 

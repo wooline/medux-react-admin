@@ -6,6 +6,7 @@
   "files.eol": "\n",
   "typescript.tsdk": "node_modules/typescript/lib",
   "typescript.updateImportsOnFileMove.enabled": "never",
+  "editor.formatOnSave": true,
   "editor.codeActionsOnSave": {
     "source.organizeImports": false,
     "source.fixAll": true

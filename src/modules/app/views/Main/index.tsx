@@ -1,3 +1,5 @@
+import 'assets/css/global.m.less';
+import 'assets/css/override.less';
 import 'moment/locale/zh-cn';
 
 import {ConfigProvider} from 'antd';
