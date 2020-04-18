@@ -1,6 +1,6 @@
 {
-  "name": "medux-demo-spa-admin",
-  "version": "2.0.0",
+  "name": "medux-react-admin",
+  "version": "1.0.0",
   "description": "",
   "scripts": {
     "stylelint": "stylelint \"./src/**/*.less\"",
@@ -10,7 +10,8 @@
     "start": "npm run types-check && cross-env NODE_ENV=development SITE=local node build/start.js",
     "build-local": "npm run types-check && cross-env NODE_ENV=production SITE=local node build/build.js",
     "build-prod": "npm run types-check && cross-env NODE_ENV=production SITE=prod node build/build.js",
-    "analyzer": "cross-env NODE_ENV=production SITE=analyzer node build/build.js"
+    "analyzer": "cross-env NODE_ENV=production SITE=analyzer node build/build.js",
+    "push": "scp -r dist/prod/* root@127.0.0.1:/var/www/medux-react-admin"
   },
   "husky": {
     "hooks": {
@@ -34,7 +35,7 @@
     "chrome >= 70"
   ],
   "baseConf": {
-    "siteName": "SPA Demo",
+    "siteName": "@medux",
     "clientPublicPath": "/",
     "server": "http://localhost:7445",
     "mock": true,

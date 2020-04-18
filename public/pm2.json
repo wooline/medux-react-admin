@@ -1,0 +1,14 @@
+{
+  "apps": [
+    {
+      "name": "medux-react-admin",
+      "cwd": "./",
+      "script": "start.js",
+      "error_file": "./logs/app-err.log",
+      "out_file": "./logs/app-out.log",
+      "merge_logs": true,
+      "log_date_format": "YYYY-MM-DD HH:mm:ss",
+      "autorestart": true
+    }
+  ]
+}

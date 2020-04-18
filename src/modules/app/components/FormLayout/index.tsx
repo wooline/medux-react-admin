@@ -15,7 +15,7 @@ const Component: React.FC<Props> = ({children}) => {
               <DingdingOutlined className="logo" /> <Link href={metaKeys.ArticleHomePathname}>帮助中心 &gt;</Link>
             </div>
             <h2>欢迎使用 Medux</h2>
-            <p>服务于企业级产品的设计体系，基于确定和自然的设计价值观上的模块化解决方案，让设计者和开发者专注于更好的用户体验。</p>
+            <p>本项目主要用来展示如何将 @medux 应用于 web 后台管理系统，你可能看不到丰富的后台 UI 控件及界面，因为这不是重点，网上这样的轮子已经很多了，而本项目想着重表达的是“通用化解题思路”</p>
           </div>
           <div className="form">{children}</div>
         </div>

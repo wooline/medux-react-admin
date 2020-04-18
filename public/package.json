@@ -4,18 +4,20 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node start.js",
+    "pm2": "pm2 start pm2.json"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@medux/dev-utils": "0.2.35",
+    "@medux/dev-utils": "0.2.40",
     "express": "4.17.1",
-    "body-parser":"1.19.0",
-    "cookie-parser":"1.4.5",
+    "body-parser": "1.19.0",
+    "cookie-parser": "1.4.5",
     "chalk": "4.0.0",
     "axios": "0.19.2",
     "json-format": "1.0.1",
+    "mockjs": "1.1.0",
     "http-proxy-middleware": "1.0.3"
   }
 }

@@ -1,5 +1,5 @@
 import {Link} from '@medux/react-web-router';
-import QRcode from 'assets/imgs/qr-code.jpg';
+import QRcode from 'assets/imgs/qq.png';
 import React from 'react';
 import styles from './index.m.less';
 

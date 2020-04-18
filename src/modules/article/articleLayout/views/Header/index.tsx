@@ -4,7 +4,7 @@ import React, {useCallback} from 'react';
 import {CurUser} from 'entity/session';
 import {Link} from '@medux/react-web-router';
 import LoginLink from 'components/LoginLink';
-import Logo from 'assets/imgs/logo.svg';
+import Logo from 'assets/imgs/logo.png';
 import {connect} from 'react-redux';
 import styles from './index.m.less';
 

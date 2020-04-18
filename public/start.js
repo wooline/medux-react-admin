@@ -1,7 +1,7 @@
 const express = require('express');
 const chalk = require('chalk');
 const fs = require('fs');
-const { createProxyMiddleware  = require('http-proxy-middleware');
+const {createProxyMiddleware} = require('http-proxy-middleware');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const devMock = require('@medux/dev-utils/dist/express-middleware/dev-mock');
