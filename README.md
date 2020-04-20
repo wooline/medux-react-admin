@@ -1,6 +1,6 @@
 # 项目介绍
 
-本项目主要用来展示如何将@medux 应用于 web 后台管理系统，你可能看不到丰富的后台 UI 控件及界面，因为这不是重点，网上这样的轮子已经很多了。而本项目想着重表达的是**通用化解题思路**
+本项目主要用来展示如何将 [**@medux**](https://github.com/wooline/medux) 应用于 web 后台管理系统，你可能看不到丰富的后台 UI 控件及界面，因为这不是重点，网上这样的轮子已经很多了。而本项目想着重表达的是通用化解题思路
 
 - [**在线预览**](http://medux-react-admin.80zp.com)
 
@@ -24,7 +24,8 @@ yarn install
 ### 以开发模式运行
 
 - 首先 copy 一份环境配置：将/conf/dev 目录复制一份并改名为 local，这是本地的项目配置文件，你可以修改里面的配置而不影响其它人。
-- 然后运行 `yarn start`，会自动启动一个开发服务器
+- 然后运行 `yarn start`，会自动启动一个开发服务器。
+- 开发模式时 React 热更新使用最新的 [React Fast Refresh](https://www.npmjs.com/package/react-refresh) 方案，需要安装最新的 React Developer Tools。由于该方案还在进一步完善中，目前出现错误时会有一个 Error Overlay 警告层盖住页面，你可以将它关闭并无视它即可。作者在下个版本中将提供参数屏蔽此层。
 
 ### 查看更多代码说明
 
