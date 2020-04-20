@@ -1151,17 +1151,17 @@
     "@types/yargs" "^15.0.0"
     chalk "^3.0.0"
 
-"@medux/core@^0.2.39":
-  version "0.2.39"
-  resolved "https://registry.yarnpkg.com/@medux/core/-/core-0.2.39.tgz#3d58475d264b0f22d7c1c55a255e3c2a7479600b"
-  integrity sha512-/Vntsydi3sS8UPhDOvzsZy/XgcGRwx4JdwSgxT7wtBlYJ4el4w+apwvrm+8tpY8f2aj6VWUqEk1Ia7SDNrVFcQ==
+"@medux/core@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@medux/core/-/core-1.0.0.tgz#6300a778e2f1f7f807addf0ea97ba3d85448e1f6"
+  integrity sha512-wiyiMCXMjEn6wTAouxa3PYcFWAbvum2OngIQQj0Tf4rMc621RFbitcfCFmE4qYep7RbVVUS1tr5P30kHyFo+fQ==
   dependencies:
     redux "~4.0.5"
 
-"@medux/dev-pkg@~0.2.38":
-  version "0.2.38"
-  resolved "https://registry.yarnpkg.com/@medux/dev-pkg/-/dev-pkg-0.2.38.tgz#96b997588260bbfd7cda72cfb850f714aa858abe"
-  integrity sha512-WyIRGqLAgcnR6UPx+YZ0X3fxlON74dmr0UyAwE6WwYEyYXwt6ak905BKMMuYxfKAi2Dn5ZUXzr99kA77ctXmcA==
+"@medux/dev-pkg@~1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@medux/dev-pkg/-/dev-pkg-1.0.0.tgz#37d3361cf088c19f4aac69dcadf846101aa330de"
+  integrity sha512-e07Ut+kIyvMmwdMc7GACFvcEYasOxTUG2Y6JGJ2PLWinVFKp1u94SBTXCcu0/o8UmNsPxsaA+aNoP+YrKAGT1w==
   dependencies:
     "@babel/cli" "~7.8.4"
     "@babel/plugin-proposal-class-properties" "~7.8.3"
@@ -1219,12 +1219,12 @@
     prettier "~2.0.2"
     rimraf "~3.0.2"
     source-map-loader "~0.2.4"
-    style-loader "~1.1.3"
     stylelint "~13.2.1"
     stylelint-config-prettier "~8.0.1"
     stylelint-config-standard "~20.0.0"
     stylelint-declaration-block-no-ignored-properties "~2.3.0"
     stylelint-prettier "~1.1.2"
+    stylelint-webpack-plugin "~1.2.3"
     url-loader "~4.0.0"
     webpack "~4.42.1"
     webpack-bundle-analyzer "~3.6.1"
@@ -1233,47 +1233,47 @@
     webpack-manifest-plugin "~2.2.0"
     yargs "~15.3.1"
 
-"@medux/dev-utils@~0.2.39":
-  version "0.2.39"
-  resolved "https://registry.yarnpkg.com/@medux/dev-utils/-/dev-utils-0.2.39.tgz#7e7ad6feab3c097fde155e36c07fc9d41bee07ac"
-  integrity sha512-P+aSYu02cEKbEsUFq3nHjMZx18jaYsx8Lv04Sg/GL6Jqsoll+Rf6TsXxRKkXKrGRobrPaFRYT2enlD+zVp1uKw==
+"@medux/dev-utils@~1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@medux/dev-utils/-/dev-utils-1.0.0.tgz#95ecb65744f748029339d9db73a65d96e4cea0f8"
+  integrity sha512-0Fc0kMfKCpHAARuycI8zDWh573nOhzRh9FhOi1kchewIJXEuFeWYE7UyS/TP8bOIzLzXK4vCytxOe3nV57uumQ==
   dependencies:
-    "@medux/core" "^0.2.39"
+    "@medux/core" "^1.0.0"
 
-"@medux/react-web-router@~0.2.39":
-  version "0.2.39"
-  resolved "https://registry.yarnpkg.com/@medux/react-web-router/-/react-web-router-0.2.39.tgz#df83e81a47cfb78577a2d18273ef9f9efeaaf169"
-  integrity sha512-uNmWALweGaul7tjoxCSt8Y5+815IL0HYN+sLn1/OGHdmYOYe6cs5NL2xettcWMrkGVJVpGahrEAXuSzDmXZRIA==
+"@medux/react-web-router@~1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@medux/react-web-router/-/react-web-router-1.0.0.tgz#e09dcf4a888257bed10065e78de234d859fe6a2c"
+  integrity sha512-p3jf0jVPJhnfbvLNNJQQRAL8/GNm4MezpJv66ADqyU3p3gvh0PrESTgzRFj/JIxK4jnIP2Br1zr9+IVylKBHfQ==
   dependencies:
-    "@medux/core" "^0.2.39"
-    "@medux/react" "^0.2.39"
-    "@medux/route-plan-a" "^0.2.39"
-    "@medux/web" "^0.2.39"
+    "@medux/core" "^1.0.0"
+    "@medux/react" "^1.0.0"
+    "@medux/route-plan-a" "^1.0.0"
+    "@medux/web" "^1.0.0"
 
-"@medux/react@^0.2.39":
-  version "0.2.39"
-  resolved "https://registry.yarnpkg.com/@medux/react/-/react-0.2.39.tgz#f49085d158864063d7215aa709726671f78d5c45"
-  integrity sha512-fncc0pvZg/IX3/G38MUCGRiFn7h0MnUWAWaB92nvP4DC3kU7hjOFrO5+rYQsu0BdCc945A4O5gJ+rVyd+yzlyw==
+"@medux/react@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@medux/react/-/react-1.0.0.tgz#179b4b78d0fdd14f9e0644d5853e0ab2a99589d4"
+  integrity sha512-NKYaF/KjOk+L4TVbqLWbyuNdu60CSnVdpipfrLHRyKaSjmYdAZINOpP2PhBCd2aDVco1XmnrnbSSEWKjPnUjlw==
   dependencies:
-    "@medux/core" "^0.2.39"
+    "@medux/core" "^1.0.0"
     "@types/react-redux" "~7.1.7"
     react-redux "~7.2.0"
 
-"@medux/route-plan-a@^0.2.39":
-  version "0.2.39"
-  resolved "https://registry.yarnpkg.com/@medux/route-plan-a/-/route-plan-a-0.2.39.tgz#74060d5e996a84e966ea58654bdcdedef04fc4a1"
-  integrity sha512-d8NZfqkKQjC2SU3NCOLXN74pbTKRlDqRYf1aJP5Qg9H1woCbtXnsI0UoOIHlL+wTgH9EvkErPKYjUaK0ggNhcw==
+"@medux/route-plan-a@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@medux/route-plan-a/-/route-plan-a-1.0.0.tgz#38f4932cfafe4605ac54d906f336071645f835bc"
+  integrity sha512-/sVAJa3fmoNANOeBuRbxHNgR6iL2XthpKOdSn7OWcazzZ4BnQ9oiInaTMsQ381/ewUtO/JxYRnLFYkdzgiRkhA==
   dependencies:
-    "@medux/core" "^0.2.39"
+    "@medux/core" "^1.0.0"
     deep-extend "~0.6.0"
 
-"@medux/web@^0.2.39":
-  version "0.2.39"
-  resolved "https://registry.yarnpkg.com/@medux/web/-/web-0.2.39.tgz#7cf45f04a79b461c0c132eda12c91a515ae918f1"
-  integrity sha512-YPsqnlKYWRx2xft6oCC/3rKqFb7vFv0RDtQyMBzfrzRFW+z17tiR4okiRw3IJqPYhqwmPhlpHd7BWqsLk+WULA==
+"@medux/web@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@medux/web/-/web-1.0.0.tgz#b77fd0df051ed25bc2f928145aa9a4c145b7946c"
+  integrity sha512-gtP96pSrkv36lk+sPb/sUXVUMGQ9vh2xanhsU3QKudLb10dlgtiWCjSg+nGAsvPZXTJCrifONq+jAb5ZWUXqGw==
   dependencies:
-    "@medux/core" "^0.2.39"
-    "@medux/route-plan-a" "^0.2.39"
+    "@medux/core" "^1.0.0"
+    "@medux/route-plan-a" "^1.0.0"
     "@types/history" "~4.7.2"
     history "~4.10.1"
 
@@ -11079,7 +11079,7 @@ schema-utils@^1.0.0:
     ajv-errors "^1.0.0"
     ajv-keywords "^3.1.0"
 
-schema-utils@^2.5.0, schema-utils@^2.6.0, schema-utils@^2.6.1, schema-utils@^2.6.4, schema-utils@^2.6.5:
+schema-utils@^2.5.0, schema-utils@^2.6.0, schema-utils@^2.6.1, schema-utils@^2.6.5:
   version "2.6.5"
   resolved "https://registry.yarnpkg.com/schema-utils/-/schema-utils-2.6.5.tgz#c758f0a7e624263073d396e29cd40aa101152d8a"
   integrity sha512-5KXuwKziQrTVHh8j/Uxz+QUbxkaLW9X/86NBlx/gnKgtsZA2GIVMUn17qWhRFwF8jdYb3Dig5hRO/W5mZqy6SQ==
@@ -11820,14 +11820,6 @@ strip-outer@^1.0.0:
   dependencies:
     escape-string-regexp "^1.0.2"
 
-style-loader@~1.1.3:
-  version "1.1.3"
-  resolved "https://registry.yarnpkg.com/style-loader/-/style-loader-1.1.3.tgz#9e826e69c683c4d9bf9db924f85e9abb30d5e200"
-  integrity sha512-rlkH7X/22yuwFYK357fMN/BxYOorfnfq0eD7+vqlemSK4wEcejFF1dg4zxP0euBW8NrYx2WZzZ8PPFevr7D+Kw==
-  dependencies:
-    loader-utils "^1.2.3"
-    schema-utils "^2.6.4"
-
 style-search@^0.1.0:
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/style-search/-/style-search-0.1.0.tgz#7958c793e47e32e07d2b5cafe5c0bf8e12e77902"
@@ -11873,7 +11865,7 @@ stylelint-prettier@~1.1.2:
   dependencies:
     prettier-linter-helpers "^1.0.0"
 
-stylelint-webpack-plugin@^1.2.3:
+stylelint-webpack-plugin@^1.2.3, stylelint-webpack-plugin@~1.2.3:
   version "1.2.3"
   resolved "https://registry.yarnpkg.com/stylelint-webpack-plugin/-/stylelint-webpack-plugin-1.2.3.tgz#c1785dbb5a9e7ea2777726c6851c1e4ac6362ad8"
   integrity sha512-XEevZZzlI6k3e0Amp7AtpZ/elgaOdPPwLFY9InNoajw4KNRcZTkK61ZsZdHvIyK32Ej9L9u4fwfXG2QGKW0imA==
