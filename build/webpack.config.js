@@ -10,8 +10,8 @@ const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const HtmlReplaceWebpackPlugin = require('html-replace-webpack-plugin');
 const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
-const {vendors} = require('../package.json');
 const pathsConfig = require('./path.conifg');
+const {vendors} = require(path.join(pathsConfig.rootPath, './package.json'));
 const {env, prodModel} = pathsConfig;
 const {clientGlobal, clientPublicPath} = require(path.join(pathsConfig.envPath, './env'));
 const lessVars = require(path.join(pathsConfig.srcPath, 'assets/css/antd-vars.js'));
@@ -212,7 +212,7 @@ const clientConfig = {
     new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
     //new AntdDayjsWebpackPlugin(),
     new StylelintPlugin({files: 'src/**/*.less', cache: true}),
-    !prodModel && new ReactRefreshWebpackPlugin({disableRefreshCheck: true, overlay: false}),
+    //!prodModel && new ReactRefreshWebpackPlugin({disableRefreshCheck: true, overlay: false}),
     !prodModel && new webpack.HotModuleReplacementPlugin(),
     env === 'analyzer' && new BundleAnalyzerPlugin({generateStatsFile: true}),
     //new HardSourceWebpackPlugin(),

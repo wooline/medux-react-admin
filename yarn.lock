@@ -1151,17 +1151,17 @@
     "@types/yargs" "^15.0.0"
     chalk "^3.0.0"
 
-"@medux/core@^1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@medux/core/-/core-1.0.0.tgz#6300a778e2f1f7f807addf0ea97ba3d85448e1f6"
-  integrity sha512-wiyiMCXMjEn6wTAouxa3PYcFWAbvum2OngIQQj0Tf4rMc621RFbitcfCFmE4qYep7RbVVUS1tr5P30kHyFo+fQ==
+"@medux/core@^1.0.2":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@medux/core/-/core-1.0.2.tgz#ee72a8dd820bcbbbd52b6784cf90b300436ea50e"
+  integrity sha512-qrY4sAWcTAYIkuKroBseo6eBzVba41HlMA9M/uQPTgNhXMU4wnckUZxa9T/VeAv96+orp3ws8SqYYGxtv6yv4w==
   dependencies:
     redux "~4.0.5"
 
-"@medux/dev-pkg@~1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@medux/dev-pkg/-/dev-pkg-1.0.0.tgz#37d3361cf088c19f4aac69dcadf846101aa330de"
-  integrity sha512-e07Ut+kIyvMmwdMc7GACFvcEYasOxTUG2Y6JGJ2PLWinVFKp1u94SBTXCcu0/o8UmNsPxsaA+aNoP+YrKAGT1w==
+"@medux/dev-pkg@~1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@medux/dev-pkg/-/dev-pkg-1.0.1.tgz#d584e4869e210989fd8bff33c77f2b20d276bff4"
+  integrity sha512-db0p2Vz6ayP2gJvWKd9pyV0sA8vIjGOMAjbHuL85/ub3aazDfxQmsxQLrx1GgCX8MqDcUKdB9nR+CWsdsu4/iQ==
   dependencies:
     "@babel/cli" "~7.8.4"
     "@babel/plugin-proposal-class-properties" "~7.8.3"
@@ -1219,6 +1219,7 @@
     prettier "~2.0.2"
     rimraf "~3.0.2"
     source-map-loader "~0.2.4"
+    style-loader "~1.2.0"
     stylelint "~13.2.1"
     stylelint-config-prettier "~8.0.1"
     stylelint-config-standard "~20.0.0"
@@ -1233,47 +1234,47 @@
     webpack-manifest-plugin "~2.2.0"
     yargs "~15.3.1"
 
-"@medux/dev-utils@~1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@medux/dev-utils/-/dev-utils-1.0.0.tgz#95ecb65744f748029339d9db73a65d96e4cea0f8"
-  integrity sha512-0Fc0kMfKCpHAARuycI8zDWh573nOhzRh9FhOi1kchewIJXEuFeWYE7UyS/TP8bOIzLzXK4vCytxOe3nV57uumQ==
+"@medux/dev-utils@~1.0.2":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@medux/dev-utils/-/dev-utils-1.0.2.tgz#07ab8ea92e0282a2a67d396e05b30c8f5c9dffcc"
+  integrity sha512-C+Nm7AOljyDsTHyPNeuUlhMw1vvSn8kaME3KnbmlUJZVmLp9FfegqM+aK0I3YJFp+1iv97Gyqvu6dVw3ApKrdQ==
   dependencies:
-    "@medux/core" "^1.0.0"
+    "@medux/core" "^1.0.2"
 
-"@medux/react-web-router@~1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@medux/react-web-router/-/react-web-router-1.0.0.tgz#e09dcf4a888257bed10065e78de234d859fe6a2c"
-  integrity sha512-p3jf0jVPJhnfbvLNNJQQRAL8/GNm4MezpJv66ADqyU3p3gvh0PrESTgzRFj/JIxK4jnIP2Br1zr9+IVylKBHfQ==
+"@medux/react-web-router@~1.0.2":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@medux/react-web-router/-/react-web-router-1.0.2.tgz#30160ace6bd32cae71768d186d6e09aebf5413ae"
+  integrity sha512-I3ll3OEplJIqp+bvO3EG07CDgaAu7plOcRQSe8BcgMPUsQIE/Bv+CGn5JFzfzXTCjmwjg+zmdr6t1MrvxL+mbw==
   dependencies:
-    "@medux/core" "^1.0.0"
-    "@medux/react" "^1.0.0"
-    "@medux/route-plan-a" "^1.0.0"
-    "@medux/web" "^1.0.0"
+    "@medux/core" "^1.0.2"
+    "@medux/react" "^1.0.2"
+    "@medux/route-plan-a" "^1.0.2"
+    "@medux/web" "^1.0.2"
 
-"@medux/react@^1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@medux/react/-/react-1.0.0.tgz#179b4b78d0fdd14f9e0644d5853e0ab2a99589d4"
-  integrity sha512-NKYaF/KjOk+L4TVbqLWbyuNdu60CSnVdpipfrLHRyKaSjmYdAZINOpP2PhBCd2aDVco1XmnrnbSSEWKjPnUjlw==
+"@medux/react@^1.0.2":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@medux/react/-/react-1.0.2.tgz#163385a7b62da151b1fe4ebb7690046ac03249f2"
+  integrity sha512-sCyRQqYFb/ggnfdQIHKOb3v6UWCLYlS7BbQaBxaG4SpCJFtxyyFhdpQezvFWJMDsKSoqm9dFl90m/LiZJ9Vb6Q==
   dependencies:
-    "@medux/core" "^1.0.0"
+    "@medux/core" "^1.0.2"
     "@types/react-redux" "~7.1.7"
     react-redux "~7.2.0"
 
-"@medux/route-plan-a@^1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@medux/route-plan-a/-/route-plan-a-1.0.0.tgz#38f4932cfafe4605ac54d906f336071645f835bc"
-  integrity sha512-/sVAJa3fmoNANOeBuRbxHNgR6iL2XthpKOdSn7OWcazzZ4BnQ9oiInaTMsQ381/ewUtO/JxYRnLFYkdzgiRkhA==
+"@medux/route-plan-a@^1.0.2":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@medux/route-plan-a/-/route-plan-a-1.0.2.tgz#24d838536c8ee51326bc691aa32f478578df88a4"
+  integrity sha512-SXkL6h50DcoUde+WEn3Vst8AVcoRGCadg1Gg3DvaG3hGaFFeWlcLT/YqfqalIWMaH9nindSHjkn2lOKXvdXY4w==
   dependencies:
-    "@medux/core" "^1.0.0"
+    "@medux/core" "^1.0.2"
     deep-extend "~0.6.0"
 
-"@medux/web@^1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@medux/web/-/web-1.0.0.tgz#b77fd0df051ed25bc2f928145aa9a4c145b7946c"
-  integrity sha512-gtP96pSrkv36lk+sPb/sUXVUMGQ9vh2xanhsU3QKudLb10dlgtiWCjSg+nGAsvPZXTJCrifONq+jAb5ZWUXqGw==
+"@medux/web@^1.0.2":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@medux/web/-/web-1.0.2.tgz#4b12d24ea949db01f542ba4ce268d811769d595f"
+  integrity sha512-sFkxm5vS+WU0EyRdwgTzL2IzLPeSO4CCH6EKR9d3B1/I2aog0bowc8Jfexi0cvy/89+ZxwSJjU2Y+9Uxl/aNKg==
   dependencies:
-    "@medux/core" "^1.0.0"
-    "@medux/route-plan-a" "^1.0.0"
+    "@medux/core" "^1.0.2"
+    "@medux/route-plan-a" "^1.0.2"
     "@types/history" "~4.7.2"
     history "~4.10.1"
 
@@ -11087,6 +11088,14 @@ schema-utils@^2.5.0, schema-utils@^2.6.0, schema-utils@^2.6.1, schema-utils@^2.6
     ajv "^6.12.0"
     ajv-keywords "^3.4.1"
 
+schema-utils@^2.6.6:
+  version "2.6.6"
+  resolved "https://registry.yarnpkg.com/schema-utils/-/schema-utils-2.6.6.tgz#299fe6bd4a3365dc23d99fd446caff8f1d6c330c"
+  integrity sha512-wHutF/WPSbIi9x6ctjGGk2Hvl0VOz5l3EKEuKbjPlB30mKZUzb9A5k9yEXRX3pwyqVLPvpfZZEllaFq/M718hA==
+  dependencies:
+    ajv "^6.12.0"
+    ajv-keywords "^3.4.1"
+
 scroll-into-view-if-needed@^2.2.20:
   version "2.2.24"
   resolved "https://registry.yarnpkg.com/scroll-into-view-if-needed/-/scroll-into-view-if-needed-2.2.24.tgz#12bca532990769bd509115a49edcfa755e92a0ea"
@@ -11819,6 +11828,14 @@ strip-outer@^1.0.0:
   integrity sha512-k55yxKHwaXnpYGsOzg4Vl8+tDrWylxDEpknGjhTiZB8dFRU5rTo9CAzeycivxV3s+zlTKwrs6WxMxR95n26kwg==
   dependencies:
     escape-string-regexp "^1.0.2"
+
+style-loader@~1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/style-loader/-/style-loader-1.2.0.tgz#f78e4d49caf5018f7c03ae1886e1270124feeb0a"
+  integrity sha512-HC8WcGnjwNrKji7HSBqFOhGNUSt7UDU/jHxT6bA83Gk+JWJBmgitWlGihc0V1w6ZvwlzcX5LJOsofZzSP7b1tQ==
+  dependencies:
+    loader-utils "^2.0.0"
+    schema-utils "^2.6.6"
 
 style-search@^0.1.0:
   version "0.1.0"

@@ -8,8 +8,8 @@ import api from './api';
 
 // 定义本模块的State类型
 export interface State extends BaseModelState {
-  projectConfig?: ProjectConfig;
-  curUser?: CurUser;
+  projectConfig: ProjectConfig;
+  curUser: CurUser;
   notices: Notices;
   showLoginOrRegisterPop?: 'login' | 'register';
   showRegistrationAgreement?: boolean;
@@ -21,6 +21,13 @@ export interface State extends BaseModelState {
 // 定义本模块State的初始值
 export const initModelState: State = {
   notices: {count: 0},
+  curUser: {
+    id: '',
+    username: 'guest',
+    hasLogin: false,
+    avatar: '',
+  },
+  projectConfig: {tokenRenewalTime: 30000, noticeTimer: 20},
   loading: {
     global: LoadingState.Stop,
   },

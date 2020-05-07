@@ -60,7 +60,6 @@ export const metaKeys = {
   RegisterPathname: '/register',
   UserHomePathname: '/admin/home',
   ArticleHomePathname: '/article/home',
-  ClientInitedAction: 'app/ClientInited',
   LoginRedirectSessionStorageKey: 'LoginRedirectTo',
   FavoritesUrlStorageKey: 'FavoritesUrl',
 };
