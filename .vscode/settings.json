@@ -13,17 +13,5 @@
   },
   "css.validate": false,
   "less.validate": false,
-  "scss.validate": false,
-  "[javascript]": {
-    "editor.formatOnSave": false
-  },
-  "[javascriptreact]": {
-    "editor.formatOnSave": false
-  },
-  "[typescript]": {
-    "editor.formatOnSave": false
-  },
-  "[typescriptreact]": {
-    "editor.formatOnSave": false
-  }
+  "scss.validate": false
 }

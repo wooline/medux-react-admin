@@ -34,7 +34,7 @@ module.exports = {
         useESModules: true,
       },
     ],
-    //!prodModel && 'react-refresh/babel',
+    !prodModel && 'react-refresh/babel',
   ].filter(Boolean),
   ignore: ['**/*.d.ts'],
 };
