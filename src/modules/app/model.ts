@@ -47,7 +47,7 @@ export class ModelHandlers extends BaseModelHandlers<State, RootState> {
       if (!this.noticesTimer) {
         this.noticesTimer = setInterval(() => {
           this.getNotice();
-        }, this.state.projectConfig!.noticeTimer * 1000);
+        }, this.state.projectConfig.noticeTimer * 1000);
       }
     }
   }
@@ -76,7 +76,7 @@ export class ModelHandlers extends BaseModelHandlers<State, RootState> {
     const expired = oCurUser.expired || 0;
     const curUser = await api.login(params);
     const isPop = !!this.state.showLoginOrRegisterPop;
-    if (isPop && oCurUser.id === curUser.id && Date.now() - expired < this.state.projectConfig!.tokenRenewalTime) {
+    if (isPop && oCurUser.id === curUser.id && Date.now() - expired < this.state.projectConfig.tokenRenewalTime) {
       this.dispatch(this.actions.putCurUser(curUser));
       this.dispatch(this.actions.closesLoginOrRegisterPop());
       this.getNoticeTimer();
@@ -126,6 +126,8 @@ export class ModelHandlers extends BaseModelHandlers<State, RootState> {
         historyActions.push(metaKeys.LoginPathname);
       }
       throw new HandledError(error);
+    } else if (error.code === CommonErrorCode.redirect) {
+      historyActions.replace(error.detail);
     } else if (error.code === CommonErrorCode.refresh) {
       location.reload();
       throw new HandledError(error);

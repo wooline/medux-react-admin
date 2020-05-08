@@ -1,3 +1,4 @@
+const fs = require('fs-extra');
 const prodModel = process.env.NODE_ENV == 'production';
 const env = process.env.SITE || (prodModel ? 'prod' : 'dev');
 const path = require('path');
@@ -15,4 +16,9 @@ const moduleSearch = [srcPath];
 const moduleAlias = {
   conf: envPath,
 };
+
+if (!fs.pathExistsSync(envPath)) {
+  fs.copySync(path.join(configPath, 'dev'), envPath);
+}
+
 module.exports = {env, prodModel, rootPath, srcPath, apiPath, configPath, publicPath, distPath, mockPath, moduleAlias, moduleSearch, envPath, envPublicPath};

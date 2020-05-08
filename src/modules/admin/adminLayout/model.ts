@@ -109,7 +109,7 @@ export class ModelHandlers extends BaseModelHandlers<State, RootState> {
   }
   @effect(null)
   protected async ['this.Init, medux.RouteChange']() {
-    if (this.rootState.route.data.views.adminLayout && !this.rootState.app!.curUser!.hasLogin) {
+    if (this.rootState.route.data.views.adminLayout && !this.rootState.app!.curUser.hasLogin) {
       throw new UnauthorizedError(true);
     }
     const {id, url, title} = getCurTabNav();

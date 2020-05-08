@@ -49,7 +49,7 @@ const Component: React.FC<StoreProps> = ({routeViews, siderCollapsed, hasLogin})
 const mapStateToProps: (state: RootState) => StoreProps = (state) => {
   return {
     routeViews: state.route.data.views,
-    hasLogin: state.app!.curUser!.hasLogin,
+    hasLogin: state.app!.curUser.hasLogin,
     siderCollapsed: !!state.adminLayout!.siderCollapsed,
   };
 };
