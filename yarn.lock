@@ -1241,10 +1241,10 @@
     webpack-manifest-plugin "~2.2.0"
     yargs "~15.3.1"
 
-"@medux/dev-utils@~1.0.4":
-  version "1.0.4"
-  resolved "https://registry.yarnpkg.com/@medux/dev-utils/-/dev-utils-1.0.4.tgz#6148e0c9f2ff2bc3c26c8616990168c974714c39"
-  integrity sha512-n0KyaWcPkN0D3xtOzp0zKXQJNFMWppjA2+H7xIIFw2SlWQbJ4EfmgbZg9+o3wZl3b1sEjeKHAJva6PCDmvMsog==
+"@medux/dev-utils@~1.0.5":
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/@medux/dev-utils/-/dev-utils-1.0.5.tgz#d2b0d295cf36ec33f88678af42567e69edff534f"
+  integrity sha512-Bc3Ymq/er2aemYkhhYDYl+ML3Rg2r/KMDse9xlI5InW4mvh84xZO1uT7Y76JGJksmMYCmA1ZmqE8SU3dmo7Ppw==
   dependencies:
     "@medux/core" "^1.0.2"
 
