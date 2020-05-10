@@ -14,7 +14,7 @@ yarn install
 ### 以开发模式运行
 
 - 运行 `yarn start`，会自动启动一个开发服务器
-- 开发模式时 React 热更新使用最新的 React Fast Refresh 方案，需要安装最新的 React Developer Tools。由于该方案还在进一步完善中，目前出现错误时会有一个 Error Overlay 警告层盖住页面，你可以将它关闭并无视它即可。作者在下个版本中将提供参数屏蔽此层。
+- 开发模式时 React 热更新使用最新的 React Fast Refresh 方案，需要安装最新的 React Developer Tools。
 
 ## 代码介绍
 

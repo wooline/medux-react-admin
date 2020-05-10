@@ -147,7 +147,7 @@ const clientConfig = {
         include: pathsConfig.moduleSearch,
         use: [
           {loader: require.resolve('@medux/dev-utils/dist/webpack-loader/module-hot-loader')},
-          {loader: 'babel-loader', options: {cacheDirectory: true}},
+          {loader: 'babel-loader', options: {cacheDirectory: true, plugins: [!prodModel && require.resolve('react-refresh/babel')].filter(Boolean)}},
           {loader: 'eslint-loader', options: {cache: true}},
         ],
       },
@@ -212,7 +212,7 @@ const clientConfig = {
     new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
     //new AntdDayjsWebpackPlugin(),
     new StylelintPlugin({files: 'src/**/*.less', cache: true}),
-    !prodModel && new ReactRefreshWebpackPlugin({disableRefreshCheck: true, overlay: false}),
+    !prodModel && new ReactRefreshWebpackPlugin({overlay: false}),
     !prodModel && new webpack.HotModuleReplacementPlugin(),
     env === 'analyzer' && new BundleAnalyzerPlugin({generateStatsFile: true}),
     //new HardSourceWebpackPlugin(),

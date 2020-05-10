@@ -52,7 +52,7 @@ const Component: React.FC<OwnProps & DispatchProp> = ({dispatch, primaryMode, cu
             <Button className={disabled} icon={formOutlined} onClick={onEdit}>
               修改
             </Button>
-            <Button className={disabled} icon={deleteOutlined} type="danger" onClick={onDelete}>
+            <Button className={disabled} icon={deleteOutlined} danger onClick={onDelete}>
               删除
             </Button>
           </>
