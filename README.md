@@ -4,6 +4,18 @@
 
 - [**在线预览**](http://medux-react-admin.80zp.com)
 
+### 所有页面
+
+- [/login](http://medux-react-admin.80zp.com/login)
+- [/register](http://medux-react-admin.80zp.com/register)
+- [/article/home](http://medux-react-admin.80zp.com/article/home)
+- [/article/service](http://medux-react-admin.80zp.com/article/service)
+- [/article/about](http://medux-react-admin.80zp.com/article/about)
+- [/admin/home](http://medux-react-admin.80zp.com/admin/home)
+- [/admin/member](http://medux-react-admin.80zp.com/admin/member/list)
+- [/admin/role](http://medux-react-admin.80zp.com/admin/role/list)
+- [/admin/post](http://medux-react-admin.80zp.com/admin/post/list)
+
 ### 查看更多项目介绍
 
 - [语雀](https://www.yuque.com/medux/docs/medux-react-admin)
