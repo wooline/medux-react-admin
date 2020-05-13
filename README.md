@@ -21,7 +21,7 @@
 
 # 查看更多项目介绍
 
-- [掘金](https://juejin.im/post/5eb8ecdb6fb9a04332125bf8) | [语雀](https://www.yuque.com/medux/docs/medux-react-admin)
+- [掘金](https://juejin.im/post/5eb8ecdb6fb9a04332125bf8) | [知乎](https://zhuanlan.zhihu.com/p/139732293) | [语雀](https://www.yuque.com/medux/docs/medux-react-admin)
 
 # 安装及运行
 
@@ -43,7 +43,7 @@ yarn install
 
 ### 查看更多代码说明
 
-- [语雀](https://www.yuque.com/medux/docs/medux-react-admin-2)
+- [掘金](https://juejin.im/post/5eb8fa3ff265da7bb65fbddc) | [知乎](https://zhuanlan.zhihu.com/p/139734752) | [语雀](https://www.yuque.com/medux/docs/medux-react-admin-2)
 
 ---
 
