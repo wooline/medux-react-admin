@@ -31,6 +31,7 @@ module.exports = {
       '@babel/plugin-transform-runtime',
       {
         useESModules: true,
+        version: '~7.9.0',
       },
     ],
   ].filter(Boolean),

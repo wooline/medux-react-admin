@@ -22,6 +22,7 @@
     "noImplicitReturns": true,
     "noUnusedLocals": false,
     "importHelpers": true,
+    "alwaysStrict": true,
     "forceConsistentCasingInFileNames": true,
     "suppressImplicitAnyIndexErrors": true,
     "preserveConstEnums": false,
@@ -29,5 +30,5 @@
     "esModuleInterop": true
   },
   "include": ["src"],
-  "exclude": ["node_modules", "src/com"]
+  "exclude": ["node_modules"]
 }

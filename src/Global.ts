@@ -33,11 +33,9 @@ declare global {
   const actions: Actions;
   const moduleNames: EnumModuleNames;
   const metaKeys: MetaKeys;
-  //BrowserRouter变量放在./index.ts中
   const historyActions: BrowserRouter['historyActions'];
   const toUrl: BrowserRouter['toUrl'];
   const transformRoute: BrowserRouter['transformRoute'];
-  const global: any;
 }
 
 ((data: {[key: string]: any}) => {
