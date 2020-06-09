@@ -1182,10 +1182,10 @@
   dependencies:
     redux "~4.0.5"
 
-"@medux/core@^1.0.7-alpha.6":
-  version "1.0.7-alpha.6"
-  resolved "https://registry.yarnpkg.com/@medux/core/-/core-1.0.7-alpha.6.tgz#051c514653af60333a2fa1f891c74abe3db28f6e"
-  integrity sha512-Ta3YwEyH5sfuTW3Ag0uy95Ojn9RSw9zJA4LrnFSvfyq6J5fZXNihSCFpU4tt2keD3UdMeIs7DAObQRZmTkTFag==
+"@medux/core@^1.0.7-alpha.12":
+  version "1.0.7-alpha.12"
+  resolved "https://registry.yarnpkg.com/@medux/core/-/core-1.0.7-alpha.12.tgz#cc04ed801aedda43fab806774f4627ead752bd54"
+  integrity sha512-srPLLrkKoAsDf4zJa6B7N5d9sxLpYnY2hJ0hrOyEF8YM3IgepKCWEB4LnaC+tPgtqStjRORdluyLBTs7s+DQRw==
   dependencies:
     "@babel/runtime" "~7.9.0"
     redux "~4.0.5"
@@ -1269,50 +1269,50 @@
     webpack-manifest-plugin "~2.2.0"
     yargs "~15.3.1"
 
-"@medux/dev-utils@~1.0.6":
-  version "1.0.6"
-  resolved "https://registry.yarnpkg.com/@medux/dev-utils/-/dev-utils-1.0.6.tgz#046b3ddf94594758de2f7c4cf5fa8bc7b5da32ca"
-  integrity sha512-TTf/vOckPT4KO9JPDRrI1dpfSwe4tjRF7Oy++yrJZ8nAA6jtP3w8FEY90DSTYeKPybAY6OcuxcqW5ADxBmRfKg==
+"@medux/dev-utils@~1.0.8":
+  version "1.0.8"
+  resolved "https://registry.yarnpkg.com/@medux/dev-utils/-/dev-utils-1.0.8.tgz#4842d2ce8562e3b43df7720dc1993ab59204f840"
+  integrity sha512-O2b2GGLlo0qftHcoGK17lBfJ9rMCNI/AVbF1bj6DxUz/lS6xrHs3CdH9ubY5E/ut8qUgvBUNgFJV3UY19ML8dg==
   dependencies:
     "@medux/core" "^1.0.2"
 
-"@medux/react-web-router@~1.0.7-alpha.6":
-  version "1.0.7-alpha.6"
-  resolved "https://registry.yarnpkg.com/@medux/react-web-router/-/react-web-router-1.0.7-alpha.6.tgz#3f2d956ab8c17b333f82e39d7a04750ec796846f"
-  integrity sha512-8Pi+el0SIfEHMfLWJzSXsuOkFJPpV2YZHhxkyOFRIMc+zmJ6hgEO/ZC6WLUVYVlDxwoQ5ezTjFcGJ3Vh6B1SQQ==
+"@medux/react-web-router@~1.0.7-alpha.12":
+  version "1.0.7-alpha.12"
+  resolved "https://registry.yarnpkg.com/@medux/react-web-router/-/react-web-router-1.0.7-alpha.12.tgz#2e6ad66f05d774753f661705d78e6cc21f7d4482"
+  integrity sha512-JoCzdDorr+5nuQuaAUqbxzpIoTmwb3Kcs/fBbKVIn0MbQoPSi4xTQOTB+G2fxJiBLy59K8mq8R4+LlJmD95fNg==
   dependencies:
     "@babel/runtime" "~7.9.0"
-    "@medux/core" "^1.0.7-alpha.6"
-    "@medux/react" "^1.0.7-alpha.6"
-    "@medux/route-plan-a" "^1.0.7-alpha.6"
-    "@medux/web" "^1.0.7-alpha.6"
+    "@medux/core" "^1.0.7-alpha.12"
+    "@medux/react" "^1.0.7-alpha.12"
+    "@medux/route-plan-a" "^1.0.7-alpha.12"
+    "@medux/web" "^1.0.7-alpha.12"
 
-"@medux/react@^1.0.7-alpha.6":
-  version "1.0.7-alpha.6"
-  resolved "https://registry.yarnpkg.com/@medux/react/-/react-1.0.7-alpha.6.tgz#14c2a5c72347bfbd4e1b6e306271de275928bc8b"
-  integrity sha512-aMCGh/y8ODO5LDmcMWVc9P67oa0H7TxAB6pGr8tXEMJ2ayDnrfX0AADUyE0L3aoJQmPmwxIppOLS7mvhh+JG2A==
+"@medux/react@^1.0.7-alpha.12":
+  version "1.0.7-alpha.12"
+  resolved "https://registry.yarnpkg.com/@medux/react/-/react-1.0.7-alpha.12.tgz#b832a2f03b994592fafb13cc153ea47b53979231"
+  integrity sha512-b2sXKiA/Uhnb28u7V/K/LaCS/zgEcTd3n2YMXTJJONnosWP4ikHjdBePnLPzieRA9L7VbidEn1wxdR3xi2E/Sg==
   dependencies:
     "@babel/runtime" "~7.9.0"
-    "@medux/core" "^1.0.7-alpha.6"
+    "@medux/core" "^1.0.7-alpha.12"
     "@types/react-redux" "~7.1.7"
     react-redux "~7.2.0"
 
-"@medux/route-plan-a@^1.0.7-alpha.6":
-  version "1.0.7-alpha.6"
-  resolved "https://registry.yarnpkg.com/@medux/route-plan-a/-/route-plan-a-1.0.7-alpha.6.tgz#82812d4db4a92b92713366a965be7c6a6d26ed92"
-  integrity sha512-SQi6MgCnP4ZsgGheg/7R7l+lhVdFgZTjLKOMeh4h1gkFRaYshbESuBVmwIXuC3bfbXE9dYmgTnsy+CAxxMJ2+Q==
+"@medux/route-plan-a@^1.0.7-alpha.12":
+  version "1.0.7-alpha.12"
+  resolved "https://registry.yarnpkg.com/@medux/route-plan-a/-/route-plan-a-1.0.7-alpha.12.tgz#f4d597c1ab05c0df80e6777d8b4364cb11bf9a5c"
+  integrity sha512-ThdoRqAEfIQyTNWhowZkj3THbqvxdZUmKmpxGRijr9SM0LsYod5CRIddj5pUSHyCfxXE2E7DVfJscxb7Qzbycw==
   dependencies:
     "@babel/runtime" "~7.9.0"
-    "@medux/core" "^1.0.7-alpha.6"
+    "@medux/core" "^1.0.7-alpha.12"
 
-"@medux/web@^1.0.7-alpha.6":
-  version "1.0.7-alpha.6"
-  resolved "https://registry.yarnpkg.com/@medux/web/-/web-1.0.7-alpha.6.tgz#51ba61e168ec713e2cd3a1b83650afe693db8c1c"
-  integrity sha512-n4P49c1EgQAVbNWbjQAkOEpkzrXagfMs5Cmb8sZFM38S1s1jh0rRbmAz+/Zn265tIQDY4dSNJoCTCxb/227cMg==
+"@medux/web@^1.0.7-alpha.12":
+  version "1.0.7-alpha.12"
+  resolved "https://registry.yarnpkg.com/@medux/web/-/web-1.0.7-alpha.12.tgz#09760827ee9e71714c558980178c5f6f936267ab"
+  integrity sha512-jQlu525qC1z0RBGjVQ99NU4Rcf8Xsbvz1dd8GXW/xf21GjvW33XYAYPBbwAdz+K/BhBrB18akEN34/l6ED2xtQ==
   dependencies:
     "@babel/runtime" "~7.9.0"
-    "@medux/core" "^1.0.7-alpha.6"
-    "@medux/route-plan-a" "^1.0.7-alpha.6"
+    "@medux/core" "^1.0.7-alpha.12"
+    "@medux/route-plan-a" "^1.0.7-alpha.12"
 
 "@nodelib/fs.scandir@2.1.3":
   version "2.1.3"

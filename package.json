@@ -85,7 +85,7 @@
   },
   "dependencies": {
     "@babel/runtime": "~7.9.0",
-    "@medux/react-web-router": "~1.0.7-alpha.6",
+    "@medux/react-web-router": "~1.0.7-alpha.12",
     "@types/lodash": "~4.14.149",
     "antd": "~4.2.0",
     "lodash": "~4.17.15",
@@ -95,7 +95,7 @@
   },
   "devDependencies": {
     "@medux/dev-pkg": "~1.0.3",
-    "@medux/dev-utils": "~1.0.6",
+    "@medux/dev-utils": "~1.0.8",
     "@pmmmwh/react-refresh-webpack-plugin": "~0.3.0",
     "@types/react": "~16.9.23",
     "@types/react-dom": "~16.9.5",

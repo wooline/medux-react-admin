@@ -5,7 +5,7 @@ const clientGlobal = {
   version,
   siteName,
   staticPath: clientPublicPath + 'client/',
-  apiServerPath: {'/ajax/': '/ajax/'},
+  apiServerPath: {'/api/': '/api/'},
 };
 module.exports = {
   proxy,
