@@ -2,9 +2,9 @@ import * as reactWebRouter from '@medux/react-web-router';
 
 import {RouteConfig, exportActions} from '@medux/react-web-router';
 
-import adminMemberParams from 'modules/admin/adminMember/meta';
-import adminPostParams from 'modules/admin/adminPost/meta';
-import adminRoleParams from 'modules/admin/adminRole/meta';
+import {defaultRouteParams as adminMemberParams} from 'entity/member';
+import {defaultRouteParams as adminPostParams} from 'entity/post';
+import {defaultRouteParams as adminRoleParams} from 'entity/role';
 
 export const defaultRouteParams: {[K in moduleNames]: any} = {
   app: null,
@@ -90,19 +90,19 @@ export const routeConfig: RouteConfig = {
           '/admin/role/:listView': [
             'adminRole.List',
             {
-              '/admin/role/:listView/:itemView/:itemId': 'adminRole.Detail',
+              '/admin/role/:listView/:itemView/:itemId': 'adminRole.Item',
             },
           ],
           '/admin/member/:listView': [
             'adminMember.List',
             {
-              '/admin/member/:listView/:itemView/:itemId': 'adminMember.Detail',
+              '/admin/member/:listView/:itemView/:itemId': 'adminMember.Item',
             },
           ],
           '/admin/post/:listView': [
             'adminPost.List',
             {
-              '/admin/post/:listView/:itemView/:itemId': 'adminPost.Detail',
+              '/admin/post/:listView/:itemView/:itemId': 'adminPost.Item',
             },
           ],
         },

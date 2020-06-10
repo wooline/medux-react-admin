@@ -89,5 +89,24 @@ export interface Resource extends CommonResource {
   ListSearch: ListSearch;
   ListItem: ListItem;
   ListSummary: ListSummary;
+  ItemDetail: ItemDetail;
   UpdateItem: UpdateItem;
 }
+
+export const defaultRouteParams: RouteParams = {
+  listSearch: {
+    pageSize: 10,
+    pageCurrent: 1,
+    term: undefined,
+    category: undefined,
+    sorterField: undefined,
+    sorterOrder: undefined,
+    roleName: undefined,
+    purviews: undefined,
+  },
+  listView: '',
+  _listKey: '',
+  itemId: '',
+  itemView: '',
+  _itemKey: '',
+};

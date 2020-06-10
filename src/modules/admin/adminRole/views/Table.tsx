@@ -141,7 +141,8 @@ const Component: React.FC<StoreProps & DispatchProp> = ({dispatch, listSearch, s
 
 const mapStateToProps: (state: RootState) => StoreProps = (state) => {
   const thisModule = state.adminRole!;
-  const {list, listSummary, selectedRows} = thisModule;
+  const {selectedRows} = thisModule;
+  const {list, listSummary} = thisModule.listCase.list!;
   return {list, listSummary, selectedRows, listSearch: thisModule.routeParams?.listSearch!};
 };
 

@@ -16,7 +16,7 @@ export default function <ListItem extends BaseListItem>(
   const sorterStr = [listSearch?.sorterField, listSearch?.sorterOrder].join('');
   const onShowDetail = useCallback(
     (item: ListItem | string) => {
-      dispatch(resourceActions.openCurrentItem('summary', item));
+      dispatch(resourceActions.openCurrentItem(item, 'summary'));
     },
     [dispatch, resourceActions]
   );
@@ -88,7 +88,7 @@ export default function <ListItem extends BaseListItem>(
     [onAllSelect, onClearSelect, onRowSelect, selectedRows, selectLimit]
   );
   useEffect(() => {
-    dispatch(resourceActions.resetListSearch(defaultSearch, 'selector'));
+    dispatch(resourceActions.searchList({params: defaultSearch || {}, extend: 'default'}));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return {onChange, onAllSelect, onRowSelect, onClearSelect, onShowDetail, rowSelection};

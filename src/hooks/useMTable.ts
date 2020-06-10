@@ -13,18 +13,18 @@ export default function <ListItem extends BaseListItem>(
 ) {
   const sorterStr = [listSearch?.sorterField, listSearch?.sorterOrder].join('');
   const onCreate = useCallback(() => {
-    dispatch(resourceActions.openCurrentItem('create'));
+    dispatch(resourceActions.openCurrentItem(null, 'create'));
   }, [dispatch, resourceActions]);
 
   const onShowDetail = useCallback(
     (item: ListItem | string) => {
-      dispatch(resourceActions.openCurrentItem('detail', item));
+      dispatch(resourceActions.openCurrentItem(item, 'detail'));
     },
     [dispatch, resourceActions]
   );
   const onShowEditor = useCallback(
     (item: ListItem | string) => {
-      dispatch(resourceActions.openCurrentItem('edit', item));
+      dispatch(resourceActions.openCurrentItem(item, 'edit'));
     },
     [dispatch, resourceActions]
   );

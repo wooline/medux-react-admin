@@ -10,7 +10,7 @@ export default function (dispatch: (action: any) => void, resourceActions: Commo
     dispatch(resourceActions.closeCurrentItem());
   }, [dispatch, resourceActions]);
   const onEdit = useCallback(() => {
-    dispatch(resourceActions.openCurrentItem('edit', currentItem));
+    dispatch(resourceActions.openCurrentItem(currentItem, 'edit'));
   }, [dispatch, resourceActions, currentItem]);
   const onDelete = useEventCallback(async () => {
     await dispatch(resourceActions.deleteList([id]));

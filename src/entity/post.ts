@@ -44,5 +44,30 @@ export interface Resource extends CommonResource {
   ListSearch: ListSearch;
   ListItem: ListItem;
   ListSummary: ListSummary;
+  ItemDetail: ItemDetail;
   UpdateItem: UpdateItem;
 }
+
+// 定义本模块的路由参数类型
+
+export const defaultRouteParams: RouteParams = {
+  listSearch: {
+    pageSize: 10,
+    pageCurrent: 1,
+    term: undefined,
+    category: undefined,
+    sorterField: undefined,
+    sorterOrder: undefined,
+    title: undefined,
+    author: undefined,
+    editor: undefined,
+    editorId: undefined,
+    status: undefined,
+    createdTime: undefined,
+  },
+  listView: '',
+  _listKey: '',
+  itemId: '',
+  itemView: '',
+  _itemKey: '',
+};
