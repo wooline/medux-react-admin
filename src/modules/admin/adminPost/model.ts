@@ -5,7 +5,7 @@ import api from './api';
 
 export interface State extends CommonResourceState<Resource> {}
 
-export const initModelState: State = {routeParams: defaultRouteParams, listCase: {}, itemCase: {}};
+export const initModelState: State = {routeParams: defaultRouteParams};
 
 export class ModelHandlers extends CommonResourceHandlers<Resource, State, RootState> {
   constructor(moduleName: string, store: any) {

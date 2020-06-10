@@ -88,7 +88,7 @@ export default function <ListItem extends BaseListItem>(
     [onAllSelect, onClearSelect, onRowSelect, selectedRows, selectLimit]
   );
   useEffect(() => {
-    dispatch(resourceActions.searchList({params: defaultSearch || {}, extend: 'default'}));
+    dispatch(resourceActions.searchList({params: defaultSearch || {}, extend: 'default'}, 'selector'));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return {onChange, onAllSelect, onRowSelect, onClearSelect, onShowDetail, rowSelection};

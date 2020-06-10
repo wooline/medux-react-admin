@@ -43,7 +43,7 @@ const mapStateToProps: (state: RootState) => StoreProps = (state) => {
   const thisModule = state.adminRole!;
   const itemView = thisModule.routeParams!.itemView;
   return {
-    currentItem: thisModule.itemCase[itemView]?.itemDetail,
+    currentItem: thisModule[itemView]?.itemDetail,
     listSearch: thisModule.routeParams!.listSearch,
     itemView,
   };

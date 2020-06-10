@@ -33,14 +33,14 @@ export interface CommonResourceRouteParams<L = never, I = never> {
   _itemKey: string;
 }
 
-export interface CommonResource {
+export interface CommonResource<L = never, I = never> {
   RouteParams: CommonResourceRouteParams;
   ListSearch: BaseListSearch;
   ListItem: BaseListItem;
   ListSummary: BaseListSummary;
-  ListView: ListView;
+  ListView: ListView | L;
   ItemDetail: BaseItemDetail;
-  ItemView: ItemView;
+  ItemView: ItemView | I;
   CreateItem: any;
   UpdateItem: any;
 }

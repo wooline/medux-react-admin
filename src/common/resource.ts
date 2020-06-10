@@ -56,13 +56,15 @@ export interface Config<Resource extends CommonResource> {
   api: ResourceAPI;
   defaultRouteParams: Resource['RouteParams'];
   newItem?: Resource['CreateItem'];
+  listView?: Resource['ListView'][];
+  itemView?: Resource['ItemView'][];
   enableRoute?: {[view in Resource['ListView'] | Resource['ItemView']]?: boolean};
   listPaths?: string[];
   itemPaths?: string[];
 }
 export abstract class CommonResourceHandlers<
   Resource extends CommonResource = CommonResource,
-  State extends CommonResourceState<Resource> = CommonResourceState<Resource>,
+  State extends CommonResourceState<CommonResource> = CommonResourceState<CommonResource>,
   RootState extends {route: {location: {pathname: string; search: string; hash: string}; data: RouteData}} = {route: {location: {pathname: string; search: string; hash: string}; data: RouteData}}
 > extends BaseModelHandlers<State, RootState> {
   protected config: Required<Config<Resource>> & {noneListSearch: Resource['RouteParams']['listSearch']};
@@ -74,6 +76,8 @@ export abstract class CommonResourceHandlers<
     const defConfig = {
       newItem: {},
       enableRoute: {list: true, detail: false},
+      listView: ['list', 'selector', 'category'],
+      itemView: ['detail', 'edit', 'create', 'summary'],
       listPaths: ['app.Main', 'adminLayout.Main', this.moduleName + '.List'],
       itemPaths: ['app.Main', 'adminLayout.Main', this.moduleName + '.List', this.moduleName + '.Item'],
     };
@@ -95,11 +99,11 @@ export abstract class CommonResourceHandlers<
   }
   @reducer
   public putSearchList(list: Resource['ListItem'][], listSummary: Resource['ListSummary'], listSearch: Resource['ListSearch'], listView: string, _listKey: string): State {
-    return {...this.state, listCase: {...this.state.listCase, [listView]: {_listKey, listSearch, list, listSummary}}, listLoading: undefined};
+    return {...this.state, [listView]: {_listKey, listSearch, list, listSummary}, listLoading: undefined};
   }
   @reducer
   public putCurrentItem(itemDetail: any, itemId: string, itemView: string, _itemKey: string): State {
-    return {...this.state, itemCase: {...this.state.itemCase, [itemView]: {_itemKey, itemId, itemDetail}}, itemLoading: undefined};
+    return {...this.state, [itemView]: {_itemKey, itemId, itemDetail}, itemLoading: undefined};
   }
   @reducer
   public putSelectedRows(selectedRows?: Resource['ListItem'][]): State {
@@ -290,6 +294,16 @@ export abstract class CommonResourceHandlers<
         const {_itemKey: _prevItemkey, itemId: prevItemId} = this.state[itemView] || {};
         if (_itemKey !== _prevItemkey || itemId !== prevItemId) {
           await this.dispatch(this.callThisAction(this.fetchItem, itemId, itemView, _itemKey));
+        }
+      } else {
+        const data = this.config.itemView.reduce((prev, view) => {
+          if (this.state[view]) {
+            prev[view] = undefined;
+          }
+          return prev;
+        }, {} as any);
+        if (Object.keys(data).length) {
+          this.updateState(data);
         }
       }
     }
