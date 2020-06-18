@@ -17,7 +17,7 @@ function createMap(obj = {}, len = 50, prot) {
     return pre;
   }, {});
   return new Proxy(obj, {
-    set: function(target, key, value, receiver) {
+    set: function (target, key, value, receiver) {
       if (protKeys[key]) {
         return false;
       }
@@ -28,7 +28,7 @@ function createMap(obj = {}, len = 50, prot) {
       }
       return result;
     },
-    deleteProperty: function(target, key) {
+    deleteProperty: function (target, key) {
       if (protKeys[key]) {
         return false;
       }
@@ -43,7 +43,7 @@ function createArray(arr = [], len = 50, prot) {
     prot = arr.length;
   }
   return new Proxy(arr, {
-    get: function(target, key, receiver) {
+    get: function (target, key, receiver) {
       switch (key) {
         case 'push':
           return (...args) => {
@@ -76,7 +76,7 @@ function createArray(arr = [], len = 50, prot) {
       }
       return Reflect.get(target, key, receiver);
     },
-    set: function(target, key, value, receiver) {
+    set: function (target, key, value, receiver) {
       const index = Number(key);
       if (!isNaN(index)) {
         if (index < prot) {
@@ -201,7 +201,7 @@ function createUsers() {
         },
       ],
     })
-    .list.forEach(item => {
+    .list.forEach((item) => {
       item.loginTime = item.createdTime = timestamp + item.id * 1000;
       item.id = item.username = item.username + item.id;
       list[item.id] = item;
@@ -295,7 +295,7 @@ function createRoles() {
         },
       ],
     })
-    .list.forEach(item => {
+    .list.forEach((item) => {
       item.createdTime = timestamp + item.id * 1000;
       item.id = '' + item.id;
       list[item.id] = item;

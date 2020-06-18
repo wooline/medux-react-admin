@@ -14,10 +14,12 @@ if (initEnv.production) {
   };
 }
 
+const history = createBrowserHistory();
+
 buildApp({
   moduleGetter,
   appModuleName: 'app',
-  history: createBrowserHistory(),
+  history,
   routeConfig,
   defaultRouteParams,
   beforeRender: ({store, historyActions, toBrowserUrl, transformRoute}) => {

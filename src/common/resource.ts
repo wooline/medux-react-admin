@@ -42,15 +42,9 @@ export class CommonResourceAPI implements ResourceAPI {
   }
 }
 
-// export interface CommonResourceState<Resource extends CommonResource> extends BaseModelState<Resource['RouteParams']> {
-//   listCase: {[view in Resource['ListView']]?: {_listKey?: string; list?: Resource['ListItem'][]; listSummary?: Resource['ListSummary']; listSearch?: Resource['ListSearch']}};
-//   itemCase: {[view in Resource['ItemView']]?: {_itemKey?: string; itemId?: string; itemDetail?: Resource['ItemDetail']}};
-//   selectedRows?: Resource['ListItem'][];
-// }
-
 export type CommonResourceState<Resource extends CommonResource> = BaseModelState<Resource['RouteParams']> &
-  {[view in Resource['ListView']]?: {_listKey?: string; list?: Resource['ListItem'][]; listSummary?: Resource['ListSummary']; listSearch?: Resource['ListSearch']}} &
-  {[view in Resource['ItemView']]?: {_itemKey?: string; itemId?: string; itemDetail?: Resource['ItemDetail']}} & {selectedRows?: Resource['ListItem'][]};
+  {[view in Resource['ListView']]?: {_listKey: number; list: Resource['ListItem'][]; listSummary: Resource['ListSummary']; listSearch: Resource['ListSearch']}} &
+  {[view in Resource['ItemView']]?: {_itemKey: number; itemId: string; itemDetail: Resource['ItemDetail']}} & {selectedRows?: Resource['ListItem'][]};
 
 export interface Config<Resource extends CommonResource> {
   api: ResourceAPI;
@@ -98,11 +92,11 @@ export abstract class CommonResourceHandlers<
     return this.config.noneListSearch;
   }
   @reducer
-  public putSearchList(list: Resource['ListItem'][], listSummary: Resource['ListSummary'], listSearch: Resource['ListSearch'], listView: string, _listKey: string): State {
+  public putSearchList(list: Resource['ListItem'][], listSummary: Resource['ListSummary'], listSearch: Resource['ListSearch'], listView: string, _listKey: number): State {
     return {...this.state, [listView]: {_listKey, listSearch, list, listSummary}, listLoading: undefined};
   }
   @reducer
-  public putCurrentItem(itemDetail: any, itemId: string, itemView: string, _itemKey: string): State {
+  public putCurrentItem(itemDetail: any, itemId: string, itemView: string, _itemKey: number): State {
     return {...this.state, [itemView]: {_itemKey, itemId, itemDetail}, itemLoading: undefined};
   }
   @reducer
@@ -126,7 +120,7 @@ export abstract class CommonResourceHandlers<
   @effect(null)
   public async openCurrentItem(currentItem: any, view?: Resource['ItemView']) {
     const itemView = view || this.state.routeParams?.itemView || 'detail';
-    const _itemKey = Date.now().toString();
+    const _itemKey = Date.now();
     if (!currentItem) {
       currentItem = {...this.config.newItem, id: ''};
     }
@@ -244,10 +238,11 @@ export abstract class CommonResourceHandlers<
       listSearch = {...this.getNoneListSearch(), ...params};
     }
 
-    const _listKey = Date.now().toString();
-    const listView = view || this.state.routeParams?.listView || 'list';
-    const enableRoute = this.config.enableRoute[listView];
+    const _listKey = Date.now();
     const routeData = this.state.routeParams;
+    const listView = view || routeData?.listView || 'list';
+    const enableRoute = this.config.enableRoute[listView];
+
     if (enableRoute) {
       //路由变换时会自动触发Action RouteParams
       //extend: this.rootState.route.data,
@@ -258,7 +253,7 @@ export abstract class CommonResourceHandlers<
     }
   }
   @effect()
-  protected async fetchList(listSearch: Resource['ListSearch'], listView: string, _listKey: string) {
+  protected async fetchList(listSearch: Resource['ListSearch'], listView: string, _listKey: number) {
     this.listLoading = true;
     const {list, listSummary} = await this.config.api.searchList!(listSearch).catch((e) => {
       this.listLoading = false;
@@ -268,7 +263,7 @@ export abstract class CommonResourceHandlers<
     this.dispatch(this.actions.putSearchList(list, listSummary, listSearch, listView, _listKey));
   }
   @effect()
-  protected async fetchItem(itemId: string, itemView: string, _itemKey: string) {
+  protected async fetchItem(itemId: string, itemView: string, _itemKey: number) {
     this.itemLoading = true;
     const item = await this.config.api.getDetailItem!(itemId).catch((e) => {
       this.itemLoading = false;
@@ -283,16 +278,16 @@ export abstract class CommonResourceHandlers<
     const {listView, listSearch, _listKey, itemView, itemId, _itemKey} = routeParams;
     if (!this.listLoading) {
       if (listView) {
-        const {_listKey: _prevListkey, listSearch: prevListSearch} = this.state[listView] || {};
-        if (_listKey !== _prevListkey || !simpleEqual(listSearch, prevListSearch)) {
+        const {_listKey: _prevListkey, listSearch: prevListSearch} = this.state[listView] || {_listKey: 0};
+        if (_listKey > _prevListkey || !simpleEqual(listSearch, prevListSearch)) {
           await this.dispatch(this.callThisAction(this.fetchList, listSearch, listView, _listKey));
         }
       }
     }
     if (!this.itemLoading) {
       if (itemView) {
-        const {_itemKey: _prevItemkey, itemId: prevItemId} = this.state[itemView] || {};
-        if (_itemKey !== _prevItemkey || itemId !== prevItemId) {
+        const {_itemKey: _prevItemkey, itemId: prevItemId} = this.state[itemView] || {_itemKey: 0};
+        if (_itemKey > _prevItemkey || itemId !== prevItemId) {
           await this.dispatch(this.callThisAction(this.fetchItem, itemId, itemView, _itemKey));
         }
       } else {

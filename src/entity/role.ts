@@ -47,15 +47,15 @@ export const menuData: MenuItem[] = [
     icon: 'user',
     keys: 'member',
     children: [
-      {name: '用户列表', keys: ['/admin/member/list', '/admin/member/list/detail/:id'], link: '/admin/member/list#q=%7B"adminMember"%3A%7B"_listKey"%3A"${listKey}"%7D%7D'},
-      {name: '角色管理', keys: '/admin/role/list#q=%7B"adminRole"%3A%7B"_listKey"%3A"${listKey}"%7D%7D'},
+      {name: '用户列表', keys: ['/admin/member/list', '/admin/member/list/detail/:id'], link: '/admin/member/list#q=%7B"adminMember"%3A%7B"_listKey"%3A${listKey}%7D%7D'},
+      {name: '角色管理', keys: '/admin/role/list#q=%7B"adminRole"%3A%7B"_listKey"%3A${listKey}%7D%7D'},
     ],
   },
   {
     name: '信息管理',
     icon: 'post',
     keys: '/admin/finance',
-    children: [{name: '信息列表', keys: ['/admin/post/list', '/admin/post/list/detail/:id'], link: '/admin/post/list#q=%7B"adminPost"%3A%7B"_listKey"%3A"${listKey}"%7D%7D'}],
+    children: [{name: '信息列表', keys: ['/admin/post/list', '/admin/post/list/detail/:id'], link: '/admin/post/list#q=%7B"adminPost"%3A%7B"_listKey"%3A${listKey}%7D%7D'}],
   },
 ];
 export interface ListSearch extends BaseListSearch {
@@ -105,8 +105,8 @@ export const defaultRouteParams: RouteParams = {
     purviews: undefined,
   },
   listView: '',
-  _listKey: '',
+  _listKey: 0,
   itemId: '',
   itemView: '',
-  _itemKey: '',
+  _itemKey: 0,
 };

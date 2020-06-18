@@ -5,12 +5,10 @@ export interface BaseListSummary {
   totalPages: number;
   categorys?: {id: string; name: string; list: string[]}[];
 }
-export interface BaseItemDetail {
-  id: string;
-}
 export interface BaseListItem {
   id: string;
 }
+export type BaseItemDetail = BaseListItem;
 export interface BaseListSearch {
   pageCurrent?: number;
   pageSize?: number;
@@ -27,10 +25,10 @@ export type ItemView = 'detail' | 'edit' | 'create' | 'summary' | '';
 export interface CommonResourceRouteParams<L = never, I = never> {
   listView: ListView | L;
   listSearch: BaseListSearch;
-  _listKey: string;
+  _listKey: number;
   itemView: ItemView | I;
   itemId: string;
-  _itemKey: string;
+  _itemKey: number;
 }
 
 export interface CommonResource<L = never, I = never> {
