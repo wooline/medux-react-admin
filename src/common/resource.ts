@@ -50,8 +50,6 @@ export interface Config<Resource extends CommonResource> {
   api: ResourceAPI;
   defaultRouteParams: Resource['RouteParams'];
   newItem?: Resource['CreateItem'];
-  listView?: Resource['ListView'][];
-  itemView?: Resource['ItemView'][];
   enableRoute?: {[view in Resource['ListView'] | Resource['ItemView']]?: boolean};
   listPaths?: string[];
   itemPaths?: string[];
@@ -70,8 +68,6 @@ export abstract class CommonResourceHandlers<
     const defConfig = {
       newItem: {},
       enableRoute: {list: true, detail: false},
-      listView: ['list', 'selector', 'category'],
-      itemView: ['detail', 'edit', 'create', 'summary'],
       listPaths: ['app.Main', 'adminLayout.Main', this.moduleName + '.List'],
       itemPaths: ['app.Main', 'adminLayout.Main', this.moduleName + '.List', this.moduleName + '.Item'],
     };
@@ -90,6 +86,9 @@ export abstract class CommonResourceHandlers<
   }
   protected getNoneListSearch(): Resource['ListSearch'] {
     return this.config.noneListSearch;
+  }
+  protected createNewItem(): Promise<Resource['ItemDetail']> {
+    return this.config.newItem;
   }
   @reducer
   public putSearchList(list: Resource['ListItem'][], listSummary: Resource['ListSummary'], listSearch: Resource['ListSearch'], listView: string, _listKey: number): State {
@@ -265,13 +264,22 @@ export abstract class CommonResourceHandlers<
   @effect()
   protected async fetchItem(itemId: string, itemView: string, _itemKey: number) {
     this.itemLoading = true;
-    const item = await this.config.api.getDetailItem!(itemId).catch((e) => {
-      this.itemLoading = false;
-      throw e;
-    });
+    let item: Resource['ItemDetail'];
+    if (itemId === 'create') {
+      item = await this.createNewItem().catch((e) => {
+        this.itemLoading = false;
+        throw e;
+      });
+    } else {
+      item = await this.config.api.getDetailItem!(itemId).catch((e) => {
+        this.itemLoading = false;
+        throw e;
+      });
+    }
     this.itemLoading = false;
     this.dispatch(this.actions.putCurrentItem(item, itemId, itemView, _itemKey));
   }
+
   @effect(null)
   protected async ['this.Init,this.RouteParams']() {
     const routeParams: Resource['RouteParams'] = this.state.routeParams! || {};
@@ -289,16 +297,6 @@ export abstract class CommonResourceHandlers<
         const {_itemKey: _prevItemkey, itemId: prevItemId} = this.state[itemView] || {_itemKey: 0};
         if (_itemKey > _prevItemkey || itemId !== prevItemId) {
           await this.dispatch(this.callThisAction(this.fetchItem, itemId, itemView, _itemKey));
-        }
-      } else {
-        const data = this.config.itemView.reduce((prev, view) => {
-          if (this.state[view]) {
-            prev[view] = undefined;
-          }
-          return prev;
-        }, {} as any);
-        if (Object.keys(data).length) {
-          this.updateState(data);
         }
       }
     }
