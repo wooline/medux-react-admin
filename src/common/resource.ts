@@ -43,8 +43,8 @@ export class CommonResourceAPI implements ResourceAPI {
 }
 
 export type CommonResourceState<Resource extends CommonResource> = BaseModelState<Resource['RouteParams']> &
-  {[view in Resource['ListView']]?: {_listKey: number; list: Resource['ListItem'][]; listSummary: Resource['ListSummary']; listSearch: Resource['ListSearch']}} &
-  {[view in Resource['ItemView']]?: {_itemKey: number; itemId: string; itemDetail: Resource['ItemDetail']}} & {selectedRows?: Resource['ListItem'][]};
+  {[view in Resource['ListView']]?: {_listVer: number; list: Resource['ListItem'][]; listSummary: Resource['ListSummary']; listSearch: Resource['ListSearch']}} &
+  {[view in Resource['ItemView']]?: {_itemVer: number; itemId: string; itemDetail: Resource['ItemDetail']}} & {selectedRows?: Resource['ListItem'][]};
 
 export interface Config<Resource extends CommonResource> {
   api: ResourceAPI;
@@ -91,12 +91,12 @@ export abstract class CommonResourceHandlers<
     return this.config.newItem;
   }
   @reducer
-  public putSearchList(list: Resource['ListItem'][], listSummary: Resource['ListSummary'], listSearch: Resource['ListSearch'], listView: string, _listKey: number): State {
-    return {...this.state, [listView]: {_listKey, listSearch, list, listSummary}, listLoading: undefined};
+  public putSearchList(list: Resource['ListItem'][], listSummary: Resource['ListSummary'], listSearch: Resource['ListSearch'], listView: string, _listVer: number): State {
+    return {...this.state, [listView]: {_listVer, listSearch, list, listSummary}, listLoading: undefined};
   }
   @reducer
-  public putCurrentItem(itemDetail: any, itemId: string, itemView: string, _itemKey: number): State {
-    return {...this.state, [itemView]: {_itemKey, itemId, itemDetail}, itemLoading: undefined};
+  public putCurrentItem(itemDetail: any, itemId: string, itemView: string, _itemVer: number): State {
+    return {...this.state, [itemView]: {_itemVer, itemId, itemDetail}, itemLoading: undefined};
   }
   @reducer
   public putSelectedRows(selectedRows?: Resource['ListItem'][]): State {
@@ -109,31 +109,31 @@ export abstract class CommonResourceHandlers<
     const routeData = this.state.routeParams;
     if (enableRoute) {
       historyActions.push({
-        params: {[this.moduleName]: {...routeData, itemId: '', itemView: '', _itemKey: ''}},
+        params: {[this.moduleName]: {...routeData, itemId: '', itemView: '', _itemVer: ''}},
         paths: this.config.listPaths,
       });
     } else {
-      this.dispatch(this.actions.RouteParams({...routeData, itemId: '', itemView: '', _itemKey: ''}));
+      this.dispatch(this.actions.RouteParams({...routeData, itemId: '', itemView: '', _itemVer: ''}));
     }
   }
   @effect(null)
   public async openCurrentItem(currentItem: any, view?: Resource['ItemView']) {
     const itemView = view || this.state.routeParams?.itemView || 'detail';
-    const _itemKey = Date.now();
+    const _itemVer = Date.now();
     if (!currentItem) {
       currentItem = {...this.config.newItem, id: ''};
     }
     let itemId = currentItem;
     if (typeof currentItem !== 'string') {
       itemId = currentItem.id;
-      this.dispatch(this.actions.putCurrentItem(currentItem, itemId, itemView, _itemKey));
+      this.dispatch(this.actions.putCurrentItem(currentItem, itemId, itemView, _itemVer));
     }
     const enableRoute = this.config.enableRoute[itemView];
     const routeData = this.state.routeParams;
     if (enableRoute) {
-      historyActions.push({params: {[this.moduleName]: {...routeData, itemId, itemView, _itemKey}}, paths: this.config.itemPaths});
+      historyActions.push({params: {[this.moduleName]: {...routeData, itemId, itemView, _itemVer}}, paths: this.config.itemPaths});
     } else {
-      this.dispatch(this.actions.RouteParams({...routeData, itemId, itemView, _itemKey}));
+      this.dispatch(this.actions.RouteParams({...routeData, itemId, itemView, _itemVer}));
     }
   }
 
@@ -237,7 +237,7 @@ export abstract class CommonResourceHandlers<
       listSearch = {...this.getNoneListSearch(), ...params};
     }
 
-    const _listKey = Date.now();
+    const _listVer = Date.now();
     const routeData = this.state.routeParams;
     const listView = view || routeData?.listView || 'list';
     const enableRoute = this.config.enableRoute[listView];
@@ -245,24 +245,24 @@ export abstract class CommonResourceHandlers<
     if (enableRoute) {
       //路由变换时会自动触发Action RouteParams
       //extend: this.rootState.route.data,
-      historyActions.push({paths: this.config.listPaths, params: {[this.moduleName]: {...routeData, listView, listSearch, _listKey}}});
+      historyActions.push({paths: this.config.listPaths, params: {[this.moduleName]: {...routeData, listView, listSearch, _listVer}}});
     } else {
       //不使用路由需要手动触发Action RouteParams
-      await this.dispatch(this.actions.RouteParams({...routeData, listView, listSearch, _listKey}));
+      await this.dispatch(this.actions.RouteParams({...routeData, listView, listSearch, _listVer}));
     }
   }
   @effect()
-  protected async fetchList(listSearch: Resource['ListSearch'], listView: string, _listKey: number) {
+  protected async fetchList(listSearch: Resource['ListSearch'], listView: string, _listVer: number) {
     this.listLoading = true;
     const {list, listSummary} = await this.config.api.searchList!(listSearch).catch((e) => {
       this.listLoading = false;
       throw e;
     });
     this.listLoading = false;
-    this.dispatch(this.actions.putSearchList(list, listSummary, listSearch, listView, _listKey));
+    this.dispatch(this.actions.putSearchList(list, listSummary, listSearch, listView, _listVer));
   }
   @effect()
-  protected async fetchItem(itemId: string, itemView: string, _itemKey: number) {
+  protected async fetchItem(itemId: string, itemView: string, _itemVer: number) {
     this.itemLoading = true;
     let item: Resource['ItemDetail'];
     if (itemId === 'create') {
@@ -277,26 +277,26 @@ export abstract class CommonResourceHandlers<
       });
     }
     this.itemLoading = false;
-    this.dispatch(this.actions.putCurrentItem(item, itemId, itemView, _itemKey));
+    this.dispatch(this.actions.putCurrentItem(item, itemId, itemView, _itemVer));
   }
 
   @effect(null)
   protected async ['this.Init,this.RouteParams']() {
     const routeParams: Resource['RouteParams'] = this.state.routeParams! || {};
-    const {listView, listSearch, _listKey, itemView, itemId, _itemKey} = routeParams;
+    const {listView, listSearch, _listVer, itemView, itemId, _itemVer} = routeParams;
     if (!this.listLoading) {
       if (listView) {
-        const {_listKey: _prevListkey, listSearch: prevListSearch} = this.state[listView] || {_listKey: 0};
-        if (_listKey > _prevListkey || !simpleEqual(listSearch, prevListSearch)) {
-          await this.dispatch(this.callThisAction(this.fetchList, listSearch, listView, _listKey));
+        const {_listVer: _prevListkey, listSearch: prevListSearch} = this.state[listView] || {_listVer: 0};
+        if (_listVer > _prevListkey || !simpleEqual(listSearch, prevListSearch)) {
+          await this.dispatch(this.callThisAction(this.fetchList, listSearch, listView, _listVer));
         }
       }
     }
     if (!this.itemLoading) {
       if (itemView) {
-        const {_itemKey: _prevItemkey, itemId: prevItemId} = this.state[itemView] || {_itemKey: 0};
-        if (_itemKey > _prevItemkey || itemId !== prevItemId) {
-          await this.dispatch(this.callThisAction(this.fetchItem, itemId, itemView, _itemKey));
+        const {_itemVer: _prevItemkey, itemId: prevItemId} = this.state[itemView] || {_itemVer: 0};
+        if (_itemVer > _prevItemkey || itemId !== prevItemId) {
+          await this.dispatch(this.callThisAction(this.fetchItem, itemId, itemView, _itemVer));
         }
       }
     }

@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
+    "commit": "git-cz",
     "stylelint": "stylelint \"./src/**/*.less\"",
     "eslint": "eslint \"./src/**/*.{ts,tsx}\"",
     "types-check": "tsc",
@@ -12,6 +13,11 @@
     "build-prod": "npm run types-check && cross-env NODE_ENV=production SITE=prod node build/build.js",
     "analyzer": "cross-env NODE_ENV=production SITE=analyzer node build/build.js",
     "push": "scp -r dist/prod/* root@127.0.0.1:/var/www/medux-react-admin"
+  },
+  "config": {
+    "commitizen": {
+      "path": "node_modules/cz-conventional-changelog"
+    }
   },
   "husky": {
     "hooks": {
@@ -101,6 +107,8 @@
     "@types/react-dom": "~16.9.5",
     "antd-dayjs-webpack-plugin": "~1.0.0",
     "babel-plugin-import": "~1.13.0",
+    "commitizen": "~4.1.2",
+    "cz-conventional-changelog": "~3.2.0",
     "less": "~3.10.1",
     "less-loader": "~5.0.0",
     "postcss-less": "~3.1.4",

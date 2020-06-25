@@ -66,8 +66,8 @@ export const defaultRouteParams: RouteParams = {
     createdTime: undefined,
   },
   listView: '',
-  _listKey: 0,
+  _listVer: 0,
   itemId: '',
   itemView: '',
-  _itemKey: 0,
+  _itemVer: 0,
 };

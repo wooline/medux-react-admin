@@ -25,10 +25,10 @@ export type ItemView = 'detail' | 'edit' | 'create' | 'summary' | '';
 export interface CommonResourceRouteParams<L = never, I = never> {
   listView: ListView | L;
   listSearch: BaseListSearch;
-  _listKey: number;
+  _listVer: number;
   itemView: ItemView | I;
   itemId: string;
-  _itemKey: number;
+  _itemVer: number;
 }
 
 export interface CommonResource<L = never, I = never> {
