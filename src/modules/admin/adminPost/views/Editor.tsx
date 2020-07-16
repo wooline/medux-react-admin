@@ -10,7 +10,7 @@ import {getFormDecorators} from 'common/utils';
 import useEventCallback from 'hooks/useEventCallback';
 
 type FormData = Omit<UpdateItem, 'id'>;
-const MemberSelector = loadView('adminMember', 'Selector');
+const MemberSelector = loadView('adminMember', 'selector');
 
 const FormItem = Form.Item;
 

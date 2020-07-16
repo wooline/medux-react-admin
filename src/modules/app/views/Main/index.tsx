@@ -18,8 +18,8 @@ import zhCN from 'antd/es/locale/zh_CN';
 
 moment.locale('zh-cn');
 
-const AdminLayout = loadView('adminLayout', 'Main');
-const ArticleLayout = loadView('articleLayout', 'Main');
+const AdminLayout = loadView('adminLayout', 'main');
+const ArticleLayout = loadView('articleLayout', 'main');
 
 interface StoreProps {
   routeViews: RouteViews;
@@ -33,10 +33,10 @@ const Component: React.FC<StoreProps & DispatchProp> = ({routeViews}) => {
   return (
     <ConfigProvider locale={zhCN}>
       <Switch elseView={<NotFound />}>
-        {routeViews.app?.LoginPage && <LoginPage />}
-        {routeViews.app?.RegisterPage && <RegisterPage />}
-        {routeViews.adminLayout?.Main && <AdminLayout />}
-        {routeViews.articleLayout?.Main && <ArticleLayout />}
+        {routeViews.app?.loginPage && <LoginPage />}
+        {routeViews.app?.registerPage && <RegisterPage />}
+        {routeViews.adminLayout?.main && <AdminLayout />}
+        {routeViews.articleLayout?.main && <ArticleLayout />}
       </Switch>
       <GlobalLoading />
       <RegisterPop />

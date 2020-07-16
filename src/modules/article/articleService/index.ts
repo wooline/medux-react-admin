@@ -1,6 +1,6 @@
 import {ModelHandlers, initModelState} from './model';
 
-import Main from './views/Main';
 import {exportModule} from '@medux/react-web-router';
+import main from './views/Main';
 
-export default exportModule('articleService', initModelState, ModelHandlers, {Main});
+export default exportModule('articleService', initModelState, ModelHandlers, {main});

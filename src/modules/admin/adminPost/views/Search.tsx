@@ -13,7 +13,7 @@ import useEventCallback from 'hooks/useEventCallback';
 
 type FormData = ListSearchFormData<ListSearch>;
 
-const MemberSelector = loadView('adminMember', 'Selector');
+const MemberSelector = loadView('adminMember', 'selector');
 
 const Option = Select.Option;
 

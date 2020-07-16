@@ -18,7 +18,6 @@ const history = createBrowserHistory();
 
 buildApp({
   moduleGetter,
-  appModuleName: 'app',
   history,
   routeConfig,
   defaultRouteParams,

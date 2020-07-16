@@ -10,10 +10,10 @@ import {connect} from 'react-redux';
 import styles from './index.m.less';
 
 const {Content} = Layout;
-const AdminHome = loadView('adminHome', 'Main');
-const AdminMember = loadView('adminMember', 'List');
-const AdminPost = loadView('adminPost', 'List');
-const AdminRole = loadView('adminRole', 'List');
+const AdminHome = loadView('adminHome', 'main');
+const AdminMember = loadView('adminMember', 'list');
+const AdminPost = loadView('adminPost', 'list');
+const AdminRole = loadView('adminRole', 'list');
 
 interface StoreProps {
   routeViews: RouteViews;
@@ -35,10 +35,10 @@ const Component: React.FC<StoreProps> = ({routeViews, siderCollapsed, hasLogin})
         </Layout.Header>
         <Content>
           <Switch elseView={<NotFound />}>
-            {routeViews.adminHome?.Main && <AdminHome />}
-            {routeViews.adminRole?.List && <AdminRole />}
-            {routeViews.adminMember?.List && <AdminMember />}
-            {routeViews.adminPost?.List && <AdminPost />}
+            {routeViews.adminHome?.main && <AdminHome />}
+            {routeViews.adminRole?.list && <AdminRole />}
+            {routeViews.adminMember?.list && <AdminMember />}
+            {routeViews.adminPost?.list && <AdminPost />}
           </Switch>
         </Content>
       </Layout>

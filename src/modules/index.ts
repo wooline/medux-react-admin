@@ -78,42 +78,42 @@ export type BrowserRouter = reactWebRouter.BrowserRouter<RootState['route']['dat
 export const routeConfig: RouteConfig = {
   '/$': '@./admin/home',
   '/': [
-    'app.Main',
+    'app.main',
     {
-      '/login': 'app.LoginPage',
-      '/register': 'app.RegisterPage',
+      '/login': 'app.loginPage',
+      '/register': 'app.registerPage',
       '/admin$': '@./admin/home',
       '/admin': [
-        'adminLayout.Main',
+        'adminLayout.main',
         {
-          '/admin/home': 'adminHome.Main',
+          '/admin/home': 'adminHome.main',
           '/admin/role/:listView': [
-            'adminRole.List',
+            'adminRole.list',
             {
-              '/admin/role/:listView/:itemView/:itemId': 'adminRole.Item',
+              '/admin/role/:listView/:itemView/:itemId': 'adminRole.detail',
             },
           ],
           '/admin/member/:listView': [
-            'adminMember.List',
+            'adminMember.list',
             {
-              '/admin/member/:listView/:itemView/:itemId': 'adminMember.Item',
+              '/admin/member/:listView/:itemView/:itemId': 'adminMember.detail',
             },
           ],
           '/admin/post/:listView': [
-            'adminPost.List',
+            'adminPost.list',
             {
-              '/admin/post/:listView/:itemView/:itemId': 'adminPost.Item',
+              '/admin/post/:listView/:itemView/:itemId': 'adminPost.detail',
             },
           ],
         },
       ],
       '/article$': '@./article/home',
       '/article': [
-        'articleLayout.Main',
+        'articleLayout.main',
         {
-          '/article/home': 'articleHome.Main',
-          '/article/about': 'articleAbout.Main',
-          '/article/service': 'articleService.Main',
+          '/article/home': 'articleHome.main',
+          '/article/about': 'articleAbout.main',
+          '/article/service': 'articleService.main',
         },
       ],
     },

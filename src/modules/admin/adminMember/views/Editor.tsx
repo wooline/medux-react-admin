@@ -9,7 +9,7 @@ import useEventCallback from 'hooks/useEventCallback';
 
 type FormData = Omit<UpdateItem, 'id'>;
 
-const RoleSelector = loadView('adminRole', 'Selector');
+const RoleSelector = loadView('adminRole', 'selector');
 
 const FormItem = Form.Item;
 

@@ -91,20 +91,22 @@
   },
   "dependencies": {
     "@babel/runtime": "~7.9.0",
-    "@medux/react-web-router": "~1.1.0",
-    "@types/lodash": "~4.14.149",
+    "@medux/react-web-router": "~1.1.1-alpha.1",
     "antd": "~4.2.0",
     "lodash": "~4.17.15",
     "path-to-regexp": "~6.1.0",
     "react": "~16.13.0",
-    "react-dom": "~16.13.0"
+    "react-dom": "~16.13.0",
+    "react-redux": "~7.2.0"
   },
   "devDependencies": {
     "@medux/dev-pkg": "~1.0.3",
     "@medux/dev-utils": "~1.0.8",
     "@pmmmwh/react-refresh-webpack-plugin": "~0.3.0",
+    "@types/lodash": "~4.14.149",
     "@types/react": "~16.9.23",
     "@types/react-dom": "~16.9.5",
+    "@types/react-redux": "~7.1.9",
     "antd-dayjs-webpack-plugin": "~1.0.0",
     "babel-plugin-import": "~1.13.0",
     "commitizen": "~4.1.2",

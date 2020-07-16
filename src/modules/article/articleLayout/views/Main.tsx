@@ -6,9 +6,9 @@ import React from 'react';
 import {Switch} from '@medux/react-web-router';
 import {connect} from 'react-redux';
 
-const ArticleHome = loadView('articleHome', 'Main');
-const ArticleAbout = loadView('articleAbout', 'Main');
-const ArticleService = loadView('articleService', 'Main');
+const ArticleHome = loadView('articleHome', 'main');
+const ArticleAbout = loadView('articleAbout', 'main');
+const ArticleService = loadView('articleService', 'main');
 
 interface StoreProps {
   routeViews: RouteViews;
@@ -20,14 +20,9 @@ const Component: React.FC<StoreProps> = ({routeViews}) => {
       <Header />
       <div style={{minHeight: 600}}>
         <Switch elseView={<NotFound />}>
-          {routeViews.articleHome?.Main && <ArticleHome />}
-          {routeViews.articleAbout?.Main && <ArticleAbout />}
-          {routeViews.articleService?.Main && <ArticleService />}
-          {/* <Redirect exact path="/article" to="/article/home" />
-          <Route exact path="/article/home" component={ArticleHome} />
-          <Route exact path="/article/about" component={ArticleAbout} />
-          <Route exact path="/article/service" component={ArticleService} />
-          <Route component={NotFound} /> */}
+          {routeViews.articleHome?.main && <ArticleHome />}
+          {routeViews.articleAbout?.main && <ArticleAbout />}
+          {routeViews.articleService?.main && <ArticleService />}
         </Switch>
       </div>
       <Footer />

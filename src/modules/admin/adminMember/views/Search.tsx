@@ -11,7 +11,7 @@ import useEventCallback from 'hooks/useEventCallback';
 
 type FormData = ListSearchFormData<ListSearch>;
 
-const RoleSelector = loadView('adminRole', 'Selector', {forwardRef: true});
+const RoleSelector = loadView('adminRole', 'selector', {forwardRef: true});
 
 const Option = Select.Option;
 

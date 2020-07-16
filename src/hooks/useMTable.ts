@@ -13,7 +13,7 @@ export default function <ListItem extends BaseListItem>(
 ) {
   const sorterStr = [listSearch?.sorterField, listSearch?.sorterOrder].join('');
   const onCreate = useCallback(() => {
-    dispatch(resourceActions.openCurrentItem(null, 'create'));
+    dispatch(resourceActions.openCurrentItem('0', 'create'));
   }, [dispatch, resourceActions]);
 
   const onShowDetail = useCallback(
