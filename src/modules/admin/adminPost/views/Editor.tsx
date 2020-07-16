@@ -1,4 +1,4 @@
-import {Alert, Button, Form, Input} from 'antd';
+import {Button, Form, Input} from 'antd';
 import {ItemDetail, UpdateItem} from 'entity/post';
 import React, {useCallback} from 'react';
 

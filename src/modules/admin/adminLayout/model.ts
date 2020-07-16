@@ -1,4 +1,4 @@
-import {ActionTypes, BaseModelHandlers, BaseModelState, effect, reducer} from '@medux/react-web-router';
+import {BaseModelHandlers, BaseModelState, effect, reducer} from '@medux/react-web-router';
 import {MenuItem, menuData} from 'entity/role';
 
 import {TabNav} from 'entity';
@@ -41,7 +41,7 @@ export const initModelState: State = {
 };
 
 export class ModelHandlers extends BaseModelHandlers<State, RootState> {
-  private inited: boolean = false;
+  private inited = false;
   @reducer
   protected putMenuData(menuData: MenuItem[]): State {
     return {...this.state, menuData};

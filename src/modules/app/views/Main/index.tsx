@@ -47,7 +47,6 @@ const Component: React.FC<StoreProps & DispatchProp> = ({routeViews}) => {
 };
 
 const mapStateToProps: (state: RootState) => StoreProps = (state) => {
-  const app = state.app!;
   return {
     routeViews: state.route.data.views,
   };

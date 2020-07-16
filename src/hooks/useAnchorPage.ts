@@ -1,7 +1,7 @@
 import {useEffect} from 'react';
 
-let routeFlag: string = '';
-let routeTimer: number = 0;
+let routeFlag = '';
+let routeTimer = 0;
 
 const scrollToAnchor = (flag: string) => {
   routeFlag = flag;

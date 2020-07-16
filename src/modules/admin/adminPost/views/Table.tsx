@@ -1,5 +1,5 @@
 import {Button, Divider, Dropdown, Menu, Popconfirm} from 'antd';
-import {DStatus, ListItem, ListSearch, ListSummary, Status, UpdateItem} from 'entity/post';
+import {DStatus, ListItem, ListSearch, ListSummary, Status} from 'entity/post';
 import {DownOutlined, PlusOutlined} from '@ant-design/icons';
 import MTable, {ColumnProps} from 'components/MTable';
 import React, {useCallback, useMemo} from 'react';

@@ -1,7 +1,7 @@
 import {Button, Form} from 'antd';
+
 import {DownOutlined, UpOutlined} from '@ant-design/icons';
 import React, {useCallback, useMemo, useState} from 'react';
-
 import {FromItem} from 'common/utils';
 import useEventCallback from 'hooks/useEventCallback';
 
@@ -12,6 +12,7 @@ interface Props<FormData> {
   fixedFields?: Partial<FormData>;
   senior?: number;
   cols?: number;
+
   expand?: boolean;
   onReset?: () => void;
 }
@@ -32,6 +33,7 @@ function Component<T>(props: Props<T>) {
     const arr: number[] = [];
     let cur = 0;
     list.forEach((item) => {
+      // eslint-disable-next-line no-control-regex
       const label = Math.ceil(item.label!.replace(/[^\x00-\xff]/g, 'aa').length / 2);
       const col = item.col || 1;
       if (cur + col > cols) {

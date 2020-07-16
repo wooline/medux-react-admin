@@ -1,5 +1,5 @@
 import {Button, Divider, Popconfirm} from 'antd';
-import {DGender, DStatus, ListItem, ListSearch, ListSummary, Status, UpdateItem} from 'entity/member';
+import {DGender, DStatus, ListItem, ListSearch, ListSummary, Status} from 'entity/member';
 import MTable, {ColumnProps} from 'components/MTable';
 import React, {useCallback, useMemo} from 'react';
 

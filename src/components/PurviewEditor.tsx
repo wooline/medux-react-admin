@@ -1,7 +1,7 @@
-import React, {useEffect, useRef} from 'react';
-
 import {Checkbox} from 'antd';
 import {CheckboxChangeEvent} from 'antd/lib/checkbox';
+import React from 'react';
+
 import {purviewNames} from 'entity/role';
 import useEventCallback from 'hooks/useEventCallback';
 

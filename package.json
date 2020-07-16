@@ -5,7 +5,7 @@
   "scripts": {
     "commit": "git-cz",
     "stylelint": "stylelint \"./src/**/*.less\"",
-    "eslint": "eslint \"./src/**/*.{ts,tsx}\"",
+    "eslint": "eslint  \"**/*.{ts,tsx,js,jsx}\"",
     "types-check": "tsc",
     "lint": "npm run eslint && npm run stylelint && npm run types-check",
     "start": "npm run types-check && cross-env NODE_ENV=development SITE=local node build/start.js",
@@ -111,6 +111,9 @@
     "babel-plugin-import": "~1.13.0",
     "commitizen": "~4.1.2",
     "cz-conventional-changelog": "~3.2.0",
+    "eslint-plugin-babel": "~5.3.1",
+    "eslint-plugin-import": "~2.22.0",
+    "eslint-import-resolver-typescript": "~2.0.0",
     "less": "~3.10.1",
     "less-loader": "~5.0.0",
     "postcss-less": "~3.1.4",

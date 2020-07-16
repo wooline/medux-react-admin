@@ -1,3 +1,4 @@
+/* eslint-disable no-redeclare */
 // 将某些常用变量提升至global，对全局变量有洁癖者可忽略此文件
 import './Prepose';
 

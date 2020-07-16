@@ -35,7 +35,7 @@ export const initModelState: State = {
 
 // 定义本模块的Handlers
 export class ModelHandlers extends BaseModelHandlers<State, RootState> {
-  private noticesTimer: number = 0;
+  private noticesTimer = 0;
   private getNotice() {
     api.getNotices().then((notices) => {
       this.updateState({notices});
