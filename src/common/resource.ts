@@ -218,8 +218,8 @@ export abstract class CommonResourceHandlers<
     await this.searchList({params: options, extend: 'default'});
   }
   @effect(null)
-  public async noneListSearch(options: Resource['ListSearch'] = {}) {
-    await this.searchList({params: options, extend: 'none'});
+  public async noneListSearch(options: Resource['ListSearch'] = {}, view: Resource['ListView'] = 'list') {
+    await this.searchList({params: options, extend: 'none'}, view);
   }
   @effect(null)
   public async doListSearch(options: Resource['ListSearch'] = {}) {
