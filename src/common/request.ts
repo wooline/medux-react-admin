@@ -1,6 +1,6 @@
 import axios, {AxiosError, AxiosResponse, Method} from 'axios';
 
-import {CustomError} from 'common';
+import {CustomError} from 'common/errors';
 
 const request = axios.create();
 

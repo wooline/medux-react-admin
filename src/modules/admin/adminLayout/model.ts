@@ -2,7 +2,7 @@ import {BaseModelHandlers, BaseModelState, effect, reducer} from '@medux/react-w
 import {MenuItem, menuData} from 'entity/role';
 
 import {TabNav} from 'entity';
-import {UnauthorizedError} from 'common';
+import {UnauthorizedError} from 'common/errors';
 import {arrayToMap} from 'common/utils';
 
 const tabNavs: TabNav[] = JSON.parse(localStorage.getItem(metaKeys.FavoritesUrlStorageKey) || '[]');

@@ -3,7 +3,7 @@ import {ItemDetail, UpdateItem} from 'entity/role';
 import React, {useCallback} from 'react';
 
 import {CaretDownOutlined} from '@ant-design/icons';
-import {CustomError} from 'common';
+import {CustomError} from 'common/errors';
 import PurviewEditor from 'components/PurviewEditor';
 import {connect} from 'react-redux';
 import {getFormDecorators} from 'common/utils';

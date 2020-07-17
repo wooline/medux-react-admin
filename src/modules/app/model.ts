@@ -1,8 +1,7 @@
 import {ActionTypes, BaseModelHandlers, BaseModelState, LoadingState, effect, errorAction, reducer} from '@medux/react-web-router';
-import {CommonErrorCode, CustomError} from 'common';
+import {CommonErrorCode, CustomError, HandledError} from 'common/errors';
 import {CurUser, LoginRequest, Notices, RegisterRequest, guest} from 'entity/session';
 
-import {HandledError} from 'common';
 import {ProjectConfig} from 'entity';
 import api from './api';
 

@@ -1,7 +1,7 @@
 import {Button, Divider, Popconfirm} from 'antd';
 import {DGender, DStatus, ListItem, ListSearch, ListSummary, Status} from 'entity/member';
 import MTable, {ColumnProps} from 'components/MTable';
-import React, {useCallback, useMemo} from 'react';
+import React, {useMemo} from 'react';
 
 import {PlusOutlined} from '@ant-design/icons';
 import {connect} from 'react-redux';
@@ -19,12 +19,7 @@ interface StoreProps {
 
 const Component: React.FC<StoreProps & DispatchProp> = ({dispatch, listSearch, selectedRows, list, listSummary}) => {
   const {onChange, onDeleteList, onShowEditor, onShowDetail, onCreate, rowSelection, onChangeStatus} = useMTable(dispatch, actions.adminMember, listSearch, selectedRows, getCheckboxProps);
-  const onShowPosts = useCallback(
-    (author: string) => {
-      dispatch(actions.adminPost.noneListSearch({author}));
-    },
-    [dispatch]
-  );
+
   const columns = useMemo<ColumnProps<ListItem>[]>(
     () => [
       {
@@ -55,7 +50,7 @@ const Component: React.FC<StoreProps & DispatchProp> = ({dispatch, listSearch, s
         align: 'center',
         sorter: true,
         width: '8%',
-        render: (postNum, record) => <a onClick={() => onShowPosts(record.id)}>{postNum}</a>,
+        link: (text, record) => ({text, href: toUrl({paths: ['app.main', 'adminLayout.main', 'adminPost.list'], params: {adminPost: {listView: 'list', listSearch: {author: record.id}}}})}),
       },
       {
         title: 'Email',
@@ -87,6 +82,16 @@ const Component: React.FC<StoreProps & DispatchProp> = ({dispatch, listSearch, s
         dataIndex: 'fixed',
         width: '200px',
         className: 'actions',
+        actions: (fixed: string, record) => {
+          return fixed
+            ? {}
+            : {
+                detail: '详细',
+                delete: '删除',
+                edit: '修改',
+                change: [{status: record.status === Status.启用 ? '禁用' : '启用'}],
+              };
+        },
         render: (fixed: string, record) => {
           const disabled = fixed ? 'disable' : '';
           return (
@@ -109,7 +114,7 @@ const Component: React.FC<StoreProps & DispatchProp> = ({dispatch, listSearch, s
         },
       },
     ],
-    [onChangeStatus, onDeleteList, onShowDetail, onShowEditor, onShowPosts]
+    [onChangeStatus, onDeleteList, onShowDetail, onShowEditor]
   );
 
   const batchActions = useMemo(

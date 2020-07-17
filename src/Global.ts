@@ -3,7 +3,7 @@
 import './Prepose';
 
 import {actions, moduleNames, pageNames} from './modules';
-import {message, metaKeys} from './common';
+import {message, metaKeys} from './common/utils';
 
 type Actions = typeof actions;
 type MetaKeys = typeof metaKeys;
@@ -18,7 +18,7 @@ declare global {
   type LoadView = import('./modules').LoadView;
   type RouteData = RootState['route']['data'];
   type BaseRouteData = import('@medux/react-web-router').RouteData;
-  type CommonErrorCode = import('./common').CommonErrorCode;
+  type CommonErrorCode = import('./common/errors').CommonErrorCode;
   type DispatchProp = import('react-redux').DispatchProp;
   const module: any;
   const pageNames: {[key: string]: string};

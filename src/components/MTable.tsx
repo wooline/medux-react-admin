@@ -2,12 +2,12 @@ import {Alert, Button, Dropdown, Menu, Modal, Table} from 'antd';
 import {AlignLeftOutlined, DownOutlined, InfoCircleOutlined, LeftOutlined} from '@ant-design/icons';
 import {ColumnProps as BaseColumnProps, TableProps} from 'antd/lib/table';
 import {BaseListSearch, BaseListSummary} from 'entity';
-import React, {useCallback, useMemo, useState} from 'react';
 
 import DateTime from 'components/DateTime';
 import EllipsisText from 'components/EllipsisText';
+import {Link} from '@medux/react-web-router';
+import React from 'react';
 import {reference} from 'common/utils';
-import useEventCallback from 'hooks/useEventCallback';
 
 reference(Alert);
 
@@ -20,7 +20,71 @@ interface BatchAction {
   confirm?: boolean | string;
 }
 
-export type ColumnProps<T> = BaseColumnProps<T> & {timestamp?: boolean; no?: boolean; disable?: boolean};
+export type ColumnProps<T> = BaseColumnProps<T> & {
+  timestamp?: boolean;
+  no?: boolean;
+  disable?: boolean;
+  link?: (value: any, record: T, index: number) => {text: string; href: string};
+  actions?: (value: any, record: T, index: number) => {detail?: string; delete?: string; edit?: string; change?: {[key: string]: string}[]};
+};
+
+const formatColumns = (columns: ColumnProps<any>[], noID: number, sorterField?: string, sorterOrder?: 'descend' | 'ascend'): ColumnProps<any>[] => {
+  const transFormText = (text?: string | string[]) => {
+    if (!text) return '';
+    return typeof text === 'string' ? text : text.join(',');
+  };
+
+  return columns
+    .filter((col) => !col.disable)
+    .map((col) => {
+      const newCol = {...col};
+      /**排序状态受控 */
+      if (col.sorter && typeof col.sorter === 'boolean' && !col.sortOrder) {
+        newCol.sortOrder = (sorterField === col.dataIndex && sorterOrder) || null;
+      }
+      /**超出一行省略 */
+      if (col.ellipsis && !col.render) {
+        newCol.render = (text: string) => <EllipsisText>{transFormText(text)}</EllipsisText>;
+      }
+      /**时间戳转换 */
+      if (col.timestamp && !col.render) {
+        newCol.render = (text: string) => <DateTime date={text} />;
+      }
+      /**自动生成序号 */
+      if (col.no) {
+        newCol.render = (text, record, index: number) => noID + index;
+      }
+      if (col.link) {
+        newCol.render = (text, record, index: number) => {
+          const link = col.link!(text, record, index);
+          return <Link href={link.href}>{link.text}</Link>;
+        };
+      }
+      if (col.actions) {
+        newCol.render = (text, record, index: number) => {
+          const actions = col.actions!(text, record, index);
+          return (
+            <>
+              {actions.detail && <a onClick={() => onShowDetail(record.id)}>{actions.detail}</a>}
+              {/* <Divider className={disabled} type="vertical" />
+              <a className={disabled} onClick={() => onChangeStatus(record.status === Status.启用 ? Status.禁用 : Status.启用, [record.id])}>
+                {record.status === Status.启用 ? '禁用' : '启用'}
+              </a>
+              <Divider className={disabled} type="vertical" />
+              <a className={disabled} onClick={() => onShowEditor(record.id)}>
+                修改
+              </a>
+              <Divider className={disabled} type="vertical" />
+              <Popconfirm placement="topRight" title="您确定要删除该条数据吗？" onConfirm={() => onDeleteList([record.id])}>
+                <a className={disabled}>删除</a>
+              </Popconfirm> */}
+            </>
+          );
+        };
+      }
+      return col;
+    });
+};
 
 interface Props<T> extends TableProps<T> {
   batchActions?: {actions: BatchAction[]; onClick: (target: BatchAction) => void};
@@ -32,89 +96,56 @@ interface Props<T> extends TableProps<T> {
   columns: ColumnProps<T>[];
 }
 
-const formatColumns = (columns: ColumnProps<any>[], noID: number, sorterField?: string, sorterOrder?: 'descend' | 'ascend'): ColumnProps<any>[] => {
-  const transFormText = (text?: string | string[]) => {
-    if (!text) return '';
-    return typeof text === 'string' ? text : text.join(',');
-  };
+interface State {
+  dataSource?: any[];
+  showConfirmModal?: boolean;
+  confirmModal?: {context: React.ReactNode; callback: Function};
+  reviewSelectedMode?: boolean;
+}
 
-  return columns
-    .filter((col) => !col.disable)
-    .map((col) => {
-      /**排序状态受控 */
-      if (col.sorter && typeof col.sorter === 'boolean' && !col.sortOrder) {
-        col = {...col};
-        col.sortOrder = (sorterField === col.dataIndex && sorterOrder) || null;
-      }
-      /**超出一行省略 */
-      if (col.ellipsis && !col.render) {
-        col = {...col};
-        col.render = (text: string) => <EllipsisText>{transFormText(text)}</EllipsisText>;
-      }
-      /**时间戳转换 */
-      if (col.timestamp && !col.render) {
-        col = {...col};
-        col.render = (text: string) => <DateTime date={text} />;
-      }
-      /**自动生成序号 */
-      if (col.no) {
-        col = {...col};
-        col.render = (text, record, index: number) => noID + index;
-      }
-      return col;
-    });
-};
-const returnTotal = (total: number) => {
-  return `共${total}条`;
-};
-const genLimitTips = (limit: number) => {
-  return (
-    <>
-      还可选择 <em>{limit}</em> 项，
-    </>
-  );
-};
-function Component<T extends object>(props: Props<T>) {
-  const defaultListSummary: BaseListSummary = {pageCurrent: 1, pageSize: 10, totalItems: 0, totalPages: 0};
-  const defaultListSearch: BaseListSearch = {sorterOrder: 'ascend', sorterField: '', pageSize: 10, pageCurrent: 1};
-  const {listSummary = defaultListSummary, listSearch = defaultListSearch, dataSource, rowKey = 'id', bottomArea, batchActions, topArea, rowSelection, columns, ...otherPops} = props;
-  const {pageCurrent, pageSize, totalItems} = listSummary;
-  const {sorterField, sorterOrder} = listSearch;
-  const {selectLimit = 0, selectedRows} = rowSelection || {};
-  const limitMax = typeof selectLimit === 'number' ? selectLimit : selectLimit[1];
-  const selectedCount = (selectedRows || []).length;
-  const selectedRowKeys = useMemo(() => (selectedRows || []).map((item) => item[rowKey as string] || item['id']), [rowKey, selectedRows]);
-  if (rowSelection) {
-    rowSelection.columnWidth = 60;
-    rowSelection.type = limitMax === 1 ? 'radio' : 'checkbox';
-    rowSelection.selectedRowKeys = selectedRowKeys;
+class MTable<T extends object> extends React.PureComponent<Props<T>> {
+  static getDerivedStateFromProps<T>(nextProps: Props<T>, prevState: State): State | null {
+    if (nextProps.dataSource !== prevState.dataSource) {
+      return {...prevState, reviewSelectedMode: false, dataSource: nextProps.dataSource};
+    }
+    const {selectedRows = []} = nextProps.rowSelection || {};
+    if (prevState.reviewSelectedMode && selectedRows.length === 0) {
+      return {...prevState, reviewSelectedMode: false};
+    }
+    return null;
   }
+  state: State = {};
 
-  const [showConfirmModal, setShowConfirmModal] = useState(false);
-  const [reviewMode, setReviewMode] = useState(false);
-  const [confirmModal, setConfirmModal] = useState<{context: React.ReactNode; callback: Function}>();
-  const cancelConfirm = useCallback(() => {
-    setShowConfirmModal(false);
-  }, []);
-  const executeConfirm = useEventCallback(() => {
-    confirmModal!.callback();
-  }, [confirmModal]);
-  const onReviewSelected = useCallback(() => {
-    setReviewMode(true);
-  }, []);
-  const onCloseReviewSelected = useCallback(() => {
-    setReviewMode(false);
-  }, []);
-  const onClearSelected = useEventCallback(() => {
-    rowSelection && rowSelection.onClear && rowSelection.onClear();
-  }, [rowSelection]);
-  const onBatchAction = useEventCallback(
-    (key: string, selectedRowCount: number) => {
-      const {actions, onClick} = batchActions!;
-      const target = actions.find((item) => item.key === key);
-      if (target!.confirm) {
-        setShowConfirmModal(true);
-        setConfirmModal({
+  returnTotal = (total: number) => {
+    return `共${total}条`;
+  };
+  cancelConfirm = () => {
+    this.setState({showConfirmModal: false});
+  };
+  executeConfirm = () => {
+    this.state.confirmModal!.callback();
+  };
+  genLimitTips = (limit: number) => {
+    return (
+      <>
+        还可选择 <em>{limit}</em> 项，
+      </>
+    );
+  };
+  onReviewSelected = () => {
+    this.setState({reviewSelectedMode: true});
+  };
+  onCloseReviewSelected = () => {
+    this.setState({reviewSelectedMode: false});
+  };
+  onBatchAction = (key: string, selectedRowCount: number) => {
+    const {batchActions} = this.props;
+    const {actions, onClick} = batchActions!;
+    const target = actions.find((item) => item.key === key);
+    if (target!.confirm) {
+      this.setState({
+        showConfirmModal: true,
+        confirmModal: {
           context: (
             <div className="g-em">
               您确认要 <cite>{target!.label}</cite> 所选择的 <em>{selectedRowCount}</em> 项吗？
@@ -122,32 +153,51 @@ function Component<T extends object>(props: Props<T>) {
             </div>
           ),
           callback: () => {
-            setShowConfirmModal(false);
+            this.cancelConfirm();
             onClick(target!);
           },
-        });
-      } else {
-        onClick(target!);
+        },
+      });
+    } else {
+      onClick(target!);
+    }
+  };
+  onClearSelected = () => {
+    const {rowSelection = {}} = this.props;
+    rowSelection.onClear && rowSelection.onClear();
+  };
+  render() {
+    const defaultListSummary: BaseListSummary = {pageCurrent: 1, pageSize: 10, totalItems: 0, totalPages: 0};
+    const defaultListSearch: BaseListSearch = {sorterOrder: 'ascend', sorterField: '', pageSize: 10, pageCurrent: 1};
+    const {reviewSelectedMode, showConfirmModal, confirmModal} = this.state;
+    const {listSummary = defaultListSummary, listSearch = defaultListSearch, rowKey = 'id', bottomArea, batchActions, dataSource, topArea, rowSelection, columns, ...otherPops} = this.props;
+    const {pageCurrent, pageSize, totalItems} = listSummary;
+    const {sorterField, sorterOrder} = listSearch;
+    const {selectLimit = 0, selectedRows = []} = rowSelection || {};
+    const limitMax = typeof selectLimit === 'number' ? selectLimit : selectLimit[1];
+    if (rowSelection) {
+      rowSelection.columnWidth = 60;
+      rowSelection.type = limitMax === 1 ? 'radio' : 'checkbox';
+      if (!rowSelection.selectedRowKeys) {
+        rowSelection.selectedRowKeys = selectedRows.map((item) => item[rowKey as string] || item['id']);
       }
-    },
-    [batchActions]
-  );
-  const onSigleBatchAction = useEventCallback(() => onBatchAction(batchActions!.actions[0].key, selectedCount), [batchActions, onBatchAction, selectedCount]);
-  const onMultBatchAction = useEventCallback(({key}) => onBatchAction(key, selectedCount), [onBatchAction, selectedCount]);
+    }
+    const selectedCount = selectedRows.length;
 
-  const batchMenu: React.ReactNode = useMemo(() => {
+    let batchMenu: React.ReactNode = null;
+
     if (batchActions) {
       if (batchActions.actions.length === 1) {
-        return (
-          <Button icon={alignLeftOutlined} onClick={onSigleBatchAction}>
+        batchMenu = (
+          <Button icon={alignLeftOutlined} onClick={() => this.onBatchAction(batchActions.actions[0].key, selectedCount)}>
             {batchActions.actions[0].label}
           </Button>
         );
       } else {
-        return (
+        batchMenu = (
           <Dropdown
             overlay={
-              <Menu onClick={onMultBatchAction}>
+              <Menu onClick={({key}) => this.onBatchAction(key, selectedCount)}>
                 {batchActions.actions.map((action) => (
                   <Menu.Item key={action.key}>{action.label}</Menu.Item>
                 ))}
@@ -160,65 +210,58 @@ function Component<T extends object>(props: Props<T>) {
           </Dropdown>
         );
       }
-    } else {
-      return null;
     }
-  }, [batchActions, onMultBatchAction, onSigleBatchAction]);
-  const [prevDataSource, setPrevDataSource] = useState<any[]>();
-  if (prevDataSource !== dataSource) {
-    setPrevDataSource(dataSource);
-    setReviewMode(false);
+    const cols = formatColumns(columns, (pageCurrent - 1) * pageSize + 1, sorterField, sorterOrder);
+
+    return (
+      <>
+        <div className="tableHeader">
+          {topArea}
+          {batchMenu && selectedCount > 0 && batchMenu}
+          {reviewSelectedMode && (
+            <Button onClick={this.onCloseReviewSelected} type="dashed" icon={leftOutlined}>
+              返回列表
+            </Button>
+          )}
+          {selectedCount > 0 && (
+            <div className="ant-alert-info">
+              <InfoCircleOutlined /> 已选择{' '}
+              <a onClick={this.onReviewSelected} style={{fontWeight: 'bold'}}>
+                {selectedCount}
+              </a>{' '}
+              项，
+              {limitMax !== 0 && limitMax !== 1 ? this.genLimitTips(limitMax - selectedCount) : ''}
+              <a onClick={reviewSelectedMode ? this.onCloseReviewSelected : this.onReviewSelected}>{reviewSelectedMode ? '返回' : '查看'}</a> 或 <a onClick={this.onClearSelected}>清空选择</a>
+            </div>
+          )}
+        </div>
+        <Table<T>
+          pagination={
+            reviewSelectedMode
+              ? false
+              : {
+                  showTotal: this.returnTotal,
+                  showQuickJumper: true,
+                  pageSizeOptions: ['10', '50', '100'],
+                  showSizeChanger: true,
+                  current: pageCurrent,
+                  pageSize,
+                  total: totalItems,
+                }
+          }
+          rowSelection={rowSelection}
+          dataSource={reviewSelectedMode ? selectedRows : dataSource}
+          rowKey={rowKey}
+          columns={cols}
+          {...otherPops}
+        />
+        {bottomArea && <div className="tableFooter">{bottomArea}</div>}
+        <Modal visible={!!showConfirmModal} onOk={this.executeConfirm} onCancel={this.cancelConfirm}>
+          {confirmModal && confirmModal!.context}
+        </Modal>
+      </>
+    );
   }
-  const reviewSelectedMode = selectedRows && selectedRows.length > 0 && reviewMode;
-  const cols = useMemo(() => formatColumns(columns, (pageCurrent - 1) * pageSize + 1, sorterField, sorterOrder), [columns, pageCurrent, pageSize, sorterField, sorterOrder]);
-  return (
-    <>
-      <div className="tableHeader">
-        {topArea}
-        {batchMenu && selectedCount > 0 && batchMenu}
-        {reviewSelectedMode && (
-          <Button onClick={onCloseReviewSelected} type="dashed" icon={leftOutlined}>
-            返回列表
-          </Button>
-        )}
-        {selectedCount > 0 && (
-          <div className="ant-alert-info">
-            <InfoCircleOutlined /> 已选择{' '}
-            <a onClick={onReviewSelected} style={{fontWeight: 'bold'}}>
-              {selectedCount}
-            </a>{' '}
-            项，
-            {limitMax !== 0 && limitMax !== 1 ? genLimitTips(limitMax - selectedCount) : ''}
-            <a onClick={reviewSelectedMode ? onCloseReviewSelected : onReviewSelected}>{reviewSelectedMode ? '返回' : '查看'}</a> 或 <a onClick={onClearSelected}>清空选择</a>
-          </div>
-        )}
-      </div>
-      <Table<T>
-        pagination={
-          reviewSelectedMode
-            ? false
-            : {
-                showTotal: returnTotal,
-                showQuickJumper: true,
-                pageSizeOptions: ['10', '50', '100'],
-                showSizeChanger: true,
-                current: pageCurrent,
-                pageSize,
-                total: totalItems,
-              }
-        }
-        rowSelection={rowSelection}
-        dataSource={reviewSelectedMode ? selectedRows : dataSource}
-        rowKey={rowKey}
-        columns={cols}
-        {...otherPops}
-      />
-      {bottomArea && <div className="tableFooter">{bottomArea}</div>}
-      <Modal visible={!!showConfirmModal} onOk={executeConfirm} onCancel={cancelConfirm}>
-        {confirmModal && confirmModal!.context}
-      </Modal>
-    </>
-  );
 }
 
-export default React.memo(Component) as typeof Component;
+export default MTable;

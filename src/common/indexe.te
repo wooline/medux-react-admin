@@ -1,4 +1,7 @@
+import {FormItemProps} from 'antd/lib/form/FormItem';
+import {Rule} from 'antd/lib/form';
 import {message as antdMessage} from 'antd';
+
 export enum CommonErrorCode {
   unknown = 'unknown',
   notFound = 'notFound',

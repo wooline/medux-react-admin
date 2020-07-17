@@ -3,7 +3,7 @@ import {DashboardOutlined, ProfileOutlined, TeamOutlined} from '@ant-design/icon
 import ListKeyLink from 'components/ListKeyLink';
 import {Menu} from 'antd';
 import {MenuItem} from 'entity/role';
-import {PickOptional} from 'common';
+import {PickOptional} from 'common/utils';
 import React from 'react';
 import {connect} from 'react-redux';
 import {pathToRegexp} from 'path-to-regexp';

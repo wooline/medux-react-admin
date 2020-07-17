@@ -2,7 +2,7 @@ import React, {useCallback} from 'react';
 import ResourceSimpleSelector, {Props as ResourceSimpleSelectorProps} from 'components/ResourceSimpleSelector';
 
 import {ListItem} from 'entity/role';
-import {OmitSelf} from 'common';
+import {OmitSelf} from 'common/utils';
 import api from '../api';
 
 export interface Item {

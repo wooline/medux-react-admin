@@ -2,7 +2,7 @@ import {Button, Form, Input} from 'antd';
 import {ItemDetail, UpdateItem} from 'entity/post';
 import React, {useCallback} from 'react';
 
-import {CustomError} from 'common';
+import {CustomError} from 'common/errors';
 import {Status as MemberStaus} from 'entity/member';
 import ResourceSelector from 'components/ResourceSelector';
 import {connect} from 'react-redux';

@@ -2,7 +2,7 @@ import {Button, Form, Input, Select} from 'antd';
 import {DGender, DStatus, ItemDetail, UpdateItem} from 'entity/member';
 import React, {useCallback, useMemo} from 'react';
 
-import {CustomError} from 'common';
+import {CustomError} from 'common/errors';
 import {connect} from 'react-redux';
 import {getFormDecorators} from 'common/utils';
 import useEventCallback from 'hooks/useEventCallback';
