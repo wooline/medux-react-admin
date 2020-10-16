@@ -1,13 +1,13 @@
 import {ItemDetail, ListSearch} from 'entity/post';
 import React, {useCallback} from 'react';
 
-import Detail from './Detail';
-import Editor from './Editor';
 import {ItemView} from 'entity';
 import {Modal} from 'antd';
+import {connect} from 'react-redux';
+import Detail from './Detail';
+import Editor from './Editor';
 import Search from './Search';
 import Table from './Table';
-import {connect} from 'react-redux';
 
 interface StoreProps {
   listSearch: ListSearch;
@@ -26,12 +26,12 @@ const Component: React.FC<StoreProps & DispatchProp> = ({dispatch, listSearch, c
       <Search listSearch={listSearch} />
       <Table />
       {currentItem && itemView === 'detail' && (
-        <Modal wrapClassName="g-noBorderHeader" visible={true} onCancel={onHideCurrent} footer={null} title="信息详细" width={900}>
-          <Detail primaryMode={true} currentItem={currentItem} />
+        <Modal wrapClassName="g-noBorderHeader" visible onCancel={onHideCurrent} footer={null} title="信息详细" width={900}>
+          <Detail primaryMode currentItem={currentItem} />
         </Modal>
       )}
       {currentItem && (itemView === 'edit' || itemView === 'create') && (
-        <Modal visible={true} onCancel={onHideCurrent} footer={null} title={itemView === 'edit' ? '修改信息' : '发布信息'} width={600}>
+        <Modal visible onCancel={onHideCurrent} footer={null} title={itemView === 'edit' ? '修改信息' : '发布信息'} width={600}>
           <Editor currentItem={currentItem} />
         </Modal>
       )}

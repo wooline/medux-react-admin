@@ -1,7 +1,7 @@
 import {AlertOutlined, BugOutlined} from '@ant-design/icons';
 
-import ImgAD from './imgs/ad.png';
 import React from 'react';
+import ImgAD from './imgs/ad.png';
 import styles from './index.m.less';
 
 const Component: React.FC = () => {
@@ -23,7 +23,7 @@ const Component: React.FC = () => {
             </ul>
           </article>
           <aside>
-            <img width="600" height="350" src={ImgAD} />
+            <img alt="" width="600" height="350" src={ImgAD} />
           </aside>
         </div>
         <div className="summary g-clearfix">

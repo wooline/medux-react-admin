@@ -1,6 +1,5 @@
-import {BaseListItem, BaseListSearch, BaseListSummary, CommonResource, CommonResourceRouteParams} from './index';
-
 import {enumOptions} from 'common/utils';
+import {BaseListItem, BaseListSearch, BaseListSummary, CommonResource, CommonResourceRouteParams} from './index';
 
 export enum Gender {
   '男' = 'male',

@@ -3,7 +3,7 @@ import {DashboardOutlined, ProfileOutlined, TeamOutlined} from '@ant-design/icon
 import ListKeyLink from 'components/ListKeyLink';
 import {Menu} from 'antd';
 import {MenuItem} from 'entity/role';
-import {PickOptional} from 'common';
+import {PickOptional} from 'common/utils';
 import React from 'react';
 import {connect} from 'react-redux';
 import {pathToRegexp} from 'path-to-regexp';
@@ -23,9 +23,8 @@ function getSelectedMenuKeys(linksKeys: {[key: string]: string[]}, pathname: str
     const selected = alias[selectedKeys[0]] || selectedKeys[0];
     const openKeys = lastedOpenKeys.length ? Array.from(new Set([...lastedOpenKeys, ...linksKeys[selected]])) : linksKeys[selected];
     return {selectedKey: selected, openKeys};
-  } else {
-    return {selectedKey: '', openKeys: lastedOpenKeys};
   }
+  return {selectedKey: '', openKeys: lastedOpenKeys};
 }
 
 function mapMenuData(menus: MenuItem[]): {links: {[key: string]: string[]}; folders: {[key: string]: string[]}; alias: {[key: string]: string}} {
@@ -122,21 +121,20 @@ function generateMenu(menusData: MenuItem[], folderHandler: (item: {key: string}
           {generateMenu(children, folderHandler)}
         </SubMenu>
       );
-    } else {
-      return (
-        <Menu.Item key={path}>
-          {target ? (
-            <a href={link} target={target}>
-              {getIcon(icon)} <span>{name}</span>
-            </a>
-          ) : (
-            <ListKeyLink href={link}>
-              {getIcon(icon)} <span>{name}</span>
-            </ListKeyLink>
-          )}
-        </Menu.Item>
-      );
     }
+    return (
+      <Menu.Item key={path}>
+        {target ? (
+          <a href={link} target={target}>
+            {getIcon(icon)} <span>{name}</span>
+          </a>
+        ) : (
+          <ListKeyLink href={link}>
+            {getIcon(icon)} <span>{name}</span>
+          </ListKeyLink>
+        )}
+      </Menu.Item>
+    );
   });
 }
 interface StoreProps {
@@ -153,23 +151,10 @@ interface State {
   openKeys: string[];
   pathname: string;
   alias: {[key: string]: string};
-  linksKeys: {[key: string]: string[]}; //{path:[parent1,parent2]}
-  foldersKeys: {[key: string]: string[]}; //{path:[parent1,parent2]}
+  linksKeys: {[key: string]: string[]}; // {path:[parent1,parent2]}
+  foldersKeys: {[key: string]: string[]}; // {path:[parent1,parent2]}
 }
 class Component extends React.Component<StoreProps & DispatchProp, State> {
-  constructor(props: StoreProps & DispatchProp, context?: any) {
-    super(props, context);
-    this.state = {
-      menus: [],
-      dataSource: [],
-      pathname: '',
-      alias: {},
-      linksKeys: {},
-      foldersKeys: {},
-      selectedKey: '',
-      openKeys: [],
-    };
-  }
   public static defaultProps: PickOptional<StoreProps> = {
     match: (pathname: string, key: string) => {
       let reg: RegExp;
@@ -177,11 +162,13 @@ class Component extends React.Component<StoreProps & DispatchProp, State> {
         reg = matchCache[key];
       } else {
         const arr = key.split(/[?#]/);
-        reg = matchCache[key] = pathToRegexp(arr[0]);
+        reg = pathToRegexp(arr[0]);
+        matchCache[key] = pathToRegexp(arr[0]);
       }
       return reg.test(pathname);
     },
   };
+
   static getDerivedStateFromProps(nextProps: StoreProps, prevState: State): State | null {
     if (nextProps.dataSource.length && nextProps.dataSource !== prevState.dataSource) {
       const menus = filterDisable(nextProps.dataSource);
@@ -216,6 +203,21 @@ class Component extends React.Component<StoreProps & DispatchProp, State> {
     }
     return null;
   }
+
+  constructor(props: StoreProps & DispatchProp, context?: any) {
+    super(props, context);
+    this.state = {
+      menus: [],
+      dataSource: [],
+      pathname: '',
+      alias: {},
+      linksKeys: {},
+      foldersKeys: {},
+      selectedKey: '',
+      openKeys: [],
+    };
+  }
+
   shouldComponentUpdate(nextProps: StoreProps, nextState: State) {
     return (
       nextProps.siderCollapsed !== this.props.siderCollapsed ||
@@ -224,6 +226,7 @@ class Component extends React.Component<StoreProps & DispatchProp, State> {
       nextState.selectedKey !== this.state.selectedKey
     );
   }
+
   onOpenChange = (openKeys: string[]) => {
     if (!this.props.singleOpen) {
       this.setState({
@@ -234,7 +237,8 @@ class Component extends React.Component<StoreProps & DispatchProp, State> {
 
   folderHandler = ({key}: {key: string}) => {
     if (this.props.singleOpen) {
-      let openKeys = [...this.state.openKeys];
+      const curOpenKeys = this.state.openKeys;
+      let openKeys = [...curOpenKeys];
       const n = openKeys.indexOf(key);
       if (n > -1) {
         openKeys = openKeys.slice(0, n);

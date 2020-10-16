@@ -10,6 +10,7 @@ interface Props {
 
 const Component: React.FC<Props> = ({className, register, children}) => {
   const onClick = useCallback(() => {
+    // eslint-disable-next-line no-restricted-globals
     sessionStorage.setItem(metaKeys.LoginRedirectSessionStorageKey, location.pathname + location.search + location.hash);
   }, []);
   return (

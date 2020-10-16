@@ -1,11 +1,11 @@
 import axios, {AxiosError, AxiosResponse, Method} from 'axios';
 
-import {CustomError} from 'common';
+import {CustomError} from 'common/errors';
 
 const request = axios.create();
 
-request.interceptors.request.use((request) => {
-  return request;
+request.interceptors.request.use((req) => {
+  return req;
 });
 
 request.interceptors.response.use(
@@ -29,18 +29,16 @@ export default function ajax<T>(method: Method, url: string, params: {[key: stri
       const val: string = params[key];
       delete params[key];
       return encodeURIComponent(val);
-    } else {
-      return '';
     }
+    return '';
   });
   Object.keys(initEnv.apiServerPath).some((key) => {
     const reg = new RegExp(key);
     if (reg.test(url)) {
       url = url.replace(reg, initEnv.apiServerPath[key]);
       return true;
-    } else {
-      return false;
     }
+    return false;
   });
 
   return request.request({method, url, params, data}).then((response) => response.data);

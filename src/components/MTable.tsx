@@ -41,24 +41,21 @@ const formatColumns = (columns: ColumnProps<any>[], noID: number, sorterField?: 
   return columns
     .filter((col) => !col.disable)
     .map((col) => {
-      /**排序状态受控 */
+      col = {...col};
+      /** 排序状态受控 */
       if (col.sorter && typeof col.sorter === 'boolean' && !col.sortOrder) {
-        col = {...col};
         col.sortOrder = (sorterField === col.dataIndex && sorterOrder) || null;
       }
-      /**超出一行省略 */
+      /** 超出一行省略 */
       if (col.ellipsis && !col.render) {
-        col = {...col};
         col.render = (text: string) => <EllipsisText>{transFormText(text)}</EllipsisText>;
       }
-      /**时间戳转换 */
+      /** 时间戳转换 */
       if (col.timestamp && !col.render) {
-        col = {...col};
         col.render = (text: string) => <DateTime date={text} />;
       }
-      /**自动生成序号 */
+      /** 自动生成序号 */
       if (col.no) {
-        col = {...col};
         col.render = (text, record, index: number) => noID + index;
       }
       return col;
@@ -74,7 +71,7 @@ const genLimitTips = (limit: number) => {
     </>
   );
 };
-function Component<T extends object>(props: Props<T>) {
+function Component<T extends Record<string, any>>(props: Props<T>) {
   const defaultListSummary: BaseListSummary = {pageCurrent: 1, pageSize: 10, totalItems: 0, totalPages: 0};
   const defaultListSearch: BaseListSearch = {sorterOrder: 'ascend', sorterField: '', pageSize: 10, pageCurrent: 1};
   const {listSummary = defaultListSummary, listSearch = defaultListSearch, dataSource, rowKey = 'id', bottomArea, batchActions, topArea, rowSelection, columns, ...otherPops} = props;
@@ -83,7 +80,7 @@ function Component<T extends object>(props: Props<T>) {
   const {selectLimit = 0, selectedRows} = rowSelection || {};
   const limitMax = typeof selectLimit === 'number' ? selectLimit : selectLimit[1];
   const selectedCount = (selectedRows || []).length;
-  const selectedRowKeys = useMemo(() => (selectedRows || []).map((item) => item[rowKey as string] || item['id']), [rowKey, selectedRows]);
+  const selectedRowKeys = useMemo(() => (selectedRows || []).map((item) => item[rowKey as string] || item.id), [rowKey, selectedRows]);
   if (rowSelection) {
     rowSelection.columnWidth = 60;
     rowSelection.type = limitMax === 1 ? 'radio' : 'checkbox';
@@ -92,7 +89,7 @@ function Component<T extends object>(props: Props<T>) {
 
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [reviewMode, setReviewMode] = useState(false);
-  const [confirmModal, setConfirmModal] = useState<{context: React.ReactNode; callback: Function}>();
+  const [confirmModal, setConfirmModal] = useState<{context: React.ReactNode; callback: () => void}>();
   const cancelConfirm = useCallback(() => {
     setShowConfirmModal(false);
   }, []);
@@ -106,7 +103,9 @@ function Component<T extends object>(props: Props<T>) {
     setReviewMode(false);
   }, []);
   const onClearSelected = useEventCallback(() => {
-    rowSelection && rowSelection.onClear && rowSelection.onClear();
+    if (rowSelection && rowSelection.onClear) {
+      rowSelection.onClear();
+    }
   }, [rowSelection]);
   const onBatchAction = useEventCallback(
     (key: string, selectedRowCount: number) => {
@@ -143,26 +142,24 @@ function Component<T extends object>(props: Props<T>) {
             {batchActions.actions[0].label}
           </Button>
         );
-      } else {
-        return (
-          <Dropdown
-            overlay={
-              <Menu onClick={onMultBatchAction}>
-                {batchActions.actions.map((action) => (
-                  <Menu.Item key={action.key}>{action.label}</Menu.Item>
-                ))}
-              </Menu>
-            }
-          >
-            <Button>
-              批量操作 <DownOutlined />
-            </Button>
-          </Dropdown>
-        );
       }
-    } else {
-      return null;
+      return (
+        <Dropdown
+          overlay={
+            <Menu onClick={onMultBatchAction}>
+              {batchActions.actions.map((action) => (
+                <Menu.Item key={action.key}>{action.label}</Menu.Item>
+              ))}
+            </Menu>
+          }
+        >
+          <Button>
+            批量操作 <DownOutlined />
+          </Button>
+        </Dropdown>
+      );
     }
+    return null;
   }, [batchActions, onMultBatchAction, onSigleBatchAction]);
   const [prevDataSource, setPrevDataSource] = useState<any[]>();
   if (prevDataSource !== dataSource) {
@@ -184,7 +181,7 @@ function Component<T extends object>(props: Props<T>) {
         {selectedCount > 0 && (
           <div className="ant-alert-info">
             <InfoCircleOutlined /> 已选择{' '}
-            <a onClick={onReviewSelected} style={{fontWeight: 'bold'}}>
+            <a role="button" onClick={onReviewSelected} style={{fontWeight: 'bold'}}>
               {selectedCount}
             </a>{' '}
             项，

@@ -1,7 +1,7 @@
 import {Modal} from 'antd';
 import React from 'react';
-import RegisterForm from '../RegisterForm';
 import {connect} from 'react-redux';
+import RegisterForm from '../RegisterForm';
 
 interface StoreProps {
   showPop: boolean;

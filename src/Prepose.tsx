@@ -2,7 +2,7 @@
 import React from 'react';
 import {SyncOutlined} from '@ant-design/icons';
 import {loadView as baseLoadView} from '@medux/react-web-router';
-import {metaKeys} from './common';
+import {metaKeys} from './common/utils';
 
 const DefLoading = () => (
   <div className="g-viewLoader">

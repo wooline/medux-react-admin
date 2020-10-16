@@ -1,24 +1,25 @@
 import {BaseModelHandlers, BaseModelState, effect, reducer} from '@medux/react-web-router';
-import {MenuItem, menuData} from 'entity/role';
+import {MenuItem, MenuData} from 'entity/role';
 
 import {TabNav} from 'entity';
-import {UnauthorizedError} from 'common';
+import {UnauthorizedError} from 'common/errors';
 import {arrayToMap} from 'common/utils';
 
-const tabNavs: TabNav[] = JSON.parse(localStorage.getItem(metaKeys.FavoritesUrlStorageKey) || '[]');
-const tabNavsMap = arrayToMap(tabNavs);
+const initTabNavs: TabNav[] = JSON.parse(localStorage.getItem(metaKeys.FavoritesUrlStorageKey) || '[]');
+const initTabNavsMap = arrayToMap(initTabNavs);
 
 function getTabNavId(url: string): string {
   const [pathname, search] = url.split(/\?/);
   let id = pathname;
   if (search) {
-    id += '?' + search.split('&').sort().join('&');
+    id += `?${search.split('&').sort().join('&')}`;
   }
   return id;
 }
 
 function getCurTabNav(): TabNav {
   const title = document.title;
+  // eslint-disable-next-line no-restricted-globals
   const {pathname, search} = location;
   const url = pathname + search;
   const id = getTabNavId(url);
@@ -35,21 +36,24 @@ export interface State extends BaseModelState {
 }
 
 export const initModelState: State = {
-  menuData,
-  tabNavsMap,
-  tabNavs,
+  menuData: MenuData,
+  tabNavsMap: initTabNavsMap,
+  tabNavs: initTabNavs,
 };
 
 export class ModelHandlers extends BaseModelHandlers<State, RootState> {
   private inited = false;
+
   @reducer
   protected putMenuData(menuData: MenuItem[]): State {
     return {...this.state, menuData};
   }
+
   @reducer
   public putSiderCollapsed(siderCollapsed: boolean): State {
     return {...this.state, siderCollapsed};
   }
+
   @reducer
   public openTabNavCreator(): State {
     const {id, url, title} = getCurTabNav();
@@ -61,9 +65,8 @@ export class ModelHandlers extends BaseModelHandlers<State, RootState> {
     const item = this.state.tabNavsMap[id];
     if (item) {
       return {...this.state, tabNavEditor: item};
-    } else {
-      return {...this.state, tabNavEditor: newItem};
     }
+    return {...this.state, tabNavEditor: newItem};
   }
 
   @reducer
@@ -83,6 +86,7 @@ export class ModelHandlers extends BaseModelHandlers<State, RootState> {
     localStorage.setItem(metaKeys.FavoritesUrlStorageKey, JSON.stringify(tabNavs));
     return {...this.state, tabNavEditor: undefined, tabNavs, tabNavsMap};
   }
+
   @reducer
   public delTabNav(id: string): State {
     const item = this.state.tabNavsMap[id];
@@ -91,10 +95,10 @@ export class ModelHandlers extends BaseModelHandlers<State, RootState> {
       const tabNavsMap = {...this.state.tabNavsMap, [id]: undefined} as any;
       localStorage.setItem(metaKeys.FavoritesUrlStorageKey, JSON.stringify(tabNavs));
       return {...this.state, tabNavs, tabNavsMap};
-    } else {
-      return this.state;
     }
+    return this.state;
   }
+
   @effect(null)
   public async clickTabNav(item: TabNav) {
     if (this.state.tabNavCurId !== item.id) {
@@ -103,10 +107,12 @@ export class ModelHandlers extends BaseModelHandlers<State, RootState> {
       this.updateState({tabNavEditor: item});
     }
   }
+
   @effect(null)
   public async closeTabNavEditor() {
     this.updateState({tabNavEditor: undefined});
   }
+
   @effect(null)
   protected async ['this.Init, medux.RouteChange']() {
     if (this.rootState.route.data.views.adminLayout && !this.rootState.app!.curUser.hasLogin) {
@@ -115,7 +121,7 @@ export class ModelHandlers extends BaseModelHandlers<State, RootState> {
     const {id, url, title} = getCurTabNav();
     if (!this.inited) {
       this.inited = true;
-      if (tabNavs.length === 0) {
+      if (initTabNavs.length === 0) {
         this.dispatch(this.actions.updateTabNav({id: '', title, url}));
       }
     }

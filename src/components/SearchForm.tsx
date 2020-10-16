@@ -28,9 +28,9 @@ function Component<T>(props: Props<T>) {
   const {senior = list.length} = props;
   const shrink = expand ? list.length : senior;
 
-  const {colWith, arr} = useMemo(() => {
-    const colWith = parseFloat((100 / cols).toFixed(2));
-    const arr: number[] = [];
+  const {colWidth, arr} = useMemo(() => {
+    const cWidth = parseFloat((100 / cols).toFixed(2));
+    const cArr: number[] = [];
     let cur = 0;
     list.forEach((item) => {
       // eslint-disable-next-line no-control-regex
@@ -39,26 +39,26 @@ function Component<T>(props: Props<T>) {
       if (cur + col > cols) {
         cur = 0;
       }
-      item['cite'] = cur;
-      if (label > (arr[cur] || 0)) {
-        arr[cur] = label;
+      item.cite = cur;
+      if (label > (cArr[cur] || 0)) {
+        cArr[cur] = label;
       }
-      cur = cur + col;
+      cur += col;
     });
-    return {colWith, arr};
+    return {colWidth: cWidth, arr: cArr};
   }, [cols, list]);
   const fields = useMemo(() => {
     return values ? Object.keys(values).map((name) => ({name, value: values[name]})) : [];
   }, [values]);
   const onFinishHandler = useEventCallback(
-    (values: T) => {
-      Object.assign(values, fixedFields);
-      onFinish(values);
+    (vals: T) => {
+      Object.assign(vals, fixedFields);
+      onFinish(vals);
     },
     [fixedFields, onFinish]
   );
   const toggle = useCallback(() => {
-    setExpand((expand) => !expand);
+    setExpand((_expand) => !_expand);
   }, []);
   return (
     <div className="g-search">
@@ -67,10 +67,10 @@ function Component<T>(props: Props<T>) {
           <Form.Item
             name={item.name}
             rules={item.rules}
-            style={{display: index >= shrink ? 'none' : 'flex', width: colWith * (item.col || 1) + '%'}}
+            style={{display: index >= shrink ? 'none' : 'flex', width: `${colWidth * (item.col || 1)}%`}}
             key={item.name}
             label={
-              <span className="label" style={{width: `${arr[item['cite']]}em`}}>
+              <span className="label" style={{width: `${arr[item.cite!]}em`}}>
                 {item.label}
               </span>
             }

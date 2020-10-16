@@ -1,8 +1,8 @@
+/* eslint-disable no-restricted-globals */
 import {ActionTypes, BaseModelHandlers, BaseModelState, LoadingState, effect, errorAction, reducer} from '@medux/react-web-router';
-import {CommonErrorCode, CustomError} from 'common';
+import {CommonErrorCode, CustomError, HandledError} from 'common/errors';
 import {CurUser, LoginRequest, Notices, RegisterRequest, guest} from 'entity/session';
 
-import {HandledError} from 'common';
 import {ProjectConfig} from 'entity';
 import api from './api';
 
@@ -36,11 +36,13 @@ export const initModelState: State = {
 // 定义本模块的Handlers
 export class ModelHandlers extends BaseModelHandlers<State, RootState> {
   private noticesTimer = 0;
+
   private getNotice() {
     api.getNotices().then((notices) => {
       this.updateState({notices});
     });
   }
+
   private getNoticeTimer() {
     if (this.state.curUser && this.state.curUser.hasLogin) {
       this.getNotice();
@@ -51,6 +53,7 @@ export class ModelHandlers extends BaseModelHandlers<State, RootState> {
       }
     }
   }
+
   private checkLoginRedirect() {
     if (this.state.curUser && this.state.curUser.hasLogin) {
       let redirect = sessionStorage.getItem(metaKeys.LoginRedirectSessionStorageKey);
@@ -58,18 +61,23 @@ export class ModelHandlers extends BaseModelHandlers<State, RootState> {
       if (redirect === metaKeys.LoginPathname) {
         redirect = metaKeys.UserHomePathname;
       }
-      redirect && historyActions.push(redirect);
+      if (redirect) {
+        historyActions.push(redirect);
+      }
     }
   }
+
   @reducer
   public putCurUser(curUser: CurUser): State {
     return {...this.state, curUser};
   }
+
   @effect()
   public async register(params: RegisterRequest) {
     await api.register(params);
     this.dispatch(this.actions.login(params));
   }
+
   @effect()
   public async login(params: LoginRequest) {
     const oCurUser = this.state.curUser!;
@@ -98,27 +106,31 @@ export class ModelHandlers extends BaseModelHandlers<State, RootState> {
       location.reload();
     }
   }
+
   @reducer
   public closesLoginOrRegisterPop(): State {
     return {...this.state, showLoginOrRegisterPop: undefined};
   }
+
   @reducer
   public openLoginOrRegisterPop(showLoginOrRegisterPop: 'login' | 'register'): State {
     return {...this.state, showLoginOrRegisterPop};
   }
+
   @reducer
   public showRegistrationAgreement(showRegistrationAgreement: boolean): State {
     return {...this.state, showRegistrationAgreement};
   }
+
   @effect(null) // 不需要loading，设置为null
   protected async [ActionTypes.Error](error: CustomError) {
-    //如果仅仅是因为token过期而导致的用户退出，在过期时间较短的情况下，允许用户不刷新页面而弹出登录弹窗，重新登录以续期
-    //主要为了不强制打断当前的用户操作流
+    // 如果仅仅是因为token过期而导致的用户退出，在过期时间较短的情况下，允许用户不刷新页面而弹出登录弹窗，重新登录以续期
+    // 主要为了不强制打断当前的用户操作流
     if (error.code === CommonErrorCode.unauthorized || error.code === CommonErrorCode.authorizeExpired) {
       sessionStorage.setItem(metaKeys.LoginRedirectSessionStorageKey, location.pathname + location.search + location.hash);
       const curUser = this.state.curUser || guest;
       if (curUser.hasLogin) {
-        await this.dispatch(this.actions.logout(parseInt(error.detail)));
+        await this.dispatch(this.actions.logout(parseInt(error.detail, 10)));
       }
       if (error.code === CommonErrorCode.authorizeExpired || !error.detail) {
         this.dispatch(this.actions.openLoginOrRegisterPop('login'));
@@ -132,10 +144,13 @@ export class ModelHandlers extends BaseModelHandlers<State, RootState> {
       location.reload();
       throw new HandledError(error);
     } else {
-      error.code !== CommonErrorCode.noToast && error.message && message.error(error.message);
+      if (error.code !== CommonErrorCode.noToast && error.message) {
+        message.error(error.message);
+      }
       throw new HandledError(error);
     }
   }
+
   @effect(null)
   protected async ['this.Init']() {
     window.onunhandledrejection = (e: {reason: any}) => {

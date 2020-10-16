@@ -1,6 +1,6 @@
+import React from 'react';
 import FormLayout from '../../components/FormLayout';
 import LoginForm from '../LoginForm';
-import React from 'react';
 
 const Component: React.FC = () => {
   return (

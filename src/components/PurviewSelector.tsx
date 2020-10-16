@@ -30,12 +30,12 @@ const filterOption = (input: string, option: React.ReactElement) => {
 
 const Component: React.FC<SelectProps<string[]>> = (props) => {
   return (
-    <Select allowClear={true} placeholder="请选择用户权限" {...props} autoClearSearchValue={false} filterOption={filterOption as any}>
+    <Select allowClear placeholder="请选择用户权限" {...props} autoClearSearchValue={false} filterOption={filterOption as any}>
       {Object.keys(options).map((group) => (
         <OptGroup key={group} label={purviewNames[group]}>
           {options[group].map((option) => (
             <Option key={option} value={option}>
-              {purviewNames[group] + ' > ' + purviewNames[option]}
+              {`${purviewNames[group]} > ${purviewNames[option]}`}
             </Option>
           ))}
         </OptGroup>

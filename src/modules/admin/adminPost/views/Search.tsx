@@ -24,13 +24,13 @@ interface OwnProps {
 }
 
 const formItems: FromItemList<FormData> = [
-  {name: 'title', label: '标题', formItem: <Input autoComplete="off" allowClear={true} placeholder="请输入标题" />},
-  {name: 'author', label: '作者', formItem: <Input autoComplete="off" allowClear={true} placeholder="请输入作者用户名或呢称" />},
+  {name: 'title', label: '标题', formItem: <Input autoComplete="off" allowClear placeholder="请输入标题" />},
+  {name: 'author', label: '作者', formItem: <Input autoComplete="off" allowClear placeholder="请输入作者用户名或呢称" />},
   {
     name: 'status',
     label: '状态',
     formItem: (
-      <Select allowClear={true} placeholder="请选择信息状态">
+      <Select allowClear placeholder="请选择信息状态">
         {DStatus.options.map((option) => (
           <Option key={option.key} value={option.key}>
             {option.name}
@@ -47,7 +47,7 @@ const formItems: FromItemList<FormData> = [
         title="请选择责任编辑"
         placeholder="请选择责任编辑"
         resourceNameField="nickname"
-        allowClear={true}
+        allowClear
         resource={<MemberSelector fixedSearchField={{status: MemberStaus.启用, role: {id: '3', name: '信息编辑'}}} />}
       />
     ),
@@ -68,7 +68,7 @@ const Component: React.FC<OwnProps & DispatchProp> = ({dispatch, listSearch, def
 
   return (
     <div className="g-search">
-      <SearchForm<FormData> values={listSearch} fixedFields={fixedFields} onReset={onReset} onFinish={onFinish} items={formItems}></SearchForm>
+      <SearchForm<FormData> values={listSearch} fixedFields={fixedFields} onReset={onReset} onFinish={onFinish} items={formItems} />
     </div>
   );
 };

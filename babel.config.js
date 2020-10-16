@@ -1,3 +1,4 @@
+const runtimeVersion = require('@babel/runtime/package.json').version;
 const pathsConfig = require('./build/path.conifg');
 
 module.exports = {
@@ -31,7 +32,7 @@ module.exports = {
       '@babel/plugin-transform-runtime',
       {
         useESModules: true,
-        version: '~7.9.0',
+        version: runtimeVersion,
       },
     ],
   ].filter(Boolean),

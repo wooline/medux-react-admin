@@ -12,7 +12,8 @@
     "build-local": "npm run types-check && cross-env NODE_ENV=production SITE=local node build/build.js",
     "build-prod": "npm run types-check && cross-env NODE_ENV=production SITE=prod node build/build.js",
     "analyzer": "cross-env NODE_ENV=production SITE=analyzer node build/build.js",
-    "push": "scp -r dist/prod/* root@127.0.0.1:/var/www/medux-react-admin"
+    "push": "scp -r dist/prod/* root@127.0.0.1:/var/www/medux-react-admin",
+    "aaa": "eslint --print-config /Users/zy/work/test/medux-react-admin/src/common/resource.ts > aaa.txt"
   },
   "config": {
     "commitizen": {
@@ -25,8 +26,8 @@
     }
   },
   "lint-staged": {
-    "src/**/*.(ts|tsx)": "eslint",
-    "src/**/*.less": "stylelint"
+    "*.(ts|tsx|js|jsx)": "eslint",
+    "*.less": "stylelint"
   },
   "author": {
     "name": "wooline",
@@ -93,27 +94,29 @@
     "@babel/runtime": "~7.9.0",
     "@medux/react-web-router": "~1.1.1-alpha.1",
     "antd": "~4.2.0",
+    "axios": "~0.19.2",
     "lodash": "~4.17.15",
     "path-to-regexp": "~6.1.0",
     "react": "~16.13.0",
     "react-dom": "~16.13.0",
-    "react-redux": "~7.2.0"
+    "react-redux": "~7.2.0",
+    "history": "~4.10.1",
+    "fast-deep-equal": "~3.1.3"
   },
   "devDependencies": {
-    "@medux/dev-pkg": "~1.0.3",
+    "@medux/dev-pkg": "~1.0.4-alpha.2",
     "@medux/dev-utils": "~1.0.8",
+    "@medux/eslint-plugin-recommended": "~1.0.0",
     "@pmmmwh/react-refresh-webpack-plugin": "~0.3.0",
     "@types/lodash": "~4.14.149",
     "@types/react": "~16.9.23",
     "@types/react-dom": "~16.9.5",
     "@types/react-redux": "~7.1.9",
+    "@types/history": "~4.7.7",
     "antd-dayjs-webpack-plugin": "~1.0.0",
     "babel-plugin-import": "~1.13.0",
     "commitizen": "~4.1.2",
     "cz-conventional-changelog": "~3.2.0",
-    "eslint-plugin-babel": "~5.3.1",
-    "eslint-plugin-import": "~2.22.0",
-    "eslint-import-resolver-typescript": "~2.0.0",
     "less": "~3.10.1",
     "less-loader": "~5.0.0",
     "postcss-less": "~3.1.4",
@@ -121,6 +124,10 @@
     "react-markdown": "^4.3.1",
     "react-refresh": "~0.8.1",
     "sass-resources-loader": "~2.0.1",
-    "typescript": "~3.8.3"
+    "typescript": "~3.8.3",
+    "stylelint-config-prettier": "~8.0.2",
+    "stylelint-config-standard": "~20.0.0",
+    "stylelint-declaration-block-no-ignored-properties": "~2.3.0",
+    "stylelint-prettier": "~1.1.2"
   }
 }

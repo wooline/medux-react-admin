@@ -1,7 +1,9 @@
 const fs = require('fs-extra');
-const prodModel = process.env.NODE_ENV == 'production';
+
+const prodModel = process.env.NODE_ENV === 'production';
 const env = process.env.SITE || (prodModel ? 'prod' : 'dev');
 const path = require('path');
+
 const rootPath = path.join(__dirname, '../');
 const srcPath = path.join(rootPath, './src');
 const publicPath = path.join(rootPath, './public');

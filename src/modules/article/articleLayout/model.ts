@@ -1,6 +1,6 @@
 import {BaseModelHandlers, BaseModelState, effect, reducer} from '@medux/react-web-router';
 
-import {UnauthorizedError} from 'common';
+import {UnauthorizedError} from 'common/errors';
 
 export interface State extends BaseModelState {
   showConsult?: boolean;
@@ -16,6 +16,7 @@ export class ModelHandlers extends BaseModelHandlers<State, RootState> {
     }
     this.updateState({showConsult: true});
   }
+
   @reducer
   public closeConsult(): State {
     return {...this.state, showConsult: false};

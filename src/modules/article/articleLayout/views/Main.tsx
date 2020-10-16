@@ -1,10 +1,10 @@
-import ConsultPop from './ConsultPop';
-import Footer from './Footer';
-import Header from './Header';
 import NotFound from 'components/NotFound';
 import React from 'react';
 import {Switch} from '@medux/react-web-router';
 import {connect} from 'react-redux';
+import Header from './Header';
+import Footer from './Footer';
+import ConsultPop from './ConsultPop';
 
 const ArticleHome = loadView('articleHome', 'main');
 const ArticleAbout = loadView('articleAbout', 'main');

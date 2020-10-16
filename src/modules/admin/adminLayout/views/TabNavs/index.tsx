@@ -3,8 +3,8 @@ import React, {useCallback} from 'react';
 
 import {Popover} from 'antd';
 import {TabNav} from 'entity';
-import TabNavEditor from '../TabNavEditor';
 import {connect} from 'react-redux';
+import TabNavEditor from '../TabNavEditor';
 import styles from './index.m.less';
 
 interface StoreProps {
@@ -46,7 +46,7 @@ const Component: React.FC<StoreProps & DispatchProp> = ({dispatch, tabNavs, tabN
       {tabNavs.map((item) => (
         <div key={item.id} className={item.id === tabNavCurId ? 'cur' : ''}>
           <Popover
-            content={!!tabNavEditor && tabNavEditor.id === item.id ? <TabNavEditor /> : <div style={{width: 190, height: 135}}></div>}
+            content={!!tabNavEditor && tabNavEditor.id === item.id ? <TabNavEditor /> : <div style={{width: 190, height: 135}} />}
             trigger="click"
             visible={!!tabNavEditor && tabNavEditor.id === item.id}
             onVisibleChange={(visible) => {
@@ -66,7 +66,7 @@ const Component: React.FC<StoreProps & DispatchProp> = ({dispatch, tabNavs, tabN
       <Popover
         onVisibleChange={onSwitchCreator}
         visible={!!tabNavEditor && !tabNavEditor.id}
-        content={!!tabNavEditor && !tabNavEditor.id ? <TabNavEditor /> : <div style={{width: 190, height: 135}}></div>}
+        content={!!tabNavEditor && !tabNavEditor.id ? <TabNavEditor /> : <div style={{width: 190, height: 135}} />}
         trigger="click"
       >
         <div style={{flex: 'none'}}>

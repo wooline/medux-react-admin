@@ -9,20 +9,25 @@ export class API extends CommonResourceAPI {
     args.roleId = role?.id;
     return ajax('get', '/api/member', this._filterEmpty(args));
   }
+
   public deleteList(ids: string[]): Promise<void> {
     return ajax('delete', '/api/member', {}, {ids});
   }
+
   public changeListStatus(ids: string[], status: string): Promise<any> {
     return ajax('put', '/api/member', {}, {ids, status});
   }
+
   public getDetailItem(id: string): Promise<any> {
     return ajax('get', '/api/member/:id', {id});
   }
+
   public createItem(item: UpdateItem): Promise<void> {
     const {username, role, ...info} = item;
     info.roleId = role?.id!;
     return ajax('post', '/api/member', {}, {username, info});
   }
+
   public updateItem(item: UpdateItem): Promise<void> {
     const {id, role, ...info} = item;
     info.roleId = role?.id!;

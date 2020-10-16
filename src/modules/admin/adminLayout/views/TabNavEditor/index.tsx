@@ -4,8 +4,8 @@ import React, {useCallback} from 'react';
 
 import {TabNav} from 'entity';
 import {getFormDecorators} from 'common/utils';
-import styles from './index.m.less';
 import useEventCallback from 'hooks/useEventCallback';
+import styles from './index.m.less';
 
 const defCurItem: TabNav = {id: '', title: '', url: ''};
 interface StoreProps {
@@ -39,7 +39,7 @@ const Component: React.FC<StoreProps & DispatchProp> = ({curItem = defCurItem, d
       <h4 className="title">{curItem.id ? '重命名当前书签：' : '将当前页面加入书签：'}</h4>
       <Form layout="horizontal" onFinish={onFinish as any} initialValues={initialValues}>
         <Form.Item {...formDecorators.title}>
-          <Input allowClear={true} placeholder="请输入书签名" />
+          <Input allowClear placeholder="请输入书签名" />
         </Form.Item>
         <div className="g-btns">
           <Button type="primary" htmlType="submit">

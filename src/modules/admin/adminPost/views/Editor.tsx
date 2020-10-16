@@ -2,7 +2,7 @@ import {Button, Form, Input} from 'antd';
 import {ItemDetail, UpdateItem} from 'entity/post';
 import React, {useCallback} from 'react';
 
-import {CustomError} from 'common';
+import {CustomError} from 'common/errors';
 import {Status as MemberStaus} from 'entity/member';
 import ResourceSelector from 'components/ResourceSelector';
 import {connect} from 'react-redux';
@@ -75,15 +75,15 @@ const Component: React.FC<OwnProps & DispatchProp> = ({dispatch, currentItem}) =
           title="请选择责任编辑"
           placeholder="请选择责任编辑"
           resourceNameField="nickname"
-          allowClear={true}
+          allowClear
           resource={<MemberSelector fixedSearchField={{status: MemberStaus.启用, role: {id: '3', name: '信息编辑'}}} />}
         />
       </FormItem>
       <FormItem label="标题" {...fromDecorators.title}>
-        <Input autoComplete="off" allowClear={true} placeholder="请输入标题" />
+        <Input autoComplete="off" allowClear placeholder="请输入标题" />
       </FormItem>
       <FormItem label="内容" {...fromDecorators.content}>
-        <Input.TextArea maxLength={50} rows={4} autoComplete="off" allowClear={true} placeholder="请输入内容" />
+        <Input.TextArea maxLength={50} rows={4} autoComplete="off" allowClear placeholder="请输入内容" />
       </FormItem>
       <div className="g-actions">
         <Button type="primary" htmlType="submit">

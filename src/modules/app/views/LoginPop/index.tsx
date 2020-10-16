@@ -1,7 +1,7 @@
-import LoginForm from '../LoginForm';
 import {Modal} from 'antd';
 import React from 'react';
 import {connect} from 'react-redux';
+import LoginForm from '../LoginForm';
 
 interface StoreProps {
   showPop: boolean;

@@ -13,11 +13,16 @@ const scrollToAnchor = (flag: string) => {
     routeTimer = 0;
     const anchor = routeFlag.substr(1);
     const anchorTarget = anchor ? document.getElementById(anchor) : null;
-    anchorTarget ? anchorTarget.scrollIntoView() : (document.body.scrollTop = document.documentElement.scrollTop = 0);
+    if (anchorTarget) {
+      anchorTarget.scrollIntoView();
+    } else {
+      document.body.scrollTop = 0;
+      document.documentElement.scrollTop = 0;
+    }
   }, 100);
 };
 
-export default function (hash: string, history: {listen: (handler: (location: any) => void) => () => void}) {
+export default function Hooks(hash: string, history: {listen: (handler: (location: any) => void) => () => void}) {
   useEffect(() => {
     scrollToAnchor(hash);
     const unlisten = history.listen((location) => {

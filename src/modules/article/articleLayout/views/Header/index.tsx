@@ -21,7 +21,7 @@ const Component: React.FC<StoreProps & DispatchProp> = ({pathname, curUser, disp
     <header className={styles.root}>
       <div className="g-doc">
         <div className="main">
-          <img className="logo" height="35" src={Logo} />
+          <img alt="logo" className="logo" height="35" src={Logo} />
           <h1>帮助中心</h1>
           <Link className={pathname === '/article/home' ? 'active' : ''} href="/article/home">
             用户指南
@@ -59,8 +59,8 @@ const Component: React.FC<StoreProps & DispatchProp> = ({pathname, curUser, disp
     </header>
   );
 };
-//TODO
-//{metaKeys.UserHomePathname}
+// TODO
+// {metaKeys.UserHomePathname}
 const mapStateToProps: (state: RootState) => StoreProps = (state) => {
   const app = state.app!;
   return {

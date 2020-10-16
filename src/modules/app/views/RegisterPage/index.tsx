@@ -1,5 +1,5 @@
-import FormLayout from '../../components/FormLayout';
 import React from 'react';
+import FormLayout from '../../components/FormLayout';
 import RegisterForm from '../RegisterForm';
 
 interface StoreProps {}

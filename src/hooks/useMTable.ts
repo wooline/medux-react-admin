@@ -4,7 +4,7 @@ import {useCallback, useEffect, useMemo} from 'react';
 import {CommonResourceActions} from 'common/resource';
 import useEventCallback from './useEventCallback';
 
-export default function <ListItem extends BaseListItem>(
+export default function Hooks<ListItem extends BaseListItem>(
   dispatch: (action: any) => void,
   resourceActions: CommonResourceActions,
   listSearch: BaseListSearch,

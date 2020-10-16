@@ -2,13 +2,13 @@
 // 将某些常用变量提升至global，对全局变量有洁癖者可忽略此文件
 import './Prepose';
 
-import {actions, moduleNames, pageNames} from './modules';
-import {message, metaKeys} from './common';
+import {actions, ModuleNames, pageNames} from './modules';
+import {message, metaKeys} from './common/utils';
 
 type Actions = typeof actions;
 type MetaKeys = typeof metaKeys;
 
-type EnumModuleNames = typeof moduleNames;
+type EnumModuleNames = typeof ModuleNames;
 type Message = typeof message;
 
 declare global {
@@ -18,12 +18,12 @@ declare global {
   type LoadView = import('./modules').LoadView;
   type RouteData = RootState['route']['data'];
   type BaseRouteData = import('@medux/react-web-router').RouteData;
-  type CommonErrorCode = import('./common').CommonErrorCode;
+  type CommonErrorCode = import('./common/errors').CommonErrorCode;
   type DispatchProp = import('react-redux').DispatchProp;
-  const module: any;
+  // const module: any;
   const pageNames: {[key: string]: string};
   const message: Message;
-  //初始环境变量放在/public/index.html中, 以防止被 webpack 打包
+  // 初始环境变量放在/public/index.html中, 以防止被 webpack 打包
   const initEnv: {
     version: string;
     staticPath: string;
@@ -32,7 +32,7 @@ declare global {
   };
   const loadView: LoadView;
   const actions: Actions;
-  const moduleNames: EnumModuleNames;
+  const ModuleNames: EnumModuleNames;
   const metaKeys: MetaKeys;
   const historyActions: BrowserRouter['historyActions'];
   const toUrl: BrowserRouter['toUrl'];
@@ -43,4 +43,4 @@ declare global {
   Object.keys(data).forEach((key) => {
     window[key] = data[key];
   });
-})({actions, moduleNames, message, pageNames});
+})({actions, ModuleNames, message, pageNames});

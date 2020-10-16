@@ -3,11 +3,11 @@ import {CaretDownOutlined, DeleteOutlined, FormOutlined} from '@ant-design/icons
 import React, {useMemo} from 'react';
 
 import DateTime from 'components/DateTime';
-import {ItemDetail} from 'entity/role';
+import {ItemDetail, purviewNames} from 'entity/role';
 import {connect} from 'react-redux';
-import {purviewNames} from 'entity/role';
-import styles from './index.m.less';
+
 import useDetail from 'hooks/useDetail';
+import styles from './index.m.less';
 
 const DescriptionsItem = Descriptions.Item;
 const formOutlined = <FormOutlined />;
@@ -53,12 +53,14 @@ const Component: React.FC<OwnProps & DispatchProp> = ({dispatch, primaryMode, cu
         items.push(key, ...actions);
       }
     });
-    const purvieList = items.map((item) => {
-      const [resource, action] = item.split('.');
-      return action ? <dd key={item}>{purviewNames[item]}</dd> : <dt key={item}>{purviewNames[resource]}</dt>;
-    });
-    const disabled = currentItem.fixed ? 'disable' : '';
-    return {purvieList, disabled};
+
+    return {
+      purvieList: items.map((item) => {
+        const [resource, action] = item.split('.');
+        return action ? <dd key={item}>{purviewNames[item]}</dd> : <dt key={item}>{purviewNames[resource]}</dt>;
+      }),
+      disabled: currentItem.fixed ? 'disable' : '',
+    };
   }, [currentItem]);
 
   return (

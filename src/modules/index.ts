@@ -6,7 +6,7 @@ import {defaultRouteParams as adminMemberParams} from 'entity/member';
 import {defaultRouteParams as adminPostParams} from 'entity/post';
 import {defaultRouteParams as adminRoleParams} from 'entity/role';
 
-export const defaultRouteParams: {[K in moduleNames]: any} = {
+export const defaultRouteParams: {[K in ModuleNames]: any} = {
   app: null,
   adminLayout: null,
   adminHome: null,
@@ -19,7 +19,7 @@ export const defaultRouteParams: {[K in moduleNames]: any} = {
   articleService: null,
 };
 
-export enum moduleNames {
+export enum ModuleNames {
   app = 'app',
   adminLayout = 'adminLayout',
   adminHome = 'adminHome',

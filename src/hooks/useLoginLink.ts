@@ -1,7 +1,10 @@
 import {useCallback} from 'react';
-export default function (isPop: boolean, dispatch: (action: any) => void) {
+
+export default function Hooks(isPop: boolean, dispatch: (action: any) => void) {
   const handleUserHome = useCallback(() => {
-    isPop && dispatch(actions.app.closesLoginOrRegisterPop());
+    if (isPop) {
+      dispatch(actions.app.closesLoginOrRegisterPop());
+    }
     historyActions.push(metaKeys.UserHomePathname);
   }, [dispatch, isPop]);
 

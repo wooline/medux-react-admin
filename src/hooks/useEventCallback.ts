@@ -1,5 +1,6 @@
 import {useCallback, useEffect, useRef} from 'react';
-export default function <A extends any[]>(fn: (...args: A) => void, dependencies: any[]) {
+
+export default function Hooks<A extends any[]>(fn: (...args: A) => void, dependencies: any[]) {
   const ref = useRef((...args: A) => {
     console.log(new Error('Cannot call an event handler while rendering.'));
   });
@@ -11,8 +12,8 @@ export default function <A extends any[]>(fn: (...args: A) => void, dependencies
 
   return useCallback(
     (...args: A) => {
-      const fn = ref.current;
-      return fn(...args);
+      const fun = ref.current;
+      return fun(...args);
     },
     [ref]
   );

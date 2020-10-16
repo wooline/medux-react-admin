@@ -16,7 +16,7 @@ interface OwnProps {
   fixedFields?: Partial<FormData>;
 }
 const formItems: FromItemList<FormData> = [
-  {name: 'roleName', label: '角色名称', formItem: <Input autoComplete="off" allowClear={true} placeholder="请输入角色名称" />},
+  {name: 'roleName', label: '角色名称', formItem: <Input autoComplete="off" allowClear placeholder="请输入角色名称" />},
   {
     name: 'purviews',
     label: '用户权限',
@@ -38,7 +38,7 @@ const Component: React.FC<OwnProps & DispatchProp> = ({dispatch, listSearch, def
 
   return (
     <div className="g-search">
-      <SearchForm<FormData> values={listSearch} fixedFields={fixedFields} onReset={onReset} onFinish={onFinish} items={formItems}></SearchForm>
+      <SearchForm<FormData> values={listSearch} fixedFields={fixedFields} onReset={onReset} onFinish={onFinish} items={formItems} />
     </div>
   );
 };

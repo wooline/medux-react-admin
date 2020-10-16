@@ -1,12 +1,12 @@
-import Flag from '../Flag';
-import Header from '../Header';
 import {Layout} from 'antd';
-import Navs from '../Navs';
 import NotFound from 'components/NotFound';
 import React from 'react';
 import {Switch} from '@medux/react-web-router';
-import TabNavs from '../TabNavs';
 import {connect} from 'react-redux';
+import TabNavs from '../TabNavs';
+import Navs from '../Navs';
+import Header from '../Header';
+import Flag from '../Flag';
 import styles from './index.m.less';
 
 const {Content} = Layout;
@@ -26,7 +26,7 @@ const Component: React.FC<StoreProps> = ({routeViews, siderCollapsed, hasLogin})
     <Layout className={styles.root}>
       <Layout.Sider className="g-scrollBar" trigger={null} collapsible collapsed={siderCollapsed}>
         <Flag />
-        <Navs singleOpen={true} />
+        <Navs singleOpen />
       </Layout.Sider>
       <Layout>
         <Layout.Header>

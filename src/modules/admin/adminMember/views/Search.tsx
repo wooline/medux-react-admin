@@ -22,13 +22,13 @@ interface OwnProps {
 }
 
 const formItems: FromItemList<FormData> = [
-  {name: 'username', label: '用户名', formItem: <Input autoComplete="off" allowClear={true} placeholder="请输入用户名" />},
-  {name: 'nickname', label: '呢称', formItem: <Input autoComplete="off" allowClear={true} placeholder="请输入呢称" />},
+  {name: 'username', label: '用户名', formItem: <Input autoComplete="off" allowClear placeholder="请输入用户名" />},
+  {name: 'nickname', label: '呢称', formItem: <Input autoComplete="off" allowClear placeholder="请输入呢称" />},
   {
     name: 'status',
     label: '状态',
     formItem: (
-      <Select allowClear={true} placeholder="请选择用户状态">
+      <Select allowClear placeholder="请选择用户状态">
         {DStatus.options.map((option) => (
           <Option key={option.key} value={option.key}>
             {option.name}
@@ -45,7 +45,7 @@ const formItems: FromItemList<FormData> = [
   {
     name: 'email',
     label: 'Email',
-    formItem: <Input autoComplete="off" allowClear={true} placeholder="请输入Email" />,
+    formItem: <Input autoComplete="off" allowClear placeholder="请输入Email" />,
   },
   {name: 'loginTime', label: '登录时间', formItem: <RangeDatePicker />},
 ];
@@ -63,15 +63,7 @@ const Component: React.FC<OwnProps & DispatchProp> = ({dispatch, listSearch, def
 
   return (
     <div className="g-search">
-      <SearchForm<FormData>
-        values={listSearch}
-        fixedFields={fixedFields}
-        senior={4}
-        expand={!!listSearch.email || !!listSearch.loginTime}
-        onReset={onReset}
-        onFinish={onFinish}
-        items={formItems}
-      ></SearchForm>
+      <SearchForm<FormData> values={listSearch} fixedFields={fixedFields} senior={4} expand={!!listSearch.email || !!listSearch.loginTime} onReset={onReset} onFinish={onFinish} items={formItems} />
     </div>
   );
 };

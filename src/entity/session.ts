@@ -2,7 +2,7 @@ export const guest: CurUser = {
   id: '',
   username: '游客',
   hasLogin: false,
-  avatar: initEnv.staticPath + 'imgs/u1.jpg',
+  avatar: `${initEnv.staticPath}imgs/u1.jpg`,
 };
 export interface CurUser {
   id: string;

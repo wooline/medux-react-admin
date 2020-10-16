@@ -36,7 +36,7 @@ export interface MenuItem {
   disable?: boolean;
 }
 
-export const menuData: MenuItem[] = [
+export const MenuData: MenuItem[] = [
   {
     name: '概要总览',
     icon: 'dashboard',

@@ -1,9 +1,9 @@
+import React from 'react';
 import ImgAD from './imgs/ad.png';
 import Logo1 from './imgs/logo1.png';
 import Logo2 from './imgs/logo2.png';
 import Logo3 from './imgs/logo3.png';
 import Logo4 from './imgs/logo4.png';
-import React from 'react';
 import styles from './index.m.less';
 
 const Component: React.FC = () => {
@@ -21,21 +21,21 @@ const Component: React.FC = () => {
           </p>
         </article>
         <aside>
-          <img width="600" height="400" src={ImgAD} />
+          <img alt="logo" width="600" height="400" src={ImgAD} />
         </aside>
       </div>
       <ul className="logos g-clearfix">
         <li>
-          <img src={Logo4} width="277" height="138" />
+          <img alt="logo" src={Logo4} width="277" height="138" />
         </li>
         <li>
-          <img src={Logo2} width="277" height="138" />
+          <img alt="logo" src={Logo2} width="277" height="138" />
         </li>
         <li>
-          <img src={Logo3} width="277" height="138" />
+          <img alt="logo" src={Logo3} width="277" height="138" />
         </li>
         <li>
-          <img src={Logo1} width="277" height="138" />
+          <img alt="logo" src={Logo1} width="277" height="138" />
         </li>
       </ul>
     </section>

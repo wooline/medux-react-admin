@@ -1,5 +1,5 @@
-import ImgAD from './imgs/ad.jpg';
 import React from 'react';
+import ImgAD from './imgs/ad.jpg';
 import styles from './index.m.less';
 
 const Component: React.FC = () => {
@@ -7,7 +7,7 @@ const Component: React.FC = () => {
     <section className={`${styles.root} g-doc`} id="articleHome_Special">
       <h2>技术优势</h2>
       <div>
-        <img width="680" height="440" src={ImgAD} />
+        <img alt="logo" width="680" height="440" src={ImgAD} />
       </div>
       <div className="superiority g-clearfix">
         <figure>

@@ -3,6 +3,7 @@ const path = require('path');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const pathsConfig = require('./path.conifg');
+
 const {proxy, mock} = require(path.join(pathsConfig.envPath, './env'));
 
 const config = {

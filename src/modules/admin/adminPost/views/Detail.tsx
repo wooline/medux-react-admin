@@ -5,8 +5,8 @@ import React, {useCallback} from 'react';
 
 import DateTime from 'components/DateTime';
 import {connect} from 'react-redux';
-import styles from './index.m.less';
 import useDetail from 'hooks/useDetail';
+import styles from './index.m.less';
 
 const DescriptionsItem = Descriptions.Item;
 const formOutlined = <FormOutlined />;
@@ -35,7 +35,9 @@ const Component: React.FC<OwnProps & DispatchProp> = ({dispatch, primaryMode, cu
         <DescriptionsItem label="标题" span={2}>
           {currentItem.title}
         </DescriptionsItem>
-        <DescriptionsItem label="作者">{<a onClick={() => onShowMembers(currentItem.author.id)}>{currentItem.author.name}</a>}</DescriptionsItem>
+        <DescriptionsItem label="作者">
+          <a onClick={() => onShowMembers(currentItem.author.id)}>{currentItem.author.name}</a>
+        </DescriptionsItem>
         <DescriptionsItem className="g-items" label="责任编辑">
           {currentItem.editors.map((editor) => (
             <a key={editor.id} onClick={() => onShowMembers(editor.id)}>

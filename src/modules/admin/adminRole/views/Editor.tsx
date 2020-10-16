@@ -3,12 +3,12 @@ import {ItemDetail, UpdateItem} from 'entity/role';
 import React, {useCallback} from 'react';
 
 import {CaretDownOutlined} from '@ant-design/icons';
-import {CustomError} from 'common';
+import {CustomError} from 'common/errors';
 import PurviewEditor from 'components/PurviewEditor';
 import {connect} from 'react-redux';
 import {getFormDecorators} from 'common/utils';
-import styles from './index.m.less';
 import useEventCallback from 'hooks/useEventCallback';
+import styles from './index.m.less';
 
 type FormData = Omit<UpdateItem, 'id'>;
 
@@ -76,10 +76,10 @@ const Component: React.FC<OwnProps & DispatchProp> = ({dispatch, currentItem}) =
     <Form className={styles.root} layout="horizontal" form={form} {...formItemLayout} onFinish={onFinish as any} initialValues={initialValues}>
       <div>
         <FormItem label="角色名称" {...fromDecorators.roleName}>
-          <Input autoComplete="off" allowClear={true} placeholder="请输入角色名称" />
+          <Input autoComplete="off" allowClear placeholder="请输入角色名称" />
         </FormItem>
         <FormItem label="备注" {...fromDecorators.remark}>
-          <Input.TextArea autoComplete="off" allowClear={true} placeholder="请输入备注" />
+          <Input.TextArea autoComplete="off" allowClear placeholder="请输入备注" />
         </FormItem>
       </div>
 

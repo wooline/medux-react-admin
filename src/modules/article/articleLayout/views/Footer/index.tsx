@@ -55,7 +55,7 @@ const Component: React.FC = () => {
         <dl>
           <dt>QQ交流群</dt>
           <dd>
-            <img src={QRcode} width="103" height="103" />
+            <img alt="logo" src={QRcode} width="103" height="103" />
           </dd>
         </dl>
         <div className="copyright">

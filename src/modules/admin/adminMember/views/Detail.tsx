@@ -5,8 +5,8 @@ import {DeleteOutlined, FormOutlined} from '@ant-design/icons';
 import DateTime from 'components/DateTime';
 import React from 'react';
 import {connect} from 'react-redux';
-import styles from './index.m.less';
 import useDetail from 'hooks/useDetail';
+import styles from './index.m.less';
 
 const DescriptionsItem = Descriptions.Item;
 const formOutlined = <FormOutlined />;

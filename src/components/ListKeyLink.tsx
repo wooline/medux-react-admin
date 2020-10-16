@@ -7,8 +7,8 @@ interface Props {
 const Component: React.FC<Props> = ({href, children}) => {
   const onClick = React.useCallback((event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
     event.preventDefault();
-    const href = (event.target as HTMLAnchorElement).getAttribute('href')!.replace('${listVer}', Date.now() + '');
-    historyActions.push(href);
+    const url = (event.target as HTMLAnchorElement).getAttribute('href')!.replace('${listVer}', `${Date.now()}`);
+    historyActions.push(url);
   }, []);
 
   return (

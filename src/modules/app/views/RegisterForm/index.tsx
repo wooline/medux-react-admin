@@ -5,8 +5,8 @@ import React, {useCallback} from 'react';
 import {getFormDecorators, pick} from 'common/utils';
 
 import {connect} from 'react-redux';
-import styles from './index.m.less';
 import useLoginLink from 'hooks/useLoginLink';
+import styles from './index.m.less';
 
 const userOutlined = <UserOutlined />;
 const lockOutlined = <LockOutlined />;
@@ -25,9 +25,8 @@ const initialValues: FormData = {
 const agreementChecked = (rule: any, value: string) => {
   if (!value) {
     return Promise.reject('您必须同意注册协议!');
-  } else {
-    return Promise.resolve();
   }
+  return Promise.resolve();
 };
 const fromDecorators = getFormDecorators<FormData>({
   username: {rules: [{required: true, message: '请输入用户名!'}]},

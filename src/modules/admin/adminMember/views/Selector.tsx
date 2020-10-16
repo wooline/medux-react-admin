@@ -1,13 +1,12 @@
-import {ListItem, ListSearch} from 'entity/member';
+import {ListItem, ListSearch, ItemDetail} from 'entity/member';
 import React, {useCallback} from 'react';
 
-import Detail from './Detail';
-import {ItemDetail} from 'entity/member';
 import {ItemView} from 'entity';
 import {Modal} from 'antd';
-import Search from './Search';
-import SelectorTable from './SelectorTable';
 import {connect} from 'react-redux';
+import SelectorTable from './SelectorTable';
+import Detail from './Detail';
+import Search from './Search';
 
 interface StoreProps {
   listSearch: ListSearch;
@@ -32,7 +31,7 @@ const Component: React.FC<StoreProps & OwnProps & DispatchProp> = ({dispatch, li
       <Search listSearch={listSearch} fixedFields={fixedSearchField} defaultSearch={defaultSearch} />
       <SelectorTable onSelectdChange={onChange} selectedRows={value} selectLimit={limit} defaultSearch={defaultSearch} />
       {currentItem && itemView === 'summary' && (
-        <Modal wrapClassName="g-noBorderHeader" visible={true} onCancel={onHideCurrent} footer={null} title="用户详情" width={900}>
+        <Modal wrapClassName="g-noBorderHeader" visible onCancel={onHideCurrent} footer={null} title="用户详情" width={900}>
           <Detail primaryMode={false} currentItem={currentItem} />
         </Modal>
       )}

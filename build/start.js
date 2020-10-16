@@ -5,6 +5,7 @@ const path = require('path');
 const pathsConfig = require('./path.conifg');
 const webpackConfig = require('./webpack.config');
 const devServerConfig = require('./webpackDevServer.config');
+
 const {server} = require(path.join(pathsConfig.envPath, './env'));
 
 const [, , port] = server.split(/:\/*/);

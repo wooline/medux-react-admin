@@ -8,7 +8,8 @@
       "out_file": "./logs/app-out.log",
       "merge_logs": true,
       "log_date_format": "YYYY-MM-DD HH:mm:ss",
-      "autorestart": true
+      "autorestart": true,
+      "instances": "max"
     }
   ]
 }

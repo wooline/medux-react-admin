@@ -3,14 +3,15 @@ const webpack = require('webpack');
 const TerserJSPlugin = require('terser-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const StylelintPlugin = require('stylelint-webpack-plugin');
-//const HardSourceWebpackPlugin = require('hard-source-webpack-plugin');
-//const AntdDayjsWebpackPlugin = require('antd-dayjs-webpack-plugin');
+// const HardSourceWebpackPlugin = require('hard-source-webpack-plugin');
+// const AntdDayjsWebpackPlugin = require('antd-dayjs-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const HtmlReplaceWebpackPlugin = require('html-replace-webpack-plugin');
 const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
 const pathsConfig = require('./path.conifg');
+
 const {vendors} = require(path.join(pathsConfig.rootPath, './package.json'));
 const {env, prodModel} = pathsConfig;
 const {clientGlobal, clientPublicPath} = require(path.join(pathsConfig.envPath, './env'));
@@ -29,18 +30,18 @@ const htmlReplace = [
     replacement: clientPublicPath,
   },
 ];
-const generateScopedName = (localName, fileName) => {
-  if (fileName.match(/[/\\]assets[/\\]css[/\\]global.m.\w+?$/)) {
-    return 'g-' + localName;
+const generateScopedName = (localName, mfileName) => {
+  if (mfileName.match(/[/\\]assets[/\\]css[/\\]global.m.\w+?$/)) {
+    return `g-${localName}`;
   }
-  fileName = fileName
+  mfileName = mfileName
     .replace(pathsConfig.srcPath, '')
     .replace(/\W/g, '-')
     .replace(/^-|-index-m-\w+$|-m-\w+$/g, '')
     .replace(/^components-/, 'comp-')
     .replace(/^modules-.*?(\w+)-views(-?)(.*)/, '$1$2$3')
     .replace(/^modules-.*?(\w+)-components(-?)(.*)/, '$1-comp$2$3');
-  return localName === 'root' ? fileName : fileName + '_' + localName;
+  return localName === 'root' ? mfileName : `${mfileName}_${localName}`;
 };
 const getLocalIdent = (context, localIdentName, localName) => {
   return generateScopedName(localName, context.resourcePath);
@@ -59,7 +60,7 @@ const cssLoader = (enableCssModule) => {
         importLoaders: 2,
         modules: enableCssModule
           ? {
-              //localIdentName: '[path][name]_[local]',
+              // localIdentName: '[path][name]_[local]',
               getLocalIdent,
               context: pathsConfig.srcPath,
             }
@@ -120,7 +121,7 @@ const clientConfig = {
             ...Object.keys(vendors).reduce((prev, cur) => {
               prev[cur] = {
                 name: cur,
-                test: new RegExp('[\\\\/]node_modules[\\\\/](' + vendors[cur].join('|') + ')'),
+                test: new RegExp(`[\\\\/]node_modules[\\\\/](${vendors[cur].join('|')})`),
                 priority: 1,
               };
               return prev;
@@ -210,12 +211,12 @@ const clientConfig = {
         filename: `client/css/${fileName}.css`,
       }),
     new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
-    //new AntdDayjsWebpackPlugin(),
+    // new AntdDayjsWebpackPlugin(),
     new StylelintPlugin({files: 'src/**/*.less', cache: true}),
     !prodModel && new ReactRefreshWebpackPlugin({overlay: false}),
     !prodModel && new webpack.HotModuleReplacementPlugin(),
     env === 'analyzer' && new BundleAnalyzerPlugin({generateStatsFile: true}),
-    //new HardSourceWebpackPlugin(),
+    // new HardSourceWebpackPlugin(),
     new webpack.ProgressPlugin(),
   ].filter(Boolean),
 };

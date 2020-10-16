@@ -1,13 +1,13 @@
-import Activities from './Activities';
 import Anchor from 'components/Anchor';
 import ArticleBanner from 'components/ArticleBanner';
 import React from 'react';
-import Recommend from './Recommend';
-import Special from './Special';
-import banner from './imgs/banner.jpg';
 import {connect} from 'react-redux';
 import useAnchorPage from 'hooks/useAnchorPage';
 import useConsult from 'hooks/useConsult';
+import Recommend from './Recommend';
+import Special from './Special';
+import banner from './imgs/banner.jpg';
+import Activities from './Activities';
 
 interface StoreProps {
   hash: string;

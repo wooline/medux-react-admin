@@ -2,7 +2,7 @@ import {Button, Form, Input, Select} from 'antd';
 import {DGender, DStatus, ItemDetail, UpdateItem} from 'entity/member';
 import React, {useCallback, useMemo} from 'react';
 
-import {CustomError} from 'common';
+import {CustomError} from 'common/errors';
 import {connect} from 'react-redux';
 import {getFormDecorators} from 'common/utils';
 import useEventCallback from 'hooks/useEventCallback';
@@ -43,6 +43,7 @@ const Component: React.FC<OwnProps & DispatchProp> = ({dispatch, currentItem}) =
   }, [currentItem]);
 
   const onHide = useCallback(() => {
+    dispatch(actions.adminMember.openCurrentItem('fdfdsfs'));
     dispatch(actions.adminMember.closeCurrentItem());
   }, [dispatch]);
 
@@ -75,16 +76,16 @@ const Component: React.FC<OwnProps & DispatchProp> = ({dispatch, currentItem}) =
   return (
     <Form className="g-editorForm" layout="horizontal" {...formItemLayout} form={form} onFinish={onFinish as any} initialValues={initialValues}>
       <FormItem label="用户名" {...fromDecorators.username}>
-        <Input disabled={!!id} autoComplete="off" allowClear={true} placeholder="请输入用户名" />
+        <Input disabled={!!id} autoComplete="off" allowClear placeholder="请输入用户名" />
       </FormItem>
       <FormItem label="呢称" {...fromDecorators.nickname}>
-        <Input autoComplete="off" allowClear={true} placeholder="请输入呢称" />
+        <Input autoComplete="off" allowClear placeholder="请输入呢称" />
       </FormItem>
       <FormItem label="角色" {...fromDecorators.role}>
         <RoleSelector />
       </FormItem>
       <FormItem label="性别" {...fromDecorators.gender}>
-        <Select allowClear={true} placeholder="请选择用户性别">
+        <Select allowClear placeholder="请选择用户性别">
           {DGender.options.map((option) => (
             <Select.Option key={option.key} value={option.key}>
               {option.name}
@@ -93,10 +94,10 @@ const Component: React.FC<OwnProps & DispatchProp> = ({dispatch, currentItem}) =
         </Select>
       </FormItem>
       <FormItem label="Email" {...fromDecorators.email}>
-        <Input autoComplete="off" allowClear={true} placeholder="请输入Email" />
+        <Input autoComplete="off" allowClear placeholder="请输入Email" />
       </FormItem>
       <FormItem label="状态" {...fromDecorators.status}>
-        <Select allowClear={true} placeholder="请选择用户状态">
+        <Select allowClear placeholder="请选择用户状态">
           {DStatus.options.map((option) => (
             <Select.Option key={option.key} value={option.key}>
               {option.name}

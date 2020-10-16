@@ -20,9 +20,11 @@ const Component: React.FC<Props> = (props) => {
       if (dates && dates[0] && dates[1]) {
         const start = dates[0].startOf('day').valueOf();
         const end = dates[1].endOf('day').valueOf();
-        onChange && onChange([start, end]);
-      } else {
-        onChange && onChange(undefined);
+        if (onChange) {
+          onChange([start, end]);
+        }
+      } else if (onChange) {
+        onChange(undefined);
       }
     },
     [onChange]

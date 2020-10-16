@@ -1,9 +1,9 @@
-import Activities from './Activities';
 import ArticleBanner from 'components/ArticleBanner';
 import React from 'react';
-import banner from './imgs/banner.jpg';
 import {connect} from 'react-redux';
 import useConsult from 'hooks/useConsult';
+import banner from './imgs/banner.jpg';
+import Activities from './Activities';
 
 const Component: React.FC<DispatchProp> = ({dispatch}) => {
   const onConsult = useConsult(dispatch);

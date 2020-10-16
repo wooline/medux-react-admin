@@ -49,7 +49,7 @@ const Component: React.FC<StoreProps & DispatchProp> = ({dispatch, listSearch, s
             return pre;
           }, {});
           return Object.keys(resources)
-            .map((item) => purviewNames[item] + '模块')
+            .map((item) => `${purviewNames[item]}模块`)
             .join('，');
         },
       },

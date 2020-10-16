@@ -53,7 +53,7 @@ const Component: React.FC<StoreProps & OwnProps & DispatchProp> = ({dispatch, on
         title: '状态',
         dataIndex: 'status',
         width: '6%',
-        render: (status: string) => <span className={'status-' + status}>{DStatus.keyToName[status]}</span>,
+        render: (status: string) => <span className={`status-${status}`}>{DStatus.keyToName[status]}</span>,
       },
       {
         title: '操作',
