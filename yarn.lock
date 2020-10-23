@@ -969,17 +969,17 @@
     core-js-pure "^3.0.0"
     regenerator-runtime "^0.13.4"
 
+"@babel/runtime@7.9.6", "@babel/runtime@~7.9.0":
+  version "7.9.6"
+  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.9.6.tgz#a9102eb5cadedf3f31d08a9ecf294af7827ea29f"
+  integrity sha512-64AF1xY3OAkFHqOb9s4jpgk1Mm5vDZ4L3acHvAml+53nO1XbXLuDodsVpO4OIUsmemlUHMxNdYMNJmsvOwLrvQ==
+  dependencies:
+    regenerator-runtime "^0.13.4"
+
 "@babel/runtime@^7.0.0", "@babel/runtime@^7.1.2", "@babel/runtime@^7.10.1", "@babel/runtime@^7.10.2", "@babel/runtime@^7.10.4", "@babel/runtime@^7.5.5", "@babel/runtime@^7.8.4":
   version "7.10.5"
   resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.10.5.tgz#303d8bd440ecd5a491eae6117fd3367698674c5c"
   integrity sha512-otddXKhdNn7d0ptoFRHtMLa8LqDxLYwTjB4nYgM1yy5N6gU/MUf8zqyyLltCH3yAVitBzmwK4us+DD0l/MauAg==
-  dependencies:
-    regenerator-runtime "^0.13.4"
-
-"@babel/runtime@~7.9.0":
-  version "7.9.6"
-  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.9.6.tgz#a9102eb5cadedf3f31d08a9ecf294af7827ea29f"
-  integrity sha512-64AF1xY3OAkFHqOb9s4jpgk1Mm5vDZ4L3acHvAml+53nO1XbXLuDodsVpO4OIUsmemlUHMxNdYMNJmsvOwLrvQ==
   dependencies:
     regenerator-runtime "^0.13.4"
 
@@ -1267,12 +1267,12 @@
     "@babel/runtime" "~7.9.0"
     redux "~4.0.5"
 
-"@medux/core@^1.1.1-alpha.1":
-  version "1.1.1-alpha.1"
-  resolved "https://registry.yarnpkg.com/@medux/core/-/core-1.1.1-alpha.1.tgz#251498d4c9857ffc4ef5a5470ef64ae5cd8845d0"
-  integrity sha512-jeO+sx2MWtvyoH/ep9FEF6BG6Mk8zhS8V7jazeQpzDKbeqPqtLAj3OBgzI2s6VmZz0RBvgwrUATfxuaT3GlYig==
+"@medux/core@^1.1.1-alpha.4":
+  version "1.1.1-alpha.4"
+  resolved "https://registry.yarnpkg.com/@medux/core/-/core-1.1.1-alpha.4.tgz#7e81599cc90705194e056b94f86dea4bacd1572b"
+  integrity sha512-owy04GAZpL4Wg7U5Cou4MDf4mptK81WnK2451Ag3a9+Wmo6tMBl2JaYhMUCUKFfqGEqbTQ+mjBxRghBpyi134g==
   dependencies:
-    "@babel/runtime" "~7.9.0"
+    "@babel/runtime" "7.9.6"
     redux "~4.0.5"
 
 "@medux/dev-pkg@~1.0.4-alpha.2":
@@ -1348,10 +1348,10 @@
   dependencies:
     "@medux/core" "^1.0.2"
 
-"@medux/eslint-plugin-recommended@~1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@medux/eslint-plugin-recommended/-/eslint-plugin-recommended-1.0.0.tgz#54e7d7cade104ebb64afb5023cb52dcd3a1d9354"
-  integrity sha512-qljqRyxz1lNVDkIbZifCLo6sS5wLnCEUq3emSve8DGljuzZxtYIsMmJK3JP5x8oY9QmEHTZB7n9PrfigAL7Iog==
+"@medux/eslint-plugin-recommended@~1.0.4":
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/@medux/eslint-plugin-recommended/-/eslint-plugin-recommended-1.0.4.tgz#d3272c6510cd8dc03ea74a798f84c4b57f7add4b"
+  integrity sha512-gjyFhTH2nDKsNnANn2VTilqD0PvSeC8dItfeLnoeeqkef9+RlsmuGNTrHoK16koI9P2phDs2AG6xPWhXWyG7GQ==
   dependencies:
     "@typescript-eslint/eslint-plugin" "~3.7.0"
     "@typescript-eslint/parser" "~3.7.0"
@@ -1365,41 +1365,53 @@
     eslint-plugin-react-hooks "~4.0.8"
     prettier "~2.0.5"
 
-"@medux/react-web-router@~1.1.1-alpha.1":
-  version "1.1.1-alpha.1"
-  resolved "https://registry.yarnpkg.com/@medux/react-web-router/-/react-web-router-1.1.1-alpha.1.tgz#114689d188dc2969b000eca92d23886a68bf964a"
-  integrity sha512-2iAWYdNHSn8nDR9NO24DyHWQPgqkgp+mNQDUvF+GeTiIqv2SXD0HpJyDbyQgqkzs91Ti0fKsNYyPqrbxJgLeqw==
+"@medux/react-web-router@~1.1.1-alpha.4":
+  version "1.1.1-alpha.4"
+  resolved "https://registry.yarnpkg.com/@medux/react-web-router/-/react-web-router-1.1.1-alpha.4.tgz#68980f5c9cfbb936468fdf5fc19b926158bcb93d"
+  integrity sha512-yXElFGupwaxVQdu/mD2f/Y39FGfLoXhRaXRRaS8ehhIDWyubA5JHZHKdVjvx2Jyp2HpBQ+1ZZixG8nmMH2jQZw==
   dependencies:
-    "@babel/runtime" "~7.9.0"
-    "@medux/core" "^1.1.1-alpha.1"
-    "@medux/react" "^1.1.1-alpha.1"
-    "@medux/route-plan-a" "^1.1.1-alpha.1"
-    "@medux/web" "^1.1.1-alpha.1"
+    "@babel/runtime" "7.9.6"
+    "@medux/core" "^1.1.1-alpha.4"
+    "@medux/react" "^1.1.1-alpha.4"
+    "@medux/route-plan-a" "^1.1.1-alpha.4"
+    "@medux/web" "^1.1.1-alpha.4"
 
-"@medux/react@^1.1.1-alpha.1":
-  version "1.1.1-alpha.1"
-  resolved "https://registry.yarnpkg.com/@medux/react/-/react-1.1.1-alpha.1.tgz#3ad2b9c9ea1d509899487122dabe561d395fc7f3"
-  integrity sha512-aoTVyO5z1LalC2Rw43hfTZDxgnfDgAHoC0k/Z6yBLBiZxfI/8JKUVpMPbS/Z6gVWJJ7LRrwwq5Xo0JYDWncZEw==
+"@medux/react@^1.1.1-alpha.4":
+  version "1.1.1-alpha.4"
+  resolved "https://registry.yarnpkg.com/@medux/react/-/react-1.1.1-alpha.4.tgz#8b608b436eafd9e9bca322d17eca63f8112631c4"
+  integrity sha512-qYUKCppL7oB8RswzaqCJqqLIGCKp150hWCPblOjE652ovqXoKL6JVR75bWZJi77pL0kCYQjx1VrQ2RbYQUqC1Q==
   dependencies:
-    "@babel/runtime" "~7.9.0"
-    "@medux/core" "^1.1.1-alpha.1"
+    "@babel/runtime" "7.9.6"
+    "@medux/core" "^1.1.1-alpha.4"
 
-"@medux/route-plan-a@^1.1.1-alpha.1":
-  version "1.1.1-alpha.1"
-  resolved "https://registry.yarnpkg.com/@medux/route-plan-a/-/route-plan-a-1.1.1-alpha.1.tgz#3f79263d619efaaedd92b2e04f4821aeadba1271"
-  integrity sha512-pXze37IdflVVaY32XBnisYOG+csxEHyIUd3WwX3xCj1yisAurQrNhl73NsoDZfYVcH9hSzO5E0DGT5sOM5dyYw==
+"@medux/route-plan-a@^1.1.1-alpha.4":
+  version "1.1.1-alpha.4"
+  resolved "https://registry.yarnpkg.com/@medux/route-plan-a/-/route-plan-a-1.1.1-alpha.4.tgz#ecccd961a65c56bafb081f45414b46fbd00ffe9b"
+  integrity sha512-zt8Zhss/6kOJlc4Iib9dlyZTkQlraD7MKvLUvIxTKsXDqxfysQWVQZ6fg5s5wEyjNpMAyqgWm/dMvrTlv5xCoA==
   dependencies:
-    "@babel/runtime" "~7.9.0"
-    "@medux/core" "^1.1.1-alpha.1"
+    "@babel/runtime" "7.9.6"
+    "@medux/core" "^1.1.1-alpha.4"
 
-"@medux/web@^1.1.1-alpha.1":
-  version "1.1.1-alpha.1"
-  resolved "https://registry.yarnpkg.com/@medux/web/-/web-1.1.1-alpha.1.tgz#fd61270496b8e89c7c78d246a97097d062ca6a5a"
-  integrity sha512-RLSpHVo545dy4trdZ8cEDu/PPs5kPAx+l0BYlVqVttXEOO6/3m1WtoNLaWdWVDeY+9z22dk+nDEHyfIKZeCt1Q==
+"@medux/stylelint-config-recommended@~1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@medux/stylelint-config-recommended/-/stylelint-config-recommended-1.0.0.tgz#53809ea83ab6ba6e0b6af9d5e5f5eb660065ced8"
+  integrity sha512-IssamobnLh5fQijffChw+qBRCik0+VPfkaNvq7n+FSdvqR9nWONylZiRyE2RKNf1e1mAN9gWlbn/6NqgZe37NQ==
   dependencies:
-    "@babel/runtime" "~7.9.0"
-    "@medux/core" "^1.1.1-alpha.1"
-    "@medux/route-plan-a" "^1.1.1-alpha.1"
+    stylelint-config-prettier "~8.0.2"
+    stylelint-config-standard "~20.0.0"
+    stylelint-declaration-block-no-ignored-properties "~2.3.0"
+    stylelint-prettier "~1.1.2"
+
+"@medux/web@^1.1.1-alpha.4":
+  version "1.1.1-alpha.4"
+  resolved "https://registry.yarnpkg.com/@medux/web/-/web-1.1.1-alpha.4.tgz#fa89a97ce22fd72b15b11c927400b0e718ad3c79"
+  integrity sha512-sZ/VTRkVoilotspzdtiWooVJeODezWyFXkuEGio2pNtKcyzpkI7MrgDqpHbpqTKqEkfAa2Eqp+ja4e9Z1UY2+g==
+  dependencies:
+    "@babel/runtime" "7.9.6"
+    "@medux/core" "^1.1.1-alpha.4"
+    "@medux/route-plan-a" "^1.1.1-alpha.4"
+    "@types/history" "~4.7.7"
+    history "~4.10.1"
 
 "@nodelib/fs.scandir@2.1.3":
   version "2.1.3"

@@ -1,16 +1,15 @@
 module.exports = {
-  extends: ['plugin:@medux/recommended/react'],
-  rules: {
+  root: true,
+  extends: ['plugin:@medux/recommended/common'],
+  env: {
+    browser: false,
+    node: true,
   },
-  overrides: [
-    {
-      files: ['**/*.{ts,tsx}'],
-      env: {
-        es6: true,
-        browser: true,
-        node: false,
-      },
-      rules: {},
-    },
-  ],
+  parserOptions: {
+    project: `${__dirname}/tsconfig.json`,
+  },
+  rules: {
+    'global-require': 'off',
+  },
+  ignorePatterns: ['/src','/dist','/mock'],
 };

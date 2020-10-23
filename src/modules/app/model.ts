@@ -39,7 +39,7 @@ export class ModelHandlers extends BaseModelHandlers<State, RootState> {
 
   private getNotice() {
     api.getNotices().then((notices) => {
-      this.updateState({notices});
+      this.updateState({notices}, 'getNotice');
     });
   }
 
@@ -169,7 +169,7 @@ export class ModelHandlers extends BaseModelHandlers<State, RootState> {
       }
     };
     const projectConfig = await api.getProjectConfig();
-    this.updateState({projectConfig});
+    this.updateState({projectConfig}, 'init');
     const curUser = await api.getCurUser();
     this.dispatch(this.actions.putCurUser(curUser));
     if (curUser.hasLogin) {

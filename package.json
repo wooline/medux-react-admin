@@ -3,17 +3,20 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "commit": "git-cz",
+    "type": "tsc",
+    "typeSrc": "tsc -P ./src",
+    "eslint": "eslint --cache .",
+    "eslintSrc": "eslint --cache ./src",
     "stylelint": "stylelint \"./src/**/*.less\"",
-    "eslint": "eslint  \"**/*.{ts,tsx,js,jsx}\"",
-    "types-check": "tsc",
-    "lint": "npm run eslint && npm run stylelint && npm run types-check",
-    "start": "npm run types-check && cross-env NODE_ENV=development SITE=local node build/start.js",
+    "checkCode": "yarn type & yarn typeSrc & yarn eslint & yarn eslintSrc & yarn stylelint",
+    "start": "yarn checkCode && cross-env NODE_ENV=development SITE=local node build/start.js",
+    "commit": "git-cz",
+
     "build-local": "npm run types-check && cross-env NODE_ENV=production SITE=local node build/build.js",
     "build-prod": "npm run types-check && cross-env NODE_ENV=production SITE=prod node build/build.js",
     "analyzer": "cross-env NODE_ENV=production SITE=analyzer node build/build.js",
     "push": "scp -r dist/prod/* root@127.0.0.1:/var/www/medux-react-admin",
-    "aaa": "eslint --print-config /Users/zy/work/test/medux-react-admin/src/common/resource.ts > aaa.txt"
+    "eslintConfig": "eslint --print-config /Users/zy/work/test/medux-react-admin/src/common/resource.ts > eslintConfig.txt"
   },
   "config": {
     "commitizen": {
@@ -42,6 +45,7 @@
     "chrome >= 70"
   ],
   "baseConf": {
+    "version": "1.0.0",
     "siteName": "@medux",
     "clientPublicPath": "/",
     "server": "http://localhost:7445",
@@ -91,8 +95,7 @@
     ]
   },
   "dependencies": {
-    "@babel/runtime": "~7.9.0",
-    "@medux/react-web-router": "~1.1.1-alpha.1",
+    "@medux/react-web-router": "~1.1.1-alpha.4",
     "antd": "~4.2.0",
     "axios": "~0.19.2",
     "lodash": "~4.17.15",
@@ -100,13 +103,13 @@
     "react": "~16.13.0",
     "react-dom": "~16.13.0",
     "react-redux": "~7.2.0",
-    "history": "~4.10.1",
     "fast-deep-equal": "~3.1.3"
   },
   "devDependencies": {
     "@medux/dev-pkg": "~1.0.4-alpha.2",
     "@medux/dev-utils": "~1.0.8",
-    "@medux/eslint-plugin-recommended": "~1.0.0",
+    "@medux/eslint-plugin-recommended": "~1.0.4",
+    "@medux/stylelint-config-recommended": "~1.0.0",
     "@pmmmwh/react-refresh-webpack-plugin": "~0.3.0",
     "@types/lodash": "~4.14.149",
     "@types/react": "~16.9.23",
@@ -124,10 +127,6 @@
     "react-markdown": "^4.3.1",
     "react-refresh": "~0.8.1",
     "sass-resources-loader": "~2.0.1",
-    "typescript": "~3.8.3",
-    "stylelint-config-prettier": "~8.0.2",
-    "stylelint-config-standard": "~20.0.0",
-    "stylelint-declaration-block-no-ignored-properties": "~2.3.0",
-    "stylelint-prettier": "~1.1.2"
+    "typescript": "~3.8.3"
   }
 }

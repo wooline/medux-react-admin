@@ -14,7 +14,7 @@ export class ModelHandlers extends BaseModelHandlers<State, RootState> {
     if (!this.rootState.app!.curUser.hasLogin) {
       throw new UnauthorizedError(false);
     }
-    this.updateState({showConsult: true});
+    this.updateState({showConsult: true}, 'showConsult');
   }
 
   @reducer

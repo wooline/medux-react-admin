@@ -5,6 +5,7 @@ const jsonFormat = require('json-format');
 const pathsConfig = require('./path.conifg');
 const webpackConfig = require('./webpack.config');
 
+// @ts-ignore
 const compiler = webpack(webpackConfig);
 
 fs.emptyDirSync(pathsConfig.distPath);

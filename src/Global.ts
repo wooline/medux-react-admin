@@ -12,7 +12,8 @@ type EnumModuleNames = typeof ModuleNames;
 type Message = typeof message;
 
 declare global {
-  type BrowserRouter = import('./modules').BrowserRouter;
+  type HistoryActions = import('./modules').HistoryActions;
+  type TransformRoute = import('./modules').TransformRoute;
   type RootState = import('./modules').RootState;
   type RouteViews = import('./modules').RouteViews;
   type LoadView = import('./modules').LoadView;
@@ -34,9 +35,8 @@ declare global {
   const actions: Actions;
   const ModuleNames: EnumModuleNames;
   const metaKeys: MetaKeys;
-  const historyActions: BrowserRouter['historyActions'];
-  const toUrl: BrowserRouter['toUrl'];
-  const transformRoute: BrowserRouter['transformRoute'];
+  const historyActions: HistoryActions;
+  const transformRoute: TransformRoute;
 }
 
 ((data: {[key: string]: any}) => {

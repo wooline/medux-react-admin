@@ -5,6 +5,7 @@ const env = process.env.SITE || (prodModel ? 'prod' : 'dev');
 const path = require('path');
 
 const rootPath = path.join(__dirname, '../');
+
 const srcPath = path.join(rootPath, './src');
 const publicPath = path.join(rootPath, './public');
 const configPath = path.join(rootPath, './conf');

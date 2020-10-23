@@ -16,9 +16,11 @@ function clearConsole() {
   process.stdout.write(process.platform === 'win32' ? '\x1B[2J\x1B[0f' : '\x1B[2J\x1B[3J\x1B[H');
 }
 
+// @ts-ignore
 const compiler = webpack(webpackConfig);
 
 const devServer = new WebpackDevServer(compiler, devServerConfig);
+
 devServer.listen(port, '0.0.0.0', (error) => {
   if (error) {
     console.error(error);

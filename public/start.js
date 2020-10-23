@@ -8,6 +8,8 @@ const devMock = require('@medux/dev-utils/dist/express-middleware/dev-mock');
 const prodServer = require('@medux/dev-utils/dist/express-middleware/prod-server');
 
 const htmlTpl = fs.readFileSync('./index.html', 'utf8');
+
+// @ts-ignore
 // eslint-disable-next-line import/no-unresolved
 const {proxy, server, mock} = require('./env.json');
 

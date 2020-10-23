@@ -212,6 +212,7 @@ const clientConfig = {
       }),
     new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
     // new AntdDayjsWebpackPlugin(),
+    // @ts-ignore
     new StylelintPlugin({files: 'src/**/*.less', cache: true}),
     !prodModel && new ReactRefreshWebpackPlugin({overlay: false}),
     !prodModel && new webpack.HotModuleReplacementPlugin(),

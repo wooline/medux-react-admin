@@ -1,0 +1,32 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "ESNext",
+    "lib": ["es2018","DOM"],
+    "moduleResolution": "node",
+    "types": ["../typings/assets"],
+    "noEmit": true,
+    "allowJs": true,
+    "checkJs": true,
+    "strict": true,
+    "jsx": "react",
+    "declaration": false,
+    "isolatedModules": true,
+    "sourceMap": false,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "newLine": "LF",
+    "removeComments": true,
+    "resolveJsonModule": true,
+    "noImplicitReturns": true,
+    "noUnusedLocals": false,
+    "importHelpers": false,
+    "alwaysStrict": true,
+    "forceConsistentCasingInFileNames": true,
+    "suppressImplicitAnyIndexErrors": true,
+    "preserveConstEnums": false,
+    "allowSyntheticDefaultImports": true,
+    "noImplicitAny": false,
+    "esModuleInterop": true
+  }
+}

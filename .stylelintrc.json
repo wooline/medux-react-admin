@@ -1,18 +1,8 @@
 {
   "extends": [
-    "stylelint-config-standard",
-    "stylelint-config-prettier"
-  ],
-  "plugins": [
-    "stylelint-prettier",
-    "stylelint-declaration-block-no-ignored-properties"
+    "@medux/stylelint-config-recommended"
   ],
   "rules": {
-    "prettier/prettier": true,
-    "no-descending-specificity": null,
-    "unit-case": null,
-    "value-keyword-case": null,
-    "font-family-no-missing-generic-family-keyword": null,
     "at-rule-no-unknown": [
       true,
       {

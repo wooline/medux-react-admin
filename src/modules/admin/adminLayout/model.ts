@@ -104,13 +104,13 @@ export class ModelHandlers extends BaseModelHandlers<State, RootState> {
     if (this.state.tabNavCurId !== item.id) {
       historyActions.push(item.url);
     } else {
-      this.updateState({tabNavEditor: item});
+      this.updateState({tabNavEditor: item}, 'clickTabNav');
     }
   }
 
   @effect(null)
   public async closeTabNavEditor() {
-    this.updateState({tabNavEditor: undefined});
+    this.updateState({tabNavEditor: undefined}, 'closeTabNavEditor');
   }
 
   @effect(null)
@@ -126,6 +126,6 @@ export class ModelHandlers extends BaseModelHandlers<State, RootState> {
       }
     }
 
-    this.updateState({tabNavCurId: id, tabNavEditor: undefined});
+    this.updateState({tabNavCurId: id, tabNavEditor: undefined}, '');
   }
 }
