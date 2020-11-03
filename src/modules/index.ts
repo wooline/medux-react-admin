@@ -74,7 +74,6 @@ export type RouteViews = reactWebRouter.RouteViews<typeof moduleGetter>;
 export type LoadView = reactWebRouter.LoadView<typeof moduleGetter>;
 
 export type HistoryActions = reactWebRouter.HistoryActions<RootState['route']['data']['params']>;
-export type TransformRoute = reactWebRouter.TransformRoute<RootState['route']['data']['params']>;
 
 export const routeConfig: RouteConfig = {
   '/$': '@./admin/home',

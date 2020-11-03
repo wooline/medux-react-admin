@@ -13,7 +13,6 @@ type Message = typeof message;
 
 declare global {
   type HistoryActions = import('./modules').HistoryActions;
-  type TransformRoute = import('./modules').TransformRoute;
   type RootState = import('./modules').RootState;
   type RouteViews = import('./modules').RouteViews;
   type LoadView = import('./modules').LoadView;
@@ -36,7 +35,6 @@ declare global {
   const ModuleNames: EnumModuleNames;
   const metaKeys: MetaKeys;
   const historyActions: HistoryActions;
-  const transformRoute: TransformRoute;
 }
 
 ((data: {[key: string]: any}) => {

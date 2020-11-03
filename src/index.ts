@@ -18,9 +18,8 @@ buildApp({
   moduleGetter,
   routeConfig,
   defaultRouteParams,
-  beforeRender: ({store, historyActions, transformRoute}) => {
+  beforeRender: ({store, historyActions}) => {
     global.historyActions = historyActions;
-    global.transformRoute = transformRoute;
     return store;
   },
 }).then(() => {

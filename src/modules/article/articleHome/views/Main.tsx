@@ -13,7 +13,7 @@ interface StoreProps {
   hash: string;
 }
 const Component: React.FC<StoreProps & DispatchProp> = ({dispatch, hash}) => {
-  useAnchorPage(hash, historyActions.getHistory());
+  // useAnchorPage(hash, historyActions.getHistory());
   const onConsult = useConsult(dispatch);
   return (
     <>

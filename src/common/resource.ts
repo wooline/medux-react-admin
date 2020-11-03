@@ -55,7 +55,9 @@ export interface Config<Resource extends CommonResource> {
 export abstract class CommonResourceHandlers<
   Resource extends CommonResource = CommonResource,
   State extends CommonResourceState<CommonResource> = CommonResourceState<CommonResource>,
-  RootState extends {route: {location: {pathname: string; search: string; hash: string}; data: RouteData}} = {route: {location: {pathname: string; search: string; hash: string}; data: RouteData}}
+  RootState extends {route: {location: {pathname: string; search: string; hash: string; key: string; action: any; url: string}; data: RouteData; history: string[]; stack: string[]}} = {
+    route: {location: {pathname: string; search: string; hash: string; key: string; action: any; url: string}; data: RouteData; history: string[]; stack: string[]};
+  }
 > extends BaseModelHandlers<State, RootState> {
   protected config: Required<Config<Resource>> & {noneListSearch: Resource['RouteParams']['listSearch']};
 

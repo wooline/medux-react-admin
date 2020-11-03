@@ -1267,10 +1267,10 @@
     "@babel/runtime" "~7.9.0"
     redux "~4.0.5"
 
-"@medux/core@^1.1.1-alpha.4":
-  version "1.1.1-alpha.4"
-  resolved "https://registry.yarnpkg.com/@medux/core/-/core-1.1.1-alpha.4.tgz#7e81599cc90705194e056b94f86dea4bacd1572b"
-  integrity sha512-owy04GAZpL4Wg7U5Cou4MDf4mptK81WnK2451Ag3a9+Wmo6tMBl2JaYhMUCUKFfqGEqbTQ+mjBxRghBpyi134g==
+"@medux/core@^1.1.1-alpha.5":
+  version "1.1.1-alpha.5"
+  resolved "https://registry.yarnpkg.com/@medux/core/-/core-1.1.1-alpha.5.tgz#3bd321519733a9272cd7e17465fe72120d0f671e"
+  integrity sha512-a5FUQEVvwsHsLNYDhLGQ1W1KHnyYfp8Vc8ChhLzpKki3ZMYJP7QQ0/vcys4XTuYtft38xugxzAtzXb2kCeC+qw==
   dependencies:
     "@babel/runtime" "7.9.6"
     redux "~4.0.5"
@@ -1365,32 +1365,32 @@
     eslint-plugin-react-hooks "~4.0.8"
     prettier "~2.0.5"
 
-"@medux/react-web-router@~1.1.1-alpha.4":
-  version "1.1.1-alpha.4"
-  resolved "https://registry.yarnpkg.com/@medux/react-web-router/-/react-web-router-1.1.1-alpha.4.tgz#68980f5c9cfbb936468fdf5fc19b926158bcb93d"
-  integrity sha512-yXElFGupwaxVQdu/mD2f/Y39FGfLoXhRaXRRaS8ehhIDWyubA5JHZHKdVjvx2Jyp2HpBQ+1ZZixG8nmMH2jQZw==
+"@medux/react-web-router@~1.1.1-alpha.6":
+  version "1.1.1-alpha.6"
+  resolved "https://registry.yarnpkg.com/@medux/react-web-router/-/react-web-router-1.1.1-alpha.6.tgz#567694e5f2e8293240358cbeed191274a0175a1f"
+  integrity sha512-bLIY2iJxnmmYEBg/f6R0s1qhrRZ7N0mZHUbBKHjy95QumpVein4+mU5wtjavbLvgM2YlJf8RSVEcG/oHc4iq5g==
   dependencies:
     "@babel/runtime" "7.9.6"
-    "@medux/core" "^1.1.1-alpha.4"
-    "@medux/react" "^1.1.1-alpha.4"
-    "@medux/route-plan-a" "^1.1.1-alpha.4"
-    "@medux/web" "^1.1.1-alpha.4"
+    "@medux/core" "^1.1.1-alpha.5"
+    "@medux/react" "^1.1.1-alpha.5"
+    "@medux/route-plan-a" "^1.1.1-alpha.5"
+    "@medux/web" "^1.1.1-alpha.6"
 
-"@medux/react@^1.1.1-alpha.4":
-  version "1.1.1-alpha.4"
-  resolved "https://registry.yarnpkg.com/@medux/react/-/react-1.1.1-alpha.4.tgz#8b608b436eafd9e9bca322d17eca63f8112631c4"
-  integrity sha512-qYUKCppL7oB8RswzaqCJqqLIGCKp150hWCPblOjE652ovqXoKL6JVR75bWZJi77pL0kCYQjx1VrQ2RbYQUqC1Q==
+"@medux/react@^1.1.1-alpha.5":
+  version "1.1.1-alpha.5"
+  resolved "https://registry.yarnpkg.com/@medux/react/-/react-1.1.1-alpha.5.tgz#06a2d9effc6f81df52f95cb12ab785c418ac4bde"
+  integrity sha512-rs83z1N8oRaQOnsb4xXQQf6yMRkv1cikvQ7nB+DcVnLGFPrjDzl1jt3ldNN4nP9k/6ieZRBLzXwNFvbEYOB3FQ==
   dependencies:
     "@babel/runtime" "7.9.6"
-    "@medux/core" "^1.1.1-alpha.4"
+    "@medux/core" "^1.1.1-alpha.5"
 
-"@medux/route-plan-a@^1.1.1-alpha.4":
-  version "1.1.1-alpha.4"
-  resolved "https://registry.yarnpkg.com/@medux/route-plan-a/-/route-plan-a-1.1.1-alpha.4.tgz#ecccd961a65c56bafb081f45414b46fbd00ffe9b"
-  integrity sha512-zt8Zhss/6kOJlc4Iib9dlyZTkQlraD7MKvLUvIxTKsXDqxfysQWVQZ6fg5s5wEyjNpMAyqgWm/dMvrTlv5xCoA==
+"@medux/route-plan-a@^1.1.1-alpha.5":
+  version "1.1.1-alpha.5"
+  resolved "https://registry.yarnpkg.com/@medux/route-plan-a/-/route-plan-a-1.1.1-alpha.5.tgz#e51ad9a0c659758a2c2162cd6535b0ff82b91eae"
+  integrity sha512-cz+s7EMYoEUOTpTX9Xb7ieTXefv/4JKcS7xNmspZNRSEwsNwsmLEtQ62qZg3nZjGkrvbcF+IhR2YN3McsteCVg==
   dependencies:
     "@babel/runtime" "7.9.6"
-    "@medux/core" "^1.1.1-alpha.4"
+    "@medux/core" "^1.1.1-alpha.5"
 
 "@medux/stylelint-config-recommended@~1.0.0":
   version "1.0.0"
@@ -1402,14 +1402,14 @@
     stylelint-declaration-block-no-ignored-properties "~2.3.0"
     stylelint-prettier "~1.1.2"
 
-"@medux/web@^1.1.1-alpha.4":
-  version "1.1.1-alpha.4"
-  resolved "https://registry.yarnpkg.com/@medux/web/-/web-1.1.1-alpha.4.tgz#fa89a97ce22fd72b15b11c927400b0e718ad3c79"
-  integrity sha512-sZ/VTRkVoilotspzdtiWooVJeODezWyFXkuEGio2pNtKcyzpkI7MrgDqpHbpqTKqEkfAa2Eqp+ja4e9Z1UY2+g==
+"@medux/web@^1.1.1-alpha.6":
+  version "1.1.1-alpha.6"
+  resolved "https://registry.yarnpkg.com/@medux/web/-/web-1.1.1-alpha.6.tgz#80bdbd40f8d4b217996d5f6266c6aedc3711258d"
+  integrity sha512-jDbJmZfu64/bbwb7x5l7Ei2nBBspw1UgRtnC8XCLj1zk0r6UY5bC7gqxZvnA53jahb4zGZpYFKL2yFCIEtNG/Q==
   dependencies:
     "@babel/runtime" "7.9.6"
-    "@medux/core" "^1.1.1-alpha.4"
-    "@medux/route-plan-a" "^1.1.1-alpha.4"
+    "@medux/core" "^1.1.1-alpha.5"
+    "@medux/route-plan-a" "^1.1.1-alpha.5"
     "@types/history" "~4.7.7"
     history "~4.10.1"
 

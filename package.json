@@ -95,7 +95,7 @@
     ]
   },
   "dependencies": {
-    "@medux/react-web-router": "~1.1.1-alpha.4",
+    "@medux/react-web-router": "~1.1.1-alpha.6",
     "antd": "~4.2.0",
     "axios": "~0.19.2",
     "lodash": "~4.17.15",
